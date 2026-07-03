@@ -178,7 +178,7 @@ function startGame() {
   errEl.style.display = 'none';
 
   if (!name || name.length > 20) { showFormError(t('err_name')); return; }
-  if (!age || age < 10 || age > 30) { showFormError(t('err_age')); return; }
+  if (!age || age < 5 || age > 100) { showFormError(t('err_age')); return; }
   if (!height || height < 100 || height > 220) { showFormError(t('err_height')); return; }
   if (!weight || weight < 20 || weight > 200) { showFormError(t('err_weight')); return; }
 

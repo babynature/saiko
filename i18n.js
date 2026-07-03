@@ -118,7 +118,7 @@ const I18N = {
 
     // Errors
     err_name: 'กรุณาใส่ชื่อ (1-20 ตัวอักษร)',
-    err_age: 'อายุต้องอยู่ระหว่าง 10-30 ปี',
+    err_age: 'กรุณากรอกอายุ (5-100 ปี)',
     err_height: 'ส่วนสูงต้องอยู่ระหว่าง 100-220 cm',
     err_weight: 'น้ำหนักต้องอยู่ระหว่าง 20-200 kg',
 
@@ -354,7 +354,7 @@ const I18N = {
     advice_obese3: '🆘 Emergency! See a doctor immediately for safe weight loss treatment and planning.',
 
     err_name: 'Please enter a name (1-20 characters)',
-    err_age: 'Age must be between 10-30',
+    err_age: 'Please enter age (5-100)',
     err_height: 'Height must be 100-220 cm',
     err_weight: 'Weight must be 20-200 kg',
 
