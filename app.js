@@ -829,7 +829,7 @@ const EXERCISE_DB = [
     harder: 'เพิ่ม Dumbbell หรือทำ Walking Lateral Lunge เดินไปข้างหน้า',
   },
   {
-    id: 'burpee_power', type: 'running', cat: 'agility', catLabel: 'Agility & Power', catColor: '#a855f7',
+    id: 'burpee_power', type: 'hiit', cat: 'agility', catLabel: 'Agility & Power', catColor: '#a855f7',
     name: 'Burpees (พุ่งหลังกระโดด)', emoji: '💥',
     muscles: ['ทั่วตัว (Full Body)', 'หัวใจ', 'พลังระเบิด'],
     effort: 'Zone 4–5  •  เหนื่อยสูงมาก เผาแคลเร็ว', effortColor: '#f44336',
@@ -840,7 +840,7 @@ const EXERCISE_DB = [
     harder: 'เพิ่ม Box jump หลังกระโดดขึ้น หรือเพิ่มเป็น 15 ครั้ง/เซต',
   },
   {
-    id: 'high_knees_power', type: 'running', cat: 'agility', catLabel: 'Agility & Power', catColor: '#a855f7',
+    id: 'high_knees_power', type: 'hiit', cat: 'agility', catLabel: 'Agility & Power', catColor: '#a855f7',
     name: 'High Knees (วิ่งยกเข่าสูง)', emoji: '🏃‍♂️',
     muscles: ['คาร์ดิโอ', 'หน้าท้อง (Core)', 'ต้นขา', 'น่อง'],
     effort: 'Zone 3–4  •  เหนื่อยปานกลาง-สูง', effortColor: '#ff9800',
@@ -910,7 +910,7 @@ const EXERCISE_DB = [
 
   // ══ Cardio — Home / Bodyweight ══════════════════════════
   {
-    id: 'jumping_jack', type: 'running', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
+    id: 'jumping_jack', type: 'aerobic', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
     name: 'Jumping Jack', emoji: '🌟',
     muscles: ['Full Body', 'น่อง', 'ไหล่'],
     effort: 'Zone 2–3  •  เหนื่อยเล็กน้อย จังหวะสม่ำเสมอ', effortColor: '#8bc34a',
@@ -921,7 +921,7 @@ const EXERCISE_DB = [
     harder: 'เพิ่มเป็น 5 เซต หรือสลับกับ Burpee',
   },
   {
-    id: 'burpee', type: 'running', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
+    id: 'burpee', type: 'hiit', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
     name: 'Burpee', emoji: '💥',
     muscles: ['Full Body', 'หัวใจและปอด'],
     effort: 'Zone 4–5  •  เหนื่อยสูงมาก เผาแคลเร็ว', effortColor: '#f44336',
@@ -932,7 +932,7 @@ const EXERCISE_DB = [
     harder: 'เพิ่มกระโดดสูง หรือ Box jump ลงมา',
   },
   {
-    id: 'high_knees', type: 'running', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
+    id: 'high_knees', type: 'aerobic', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
     name: 'High Knees', emoji: '🏃‍♂️',
     muscles: ['ต้นขา', 'Core', 'น่อง', 'หัวใจ'],
     effort: 'Zone 3–4  •  เหนื่อยปานกลาง-สูง', effortColor: '#ff9800',
@@ -943,7 +943,7 @@ const EXERCISE_DB = [
     harder: 'เพิ่มความเร็ว หรือดึงมือไว้ระดับสะดือให้เข่าแตะมือ',
   },
   {
-    id: 'jump_rope', type: 'running', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
+    id: 'jump_rope', type: 'jump_rope', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
     name: 'กระโดดเชือก', emoji: '🤸',
     muscles: ['น่อง', 'ไหล่', 'หัวใจ', 'Full Body'],
     effort: 'Zone 3–4  •  ต่อเนื่อง จังหวะคงที่', effortColor: '#ff9800',
@@ -954,7 +954,7 @@ const EXERCISE_DB = [
     harder: 'Double under: เชือกผ่านใต้เท้า 2 รอบ/กระโดด',
   },
   {
-    id: 'aerobic', type: 'running', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
+    id: 'aerobic', type: 'aerobic', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
     name: 'เต้นแอโรบิก', emoji: '💃',
     muscles: ['Full Body', 'หัวใจ'],
     effort: 'Zone 2–3  •  สม่ำเสมอ สนุก ทำได้นาน', effortColor: '#8bc34a',
@@ -978,7 +978,7 @@ const EXERCISE_DB = [
     harder: 'เพิ่มเป็น 45 นาที หรือเดินขึ้นเนิน/บันได',
   },
   {
-    id: 'jog_zone2', type: 'running', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
+    id: 'jog_zone2', type: 'jogging', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
     name: 'วิ่งจ็อกกิ้ง (Zone 2)', emoji: '🏃',
     muscles: ['ขา', 'Core', 'หัวใจและปอด'],
     effort: 'Zone 2  •  หายใจเป็นจังหวะ พูดได้เป็นประโยคสั้นๆ', effortColor: '#8bc34a',
@@ -1000,7 +1000,7 @@ const EXERCISE_DB = [
     harder: 'ลด Pace เป็น <5:30 min/km หรือเพิ่มระยะทาง',
   },
   {
-    id: 'hiit_run', type: 'running', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
+    id: 'hiit_run', type: 'hiit', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
     name: 'HIIT วิ่งสลับเดิน', emoji: '⚡',
     muscles: ['Full Body', 'หัวใจ', 'ขา'],
     effort: 'Zone 4–5  •  สปรินต์เต็มที่ สลับพัก', effortColor: '#f44336',
@@ -1011,7 +1011,7 @@ const EXERCISE_DB = [
     harder: 'เพิ่มเป็น 15 รอบ หรือลด recovery เหลือ 45 วิ',
   },
   {
-    id: 'court_sport', type: 'running', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
+    id: 'court_sport', type: 'court_sport', cat: 'cardio', catLabel: 'Cardio', catColor: '#ef4444',
     name: 'กีฬาบนคอร์ต', emoji: '🏸',
     muscles: ['Full Body', 'ขา', 'ไหล่', 'หัวใจ'],
     effort: 'Zone 3–4  •  เคลื่อนที่ฉับพลัน Stop & Go สลับ', effortColor: '#ff9800',
