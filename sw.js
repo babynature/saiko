@@ -11,7 +11,7 @@ const ASSETS = [
   '/modules/achievementModule.js', '/modules/historyModule.js',
   '/modules/intelligenceModule.js', '/modules/firebaseModule.js',
   '/modules/missionModule.js', '/modules/gearModule.js', '/modules/notificationModule.js',
-  '/modules/barcodeModule.js', '/data/foodDatabase.js',
+  '/modules/barcodeModule.js', '/modules/waterModule.js', '/data/foodDatabase.js',
 ];
 
 self.addEventListener('install', e => {

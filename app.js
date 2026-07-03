@@ -70,6 +70,7 @@ function saveGame() {
     history: historyModule.toJSON(),
     missions: missionModule.toJSON(),
     gear: gearModule.toJSON(),
+    water: waterModule.toJSON(),
   };
   const json = JSON.stringify(state);
   localStorage.setItem(SAVE_KEY, json);
@@ -99,6 +100,7 @@ function loadGame() {
     if (state.missions)      missionModule.fromJSON(state.missions);
     else                     missionModule.init();
     if (state.gear)          gearModule.fromJSON(state.gear);
+    if (state.water)         waterModule.fromJSON(state.water);
     return true;
   } catch (e) {
     console.error('Load failed', e);
@@ -126,11 +128,11 @@ function showTab(tabId) {
   const navBtn = document.getElementById('nav-' + tabId);
   if (navBtn) navBtn.classList.add('active');
 
-  if (tabId === 'home')        { renderGlance(); renderFoodLog(); renderMacroSummary(); renderExerciseSuggest(); initFoodSearch(); }
+  if (tabId === 'home')        { renderGlance(); renderFoodLog(); renderMacroSummary(); renderWaterTracker(); renderExerciseSuggest(); initFoodSearch(); }
   if (tabId === 'marketplace') renderMarketplace();
   if (tabId === 'quests')      { renderQuests(); renderMissions(); renderExerciseTip(); updateExercisePreview(); }
   if (tabId === 'shop')        renderShop();
-  if (tabId === 'profile')     { renderProfile(); renderWeeklySummary(); renderAnalyticsChart(); renderWeightSection(); renderAchievements(); renderWardrobe(); renderNotifSettings(); }
+  if (tabId === 'profile')     { renderProfile(); renderWeeklySummary(); renderAnalyticsChart(); renderWeightSection(); renderWeightGoal(); renderAchievements(); renderWardrobe(); renderNotifSettings(); }
 }
 
 // ═══════════════════════════════════════════
@@ -215,11 +217,11 @@ window.renderAll = function() {
   renderLifeEvents();
   renderStats();
   renderCalorieBar();
-  if (_currentTabId === 'home')        { renderGlance(); renderFoodLog(); renderMacroSummary(); renderExerciseSuggest(); initFoodSearch(); }
+  if (_currentTabId === 'home')        { renderGlance(); renderFoodLog(); renderMacroSummary(); renderWaterTracker(); renderExerciseSuggest(); initFoodSearch(); }
   if (_currentTabId === 'marketplace') renderMarketplace();
   if (_currentTabId === 'quests')      { renderQuests(); renderMissions(); renderExerciseTip(); }
   if (_currentTabId === 'shop')        renderShop();
-  if (_currentTabId === 'profile')     { renderProfile(); renderWeeklySummary(); renderAnalyticsChart(); renderWeightSection(); renderAchievements(); renderWardrobe(); renderNotifSettings(); }
+  if (_currentTabId === 'profile')     { renderProfile(); renderWeeklySummary(); renderAnalyticsChart(); renderWeightSection(); renderWeightGoal(); renderAchievements(); renderWardrobe(); renderNotifSettings(); }
 };
 
 // ═══════════════════════════════════════════
@@ -1931,8 +1933,9 @@ function renderGlance() {
   // Water
   const waterEl = document.getElementById('glance-water');
   if (waterEl) {
-    waterEl.textContent = `${hm.waterDrank}/8`;
-    waterEl.style.color = hm.waterDrank >= 8 ? 'var(--success)' : '';
+    const wg = waterModule.getGlasses(), wgg = waterModule.getGoalGlasses();
+    waterEl.textContent = `${wg}/${wgg}`;
+    waterEl.style.color = waterModule.isGoalMet() ? 'var(--success)' : '';
   }
 
   // Quests
@@ -2393,17 +2396,20 @@ function renderMacroSummary() {
   }
 }
 
-function logWater() {
+function logWater() { addWater(250); }
+
+function addWater(ml) {
   const waterBonus = gearModule.getWaterBonus();
-  hungerModule.waterDrank = (hungerModule.waterDrank || 0) + 1 + waterBonus;
-  questModule.update('water_drank', 1 + waterBonus);
+  const totalMl    = ml + waterBonus * 250;
+  waterModule.add(totalMl);
+  hungerModule.waterDrank = waterModule.getGlasses();
+  questModule.update('water_drank', Math.round(totalMl / 250));
   checkAchievements('water', {});
-  const result = awardXP(2, 'food');
-  // Phase 8: mission progress
-  const mDone = missionModule.onEvent('water', {});
+  const result = awardXP(Math.max(1, Math.round(totalMl / 125)), 'food');
+  const mDone  = missionModule.onEvent('water', {});
   mDone.forEach(m => { const r = awardXP(m.xp, 'mission'); showToast(t('txt_mission_new', { xp: r.gained }), 'success'); });
-  const bonusStr = waterBonus ? ` (+${waterBonus} 🍶)` : '';
-  showToast(t('water_logged', { xp: result.gained }) + bonusStr, 'info');
+  const goalBadge = waterModule.isGoalMet() ? ' 🎉 ครบเป้าแล้ว!' : '';
+  showToast(`💧 +${totalMl}ml น้ำ • +${result.gained} XP${goalBadge}`, 'info');
   renderAll();
   saveGame();
 }
@@ -2630,6 +2636,118 @@ function confirmLogWeight() {
   saveGame();
 }
 
+// ══════════════════════════════════════════════
+// WATER TRACKER
+// ══════════════════════════════════════════════
+function renderWaterTracker() {
+  const el = document.getElementById('water-tracker');
+  if (!el) return;
+  const ml   = waterModule.getMl();
+  const goal = waterModule.getGoalMl();
+  const pct  = waterModule.getPct();
+  const glasses    = waterModule.getGlasses();
+  const goalGlasses= waterModule.getGoalGlasses();
+  const done = waterModule.isGoalMet();
+
+  el.innerHTML = `
+    <div class="wt2-card">
+      <div class="wt2-header">
+        <span class="wt2-title">💧 น้ำดื่มวันนี้</span>
+        <span class="wt2-count ${done ? 'wt2-done' : ''}">${glasses}/${goalGlasses} แก้ว ${done ? '✅' : ''}</span>
+      </div>
+      <div class="wt2-bar-wrap">
+        <div class="wt2-bar-fill" style="width:${pct}%"></div>
+      </div>
+      <div class="wt2-ml">${ml.toLocaleString()} / ${goal.toLocaleString()} ml</div>
+      <div class="wt2-btns">
+        <button class="wt2-btn" onclick="addWater(150)">🥤 +150ml<br><small>แก้วเล็ก</small></button>
+        <button class="wt2-btn wt2-btn-main" onclick="addWater(250)">🥛 +250ml<br><small>1 แก้ว</small></button>
+        <button class="wt2-btn" onclick="addWater(500)">🍶 +500ml<br><small>ขวดเล็ก</small></button>
+        <button class="wt2-btn" onclick="addWater(1000)">🍾 +1L<br><small>ขวดใหญ่</small></button>
+        <button class="wt2-btn wt2-btn-goal" onclick="showWaterGoalModal()">⚙️<br><small>เป้าหมาย</small></button>
+      </div>
+    </div>`;
+}
+
+function showWaterGoalModal() {
+  const cur = waterModule.getGoalMl();
+  const val = prompt(`ตั้งเป้าหมายน้ำ (ml/วัน)\nค่าปัจจุบัน: ${cur} ml\nแนะนำ: 2000 ml (8 แก้ว)`, cur);
+  if (!val) return;
+  const ml = parseInt(val);
+  if (isNaN(ml) || ml < 500 || ml > 5000) { showToast('กรุณากรอก 500–5000 ml', 'error'); return; }
+  waterModule.setGoal(ml);
+  showToast(`💧 ตั้งเป้าน้ำ ${ml.toLocaleString()} ml/วัน แล้ว`, 'success');
+  renderAll();
+  saveGame();
+}
+
+// ══════════════════════════════════════════════
+// WEIGHT GOAL
+// ══════════════════════════════════════════════
+function renderWeightGoal() {
+  const el = document.getElementById('weight-goal-section');
+  if (!el) return;
+  const goal    = weightModule.goalWeight;
+  const latest  = weightModule.getLatest()?.weight ?? characterModule.get('weightKg');
+  const start   = weightModule.startWeight || latest;
+  const pct     = weightModule.getGoalProgress();
+  const days    = weightModule.getEstimatedDays();
+  const losing  = goal !== null && goal < start;
+
+  if (goal === null) {
+    el.innerHTML = `
+      <div class="wg-card wg-empty">
+        <div class="wg-empty-text">🎯 ยังไม่ได้ตั้งเป้าหมายน้ำหนัก</div>
+        <button class="wg-set-btn" onclick="showWeightGoalModal()">ตั้งเป้าหมาย</button>
+      </div>`;
+    return;
+  }
+
+  const done    = pct >= 100;
+  const changed = Math.abs(latest - start);
+  const remain  = Math.abs(goal - latest);
+  const dir     = losing ? 'ลด' : 'เพิ่ม';
+
+  el.innerHTML = `
+    <div class="wg-card">
+      <div class="wg-header">
+        <span class="wg-title">🎯 เป้าหมายน้ำหนัก</span>
+        <button class="wg-edit-btn" onclick="showWeightGoalModal()">เปลี่ยน</button>
+      </div>
+      <div class="wg-route">
+        <span class="wg-num">${start} kg</span>
+        <span class="wg-arrow">→</span>
+        <span class="wg-num wg-goal-num">${goal} kg</span>
+      </div>
+      <div class="wg-bar-wrap">
+        <div class="wg-bar-fill ${done ? 'wg-done' : ''}" style="width:${pct}%"></div>
+      </div>
+      <div class="wg-stats">
+        <span>${dir}แล้ว <b>${changed.toFixed(1)} kg</b></span>
+        <span class="wg-pct">${pct}%</span>
+        <span>ต้อง${dir}อีก <b>${remain.toFixed(1)} kg</b></span>
+      </div>
+      ${done
+        ? '<div class="wg-congrats">🎉 ถึงเป้าหมายแล้ว! ยอดเยี่ยมมาก</div>'
+        : days !== null
+          ? `<div class="wg-eta">⏳ คาดถึงเป้า ~<b>${days} วัน</b> (ที่อัตราปัจจุบัน)</div>`
+          : '<div class="wg-eta">ชั่งน้ำหนักอย่างน้อย 2 วัน เพื่อคาดการณ์</div>'}
+    </div>`;
+}
+
+function showWeightGoalModal() {
+  const cur = weightModule.goalWeight ?? '';
+  const latest = weightModule.getLatest()?.weight ?? characterModule.get('weightKg');
+  const val = prompt(`ตั้งเป้าหมายน้ำหนัก (kg)\nน้ำหนักปัจจุบัน: ${latest} kg\n\nกรอก 0 เพื่อลบเป้าหมาย`, cur);
+  if (val === null) return;
+  const kg = parseFloat(val);
+  if (isNaN(kg) || (kg !== 0 && (kg < 20 || kg > 300))) { showToast('กรุณากรอกน้ำหนักที่ถูกต้อง (20–300 kg)', 'error'); return; }
+  weightModule.setGoal(kg === 0 ? null : kg);
+  showToast(kg === 0 ? '🎯 ลบเป้าหมายแล้ว' : `🎯 ตั้งเป้า ${kg} kg แล้ว`, 'success');
+  renderAll();
+  saveGame();
+}
+
 function renderWeightSection() {
   const chart    = document.getElementById('weight-chart');
   if (!chart) return;
@@ -2687,9 +2805,10 @@ function renderWeightSection() {
 // ═══════════════════════════════════════════
 
 const NOTIF_META = {
-  breakfast: { label: '🌅 มื้อเช้า',     type: 'time' },
-  lunch:     { label: '☀️ มื้อกลางวัน', type: 'time' },
-  dinner:    { label: '🌙 มื้อเย็น',     type: 'time' },
+  breakfast: { label: '🌅 มื้อเช้า',        type: 'time' },
+  lunch:     { label: '☀️ มื้อกลางวัน',    type: 'time' },
+  dinner:    { label: '🌙 มื้อเย็น',        type: 'time' },
+  exercise:  { label: '🏃 ออกกำลังกาย',    type: 'time' },
   water:     { label: '💧 ดื่มน้ำ',      type: 'interval', unit: 'นาที' },
   sleep:     { label: '😴 เวลานอน',      type: 'time' },
   weight:    { label: '⚖️ ชั่งน้ำหนัก',  type: 'time' },

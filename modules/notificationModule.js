@@ -4,12 +4,13 @@
 const NOTIF_STORAGE_KEY = 'shg-notifications';
 
 const REMINDER_DEFAULTS = {
-  breakfast: { on: false, time: '08:00', title: '🌅 มื้อเช้า',     body: 'อย่าลืมบันทึกมื้อเช้าวันนี้!' },
-  lunch:     { on: true,  time: '12:00', title: '☀️ มื้อกลางวัน', body: 'ถึงเวลาบันทึกมื้อกลางวันแล้ว!' },
-  dinner:    { on: false, time: '18:00', title: '🌙 มื้อเย็น',     body: 'บันทึกมื้อเย็นซะนะ!' },
-  water:     { on: false, interval: 120, title: '💧 ดื่มน้ำ',      body: 'ดื่มน้ำหน่อยนะ! เพื่อสุขภาพที่ดี' },
-  sleep:     { on: true,  time: '22:00', title: '😴 เวลานอน',      body: 'ถึงเวลานอนแล้ว อย่าลืมบันทึกการนอน!' },
-  weight:    { on: false, time: '08:00', title: '⚖️ ชั่งน้ำหนัก',  body: 'วันนี้ชั่งน้ำหนักยังครับ?' },
+  breakfast: { on: false, time: '08:00', title: '🌅 มื้อเช้า',        body: 'อย่าลืมบันทึกมื้อเช้าวันนี้!' },
+  lunch:     { on: true,  time: '12:00', title: '☀️ มื้อกลางวัน',    body: 'ถึงเวลาบันทึกมื้อกลางวันแล้ว!' },
+  dinner:    { on: false, time: '18:00', title: '🌙 มื้อเย็น',        body: 'บันทึกมื้อเย็นซะนะ!' },
+  exercise:  { on: false, time: '17:30', title: '🏃 ออกกำลังกาย',    body: 'วันนี้ออกกำลังกายยัง? เป้าหมายรอคุณอยู่!' },
+  water:     { on: false, interval: 90,  title: '💧 ดื่มน้ำ',         body: 'ดื่มน้ำหน่อยนะ! เป้าหมาย 8 แก้วต่อวัน' },
+  sleep:     { on: true,  time: '22:00', title: '😴 เวลานอน',         body: 'ถึงเวลานอนแล้ว อย่าลืมบันทึกการนอน!' },
+  weight:    { on: false, time: '08:00', title: '⚖️ ชั่งน้ำหนัก',   body: 'วันนี้ชั่งน้ำหนักยังครับ?' },
 };
 
 class NotificationModule {
@@ -84,7 +85,7 @@ class NotificationModule {
     if (!this.settings.enabled) return;
 
     const r = this.settings.reminders;
-    ['breakfast', 'lunch', 'dinner', 'sleep', 'weight'].forEach(key => {
+    ['breakfast', 'lunch', 'dinner', 'exercise', 'sleep', 'weight'].forEach(key => {
       const rem = r[key];
       if (!rem.on) return;
       const ms = this._msUntilTime(rem.time);

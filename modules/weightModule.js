@@ -2,9 +2,10 @@
 
 class WeightModule {
   constructor() {
-    this.logs        = [];  // [{ date:'YYYY-MM-DD', weight:number, bmi:number }]
+    this.logs        = [];
     this.startWeight = 0;
     this.startDate   = '';
+    this.goalWeight  = null;  // kg target, null = not set
   }
 
   _today() { return new Date().toISOString().slice(0, 10); }
@@ -52,8 +53,31 @@ class WeightModule {
     return 'stable';
   }
 
+  setGoal(kg) { this.goalWeight = kg > 0 ? Math.round(kg * 10) / 10 : null; }
+
+  getGoalProgress() {
+    if (!this.goalWeight || !this.startWeight) return null;
+    const latest = this.getLatest()?.weight ?? this.startWeight;
+    const total  = Math.abs(this.goalWeight - this.startWeight);
+    if (total < 0.01) return 100;
+    const done = Math.abs(latest - this.startWeight);
+    return Math.min(100, Math.round(done / total * 100));
+  }
+
+  getEstimatedDays() {
+    if (!this.goalWeight) return null;
+    const latest = this.getLatest()?.weight ?? this.startWeight;
+    const remain = this.goalWeight - latest;
+    if (Math.abs(remain) < 0.1) return 0;
+    const r = this.getRecent(7);
+    if (r.length < 2) return null;
+    const avgChange = (r[r.length-1].weight - r[0].weight) / (r.length - 1);
+    if (avgChange === 0 || Math.sign(avgChange) !== Math.sign(remain)) return null;
+    return Math.ceil(Math.abs(remain / avgChange));
+  }
+
   toJSON() {
-    return { logs: this.logs, startWeight: this.startWeight, startDate: this.startDate };
+    return { logs: this.logs, startWeight: this.startWeight, startDate: this.startDate, goalWeight: this.goalWeight };
   }
 
   fromJSON(d) {
@@ -61,6 +85,7 @@ class WeightModule {
     this.logs        = d.logs        || [];
     this.startWeight = d.startWeight || 0;
     this.startDate   = d.startDate   || '';
+    this.goalWeight  = d.goalWeight  ?? null;
   }
 }
 
