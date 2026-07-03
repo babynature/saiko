@@ -194,4 +194,36 @@ window.FOOD_DB = [
   { name: 'ฮอทด็อกไส้กรอก',             kcal: 300, protein: 12, carbs: 28, fat: 16, emoji: '🌭', portion: '1 ชิ้น' },
   { name: 'ปาเน่ไก่อบ',                 kcal: 360, protein: 24, carbs: 38, fat: 12, emoji: '🥖', portion: '1 ชิ้น' },
   { name: 'โทสต์แฮมชีส',               kcal: 260, protein: 12, carbs: 26, fat: 12, emoji: '🧀', portion: '1 ชิ้น' },
+
+  // ── โจ๊ก ──────────────────────────────────────────────
+  { name: 'โจ๊กหมู',                    kcal: 180, protein: 9,  carbs: 30, fat: 3,  emoji: '🍚', portion: '1 ชาม' },
+  { name: 'โจ๊กไก่',                    kcal: 175, protein: 11, carbs: 28, fat: 3,  emoji: '🍚', portion: '1 ชาม' },
+  { name: 'โจ๊กกุ้ง',                   kcal: 165, protein: 9,  carbs: 28, fat: 2,  emoji: '🍚', portion: '1 ชาม' },
+  { name: 'โจ๊กปลา',                    kcal: 160, protein: 10, carbs: 27, fat: 2,  emoji: '🍚', portion: '1 ชาม' },
+  { name: 'โจ๊กไข่',                    kcal: 190, protein: 10, carbs: 29, fat: 5,  emoji: '🥚', portion: '1 ชาม (ไข่ 1 ฟอง)' },
+  { name: 'โจ๊กรวมมิตร (หมู+ไข่+เครื่อง)', kcal: 230, protein: 13, carbs: 31, fat: 6,  emoji: '🍚', portion: '1 ชาม' },
+
+  // ── ข้าวเหนียว ────────────────────────────────────────
+  { name: 'ข้าวเหนียวหมูปิ้ง (2 ไม้)',  kcal: 350, protein: 15, carbs: 45, fat: 12, emoji: '🍢', portion: 'ข้าว + 2 ไม้' },
+  { name: 'ข้าวเหนียวไก่ย่าง',          kcal: 480, protein: 28, carbs: 52, fat: 14, emoji: '🍗', portion: 'ข้าว + ไก่ครึ่งตัว' },
+  { name: 'ข้าวเหนียวไก่ทอด',           kcal: 520, protein: 25, carbs: 54, fat: 20, emoji: '🍗', portion: 'ข้าว + ไก่ 1 ชิ้น' },
+  { name: 'ข้าวเหนียวไส้กรอก',          kcal: 330, protein: 10, carbs: 48, fat: 12, emoji: '🌭', portion: 'ข้าว + ไส้กรอก 1 ชิ้น' },
+  { name: 'ข้าวเหนียวหน้ากุ้ง',         kcal: 380, protein: 14, carbs: 52, fat: 12, emoji: '🦐', portion: '1 ห่อ' },
+  { name: 'ข้าวเหนียวหน้าปลา',          kcal: 340, protein: 16, carbs: 48, fat: 9,  emoji: '🐟', portion: '1 ห่อ' },
+  { name: 'ข้าวเหนียวสังขยา',           kcal: 280, protein: 5,  carbs: 52, fat: 6,  emoji: '🍮', portion: '1 ห่อ' },
+  { name: 'ข้าวเหนียวมะม่วง',           kcal: 450, protein: 6,  carbs: 88, fat: 10, emoji: '🥭', portion: '1 จาน' },
+  { name: 'ข้าวเหนียวกล้วยปิ้ง',        kcal: 260, protein: 4,  carbs: 52, fat: 5,  emoji: '🍌', portion: '1 ห่อ' },
+  { name: 'ข้าวเหนียวทุเรียน',          kcal: 380, protein: 5,  carbs: 68, fat: 10, emoji: '🍈', portion: '1 ห่อ' },
+  { name: 'ข้าวเหนียวเปล่า',            kcal: 200, protein: 4,  carbs: 44, fat: 1,  emoji: '🍚', portion: '1 ปั้น (~100g)' },
+
+  // ── ข้าวต้ม / ข้าวราดหน้า ────────────────────────────
+  { name: 'ข้าวต้มหมู',                kcal: 200, protein: 10, carbs: 32, fat: 3,  emoji: '🍲', portion: '1 ชาม' },
+  { name: 'ข้าวต้มไก่',                kcal: 190, protein: 12, carbs: 30, fat: 3,  emoji: '🍲', portion: '1 ชาม' },
+  { name: 'ข้าวต้มปลา',                kcal: 180, protein: 11, carbs: 30, fat: 2,  emoji: '🍲', portion: '1 ชาม' },
+  { name: 'ข้าวต้มกุ้ง',               kcal: 185, protein: 10, carbs: 30, fat: 2,  emoji: '🍲', portion: '1 ชาม' },
+  { name: 'ข้าวมันไก่',                kcal: 450, protein: 22, carbs: 58, fat: 14, emoji: '🍗', portion: '1 จาน' },
+  { name: 'ข้าวหน้าเป็ด',              kcal: 520, protein: 24, carbs: 60, fat: 18, emoji: '🦆', portion: '1 จาน' },
+  { name: 'ข้าวหน้าไก่',               kcal: 440, protein: 22, carbs: 58, fat: 12, emoji: '🍗', portion: '1 จาน' },
+  { name: 'ข้าวหน้าหมู',               kcal: 460, protein: 20, carbs: 60, fat: 14, emoji: '🐷', portion: '1 จาน' },
+  { name: 'ข้าวหน้าเนื้อ',             kcal: 500, protein: 26, carbs: 58, fat: 16, emoji: '🥩', portion: '1 จาน' },
 ];
