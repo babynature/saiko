@@ -264,6 +264,7 @@
               <div class="food-search-dropdown" id="food-search-dropdown"></div>
             </div>
             <button class="bc-scan-trigger" onclick="barcodeModule.openScanner()" title="สแกน Barcode">📷</button>
+            <button class="bc-scan-trigger" onclick="customFoodModule.openModal()" title="เพิ่มอาหารของฉัน" style="background:rgba(108,99,255,0.2);color:#a78bfa">➕</button>
           </div>
           <input type="number" id="food-log-kcal" class="food-log-kcal" placeholder="kcal" min="1" max="5000">
           <select id="food-log-meal" class="food-log-meal">
@@ -285,6 +286,9 @@
           <span class="macro-optional-hint">ไม่บังคับ</span>
         </div>
         <div class="food-log-list" id="food-log-list"><!-- JS --></div>
+        <!-- Meal Suggestion (shown when calories remain) -->
+        <div id="meal-suggest" style="display:none"></div>
+
         <!-- Macro Summary -->
         <div class="macro-summary" id="macro-summary" style="display:none">
           <div class="macro-sum-title">📊 สัดส่วนสารอาหารวันนี้</div>
@@ -541,6 +545,7 @@
         <button class="atab active" onclick="switchAnalyticsTab(this,'calories')" id="atab-cal">🔥 แคลอรี่</button>
         <button class="atab" onclick="switchAnalyticsTab(this,'sleep')" id="atab-sleep">😴 นอน</button>
         <button class="atab" onclick="switchAnalyticsTab(this,'exercise')" id="atab-ex">🏋️ ออกกำลัง</button>
+        <button class="atab" onclick="switchAnalyticsTab(this,'macro')" id="atab-macro">📊 แมโคร</button>
       </div>
       <div class="analytics-chart" id="analytics-chart"></div>
     </div>
@@ -634,7 +639,12 @@
         <button class="export-btn" onclick="copyHealthCard()">
           <span class="export-btn-icon">📋</span>
           <span class="export-btn-label" id="txt-copy-card">คัดลอกรายงาน</span>
-          <span class="export-btn-sub" id="txt-copy-card-sub">แชร์ได้เลย</span>
+          <span class="export-btn-sub" id="txt-copy-card-sub">ข้อความ</span>
+        </button>
+        <button class="export-btn" onclick="shareModule.openModal()">
+          <span class="export-btn-icon">📸</span>
+          <span class="export-btn-label">Health Card</span>
+          <span class="export-btn-sub">บันทึกเป็นรูป</span>
         </button>
       </div>
       <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="importSaveJSON(event)">
@@ -804,6 +814,8 @@
 <script src="data/foodDatabase.js"></script>
 <script src="modules/barcodeModule.js"></script>
 <script src="modules/waterModule.js"></script>
+<script src="modules/shareModule.js"></script>
+<script src="modules/customFoodModule.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

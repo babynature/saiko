@@ -128,7 +128,7 @@ function showTab(tabId) {
   const navBtn = document.getElementById('nav-' + tabId);
   if (navBtn) navBtn.classList.add('active');
 
-  if (tabId === 'home')        { renderGlance(); renderFoodLog(); renderMacroSummary(); renderWaterTracker(); renderExerciseSuggest(); initFoodSearch(); }
+  if (tabId === 'home')        { renderGlance(); renderFoodLog(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderExerciseSuggest(); initFoodSearch(); }
   if (tabId === 'marketplace') renderMarketplace();
   if (tabId === 'quests')      { renderQuests(); renderMissions(); renderExerciseTip(); updateExercisePreview(); }
   if (tabId === 'shop')        renderShop();
@@ -217,7 +217,7 @@ window.renderAll = function() {
   renderLifeEvents();
   renderStats();
   renderCalorieBar();
-  if (_currentTabId === 'home')        { renderGlance(); renderFoodLog(); renderMacroSummary(); renderWaterTracker(); renderExerciseSuggest(); initFoodSearch(); }
+  if (_currentTabId === 'home')        { renderGlance(); renderFoodLog(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderExerciseSuggest(); initFoodSearch(); }
   if (_currentTabId === 'marketplace') renderMarketplace();
   if (_currentTabId === 'quests')      { renderQuests(); renderMissions(); renderExerciseTip(); }
   if (_currentTabId === 'shop')        renderShop();
@@ -2396,6 +2396,88 @@ function renderMacroSummary() {
   }
 }
 
+// ═══════════════════════════════════════════
+// MEAL SUGGESTION
+// ═══════════════════════════════════════════
+window._mealSuggestPicks = [];
+
+function renderMealSuggest() {
+  const el = document.getElementById('meal-suggest');
+  if (!el) return;
+
+  const eaten  = hungerModule.caloriesEaten || 0;
+  const goal   = characterModule.get('dailyCalorie') || 2000;
+  const remain = goal - eaten;
+
+  if (remain < 100 || !window.FOOD_DB || !FOOD_DB.length) {
+    el.style.display = 'none';
+    return;
+  }
+
+  const macros  = hungerModule.macroTotals || { protein: 0, carbs: 0, fat: 0 };
+  const targets = hungerModule.getDailyMacroTargets
+    ? hungerModule.getDailyMacroTargets(goal, characterModule.get('categoryId') || 'normal')
+    : { protein: 60, carbs: 250, fat: 55 };
+
+  const pDef = Math.max(0, targets.protein - macros.protein);
+  const cDef = Math.max(0, targets.carbs   - macros.carbs);
+  const fDef = Math.max(0, targets.fat     - macros.fat);
+
+  const ideal      = remain * 0.5;
+  const candidates = FOOD_DB.filter(f => f.kcal > 0 && f.kcal <= remain * 0.95);
+  if (!candidates.length) { el.style.display = 'none'; return; }
+
+  const scored = candidates.map(f => {
+    let score = 100 - Math.abs(f.kcal - ideal) / 12;
+    if (pDef > 10 && (f.protein || 0) > 0) score += Math.min(25, (f.protein || 0));
+    if (cDef > 20 && (f.carbs   || 0) > 0) score += Math.min(12, (f.carbs   || 0) * 0.25);
+    if (fDef > 5  && (f.fat     || 0) > 0) score += Math.min(8,  (f.fat     || 0));
+    return { food: f, score };
+  });
+  scored.sort((a, b) => b.score - a.score);
+  window._mealSuggestPicks = scored.slice(0, 3).map(s => s.food);
+
+  const picks = window._mealSuggestPicks;
+  const reasons = [];
+  if (pDef > 15) reasons.push(`โปรตีนยังขาด ~${Math.round(pDef)}g`);
+  if (cDef > 30) reasons.push(`คาร์บยังขาด ~${Math.round(cDef)}g`);
+  const hint = reasons.length ? ` · ${reasons.join(' · ')}` : '';
+
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div class="ms-card">
+      <div class="ms-header">
+        <span class="ms-title">🍽️ แนะนำมื้อถัดไป</span>
+        <span class="ms-sub">เหลือ ${remain.toLocaleString()} kcal${hint}</span>
+      </div>
+      <div class="ms-list">
+        ${picks.map((f, i) => `
+          <div class="ms-item" onclick="fillFoodFromSuggest(${i})">
+            <span class="ms-emoji">${f.emoji || '🍽️'}</span>
+            <div class="ms-info">
+              <span class="ms-name">${_escHtml(f.name)}</span>
+              ${f.portion ? `<span class="ms-portion">${_escHtml(f.portion)}</span>` : ''}
+            </div>
+            <span class="ms-kcal">${f.kcal} kcal</span>
+            <span class="ms-plus">+</span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function fillFoodFromSuggest(idx) {
+  const f = window._mealSuggestPicks?.[idx];
+  if (!f) return;
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+  set('food-log-name',    f.name);
+  set('food-log-kcal',    f.kcal);
+  set('food-log-protein', f.protein || '');
+  set('food-log-carbs',   f.carbs   || '');
+  set('food-log-fat',     f.fat     || '');
+  document.getElementById('food-log-kcal')?.focus();
+  document.getElementById('food-log-name')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
 function logWater() { addWater(250); }
 
 function addWater(ml) {
@@ -2458,6 +2540,48 @@ function renderAnalyticsChart() {
   }
 
   const type = _analyticsTab;
+
+  // ── Macro stacked chart (separate render path) ──
+  if (type === 'macro') {
+    const hasAny = days.some(d => (d.macroProtein || 0) + (d.macroCarbs || 0) + (d.macroFat || 0) > 0);
+    if (!hasAny) {
+      container.innerHTML = `<div class="ac-empty">ยังไม่มีข้อมูลแมโคร — บันทึกอาหารพร้อมระบุ P/C/F</div>`;
+      return;
+    }
+    const maxG = Math.max(...days.map(d => (d.macroProtein||0)+(d.macroCarbs||0)+(d.macroFat||0)), 150);
+    days.forEach(day => {
+      const p  = day.macroProtein || 0;
+      const c  = day.macroCarbs   || 0;
+      const f  = day.macroFat     || 0;
+      const total = p + c + f;
+      const barH  = 56; // fixed total height for the stack
+      const pH = total > 0 ? Math.round((p / maxG) * barH) : 0;
+      const cH = total > 0 ? Math.round((c / maxG) * barH) : 0;
+      const fH = total > 0 ? Math.round((f / maxG) * barH) : 0;
+      const mm = day.date.slice(5).replace('-', '/');
+      const col = document.createElement('div');
+      col.className = 'ac-col';
+      col.innerHTML = `
+        <div class="ac-macro-stack" style="height:${barH}px">
+          ${f > 0 ? `<div class="acm-f" style="height:${fH}px" title="ไขมัน ${f}g"></div>` : ''}
+          ${c > 0 ? `<div class="acm-c" style="height:${cH}px" title="คาร์บ ${c}g"></div>` : ''}
+          ${p > 0 ? `<div class="acm-p" style="height:${pH}px" title="โปรตีน ${p}g"></div>` : ''}
+        </div>
+        <div class="ac-date">${mm}</div>`;
+      container.appendChild(col);
+    });
+    // Legend row
+    const leg = document.createElement('div');
+    leg.className = 'ac-macro-legend';
+    leg.innerHTML = `
+      <span><span class="acm-dot" style="background:#38bdf8"></span>P โปรตีน</span>
+      <span><span class="acm-dot" style="background:#fbbf24"></span>C คาร์บ</span>
+      <span><span class="acm-dot" style="background:#f87171"></span>F ไขมัน</span>`;
+    container.appendChild(leg);
+    container.classList.remove('has-goal');
+    return;
+  }
+
   let vals, maxVal, getColor, getLabel, goalVal;
 
   if (type === 'calories') {

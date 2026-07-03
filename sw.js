@@ -1,5 +1,5 @@
 // sw.js — Service Worker (Phase 7)
-const CACHE = 'shg-v1';
+const CACHE = 'shg-v2';
 const ASSETS = [
   '/', '/index.html', '/styles.css', '/i18n.js', '/app.js',
   '/firebase-config.js',
@@ -11,7 +11,8 @@ const ASSETS = [
   '/modules/achievementModule.js', '/modules/historyModule.js',
   '/modules/intelligenceModule.js', '/modules/firebaseModule.js',
   '/modules/missionModule.js', '/modules/gearModule.js', '/modules/notificationModule.js',
-  '/modules/barcodeModule.js', '/modules/waterModule.js', '/data/foodDatabase.js',
+  '/modules/barcodeModule.js', '/modules/waterModule.js',
+  '/modules/shareModule.js', '/modules/customFoodModule.js', '/data/foodDatabase.js',
 ];
 
 self.addEventListener('install', e => {

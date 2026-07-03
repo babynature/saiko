@@ -16,6 +16,7 @@ class HistoryModule {
     const wm = window.weightModule;
 
     const today = this._today();
+    const macros = hm.macroTotals || {};
     const entry = {
       date:           today,
       caloriesEaten:  hm.caloriesEaten  || 0,
@@ -30,6 +31,9 @@ class HistoryModule {
       weight:         (wm.getLatest() || {}).weight || ch.get('weightKg'),
       bmi:            ch.get('bmi'),
       level:          ch.get('level'),
+      macroProtein:   macros.protein || 0,
+      macroCarbs:     macros.carbs   || 0,
+      macroFat:       macros.fat     || 0,
     };
 
     const idx = this.days.findIndex(d => d.date === today);
