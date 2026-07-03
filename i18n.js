@@ -3,7 +3,7 @@
 const I18N = {
   th: {
     // Onboarding
-    onboard_sub: 'เกมสุขภาพสำหรับนักเรียน',
+    onboard_sub: 'เกมดูแลสุขภาพที่คุณเติบโตได้',
     setup_title: '⚙️ ตั้งค่าตัวละคร',
     lbl_name: 'ชื่อเล่น',
     lbl_age: 'อายุ (ปี)',
@@ -255,7 +255,7 @@ const I18N = {
   },
 
   en: {
-    onboard_sub: 'Health Gamification for Students',
+    onboard_sub: 'Your health journey, gamified',
     setup_title: '⚙️ Create Character',
     lbl_name: 'Nickname',
     lbl_age: 'Age (years)',

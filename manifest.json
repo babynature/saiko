@@ -1,7 +1,7 @@
 {
-  "name": "Student Health Game",
-  "short_name": "HealthGame",
-  "description": "เกมสุขภาพสำหรับนักเรียน — ติดตาม BMI อาหาร ออกกำลัง และสุขภาพ",
+  "name": "Shinka Health Game",
+  "short_name": "Shinka",
+  "description": "Shinka Health Game — ติดตาม BMI อาหาร ออกกำลังกาย และสุขภาพ",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f0f1a",

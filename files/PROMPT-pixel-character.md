@@ -2,7 +2,7 @@
 
 ## Context (อ่านก่อน)
 
-นี่คือเกม Student Health Game — SPA Vanilla JS ไม่มี framework  
+นี่คือเกม Shinka Health Game — SPA Vanilla JS ไม่มี framework  
 ตัวละครปัจจุบันเป็น CSS div + emoji face ธรรมดา  
 Session นี้จะแทนที่ด้วย Canvas-based pixel art ที่เปลี่ยนรูปร่างตาม BMI และแสดงอารมณ์ตามความหิว
 
