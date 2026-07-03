@@ -258,9 +258,12 @@
           <span class="food-log-total" id="food-log-total">0 kcal</span>
         </div>
         <div class="food-log-form">
-          <div class="food-search-wrap">
-            <input type="text" id="food-log-name" class="food-log-input" placeholder="🔍 ค้นหาอาหาร เช่น ข้าวผัด" maxlength="40" autocomplete="off">
-            <div class="food-search-dropdown" id="food-search-dropdown"></div>
+          <div style="display:flex;gap:6px;align-items:flex-start">
+            <div class="food-search-wrap">
+              <input type="text" id="food-log-name" class="food-log-input" placeholder="🔍 ค้นหาอาหาร เช่น ข้าวผัด" maxlength="40" autocomplete="off">
+              <div class="food-search-dropdown" id="food-search-dropdown"></div>
+            </div>
+            <button class="bc-scan-trigger" onclick="barcodeModule.openScanner()" title="สแกน Barcode">📷</button>
           </div>
           <input type="number" id="food-log-kcal" class="food-log-kcal" placeholder="kcal" min="1" max="5000">
           <select id="food-log-meal" class="food-log-meal">
@@ -794,6 +797,7 @@
 <script src="modules/gearModule.js"></script>
 <script src="modules/notificationModule.js"></script>
 <script src="data/foodDatabase.js"></script>
+<script src="modules/barcodeModule.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
