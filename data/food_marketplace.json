@@ -1,0 +1,379 @@
+{
+  "marketplace": {
+    "version": "1.0",
+    "currency": "EXP",
+    "last_updated": "2026-07-03",
+    
+    "categories": [
+      {
+        "category_id": "light_meals",
+        "name_th": "อาหารเบา",
+        "name_en": "Light Meals",
+        "emoji": "🥗",
+        "description_th": "อาหารเบา ราคาถูก แต่อิ่มไม่นาน",
+        "description_en": "Light meals, cheap, quick hunger recovery"
+      },
+      {
+        "category_id": "regular_meals",
+        "name_th": "อาหารปกติ",
+        "name_en": "Regular Meals",
+        "emoji": "🍜",
+        "description_th": "อาหารสมดุล ราคากลาง อิ่มได้นาน",
+        "description_en": "Balanced meals, moderate price, lasting"
+      },
+      {
+        "category_id": "heavy_meals",
+        "name_th": "อาหารจัดหนัก",
+        "name_en": "Heavy Meals",
+        "emoji": "🍖",
+        "description_th": "อาหารเยอะ ราคาแพง อิ่มนาน",
+        "description_en": "Heavy meals, expensive, very filling"
+      },
+      {
+        "category_id": "special_items",
+        "name_th": "อาหารพิเศษ",
+        "name_en": "Special Items",
+        "emoji": "⭐",
+        "description_th": "อาหารพิเศษ ให้พิเศษ หรือมีปลายทาง",
+        "description_en": "Special items with unique effects"
+      },
+      {
+        "category_id": "instant_snacks",
+        "name_th": "อาหารด่วน",
+        "name_en": "Instant Snacks",
+        "emoji": "🏃",
+        "description_th": "อาหารเร็ว สำหรับฉุกเฉิน",
+        "description_en": "Quick snacks for emergencies"
+      }
+    ],
+
+    "foods": [
+      {
+        "food_id": "water_001",
+        "category_id": "instant_snacks",
+        "name_th": "น้ำเปล่า",
+        "name_en": "Water",
+        "description_th": "ดื่มน้ำเปล่า",
+        "description_en": "Drink plain water",
+        "exp_cost": 5,
+        "hunger_restore": 10,
+        "duration_minutes": 5,
+        "stats_bonus": {},
+        "icon": "💧",
+        "rarity": "common",
+        "efficiency": 2.0
+      },
+      {
+        "food_id": "candy_001",
+        "category_id": "instant_snacks",
+        "name_th": "ลูกอม",
+        "name_en": "Candy",
+        "description_th": "กินลูกอมให้ร่าง",
+        "description_en": "Quick energy boost",
+        "exp_cost": 8,
+        "hunger_restore": 12,
+        "duration_minutes": 5,
+        "stats_bonus": {"stamina": 10},
+        "icon": "🍬",
+        "rarity": "common",
+        "efficiency": 1.5
+      },
+      {
+        "food_id": "chocolate_001",
+        "category_id": "instant_snacks",
+        "name_th": "ช็อกโกแลต",
+        "name_en": "Chocolate",
+        "description_th": "กินช็อกโกแลต",
+        "description_en": "Sweet chocolate bar",
+        "exp_cost": 12,
+        "hunger_restore": 18,
+        "duration_minutes": 8,
+        "stats_bonus": {"stamina": 15, "intelligence": 10},
+        "icon": "🍫",
+        "rarity": "common",
+        "efficiency": 1.5
+      },
+      {
+        "food_id": "banana_001",
+        "category_id": "instant_snacks",
+        "name_th": "กล้วย",
+        "name_en": "Banana",
+        "description_th": "กินกล้วยสด",
+        "description_en": "Fresh banana",
+        "exp_cost": 15,
+        "hunger_restore": 22,
+        "duration_minutes": 12,
+        "stats_bonus": {"health": 8, "stamina": 10},
+        "icon": "🍌",
+        "rarity": "common",
+        "efficiency": 1.47
+      },
+      {
+        "food_id": "bread_001",
+        "category_id": "light_meals",
+        "name_th": "ขนมปังธรรมชาติ",
+        "name_en": "Bread",
+        "description_th": "กินขนมปัง",
+        "description_en": "Simple bread",
+        "exp_cost": 15,
+        "hunger_restore": 20,
+        "duration_minutes": 15,
+        "stats_bonus": {"health": 5},
+        "icon": "🥐",
+        "rarity": "common",
+        "efficiency": 1.33
+      },
+      {
+        "food_id": "rice_001",
+        "category_id": "light_meals",
+        "name_th": "ข้าวสวย",
+        "name_en": "Plain Rice",
+        "description_th": "กินข้าวสวย",
+        "description_en": "White rice",
+        "exp_cost": 20,
+        "hunger_restore": 25,
+        "duration_minutes": 20,
+        "stats_bonus": {"stamina": 3},
+        "icon": "🍚",
+        "rarity": "common",
+        "efficiency": 1.25
+      },
+      {
+        "food_id": "apple_001",
+        "category_id": "light_meals",
+        "name_th": "แอปเปิล",
+        "name_en": "Apple",
+        "description_th": "กินแอปเปิล",
+        "description_en": "Fresh apple",
+        "exp_cost": 10,
+        "hunger_restore": 15,
+        "duration_minutes": 10,
+        "stats_bonus": {"health": 10},
+        "icon": "🍎",
+        "rarity": "common",
+        "efficiency": 1.5
+      },
+      {
+        "food_id": "rice_chicken_001",
+        "category_id": "regular_meals",
+        "name_th": "ข้าวมันไก่",
+        "name_en": "Chicken Rice",
+        "description_th": "ข้าวมันไก่นึ่ง",
+        "description_en": "Steamed chicken rice",
+        "exp_cost": 50,
+        "hunger_restore": 50,
+        "duration_minutes": 45,
+        "stats_bonus": {"strength": 10, "health": 15, "stamina": 8},
+        "icon": "🍗",
+        "rarity": "uncommon",
+        "efficiency": 1.0
+      },
+      {
+        "food_id": "pad_thai_001",
+        "category_id": "regular_meals",
+        "name_th": "ผัดไทย",
+        "name_en": "Pad Thai",
+        "description_th": "ผัดไทยสูตรต้นตำรับ",
+        "description_en": "Traditional pad thai",
+        "exp_cost": 60,
+        "hunger_restore": 55,
+        "duration_minutes": 50,
+        "stats_bonus": {"strength": 8, "endurance": 10, "stamina": 10},
+        "icon": "🍜",
+        "rarity": "uncommon",
+        "efficiency": 0.92
+      },
+      {
+        "food_id": "fish_rice_001",
+        "category_id": "regular_meals",
+        "name_th": "ปลาย่างข้าว",
+        "name_en": "Grilled Fish Rice",
+        "description_th": "ปลาย่างพร้อมข้าว",
+        "description_en": "Grilled fish with rice",
+        "exp_cost": 55,
+        "hunger_restore": 52,
+        "duration_minutes": 48,
+        "stats_bonus": {"intelligence": 15, "health": 12, "stamina": 8},
+        "icon": "🐟",
+        "rarity": "uncommon",
+        "efficiency": 0.95
+      },
+      {
+        "food_id": "ramen_001",
+        "category_id": "regular_meals",
+        "name_th": "บะหมี่",
+        "name_en": "Ramen",
+        "description_th": "บะหมี่ร้อน",
+        "description_en": "Hot ramen noodles",
+        "exp_cost": 50,
+        "hunger_restore": 48,
+        "duration_minutes": 45,
+        "stats_bonus": {"stamina": 20, "strength": 5},
+        "icon": "🍝",
+        "rarity": "uncommon",
+        "efficiency": 0.96
+      },
+      {
+        "food_id": "set_meal_001",
+        "category_id": "heavy_meals",
+        "name_th": "ชุดอาหารพรีเมียม",
+        "name_en": "Premium Meal Set",
+        "description_th": "ชุดอาหารหรูหรา",
+        "description_en": "Deluxe meal set",
+        "exp_cost": 100,
+        "hunger_restore": 85,
+        "duration_minutes": 90,
+        "stats_bonus": {"strength": 20, "health": 25, "endurance": 15, "stamina": 20},
+        "icon": "🍽️",
+        "rarity": "rare",
+        "efficiency": 0.85
+      },
+      {
+        "food_id": "steak_001",
+        "category_id": "heavy_meals",
+        "name_th": "สเต็ก",
+        "name_en": "Steak",
+        "description_th": "เนื้อสเต็กสด",
+        "description_en": "Fresh beef steak",
+        "exp_cost": 120,
+        "hunger_restore": 90,
+        "duration_minutes": 100,
+        "stats_bonus": {"strength": 30, "health": 20, "endurance": 10},
+        "icon": "🥩",
+        "rarity": "rare",
+        "efficiency": 0.75
+      },
+      {
+        "food_id": "all_you_can_001",
+        "category_id": "heavy_meals",
+        "name_th": "บุฟเฟต์",
+        "name_en": "All-You-Can-Eat",
+        "description_th": "บุฟเฟต์ระดับพรีเมียม",
+        "description_en": "Premium all-you-can-eat",
+        "exp_cost": 150,
+        "hunger_restore": 100,
+        "duration_minutes": 120,
+        "stats_bonus": {"strength": 25, "health": 30, "endurance": 20, "stamina": 25, "intelligence": 10},
+        "icon": "🍲",
+        "rarity": "rare",
+        "efficiency": 0.67
+      },
+      {
+        "food_id": "energy_drink_001",
+        "category_id": "special_items",
+        "name_th": "เครื่องดื่มพลังงาน",
+        "name_en": "Energy Drink",
+        "description_th": "เครื่องดื่มเสริมพลังงาน",
+        "description_en": "Power-boosting beverage",
+        "exp_cost": 40,
+        "hunger_restore": 30,
+        "duration_minutes": 15,
+        "stats_bonus": {"stamina": 30, "strength": 15},
+        "icon": "⚡",
+        "special_effect": "Double XP gain for next 30 minutes",
+        "rarity": "uncommon",
+        "efficiency": 0.75
+      },
+      {
+        "food_id": "lucky_meal_001",
+        "category_id": "special_items",
+        "name_th": "อาหารเสริมโชค",
+        "name_en": "Lucky Meal",
+        "description_th": "อาหารที่มีพิษมงคล",
+        "description_en": "Meal with lucky bonus",
+        "exp_cost": 75,
+        "hunger_restore": 60,
+        "duration_minutes": 60,
+        "stats_bonus": {"health": 20, "intelligence": 25},
+        "icon": "🌟",
+        "special_effect": "Unlock random bonus XP (25-50 XP)",
+        "rarity": "rare",
+        "efficiency": 0.8
+      },
+      {
+        "food_id": "immortal_rice_001",
+        "category_id": "special_items",
+        "name_th": "ข้าวเข้มข้น",
+        "name_en": "Eternal Rice",
+        "description_th": "ข้าวอาร์ทเภสัช",
+        "description_en": "Legendary eternal rice",
+        "exp_cost": 200,
+        "hunger_restore": 100,
+        "duration_minutes": 180,
+        "stats_bonus": {"health": 50, "strength": 30, "endurance": 30, "stamina": 40, "intelligence": 20},
+        "icon": "👑",
+        "special_effect": "All stats +100% for 3 hours",
+        "rarity": "legendary",
+        "efficiency": 0.5
+      }
+    ],
+
+    "meal_combinations": [
+      {
+        "combo_id": "breakfast_combo",
+        "name_th": "อาหารเช้า",
+        "name_en": "Breakfast Combo",
+        "foods": ["bread_001", "water_001"],
+        "total_cost": 20,
+        "total_hunger": 30,
+        "combo_bonus": "Health +5",
+        "icon": "🌅"
+      },
+      {
+        "combo_id": "budget_lunch",
+        "name_th": "อาหารกลางวัน ประหยัด",
+        "name_en": "Budget Lunch",
+        "foods": ["rice_001", "apple_001"],
+        "total_cost": 30,
+        "total_hunger": 40,
+        "combo_bonus": "Stamina +3",
+        "icon": "🥗"
+      },
+      {
+        "combo_id": "protein_dinner",
+        "name_th": "อาหารเย็น โปรตีน",
+        "name_en": "Protein Dinner",
+        "foods": ["rice_chicken_001"],
+        "total_cost": 50,
+        "total_hunger": 50,
+        "combo_bonus": "Strength +10",
+        "icon": "🍗"
+      }
+    ],
+
+    "daily_specials": [
+      {
+        "day": "monday",
+        "special_food_id": "pad_thai_001",
+        "discount_percent": 20,
+        "discounted_cost": 48,
+        "message_th": "วันจันทร์: ผัดไทยลด 20%",
+        "message_en": "Monday: Pad Thai 20% off"
+      },
+      {
+        "day": "wednesday",
+        "special_food_id": "rice_chicken_001",
+        "discount_percent": 15,
+        "discounted_cost": 42,
+        "message_th": "วันพุธ: ข้าวมันไก่ลด 15%",
+        "message_en": "Wednesday: Chicken Rice 15% off"
+      },
+      {
+        "day": "friday",
+        "special_food_id": "steak_001",
+        "discount_percent": 25,
+        "discounted_cost": 90,
+        "message_th": "วันศุกร์: สเต็กลด 25%",
+        "message_en": "Friday: Steak 25% off"
+      },
+      {
+        "day": "sunday",
+        "special_food_id": "all_you_can_001",
+        "discount_percent": 30,
+        "discounted_cost": 105,
+        "message_th": "วันอาทิตย์: บุฟเฟต์ลด 30%",
+        "message_en": "Sunday: All-You-Can 30% off"
+      }
+    ]
+  }
+}

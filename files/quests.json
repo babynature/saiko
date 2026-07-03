@@ -1,0 +1,189 @@
+{
+  "quests": [
+    {
+      "quest_id": "log_meals_001",
+      "name_th": "บันทึกอาหาร",
+      "name_en": "Log Your Meals",
+      "description_th": "บันทึกอาหารอย่างน้อย 3 มื้อในวัน",
+      "description_en": "Log at least 3 meals today",
+      "type": "count",
+      "target": 3,
+      "difficulty": "easy",
+      "reward_xp": 50,
+      "category": "nutrition",
+      "emoji": "🍽️",
+      "time_limit": null
+    },
+    {
+      "quest_id": "stay_within_goal_001",
+      "name_th": "อยู่ในเป้าหมาย",
+      "name_en": "Stay Within Goal",
+      "description_th": "รักษาแคลอรี่รวม ≤ 1600 kcal",
+      "description_en": "Keep total calories ≤ 1600 kcal",
+      "type": "threshold",
+      "target": 1600,
+      "difficulty": "medium",
+      "reward_xp": 100,
+      "category": "health",
+      "emoji": "🎯",
+      "time_limit": null
+    },
+    {
+      "quest_id": "exercise_challenge_001",
+      "name_th": "ท้าทายออกกำลัง",
+      "name_en": "Exercise Challenge",
+      "description_th": "เผาแคลอรี่ 300 kcal ผ่านการออกกำลังกาย",
+      "description_en": "Burn 300+ calories through exercise",
+      "type": "burn_calories",
+      "target": 300,
+      "difficulty": "hard",
+      "reward_xp": 150,
+      "category": "fitness",
+      "emoji": "🔥",
+      "time_limit": null
+    },
+    {
+      "quest_id": "drink_water_001",
+      "name_th": "ดื่มน้ำให้เพียงพอ",
+      "name_en": "Drink Water",
+      "description_th": "ดื่มน้ำอย่างน้อย 8 แก้วในวัน",
+      "description_en": "Drink at least 8 glasses of water today",
+      "type": "count",
+      "target": 8,
+      "difficulty": "easy",
+      "reward_xp": 25,
+      "category": "health",
+      "emoji": "💧",
+      "time_limit": null,
+      "note": "Phase 2 feature - water logging system"
+    },
+    {
+      "quest_id": "balance_macros_001",
+      "name_th": "สมดุลมื้ออาหาร",
+      "name_en": "Balance Macros",
+      "description_th": "กินอาหาร 3 มื้อ (เช้า กลาง เย็น)",
+      "description_en": "Eat 3 meals (breakfast, lunch, dinner)",
+      "type": "meal_balance",
+      "target": 3,
+      "difficulty": "medium",
+      "reward_xp": 75,
+      "category": "nutrition",
+      "emoji": "🥗",
+      "time_limit": null,
+      "meal_types": ["breakfast", "lunch", "dinner"]
+    }
+  ],
+  "difficulty_levels": [
+    {
+      "level": "easy",
+      "color": "green",
+      "description_th": "ง่าย",
+      "description_en": "Easy"
+    },
+    {
+      "level": "medium",
+      "color": "orange",
+      "description_th": "ปานกลาง",
+      "description_en": "Medium"
+    },
+    {
+      "level": "hard",
+      "color": "red",
+      "description_th": "ยาก",
+      "description_en": "Hard"
+    }
+  ],
+  "categories": [
+    {
+      "id": "nutrition",
+      "name_th": "โภชนาการ",
+      "name_en": "Nutrition",
+      "emoji": "🍽️"
+    },
+    {
+      "id": "health",
+      "name_th": "สุขภาพ",
+      "name_en": "Health",
+      "emoji": "❤️"
+    },
+    {
+      "id": "fitness",
+      "name_th": "ฟิตเนส",
+      "name_en": "Fitness",
+      "emoji": "💪"
+    }
+  ],
+  "xp_system": {
+    "base_xp": {
+      "log_food": 5,
+      "delete_food": -2,
+      "log_exercise": 20,
+      "complete_quest": "varies"
+    },
+    "streak_bonuses": {
+      "daily_bonus": 10,
+      "weekly_milestone": 100,
+      "monthly_milestone": 500
+    },
+    "level_progression": {
+      "formula": "XP_for_level = (level * 1000) + (level^2 * 200)",
+      "levels": [
+        {"level": 1, "xp": 0, "title_th": "ผู้เริ่มต้น", "title_en": "Beginner"},
+        {"level": 2, "xp": 500, "title_th": "นักเรียน", "title_en": "Student"},
+        {"level": 3, "xp": 1200, "title_th": "ผู้เยี่ยม", "title_en": "Practitioner"},
+        {"level": 4, "xp": 2200, "title_th": "ผู้ชำนาญ", "title_en": "Expert"},
+        {"level": 5, "xp": 3500, "title_th": "นักโภชนาการ", "title_en": "Nutritionist"},
+        {"level": 10, "xp": 12000, "title_th": "นักฟิตเนสประกาศิต", "title_en": "Fitness Enthusiast"},
+        {"level": 20, "xp": 55000, "title_th": "ผู้เชี่ยวชาญด้านสุขภาพ", "title_en": "Health Master"},
+        {"level": 50, "xp": 250000, "title_th": "เทพสุขภาพ", "title_en": "Wellness Deity"}
+      ]
+    }
+  },
+  "streak_milestones": [
+    {
+      "days": 7,
+      "badge": "on_fire",
+      "badge_th": "🔥 ติดเยิ้ม!",
+      "badge_en": "🔥 On Fire!",
+      "xp_reward": 100,
+      "description_th": "รักษาความสมดุลเป็นเวลา 7 วัน!",
+      "description_en": "Maintained for 7 days straight!"
+    },
+    {
+      "days": 14,
+      "badge": "consistent",
+      "badge_th": "🌟 สม่ำเสมอ",
+      "badge_en": "🌟 Consistent",
+      "xp_reward": 200,
+      "description_th": "รักษาความสมดุลเป็นเวลา 14 วัน!",
+      "description_en": "Maintained for 14 days straight!"
+    },
+    {
+      "days": 30,
+      "badge": "iron_will",
+      "badge_th": "💪 เจตะทำนายอย่างแข็ง",
+      "badge_en": "💪 Iron Will",
+      "xp_reward": 500,
+      "description_th": "รักษาความสมดุลเป็นเวลา 30 วัน!",
+      "description_en": "Maintained for 30 days straight!"
+    },
+    {
+      "days": 100,
+      "badge": "legendary",
+      "badge_th": "🏆 เจ้าของปรัชญา",
+      "badge_en": "🏆 Legendary",
+      "xp_reward": 2000,
+      "description_th": "รักษาความสมดุลเป็นเวลา 100 วัน!",
+      "description_en": "Maintained for 100 days straight!"
+    },
+    {
+      "days": 365,
+      "badge": "master",
+      "badge_th": "👑 ปรมาจารย์",
+      "badge_en": "👑 Master",
+      "xp_reward": 10000,
+      "description_th": "รักษาความสมดุลเป็นเวลา 365 วัน!",
+      "description_en": "Maintained for 365 days straight!"
+    }
+  ]
+}

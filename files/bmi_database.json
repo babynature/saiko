@@ -1,0 +1,498 @@
+{
+  "bmi_system": {
+    "version": "1.0",
+    "last_updated": "2026-07-03",
+    
+    "bmi_categories": [
+      {
+        "category_id": "underweight",
+        "name_th": "ต่ำเกินไป",
+        "name_en": "Underweight",
+        "bmi_range": "< 18.5",
+        "color": "blue",
+        "emoji": "🔵",
+        "health_status": "⚠️ Low energy, weak",
+        
+        "primary_goal": "GAIN WEIGHT",
+        "calorie_adjustment": "+20%",
+        "calorie_multiplier": 1.2,
+        "daily_target_example": 1920,
+        
+        "character_effect": {
+          "size_percent": 90,
+          "stat_modifier": -0.2,
+          "appearance": "Thin, weak, pale",
+          "color_scheme": "gray_pale",
+          "movement_speed": 0.7
+        },
+        
+        "food_focus": [
+          "high_calorie_foods",
+          "healthy_fats",
+          "proteins",
+          "carbohydrates"
+        ],
+        
+        "recommended_foods": [
+          "steak",
+          "all_you_can_eat",
+          "nuts_seeds",
+          "rice_chicken",
+          "whole_milk"
+        ],
+        
+        "forbidden_foods": [
+          "water_only",
+          "light_meals_only"
+        ],
+        
+        "exercise_plan": {
+          "primary": "strength_training",
+          "frequency": "3x per week",
+          "duration": "45 minutes",
+          "secondary": "light_cardio",
+          "cardio_frequency": "2-3x per week",
+          "cardio_duration": "20-30 minutes",
+          "total_weekly_calories_burned": 1500
+        },
+        
+        "price_modifier": 0.8,
+        "food_price_note": "High-calorie foods are cheaper"
+      },
+      
+      {
+        "category_id": "normal",
+        "name_th": "ปกติ",
+        "name_en": "Normal Weight",
+        "bmi_range": "18.5 - 24.9",
+        "color": "green",
+        "emoji": "✓",
+        "health_status": "✅ Healthy, good fitness",
+        
+        "primary_goal": "MAINTAIN",
+        "calorie_adjustment": "0%",
+        "calorie_multiplier": 1.0,
+        "daily_target_example": 1600,
+        
+        "character_effect": {
+          "size_percent": 100,
+          "stat_modifier": 0,
+          "appearance": "Normal, healthy",
+          "color_scheme": "vibrant",
+          "movement_speed": 1.0
+        },
+        
+        "food_focus": [
+          "balanced_nutrition",
+          "all_food_groups",
+          "regular_meals"
+        ],
+        
+        "recommended_foods": [
+          "pad_thai",
+          "rice_chicken",
+          "grilled_fish",
+          "vegetables",
+          "fruits"
+        ],
+        
+        "forbidden_foods": [],
+        
+        "exercise_plan": {
+          "primary": "mixed_training",
+          "cardio": {
+            "frequency": "3-4x per week",
+            "duration": "30-45 minutes",
+            "intensity": "moderate"
+          },
+          "strength": {
+            "frequency": "2-3x per week",
+            "duration": "30-45 minutes"
+          },
+          "flexibility": {
+            "frequency": "1-2x per week",
+            "duration": "20-30 minutes"
+          },
+          "total_weekly_minutes": "200-310",
+          "total_weekly_calories_burned": 1500
+        },
+        
+        "price_modifier": 1.0,
+        "food_price_note": "Standard prices for all foods"
+      },
+      
+      {
+        "category_id": "overweight",
+        "name_th": "เกินน้ำหนัก",
+        "name_en": "Overweight",
+        "bmi_range": "25.0 - 29.9",
+        "color": "orange",
+        "emoji": "🟠",
+        "health_status": "⚠️ Higher risk diseases",
+        
+        "primary_goal": "LOSE WEIGHT",
+        "calorie_adjustment": "-15%",
+        "calorie_multiplier": 0.85,
+        "daily_target_example": 1360,
+        
+        "character_effect": {
+          "size_percent": 105,
+          "stat_modifier": -0.1,
+          "appearance": "Slightly chunky",
+          "color_scheme": "dull",
+          "movement_speed": 0.85
+        },
+        
+        "food_focus": [
+          "low_calorie_foods",
+          "vegetables",
+          "lean_proteins",
+          "whole_grains",
+          "portion_control"
+        ],
+        
+        "recommended_foods": [
+          "grilled_fish",
+          "vegetable_salad",
+          "light_meals",
+          "fruits",
+          "steamed_vegetables"
+        ],
+        
+        "forbidden_foods": [
+          "steak",
+          "all_you_can_eat",
+          "special_items",
+          "high_fat_foods"
+        ],
+        
+        "exercise_plan": {
+          "primary": "intensive_cardio",
+          "frequency": "5-6x per week",
+          "duration": "45-60 minutes",
+          "intensity": "moderate_to_high",
+          "secondary": "strength",
+          "strength_frequency": "3x per week",
+          "strength_duration": "30-40 minutes",
+          "total_weekly_minutes": "285-480",
+          "total_weekly_calories_burned": 2000
+        },
+        
+        "weight_loss_plan": {
+          "target_loss_per_week": "0.5-1 kg",
+          "timeline_to_normal": "8-16 weeks",
+          "calorie_deficit": "-500 to -750 per day"
+        },
+        
+        "price_modifier": 1.2,
+        "food_price_note": "Low-calorie foods are cheaper, high-calorie foods more expensive"
+      },
+      
+      {
+        "category_id": "obese_level_1",
+        "name_th": "อ้วน ระดับ 1",
+        "name_en": "Obese Level 1",
+        "bmi_range": "30.0 - 34.9",
+        "color": "red",
+        "emoji": "🔴",
+        "health_status": "🔴 Significant health risk",
+        
+        "primary_goal": "URGENT WEIGHT LOSS",
+        "calorie_adjustment": "-25%",
+        "calorie_multiplier": 0.75,
+        "daily_target_example": 1200,
+        
+        "character_effect": {
+          "size_percent": 115,
+          "stat_modifier": -0.25,
+          "appearance": "Noticeably overweight",
+          "color_scheme": "unhealthy",
+          "movement_speed": 0.6
+        },
+        
+        "food_focus": [
+          "very_low_calorie",
+          "high_volume_low_calorie",
+          "vegetables_only",
+          "strict_portions",
+          "calorie_tracking"
+        ],
+        
+        "recommended_foods": [
+          "vegetable_salad",
+          "steamed_vegetables",
+          "grilled_fish",
+          "light_meals",
+          "water",
+          "fruits_limited"
+        ],
+        
+        "forbidden_foods": [
+          "steak",
+          "all_you_can_eat",
+          "special_items",
+          "regular_meals",
+          "high_fat_foods",
+          "processed_foods"
+        ],
+        
+        "exercise_plan": {
+          "phase_1_weeks_1_4": {
+            "activity": "walking",
+            "frequency": "3-4x per week",
+            "duration": "20-30 minutes",
+            "calories_burned": 150
+          },
+          "phase_2_weeks_5_8": {
+            "activity": "walking_and_light_jogging",
+            "frequency": "4-5x per week",
+            "duration": "30-40 minutes",
+            "calories_burned": 250
+          },
+          "phase_3_weeks_9_plus": {
+            "cardio": {
+              "frequency": "5-6x per week",
+              "duration": "45-60 minutes",
+              "intensity": "moderate"
+            },
+            "strength": {
+              "frequency": "2x per week",
+              "duration": "20-30 minutes"
+            },
+            "calories_burned": 350
+          },
+          "total_weekly_calories_burned": 2000,
+          "note": "Medical supervision recommended"
+        },
+        
+        "weight_loss_plan": {
+          "target_loss_per_week": "1-2 kg",
+          "timeline_to_normal": "4-6 months",
+          "calorie_deficit": "-750 per day",
+          "medical_consultation": "Highly recommended"
+        },
+        
+        "price_modifier": 1.5,
+        "food_price_note": "High-calorie foods very expensive, low-calorie foods cheap"
+      },
+      
+      {
+        "category_id": "obese_level_2",
+        "name_th": "อ้วน ระดับ 2",
+        "name_en": "Obese Level 2",
+        "bmi_range": "35.0 - 39.9",
+        "color": "dark_red",
+        "emoji": "💀",
+        "health_status": "💀 Critical health risk",
+        
+        "primary_goal": "CRITICAL WEIGHT LOSS",
+        "calorie_adjustment": "-30%",
+        "calorie_multiplier": 0.70,
+        "daily_target_example": 1120,
+        
+        "character_effect": {
+          "size_percent": 125,
+          "stat_modifier": -0.4,
+          "appearance": "Very overweight, unhealthy",
+          "color_scheme": "dark_gray",
+          "movement_speed": 0.4
+        },
+        
+        "food_focus": [
+          "medical_diet",
+          "extreme_calorie_restriction",
+          "vegetables_only",
+          "professional_supervision"
+        ],
+        
+        "recommended_foods": [
+          "vegetable_salad",
+          "water",
+          "steamed_vegetables"
+        ],
+        
+        "forbidden_foods": [
+          "all_high_calorie_foods",
+          "all_special_items",
+          "all_regular_meals"
+        ],
+        
+        "exercise_plan": {
+          "note": "MEDICAL SUPERVISION REQUIRED",
+          "phase_1": {
+            "activity": "light_walking",
+            "frequency": "3x per week",
+            "duration": "15-20 minutes"
+          },
+          "progression": "Requires doctor approval"
+        },
+        
+        "weight_loss_plan": {
+          "requires_medical_supervision": true,
+          "medical_consultation": "ESSENTIAL",
+          "professional_guidance_required": true
+        },
+        
+        "price_modifier": 2.0,
+        "food_price_note": "Extreme pricing to discourage high-calorie foods"
+      },
+      
+      {
+        "category_id": "obese_level_3",
+        "name_th": "อ้วน ระดับ 3",
+        "name_en": "Obese Level 3",
+        "bmi_range": "40.0+",
+        "color": "darkest_red",
+        "emoji": "⚠️",
+        "health_status": "⚠️ Severe health crisis",
+        
+        "primary_goal": "EMERGENCY WEIGHT LOSS",
+        "calorie_adjustment": "-35%",
+        "calorie_multiplier": 0.65,
+        "daily_target_example": 1000,
+        
+        "character_effect": {
+          "size_percent": 130,
+          "stat_modifier": -0.5,
+          "appearance": "Critical condition",
+          "color_scheme": "gray_death",
+          "movement_speed": 0.3,
+          "health_warning": "CHARACTER IN DANGER"
+        },
+        
+        "food_focus": [
+          "hospital_diet",
+          "extreme_restriction",
+          "medical_only"
+        ],
+        
+        "recommended_foods": [
+          "water_only",
+          "medical_approved"
+        ],
+        
+        "forbidden_foods": [
+          "all_foods_except_medical"
+        ],
+        
+        "exercise_plan": {
+          "note": "HOSPITALIZATION RECOMMENDED",
+          "requires_emergency_care": true
+        },
+        
+        "weight_loss_plan": {
+          "requires_medical_emergency": true,
+          "hospital_admission": "Strongly recommended",
+          "professional_guidance_required": true
+        },
+        
+        "price_modifier": 3.0,
+        "food_price_note": "Nearly all foods extremely expensive or unavailable"
+      }
+    ],
+    
+    "bmr_calculation": {
+      "female_formula": "655 + (9.6 × weight_kg) + (1.8 × height_cm) - (4.7 × age_years)",
+      "male_formula": "66 + (13.7 × weight_kg) + (5 × height_cm) - (6.8 × age_years)",
+      
+      "activity_multipliers": {
+        "sedentary": 1.2,
+        "light": 1.375,
+        "moderate": 1.55,
+        "active": 1.725,
+        "very_active": 1.9
+      },
+      
+      "example": {
+        "profile": "Female, 16 years, 160 cm, 50 kg",
+        "bmr": 1350,
+        "activity_level": "light",
+        "daily_calorie_need": 1856,
+        "recommended_daily": 1850
+      }
+    },
+    
+    "food_recommendations_by_bmi": {
+      "underweight": {
+        "priority": "HIGH CALORIE",
+        "meal_frequency": "5-6 per day",
+        "strategy": "Eat calorie-dense foods between meals",
+        "foods": {
+          "fats": ["almonds", "avocado", "olive_oil", "salmon"],
+          "proteins": ["steak", "whole_milk", "cheese", "eggs"],
+          "carbs": ["pasta", "bread", "rice", "honey"],
+          "avoid": ["light_meals", "water_only"]
+        }
+      },
+      "normal": {
+        "priority": "BALANCED",
+        "meal_frequency": "3-4 per day",
+        "strategy": "Mix all food groups equally",
+        "foods": {
+          "proteins": ["chicken_breast", "fish", "tofu"],
+          "carbs": ["brown_rice", "whole_wheat"],
+          "vegetables": ["all_vegetables"],
+          "fruits": ["all_fruits"],
+          "dairy": ["low_fat_milk", "yogurt"]
+        }
+      },
+      "overweight": {
+        "priority": "LOW CALORIE",
+        "meal_frequency": "3 meals + 1 snack",
+        "strategy": "High volume, low calorie foods",
+        "foods": {
+          "vegetables": ["broccoli", "spinach", "celery", "cabbage"],
+          "proteins": ["skinless_chicken", "fish", "tofu"],
+          "avoid": ["fried_foods", "processed_snacks", "desserts", "high_fat_meats"]
+        }
+      },
+      "obese_level_1": {
+        "priority": "EXTREME LOW CALORIE",
+        "meal_frequency": "3 meals",
+        "strategy": "Portion control, track every calorie",
+        "foods": {
+          "vegetables": ["all_vegetables"],
+          "limit": ["fruits", "lean_proteins"],
+          "avoid": ["everything_else"]
+        }
+      }
+    },
+    
+    "exercise_recommendations_by_bmi": {
+      "underweight": {
+        "primary": "strength_training",
+        "goal": "build_muscle",
+        "weekly_schedule": {
+          "strength": "3x 45min",
+          "cardio": "2-3x 20-30min"
+        }
+      },
+      "normal": {
+        "primary": "mixed_training",
+        "goal": "maintain",
+        "weekly_schedule": {
+          "cardio": "3-4x 30-45min",
+          "strength": "2-3x 30-45min",
+          "flexibility": "1-2x 20-30min"
+        }
+      },
+      "overweight": {
+        "primary": "intensive_cardio",
+        "goal": "burn_calories",
+        "weekly_schedule": {
+          "cardio": "5-6x 45-60min",
+          "strength": "3x 30-40min"
+        }
+      },
+      "obese_level_1": {
+        "primary": "light_progressive",
+        "goal": "safe_weight_loss",
+        "phase_approach": true,
+        "weekly_schedule": {
+          "walking": "3-4x initially",
+          "progress": "gradual_increase"
+        }
+      }
+    }
+  }
+}

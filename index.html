@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1565c0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HealthGame">
+  <meta name="description" content="เกมสุขภาพสำหรับนักเรียน">
+  <link rel="manifest" href="manifest.json">
+  <title>Student Health Game 🎮</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN: ONBOARDING (BMI Setup)
+═══════════════════════════════════════════ -->
+<div id="screen-onboarding" class="screen active">
+  <div class="onboard-hero">
+    <div class="onboard-logo">🎮</div>
+    <h1 class="onboard-title">Student Health Game</h1>
+    <p class="onboard-sub" id="txt-onboard-sub">เกมสุขภาพสำหรับนักเรียน</p>
+  </div>
+
+  <div class="onboard-form-card">
+    <h2 class="form-title" id="txt-setup-title">⚙️ ตั้งค่าตัวละคร</h2>
+
+    <div class="form-group">
+      <label id="lbl-name">ชื่อเล่น</label>
+      <input type="text" id="input-name" placeholder="ใส่ชื่อของคุณ" maxlength="20">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label id="lbl-age">อายุ (ปี)</label>
+        <input type="number" id="input-age" placeholder="15" min="10" max="30" value="16">
+      </div>
+      <div class="form-group">
+        <label id="lbl-gender">เพศ</label>
+        <select id="input-gender">
+          <option value="F">หญิง ♀</option>
+          <option value="M">ชาย ♂</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label id="lbl-height">ส่วนสูง (cm)</label>
+        <input type="number" id="input-height" placeholder="160" min="100" max="220" value="160">
+      </div>
+      <div class="form-group">
+        <label id="lbl-weight">น้ำหนัก (kg)</label>
+        <input type="number" id="input-weight" placeholder="50" min="20" max="200" value="50">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label id="lbl-activity">ระดับกิจกรรม</label>
+      <select id="input-activity">
+        <option value="sedentary">นั่งนิ่ง ไม่ค่อยออกกำลัง</option>
+        <option value="light" selected>เบา (เดินเล็กน้อย)</option>
+        <option value="moderate">ปานกลาง (ออกกำลัง 3-4 วัน/สัปดาห์)</option>
+        <option value="active">มาก (ออกกำลังทุกวัน)</option>
+      </select>
+    </div>
+
+    <!-- BMI Preview -->
+    <div class="bmi-preview" id="bmi-preview" style="display:none">
+      <div class="bmi-number" id="preview-bmi-num">--</div>
+      <div class="bmi-label" id="preview-bmi-label">BMI</div>
+      <div class="bmi-category" id="preview-bmi-cat">--</div>
+      <div class="bmi-calorie" id="preview-calorie">เป้าหมายแคลอรี่: -- kcal/วัน</div>
+    </div>
+
+    <div class="form-error" id="form-error" style="display:none"></div>
+
+    <button class="btn-start" id="btn-start" onclick="startGame()">
+      🚀 <span id="txt-btn-start">เริ่มเกม!</span>
+    </button>
+
+    <div class="lang-toggle">
+      <button onclick="setLang('th')" id="btn-lang-th" class="lang-btn active">🇹🇭 TH</button>
+      <button onclick="setLang('en')" id="btn-lang-en" class="lang-btn">🇺🇸 EN</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN: MAIN GAME
+═══════════════════════════════════════════ -->
+<div id="screen-game" class="screen">
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <span class="player-name" id="hud-name">Sam</span>
+      <span class="player-level" id="hud-level">Lv.1</span>
+    </div>
+    <div class="top-bar-center">
+      <div class="xp-bar-wrap">
+        <div class="xp-bar-fill" id="hud-xp-bar" style="width:0%"></div>
+      </div>
+      <span class="xp-text" id="hud-xp-text">0 / 500 XP</span>
+    </div>
+    <div class="top-bar-right">
+      <span class="streak-badge" id="hud-streak">🔥 0</span>
+      <!-- Firebase Auth button (Phase 6) -->
+      <button class="auth-mini" id="auth-btn" onclick="toggleAuth()" title="Cloud Save">☁️</button>
+      <button class="lang-mini" onclick="toggleLang()">🌐</button>
+    </div>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content" id="tab-home">
+    <!-- Character Section -->
+    <div class="character-section">
+      <div class="character-display" id="character-display">
+        <div class="char-avatar" id="char-avatar">
+          <div class="char-body" id="char-body">
+            <div class="char-head" id="char-head">
+              <div class="char-face" id="char-face">😊</div>
+            </div>
+            <div class="char-torso" id="char-torso"></div>
+            <div class="char-legs" id="char-legs"></div>
+          </div>
+          <div class="char-aura" id="char-aura"></div>
+        </div>
+        <div class="char-info">
+          <div class="char-name" id="char-name">Sam</div>
+          <div class="char-title" id="char-title">ผู้เริ่มต้น</div>
+          <div class="bmi-badge" id="char-bmi-badge">BMI: --</div>
+        </div>
+      </div>
+
+      <!-- Active Life Events Banner (tags injected by renderLifeEvents) -->
+      <div class="life-events-banner" id="life-events-banner" style="display:none"></div>
+
+      <!-- Hunger Gauge -->
+      <div class="hunger-section">
+        <div class="gauge-label">
+          <span>🍽️ <span id="txt-hunger">ความหิว</span></span>
+          <span id="hunger-pct">50%</span>
+        </div>
+        <div class="gauge-bar">
+          <div class="gauge-fill hunger-fill" id="hunger-bar" style="width:50%"></div>
+        </div>
+        <div class="hunger-status" id="hunger-status">ปกติ</div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">❤️</div>
+          <div class="stat-name" id="txt-stat-health">สุขภาพ</div>
+          <div class="stat-value" id="stat-health">80</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💪</div>
+          <div class="stat-name" id="txt-stat-strength">พลัง</div>
+          <div class="stat-value" id="stat-strength">50</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏃</div>
+          <div class="stat-name" id="txt-stat-endurance">ความทน</div>
+          <div class="stat-value" id="stat-endurance">50</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🧠</div>
+          <div class="stat-name" id="txt-stat-intel">ปัญญา</div>
+          <div class="stat-value" id="stat-intelligence">60</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⚡</div>
+          <div class="stat-name" id="txt-stat-stamina">พลังงาน</div>
+          <div class="stat-value" id="stat-stamina">60</div>
+        </div>
+      </div>
+
+      <!-- Daily Calorie Tracker -->
+      <div class="calorie-tracker">
+        <div class="calorie-header">
+          <span>🔥 <span id="txt-calorie-today">แคลอรี่วันนี้</span></span>
+          <span id="calorie-display">0 / 1850 kcal</span>
+        </div>
+        <div class="gauge-bar">
+          <div class="gauge-fill calorie-fill" id="calorie-bar" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Fatigue Gauge -->
+      <div class="fatigue-section">
+        <div class="gauge-label">
+          <span>😴 <span id="txt-fatigue">ความล้า</span></span>
+          <span id="fatigue-pct">70%</span>
+        </div>
+        <div class="gauge-bar">
+          <div class="fatigue-fill" id="fatigue-bar" style="width:70%"></div>
+        </div>
+        <div class="fatigue-status" id="fatigue-status">พักผ่อนพอ</div>
+      </div>
+
+      <!-- Stress Gauge -->
+      <div class="stress-section">
+        <div class="gauge-label">
+          <span>😰 <span id="txt-stress">ความเครียด</span></span>
+          <span id="stress-pct">20%</span>
+        </div>
+        <div class="gauge-bar">
+          <div class="stress-fill" id="stress-bar" style="width:20%"></div>
+        </div>
+        <div class="stress-status" id="stress-status">ผ่อนคลาย</div>
+      </div>
+
+      <!-- Today at a Glance (Phase 7) -->
+      <div class="glance-card" id="glance-card">
+        <div class="glance-title" id="txt-glance-title">วันนี้ในภาพรวม</div>
+        <div class="glance-grid">
+          <div class="glance-item">
+            <span class="glance-icon">🍽️</span>
+            <span class="glance-val" id="glance-cal">—</span>
+            <span class="glance-lbl" id="txt-glance-cal">แคลอรี่</span>
+          </div>
+          <div class="glance-item">
+            <span class="glance-icon">😴</span>
+            <span class="glance-val" id="glance-sleep">—</span>
+            <span class="glance-lbl" id="txt-glance-sleep">นอน</span>
+          </div>
+          <div class="glance-item">
+            <span class="glance-icon">🏃</span>
+            <span class="glance-val" id="glance-ex">—</span>
+            <span class="glance-lbl" id="txt-glance-ex">ออกกำลัง</span>
+          </div>
+          <div class="glance-item">
+            <span class="glance-icon">💧</span>
+            <span class="glance-val" id="glance-water">—</span>
+            <span class="glance-lbl" id="txt-glance-water">น้ำ</span>
+          </div>
+          <div class="glance-item">
+            <span class="glance-icon">✅</span>
+            <span class="glance-val" id="glance-quests">—</span>
+            <span class="glance-lbl" id="txt-glance-quests">เควสต์</span>
+          </div>
+          <div class="glance-item">
+            <span class="glance-icon">⚖️</span>
+            <span class="glance-val" id="glance-weight">—</span>
+            <span class="glance-lbl" id="txt-glance-weight">น้ำหนัก</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Food Log -->
+      <div class="food-log-section">
+        <div class="food-log-header">
+          <span class="food-log-title">🍽️ บันทึกอาหารวันนี้</span>
+          <span class="food-log-total" id="food-log-total">0 kcal</span>
+        </div>
+        <div class="food-log-form">
+          <div class="food-search-wrap">
+            <input type="text" id="food-log-name" class="food-log-input" placeholder="🔍 ค้นหาอาหาร เช่น ข้าวผัด" maxlength="40" autocomplete="off">
+            <div class="food-search-dropdown" id="food-search-dropdown"></div>
+          </div>
+          <input type="number" id="food-log-kcal" class="food-log-kcal" placeholder="kcal" min="1" max="5000">
+          <select id="food-log-meal" class="food-log-meal">
+            <option value="breakfast">🌅 เช้า</option>
+            <option value="lunch" selected>☀️ กลางวัน</option>
+            <option value="dinner">🌙 เย็น</option>
+            <option value="snack">🍪 ว่าง</option>
+          </select>
+          <button class="food-log-btn" onclick="logCustomFood()">+ บันทึก</button>
+        </div>
+        <!-- Macro inputs row (optional) -->
+        <div class="macro-input-row">
+          <label class="macro-input-lbl">🥩</label>
+          <input type="number" id="food-log-protein" class="macro-inp" placeholder="P (g)" min="0" max="500">
+          <label class="macro-input-lbl">🍞</label>
+          <input type="number" id="food-log-carbs" class="macro-inp" placeholder="C (g)" min="0" max="500">
+          <label class="macro-input-lbl">🥑</label>
+          <input type="number" id="food-log-fat" class="macro-inp" placeholder="F (g)" min="0" max="300">
+          <span class="macro-optional-hint">ไม่บังคับ</span>
+        </div>
+        <div class="food-log-list" id="food-log-list"><!-- JS --></div>
+        <!-- Macro Summary -->
+        <div class="macro-summary" id="macro-summary" style="display:none">
+          <div class="macro-sum-title">📊 สัดส่วนสารอาหารวันนี้</div>
+          <div class="macro-bar-row">
+            <span class="macro-bar-lbl">🥩 โปรตีน</span>
+            <div class="macro-bar-track"><div class="macro-bar-fill macro-p" id="bar-protein"></div></div>
+            <span class="macro-bar-val" id="val-protein">0g</span>
+          </div>
+          <div class="macro-bar-row">
+            <span class="macro-bar-lbl">🍞 คาร์บ</span>
+            <div class="macro-bar-track"><div class="macro-bar-fill macro-c" id="bar-carbs"></div></div>
+            <span class="macro-bar-val" id="val-carbs">0g</span>
+          </div>
+          <div class="macro-bar-row">
+            <span class="macro-bar-lbl">🥑 ไขมัน</span>
+            <div class="macro-bar-track"><div class="macro-bar-fill macro-f" id="bar-fat"></div></div>
+            <span class="macro-bar-val" id="val-fat">0g</span>
+          </div>
+          <div class="macro-kcal-check" id="macro-kcal-check"></div>
+        </div>
+      </div>
+
+      <!-- Exercise Suggestion (shown when over calories) -->
+      <div id="exercise-suggest" style="display:none"></div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <button class="quick-btn" onclick="logExercise()">🏋️ <span id="txt-exercise">ออกกำลัง</span></button>
+        <button class="quick-btn" onclick="showTab('quests')">📋 <span id="txt-view-quests">ภารกิจ</span></button>
+        <button class="quick-btn" onclick="showSleepModal()">😴 <span id="txt-log-sleep">บันทึกนอน</span></button>
+        <button class="quick-btn" onclick="logWater()">💧 <span id="txt-log-water">บันทึกน้ำ</span></button>
+        <button class="quick-btn" onclick="showLifeEventModal()">📅 <span id="txt-life-events">เหตุการณ์</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Marketplace Tab -->
+  <div class="tab-content hidden" id="tab-marketplace">
+    <div class="tab-header">
+      <h2 id="txt-marketplace-title">🛒 ตลาดอาหาร</h2>
+      <div class="player-xp-display">
+        <span id="txt-balance">คงเหลือ:</span> <strong id="market-xp-balance">0 XP</strong>
+      </div>
+    </div>
+
+    <!-- Daily Special Banner -->
+    <div class="daily-special-banner" id="daily-special-banner" style="display:none">
+      <span class="special-star">⭐</span>
+      <span id="daily-special-text">วันพิเศษ!</span>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="category-filter" id="category-filter">
+      <button class="cat-btn active" data-cat="all" onclick="filterCategory(this,'all')">ทั้งหมด</button>
+      <button class="cat-btn" data-cat="instant_snacks" onclick="filterCategory(this,'instant_snacks')">🏃 ด่วน</button>
+      <button class="cat-btn" data-cat="light_meals" onclick="filterCategory(this,'light_meals')">🥗 เบา</button>
+      <button class="cat-btn" data-cat="regular_meals" onclick="filterCategory(this,'regular_meals')">🍜 ปกติ</button>
+      <button class="cat-btn" data-cat="heavy_meals" onclick="filterCategory(this,'heavy_meals')">🍖 หนัก</button>
+      <button class="cat-btn" data-cat="special_items" onclick="filterCategory(this,'special_items')">⭐ พิเศษ</button>
+    </div>
+
+    <!-- Smart Recommendation Strip (Phase 4) -->
+    <div class="food-rec-strip" id="food-rec-strip" style="display:none">
+      <div class="rec-header">
+        <span class="rec-icon">✨</span>
+        <span id="txt-rec-title">แนะนำสำหรับคุณ</span>
+        <span class="rec-strategy" id="rec-strategy"></span>
+      </div>
+      <div class="rec-foods" id="rec-foods"></div>
+    </div>
+
+    <!-- Food Grid -->
+    <div class="food-grid" id="food-grid">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- Quests Tab -->
+  <div class="tab-content hidden" id="tab-quests">
+    <div class="tab-header">
+      <h2 id="txt-quests-title">📋 ภารกิจประจำวัน</h2>
+      <div class="quest-date" id="quest-date"></div>
+    </div>
+    <div class="quest-summary" id="quest-summary">
+      <span id="txt-completed">สำเร็จ</span>: <strong id="quests-done">0</strong>/5
+      &nbsp;|&nbsp; <span id="txt-xp-earned">XP ได้รับ</span>: <strong id="quests-xp">0</strong>
+    </div>
+    <!-- Daily Mission Board (Phase 8) -->
+    <div class="mission-board" id="mission-board">
+      <div class="mission-board-header">
+        <span class="mission-board-title" id="txt-missions-title">🌟 ภารกิจพิเศษวันนี้</span>
+        <span class="mission-reset-label" id="txt-missions-reset">รีเซ็ตเที่ยงคืน</span>
+      </div>
+      <div class="mission-list" id="mission-list"><!-- JS --></div>
+      <div class="mission-chest hidden" id="mission-chest">
+        <div class="chest-icon">🎁</div>
+        <div class="chest-text" id="txt-mission-chest">ครบทุกภารกิจ! รับโบนัส</div>
+        <button class="chest-claim-btn" id="mission-chest-btn" onclick="claimMissionChest()"></button>
+      </div>
+    </div>
+
+    <div class="quest-list" id="quest-list">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Smart Exercise Tip (Phase 4) -->
+    <div class="ex-tip-card" id="ex-tip-card">
+      <div class="ex-tip-focus" id="ex-tip-focus"></div>
+      <div class="ex-tip-text" id="ex-tip-text"></div>
+      <div class="ex-tip-target" id="ex-tip-target"></div>
+    </div>
+
+    <!-- Exercise Logger -->
+    <div class="exercise-logger">
+      <h3 id="txt-exercise-log">🏋️ บันทึกออกกำลัง</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label id="lbl-ex-type">ประเภท</label>
+          <select id="ex-type" onchange="updateExercisePreview()">
+            <option value="walking">🚶 เดิน (4 kcal/นาที)</option>
+            <option value="running">🏃 วิ่ง (8 kcal/นาที)</option>
+            <option value="cycling">🚴 จักรยาน (6 kcal/นาที)</option>
+            <option value="swimming">🏊 ว่ายน้ำ (7 kcal/นาที)</option>
+            <option value="gym">🏋️ ฟิตเนส (5 kcal/นาที)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label id="lbl-ex-min">นาที</label>
+          <input type="number" id="ex-minutes" placeholder="30" min="1" max="300" value="30" oninput="updateExercisePreview()">
+        </div>
+      </div>
+      <!-- Live Preview (Phase 4) -->
+      <div class="ex-preview" id="ex-preview">
+        <span id="ex-preview-kcal">🔥 ~120 kcal</span>
+        <span class="ex-preview-tag" id="ex-preview-tag"></span>
+      </div>
+      <button class="btn-log-ex" onclick="doLogExercise()" id="btn-log-ex">🔥 บันทึก</button>
+    </div>
+  </div>
+
+  <!-- Shop Tab -->
+  <div class="tab-content hidden" id="tab-shop">
+    <div class="tab-header">
+      <h2 id="txt-shop-title">🏪 ร้านค้า XP</h2>
+      <div class="player-xp-display">
+        <span id="txt-balance2">คงเหลือ:</span> <strong id="shop-xp-balance">0 XP</strong>
+      </div>
+    </div>
+
+    <!-- Shop Category Filter -->
+    <div class="category-filter">
+      <button class="cat-btn active" onclick="filterShop(this,'all')">ทั้งหมด</button>
+      <button class="cat-btn" onclick="filterShop(this,'power_ups')">💪 พลัง</button>
+      <button class="cat-btn" onclick="filterShop(this,'perks')">✨ พิเศษ</button>
+      <button class="cat-btn" onclick="filterShop(this,'cosmetics')">🎨 ตกแต่ง</button>
+      <button class="cat-btn" onclick="filterShop(this,'gear')" id="btn-shop-gear">⚙️ อุปกรณ์</button>
+    </div>
+
+    <div class="shop-grid" id="shop-grid">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- Profile Tab -->
+  <div class="tab-content hidden" id="tab-profile">
+    <div class="tab-header">
+      <h2 id="txt-profile-title">👤 โปรไฟล์</h2>
+    </div>
+
+    <div class="profile-card">
+      <div class="profile-avatar" id="profile-avatar">🧑</div>
+      <div class="profile-info">
+        <div class="profile-name" id="profile-name">Sam</div>
+        <div class="profile-title-text" id="profile-title-text">ผู้เริ่มต้น</div>
+      </div>
+    </div>
+
+    <div class="stats-list">
+      <div class="stat-row"><span>📊 BMI</span><strong id="profile-bmi">--</strong></div>
+      <div class="stat-row"><span id="txt-p-category">หมวด</span><strong id="profile-category">--</strong></div>
+      <div class="stat-row"><span id="txt-p-calorie">เป้าหมายแคลอรี่</span><strong id="profile-calorie">-- kcal</strong></div>
+      <div class="stat-row"><span>⭐ <span id="txt-p-level">เลเวล</span></span><strong id="profile-level">1</strong></div>
+      <div class="stat-row"><span>🎯 <span id="txt-p-totalxp">Total XP</span></span><strong id="profile-totalxp">0</strong></div>
+      <div class="stat-row"><span>🔥 <span id="txt-p-streak">Streak</span></span><strong id="profile-streak">0 วัน</strong></div>
+      <div class="stat-row"><span>📅 <span id="txt-p-playdays">วันที่เล่น</span></span><strong id="profile-playdays">0 วัน</strong></div>
+      <div class="stat-row"><span>⚖️ <span id="txt-p-weight">น้ำหนัก</span></span><strong id="profile-weight">-- kg</strong></div>
+    </div>
+
+    <!-- Weekly Summary -->
+    <div class="week-summary-card" id="week-summary-card">
+      <div class="ws-header">📊 <span id="txt-week-summary">สรุปสัปดาห์นี้</span></div>
+      <div class="ws-grid">
+        <div class="ws-stat">
+          <div class="ws-icon">🔥</div>
+          <div class="ws-val" id="ws-avg-cal">—</div>
+          <div class="ws-lbl" id="txt-ws-avg-cal">แคลอรี่เฉลี่ย</div>
+        </div>
+        <div class="ws-stat">
+          <div class="ws-icon">😴</div>
+          <div class="ws-val" id="ws-avg-sleep">—</div>
+          <div class="ws-lbl" id="txt-ws-avg-sleep">นอนเฉลี่ย</div>
+        </div>
+        <div class="ws-stat">
+          <div class="ws-icon">🏋️</div>
+          <div class="ws-val" id="ws-total-ex">—</div>
+          <div class="ws-lbl" id="txt-ws-total-ex">ออกกำลัง</div>
+        </div>
+        <div class="ws-stat">
+          <div class="ws-icon">✅</div>
+          <div class="ws-val" id="ws-quest-days">—</div>
+          <div class="ws-lbl" id="txt-ws-quest-days">เควสต์ครบ</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics Charts -->
+    <div class="analytics-section">
+      <div class="analytics-header">
+        <span id="txt-analytics-title">📈 กราฟ 7 วัน</span>
+      </div>
+      <div class="analytics-tabs">
+        <button class="atab active" onclick="switchAnalyticsTab(this,'calories')" id="atab-cal">🔥 แคลอรี่</button>
+        <button class="atab" onclick="switchAnalyticsTab(this,'sleep')" id="atab-sleep">😴 นอน</button>
+        <button class="atab" onclick="switchAnalyticsTab(this,'exercise')" id="atab-ex">🏋️ ออกกำลัง</button>
+      </div>
+      <div class="analytics-chart" id="analytics-chart"></div>
+    </div>
+
+    <!-- Weight Tracker -->
+    <div class="weight-tracker">
+      <div class="wt-header">
+        <span>📊 <span id="txt-weight-section">ติดตามน้ำหนัก</span></span>
+        <button class="btn-log-weight" onclick="showWeightModal()" id="btn-log-weight">⚖️ <span id="txt-log-weight">บันทึก</span></button>
+      </div>
+      <div class="wt-stats">
+        <div class="wstat"><div class="wstat-lbl" id="txt-wstat-current">ปัจจุบัน</div><div class="wstat-val" id="weight-current">—</div></div>
+        <div class="wstat"><div class="wstat-lbl" id="txt-wstat-start">เริ่มต้น</div><div class="wstat-val" id="weight-start">—</div></div>
+        <div class="wstat"><div class="wstat-lbl" id="txt-wstat-change">เปลี่ยน</div><div class="wstat-val" id="weight-change">—</div></div>
+        <div class="wstat"><div class="wstat-lbl" id="txt-wstat-trend">แนวโน้ม</div><div class="wstat-val" id="weight-trend">—</div></div>
+      </div>
+      <div class="wt-chart" id="weight-chart"></div>
+    </div>
+
+    <!-- Achievement Gallery -->
+    <div class="ach-section">
+      <div class="ach-header">
+        <span>🏆 <span id="txt-achievements">ความสำเร็จ</span></span>
+        <span class="ach-count" id="achievement-count">0/21</span>
+      </div>
+      <div class="ach-filter" id="ach-filter-bar">
+        <button class="cat-btn active" onclick="filterAchievements(this,'all')" id="txt-ach-all">ทั้งหมด</button>
+        <button class="cat-btn" onclick="filterAchievements(this,'unlocked')" id="txt-ach-unlocked">✅ ได้แล้ว</button>
+        <button class="cat-btn" onclick="filterAchievements(this,'locked')" id="txt-ach-locked">🔒 ยังไม่ได้</button>
+      </div>
+      <div class="ach-grid" id="achievement-grid"></div>
+    </div>
+
+    <!-- Cosmetics Wardrobe -->
+    <div class="wardrobe-section" id="wardrobe-section">
+      <h3 id="txt-wardrobe">🎨 ตู้เสื้อผ้า</h3>
+      <div class="equipped-display" id="equipped-items"></div>
+      <h4 id="txt-owned-items">ไอเทมที่มี</h4>
+      <div class="owned-items-grid" id="owned-items"></div>
+    </div>
+
+    <!-- BMI Health Info -->
+    <div class="health-advice-card" id="health-advice">
+      <h3 id="txt-advice-title">💡 คำแนะนำสุขภาพ</h3>
+      <div id="advice-content"></div>
+    </div>
+
+    <!-- Leaderboard (Phase 6) -->
+    <div class="leaderboard-section" id="leaderboard-section" style="display:none">
+      <div class="lb-header">
+        <span>🏅 <span id="txt-lb-title">อันดับชั้นเรียน</span></span>
+        <button class="lb-refresh-btn" onclick="loadLeaderboard()" id="btn-lb-refresh">🔄</button>
+      </div>
+      <div class="lb-list" id="lb-list">
+        <!-- populated by JS -->
+      </div>
+    </div>
+
+    <!-- Cloud Sync Status (Phase 6) -->
+    <div class="cloud-status-bar" id="cloud-status-bar" style="display:none">
+      <span class="cloud-status-icon" id="cloud-status-icon">☁️</span>
+      <span class="cloud-status-text" id="cloud-status-text">เชื่อมต่อ Cloud</span>
+      <button class="btn-signout" onclick="doSignOut()" id="btn-signout">
+        <span id="txt-signout">ออกจากระบบ</span>
+      </button>
+    </div>
+
+    <!-- Export & Backup (Phase 5) -->
+    <div class="export-section">
+      <div class="export-header">
+        <span>📤 <span id="txt-export-title">ส่งออกข้อมูล</span></span>
+      </div>
+      <div class="export-grid">
+        <button class="export-btn" onclick="exportCSV()">
+          <span class="export-btn-icon">📊</span>
+          <span class="export-btn-label" id="txt-export-csv">CSV ประวัติ</span>
+          <span class="export-btn-sub" id="txt-export-csv-sub">7 วันล่าสุด</span>
+        </button>
+        <button class="export-btn" onclick="exportSaveJSON()">
+          <span class="export-btn-icon">💾</span>
+          <span class="export-btn-label" id="txt-export-json">สำรองข้อมูล</span>
+          <span class="export-btn-sub" id="txt-export-json-sub">ไฟล์ .json</span>
+        </button>
+        <button class="export-btn" onclick="triggerImport()">
+          <span class="export-btn-icon">📂</span>
+          <span class="export-btn-label" id="txt-import-json">นำเข้า</span>
+          <span class="export-btn-sub" id="txt-import-json-sub">กู้คืนข้อมูล</span>
+        </button>
+        <button class="export-btn" onclick="copyHealthCard()">
+          <span class="export-btn-icon">📋</span>
+          <span class="export-btn-label" id="txt-copy-card">คัดลอกรายงาน</span>
+          <span class="export-btn-sub" id="txt-copy-card-sub">แชร์ได้เลย</span>
+        </button>
+      </div>
+      <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="importSaveJSON(event)">
+    </div>
+
+    <!-- Notification Settings -->
+    <div class="notif-section" id="notif-section">
+      <div class="notif-header-row">
+        <span class="notif-section-title">🔔 การแจ้งเตือน</span>
+        <div class="notif-master-wrap">
+          <span class="notif-permission-badge" id="notif-permission-badge">ยังไม่ได้เปิด</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="notif-master-toggle" onchange="setNotifEnabled(this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+      <div class="notif-permission-hint" id="notif-permission-hint"></div>
+      <div class="notif-list" id="notif-list"><!-- JS rendered --></div>
+    </div>
+
+    <div class="profile-actions">
+      <button class="btn-danger" onclick="confirmReset()" id="btn-reset">🔄 เริ่มใหม่</button>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" id="nav-home" onclick="showTab('home')">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label" id="txt-nav-home">หน้าหลัก</span>
+    </button>
+    <button class="nav-btn" id="nav-marketplace" onclick="showTab('marketplace')">
+      <span class="nav-icon">🛒</span>
+      <span class="nav-label" id="txt-nav-market">ตลาด</span>
+    </button>
+    <button class="nav-btn" id="nav-quests" onclick="showTab('quests')">
+      <span class="nav-icon">📋</span>
+      <span class="nav-label" id="txt-nav-quests">ภารกิจ</span>
+    </button>
+    <button class="nav-btn" id="nav-shop" onclick="showTab('shop')">
+      <span class="nav-icon">🏪</span>
+      <span class="nav-label" id="txt-nav-shop">ร้าน</span>
+    </button>
+    <button class="nav-btn" id="nav-profile" onclick="showTab('profile')">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label" id="txt-nav-profile">โปรไฟล์</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TOAST NOTIFICATION
+═══════════════════════════════════════════ -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════════════════════
+     LEVEL UP MODAL
+═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="levelup-modal" style="display:none">
+  <div class="modal-card levelup-card">
+    <div class="levelup-star">⭐</div>
+    <h2 id="txt-levelup">เลเวลอัพ!</h2>
+    <div class="levelup-num" id="levelup-num">Lv.2</div>
+    <div class="levelup-title" id="levelup-title">นักเรียน</div>
+    <div class="levelup-stats" id="levelup-stats"></div>
+    <button onclick="closeLevelUp()">✨ <span id="txt-continue">ดำเนินต่อ</span></button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     FOOD BUY MODAL
+═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="food-modal" style="display:none">
+  <div class="modal-card">
+    <div class="food-modal-icon" id="food-modal-icon">🍗</div>
+    <h3 id="food-modal-name">Chicken Rice</h3>
+    <div class="food-modal-detail" id="food-modal-detail"></div>
+    <div class="food-modal-price" id="food-modal-price"></div>
+    <div class="food-modal-btns">
+      <button class="btn-cancel" onclick="closeFoodModal()">❌ <span id="txt-cancel">ยกเลิก</span></button>
+      <button class="btn-confirm" id="btn-food-buy" onclick="confirmBuyFood()">✅ <span id="txt-buy">ซื้อ</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SLEEP MODAL
+═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="sleep-modal" style="display:none">
+  <div class="modal-card" style="text-align:left">
+    <h3 id="txt-sleep-modal-title" style="text-align:center;margin-bottom:16px">😴 บันทึกการนอนหลับ</h3>
+    <div class="form-group">
+      <label id="lbl-sleep-hours">ชั่วโมงที่นอนคืนนี้</label>
+      <input type="number" id="sleep-hours" min="0" max="12" value="7" step="0.5">
+    </div>
+    <div class="form-group">
+      <label id="lbl-sleep-quality">คุณภาพการนอน</label>
+      <select id="sleep-quality">
+        <option value="good" id="opt-sleep-good">😊 ดี — หลับสนิทตลอดคืน</option>
+        <option value="normal" selected id="opt-sleep-normal">😐 ปกติ</option>
+        <option value="poor" id="opt-sleep-poor">😟 ไม่ดี — ฝันร้าย/ตื่นกลางดึก</option>
+      </select>
+    </div>
+    <div class="food-modal-btns">
+      <button class="btn-cancel" onclick="closeSleepModal()">❌ <span id="txt-cancel2">ยกเลิก</span></button>
+      <button class="btn-confirm" onclick="confirmLogSleep()">✅ <span id="txt-sleep-save">บันทึก</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     WEIGHT LOG MODAL
+═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="weight-modal" style="display:none">
+  <div class="modal-card" style="text-align:left">
+    <h3 id="txt-weight-modal-title" style="text-align:center;margin-bottom:16px">⚖️ บันทึกน้ำหนัก</h3>
+    <div class="form-group">
+      <label id="lbl-weight-log">น้ำหนัก (kg)</label>
+      <input type="number" id="weight-log-input" min="20" max="200" step="0.1" placeholder="50.0">
+    </div>
+    <div class="food-modal-btns">
+      <button class="btn-cancel" onclick="closeWeightModal()">❌ <span id="txt-cancel-weight">ยกเลิก</span></button>
+      <button class="btn-confirm" onclick="confirmLogWeight()">✅ <span id="txt-weight-save">บันทึก</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     LIFE EVENTS MODAL
+═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="life-event-modal" style="display:none">
+  <div class="modal-card">
+    <h3 id="txt-life-event-title">📅 เหตุการณ์ชีวิตนักเรียน</h3>
+    <p id="txt-life-event-sub" style="font-size:12px;color:var(--text2);margin:6px 0 12px">เลือกเหตุการณ์ที่กำลังเกิดขึ้น</p>
+    <div class="life-events-grid" id="life-events-grid"></div>
+    <button class="btn-close-modal" onclick="closeLifeEventModal()" id="btn-close-event">✅ ปิด</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════ -->
+<!-- Firebase SDK (Phase 6) — compat v9 -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="i18n.js"></script>
+<script src="modules/bmiModule.js"></script>
+<script src="modules/characterModule.js"></script>
+<script src="modules/hungerModule.js"></script>
+<script src="modules/marketplaceModule.js"></script>
+<script src="modules/questModule.js"></script>
+<script src="modules/xpModule.js"></script>
+<script src="modules/streakModule.js"></script>
+<script src="modules/sleepModule.js"></script>
+<script src="modules/stressModule.js"></script>
+<script src="modules/weightModule.js"></script>
+<script src="modules/achievementModule.js"></script>
+<script src="modules/historyModule.js"></script>
+<script src="modules/intelligenceModule.js"></script>
+<script src="modules/firebaseModule.js"></script>
+<script src="modules/missionModule.js"></script>
+<script src="modules/gearModule.js"></script>
+<script src="modules/notificationModule.js"></script>
+<script src="data/foodDatabase.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
