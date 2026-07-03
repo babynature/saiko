@@ -52,7 +52,17 @@ const QUEST_DEFINITIONS = [
   },
 ];
 
-const EXERCISE_KCAL_PER_MIN = { walking: 4, running: 8, cycling: 6, swimming: 7, gym: 5 };
+const EXERCISE_KCAL_PER_MIN = {
+  walking: 4,      brisk_walk: 5,
+  jogging: 7,      running: 8,      hiit: 11,
+  cycling: 6,      cycling_hard: 9,
+  swimming: 7,
+  gym: 5,          weight_train: 5, bodyweight: 5,
+  badminton: 6,    tennis: 7,       football: 7,
+  basketball: 7,   volleyball: 5,   muay_thai: 9,   court_sport: 7,
+  aerobic: 6,      jump_rope: 10,   dancing: 5,     hiking: 5,
+  yoga: 3,         stretching: 2,
+};
 
 class QuestModule {
   constructor() {
