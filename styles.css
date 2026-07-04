@@ -1941,6 +1941,9 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   border-top: none;
   padding: 12px 14px 14px;
   margin-bottom: 12px;
+  /* always open — no accordion toggle */
+  max-height: none !important;
+  overflow: visible !important;
 }
 
 #panel-exercise {

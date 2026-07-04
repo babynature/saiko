@@ -481,13 +481,9 @@ function updateExercisePreview() {
   }
 }
 
-function toggleFoodLog() {
-  const panel = document.getElementById('panel-food');
-  const card  = document.getElementById('tc-food');
-  if (!panel) return;
-  const isOpen = panel.classList.contains('panel-open');
-  panel.classList.toggle('panel-open', !isOpen);
-  card?.classList.toggle('tc-card-open', !isOpen);
+function focusFoodSearch() {
+  const inp = document.getElementById('food-log-name');
+  if (inp) { inp.focus(); inp.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
 }
 
 function toggleExerciseLog() {
