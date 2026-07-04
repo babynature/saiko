@@ -2398,7 +2398,12 @@ function renderFoodLog() {
   if (totalEl) totalEl.textContent = `${total.toLocaleString()} / ${goal.toLocaleString()} kcal`;
 
   if (!log.length) {
-    listEl.innerHTML = '<div class="food-log-empty">ยังไม่มีรายการ — บันทึกอาหารด้านบน</div>';
+    listEl.innerHTML = `
+      <div class="food-log-empty">
+        <div class="food-log-empty-icon">🍽️</div>
+        <div class="food-log-empty-msg">ยังไม่มีรายการวันนี้</div>
+        <div class="food-log-empty-hint">↑ ค้นหาหรือพิมพ์อาหารด้านบน</div>
+      </div>`;
     return;
   }
 
@@ -2410,13 +2415,13 @@ function renderFoodLog() {
 
     const macroHtml = entry.hasMacros
       ? `<div class="flog-macros">
-           <span class="flog-macro-p">P ${entry.protein}g</span> &nbsp;
-           <span class="flog-macro-c">C ${entry.carbs}g</span> &nbsp;
-           <span class="flog-macro-f">F ${entry.fat}g</span>
+           <span class="flog-macro-p"><span class="flog-macro-lbl">P</span>${entry.protein}g</span>
+           <span class="flog-macro-c"><span class="flog-macro-lbl">C</span>${entry.carbs}g</span>
+           <span class="flog-macro-f"><span class="flog-macro-lbl">F</span>${entry.fat}g</span>
          </div>`
       : '';
 
-    row.className = 'food-log-row' + (entry.hasMacros ? ' has-macros' : '');
+    row.className = `food-log-row meal-${entry.mealType || 'lunch'}` + (entry.hasMacros ? ' has-macros' : '');
     row.innerHTML = `
       <span class="flog-meal">${MEAL_LABELS[entry.mealType] || '🍽️'}</span>
       <span class="flog-name">${_escHtml(entry.name)}</span>
