@@ -65,9 +65,12 @@ function _syncFoodLogDateNav() {
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   const yesterdayStr = yesterday.toISOString().slice(0, 10);
-  if (!_foodLogViewDate)          labelEl.textContent = 'วันนี้';
+  if (!_foodLogViewDate)             labelEl.textContent = 'วันนี้';
   else if (viewing === yesterdayStr) labelEl.textContent = 'เมื่อวาน';
-  else                               labelEl.textContent = 'ย้อนหลัง';
+  else {
+    const dLabel = new Date(viewing + 'T12:00:00');
+    labelEl.textContent = dLabel.toLocaleDateString('th-TH', { weekday: 'long' });
+  }
 
   // Full date sub-label
   const dObj = new Date(viewing + 'T12:00:00');
@@ -128,6 +131,8 @@ function _renderFoodLogForDate() {
       ${macroHtml}`;
     listEl.appendChild(row);
   });
+
+  renderFoodWeekChart();
 }
 
 function _loadFoodFreq() {
@@ -176,6 +181,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const saved = loadGame();
   if (saved) {
+    _saveFoodLogHistory(); // backfill today's snapshot for date nav history
     showScreen('game');
     questModule.init();
     streakModule.checkIn(questModule.countCompleted(characterModule.get('dailyCalorie')));
@@ -796,6 +802,7 @@ function detectMealType() {
 // QUESTS
 // ═══════════════════════════════════════════
 function renderQuests() {
+  questModule.init(); // resets progress if the day has changed
   const dailyCal = characterModule.get('dailyCalorie');
   const quests   = questModule.getAll();
   const done     = questModule.countCompleted(dailyCal);
@@ -1390,7 +1397,7 @@ function renderExerciseSuggest() {
   const goal   = characterModule.get('dailyCalorie') || 2000;
   const excess = Math.round(net - goal);
 
-  if (excess < 50) { el.style.display = 'none'; return; }
+  if (excess < 150) { el.style.display = 'none'; return; }
   el.style.display = 'block';
 
   const now    = new Date();
@@ -2769,6 +2776,8 @@ function renderFoodLog() {
   const totalEl = document.getElementById('food-log-total');
   if (!listEl) return;
 
+  _syncFoodLogDateNav(); // keep date nav in sync on every render
+
   const log   = hungerModule.getTodayFoodLog();
   const total = log.reduce((s, e) => s + e.kcal, 0);
   const goal  = characterModule.get('dailyCalorie') || 2000;
@@ -2831,6 +2840,56 @@ function renderFoodLog() {
       setTimeout(() => newest.classList.remove('flog-new'), 350);
     }
   }
+
+  renderFoodWeekChart();
+}
+
+function renderFoodWeekChart() {
+  const el = document.getElementById('flog-week-chart');
+  if (!el) return;
+
+  const goal = characterModule.get('dailyCalorie') || 2000;
+  const days = historyModule.getRecent(6); // up to 6 past days
+  const todayStr = _todayStr();
+
+  // Build 7-slot array: 6 history days + today
+  const slots = [];
+  for (let i = 6; i >= 1; i--) {
+    const d = new Date(todayStr + 'T12:00:00');
+    d.setDate(d.getDate() - i);
+    const ds = d.toISOString().slice(0, 10);
+    const hist = days.find(x => x.date === ds);
+    slots.push({ label: d.toLocaleDateString('th-TH', { weekday: 'short' }), kcal: hist ? hist.caloriesEaten : null, isToday: false });
+  }
+  const todayKcal = hungerModule.caloriesEaten || 0;
+  slots.push({ label: 'วันนี้', kcal: todayKcal, isToday: true });
+
+  const maxKcal = Math.max(...slots.map(s => s.kcal || 0), goal);
+
+  el.innerHTML = `
+    <div class="fwc-wrap">
+      <div class="fwc-title">7 วันล่าสุด</div>
+      <div class="fwc-bars">
+        ${slots.map(s => {
+          const pct = s.kcal != null ? Math.min(100, Math.round(s.kcal / maxKcal * 100)) : 0;
+          const overGoal = s.kcal != null && s.kcal > goal;
+          const hasData  = s.kcal != null && s.kcal > 0;
+          const fillClass = s.isToday ? 'fwc-today' : overGoal ? 'fwc-over' : 'fwc-ok';
+          return `
+            <div class="fwc-col${s.isToday ? ' fwc-col-today' : ''}">
+              <div class="fwc-bar-wrap">
+                <div class="fwc-goal-line" style="bottom:${Math.min(100,Math.round(goal/maxKcal*100))}%"></div>
+                <div class="fwc-fill ${fillClass}" style="height:${pct}%" title="${hasData ? s.kcal+' kcal' : 'ไม่มีข้อมูล'}"></div>
+              </div>
+              <div class="fwc-lbl">${s.label}</div>
+              ${hasData ? `<div class="fwc-val">${(s.kcal/1000).toFixed(1)}k</div>` : `<div class="fwc-val fwc-val-empty">—</div>`}
+            </div>`;
+        }).join('')}
+      </div>
+      <div class="fwc-legend">
+        <span class="fwc-leg-dot fwc-leg-goal"></span><span>เป้า ${goal.toLocaleString()} kcal</span>
+      </div>
+    </div>`;
 }
 
 function renderMacroSummary() {
