@@ -204,7 +204,6 @@ class CustomFoodModule {
 
 window.customFoodModule = new CustomFoodModule();
 
-// Inject after FOOD_DB is ready (runs after all scripts load)
-document.addEventListener('DOMContentLoaded', () => {
-  customFoodModule._injectToFoodDB();
-});
+// foodDatabase.js loads before this file — FOOD_DB is already available here.
+// Constructor also calls _injectToFoodDB(); this second call is harmless (idempotent).
+if (window.FOOD_DB) customFoodModule._injectToFoodDB();

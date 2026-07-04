@@ -79,6 +79,18 @@ class NotificationModule {
 
   // ── Scheduling ───────────────────────────────────────────────────
 
+  // Smart checks: skip notification if user already logged that day
+  _mealLogged(mealKey) {
+    try {
+      const log = window.hungerModule?.getTodayFoodLog() || [];
+      return log.some(e => e.mealType === mealKey);
+    } catch { return false; }
+  }
+
+  _exercisedToday() {
+    try { return (window.hungerModule?.caloriesBurned || 0) > 0; } catch { return false; }
+  }
+
   scheduleAll() {
     this.cancelAll();
     if (!this.isSupported() || Notification.permission !== 'granted') return;
@@ -90,7 +102,13 @@ class NotificationModule {
       if (!rem.on) return;
       const ms = this._msUntilTime(rem.time);
       const id = setTimeout(() => {
-        this._send(rem.title, rem.body);
+        // Smart skip: don't notify if already done
+        const skip =
+          (key === 'breakfast' && this._mealLogged('breakfast')) ||
+          (key === 'lunch'     && this._mealLogged('lunch'))     ||
+          (key === 'dinner'    && this._mealLogged('dinner'))    ||
+          (key === 'exercise'  && this._exercisedToday());
+        if (!skip) this._send(rem.title, rem.body);
         // Reschedule for tomorrow
         const nextId = setTimeout(() => this.scheduleAll(), 60000);
         this._timers.push(nextId);

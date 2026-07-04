@@ -185,6 +185,14 @@ function startGame() {
   if (!weight || weight < 20 || weight > 200) { showFormError(t('err_weight')); return; }
 
   characterModule.initFromSetup(name, age, gender, height, weight, act);
+
+  // Apply goal-based calorie adjustment
+  const goal = document.getElementById('input-goal')?.value || 'maintain';
+  const goalAdj = { cut: -300, maintain: 0, bulk: 200 };
+  const base = characterModule.get('dailyCalorie');
+  characterModule.data.dailyCalorie = Math.max(1200, base + (goalAdj[goal] || 0));
+  characterModule.data.goal = goal;
+
   window._xpBalance = 100; // starting XP bonus
   weightModule.startWeight = weight;
   weightModule.startDate   = new Date().toISOString().slice(0, 10);
@@ -2549,13 +2557,25 @@ function renderAnalyticsChart() {
 
   // ── Macro stacked chart (separate render path) ──
   if (type === 'macro') {
-    const hasAny = days.some(d => (d.macroProtein || 0) + (d.macroCarbs || 0) + (d.macroFat || 0) > 0);
+    // Merge today's live macros into the snapshot array
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const liveMacro = hungerModule.getMacroTotals?.() || hungerModule.macroTotals || {};
+    const liveHasData = (liveMacro.protein||0)+(liveMacro.carbs||0)+(liveMacro.fat||0) > 0;
+    const effectiveDays = days.map(d => {
+      if (d.date === todayStr && liveHasData)
+        return { ...d, macroProtein: liveMacro.protein||0, macroCarbs: liveMacro.carbs||0, macroFat: liveMacro.fat||0 };
+      return d;
+    });
+    if (liveHasData && !days.find(d => d.date === todayStr))
+      effectiveDays.push({ date: todayStr, macroProtein: liveMacro.protein||0, macroCarbs: liveMacro.carbs||0, macroFat: liveMacro.fat||0 });
+
+    const hasAny = effectiveDays.some(d => (d.macroProtein||0)+(d.macroCarbs||0)+(d.macroFat||0) > 0);
     if (!hasAny) {
       container.innerHTML = `<div class="ac-empty">ยังไม่มีข้อมูลแมโคร — บันทึกอาหารพร้อมระบุ P/C/F</div>`;
       return;
     }
-    const maxG = Math.max(...days.map(d => (d.macroProtein||0)+(d.macroCarbs||0)+(d.macroFat||0)), 150);
-    days.forEach(day => {
+    const maxG = Math.max(...effectiveDays.map(d => (d.macroProtein||0)+(d.macroCarbs||0)+(d.macroFat||0)), 150);
+    effectiveDays.forEach(day => {
       const p  = day.macroProtein || 0;
       const c  = day.macroCarbs   || 0;
       const f  = day.macroFat     || 0;
@@ -2904,25 +2924,30 @@ function renderWeightSection() {
   trEl.textContent  = latest ? trendIcon : '—';
   trEl.style.color  = trendColor;
 
-  // Mini bar chart (7 days)
+  // Bar chart (14 days)
   chart.innerHTML = '';
-  const recent = weightModule.getRecent(7);
-  if (recent.length < 1) { chart.style.display = 'none'; return; }
+  const recent = weightModule.getRecent(14);
+  if (recent.length < 1) {
+    chart.style.display = 'block';
+    chart.innerHTML = `<div class="wc-nodata">ยังไม่มีข้อมูลน้ำหนัก — กด ⚖️ บันทึก เพื่อเริ่มติดตาม</div>`;
+    return;
+  }
   chart.style.display = 'flex';
 
   const weights = recent.map(l => l.weight);
   const minW    = Math.min(...weights);
   const maxW    = Math.max(...weights);
-  const range   = maxW - minW || 0.01;
+  const range   = maxW - minW || 0.5;
 
   recent.forEach(log => {
-    const barH = Math.round(((log.weight - minW) / range) * 44 + 12);
+    const barH = Math.round(((log.weight - minW) / range) * 64 + 16);
     const mm   = log.date.slice(5).replace('-', '/');
     const col  = document.createElement('div');
     col.className = 'wc-col';
+    const isLatest = log.date === recent[recent.length - 1].date;
     col.innerHTML = `
       <div class="wc-weight">${log.weight}</div>
-      <div class="wc-bar" style="height:${barH}px"></div>
+      <div class="wc-bar${isLatest ? ' wc-bar-today' : ''}" style="height:${barH}px"></div>
       <div class="wc-date">${mm}</div>
     `;
     chart.appendChild(col);
