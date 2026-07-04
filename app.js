@@ -2788,12 +2788,17 @@ function renderMealSuggest() {
   if (cDef > 30) reasons.push(`คาร์บยังขาด ~${Math.round(cDef)}g`);
   const hint = reasons.length ? ` · ${reasons.join(' · ')}` : '';
 
+  const isOpen = localStorage.getItem('shg-ms-open') === '1';
+  const collapseClass = isOpen ? '' : ' collapsed';
+  const toggleLabel   = isOpen ? 'ซ่อน ▲' : 'ดู ▼';
+
   el.style.display = 'block';
   el.innerHTML = `
-    <div class="ms-card">
-      <div class="ms-header">
-        <span class="ms-title">🍽️ แนะนำมื้อถัดไป</span>
+    <div class="ms-card${collapseClass}" id="ms-card">
+      <div class="ms-header" onclick="toggleMealSuggest()">
+        <span class="ms-title">💡 แนะนำมื้อถัดไป</span>
         <span class="ms-sub">เหลือ ${remain.toLocaleString()} kcal${hint}</span>
+        <button class="ms-toggle" id="ms-toggle-btn">${toggleLabel}</button>
       </div>
       <div class="ms-list">
         ${picks.map((f, i) => `
@@ -2808,6 +2813,15 @@ function renderMealSuggest() {
           </div>`).join('')}
       </div>
     </div>`;
+}
+
+function toggleMealSuggest() {
+  const card = document.getElementById('ms-card');
+  const btn  = document.getElementById('ms-toggle-btn');
+  if (!card || !btn) return;
+  const opening = card.classList.toggle('collapsed') === false;
+  btn.textContent = opening ? 'ซ่อน ▲' : 'ดู ▼';
+  localStorage.setItem('shg-ms-open', opening ? '1' : '0');
 }
 
 function fillFoodFromSuggest(idx) {
