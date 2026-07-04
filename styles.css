@@ -2099,14 +2099,19 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 }
 .flog-del:hover { opacity: 1; color: #ef4444; }
 
-/* Mobile: stack form 2+2 */
-@media (max-width: 380px) {
+/* Mobile: search full-width row 1, kcal+meal+save row 2 */
+@media (max-width: 500px) {
   .food-log-form {
-    grid-template-columns: 1fr 72px;
+    grid-template-columns: 72px 1fr auto;
     grid-template-rows: auto auto;
+    gap: 6px;
   }
-  .food-log-meal { grid-column: 1; }
-  .food-log-btn  { grid-column: 2; }
+  /* Search+icon row spans all 3 columns */
+  .food-log-form > div:first-child { grid-column: 1 / -1; }
+  /* Row 2: kcal col-1, meal col-2, save col-3 */
+  .food-log-kcal { grid-column: 1; }
+  .food-log-meal { grid-column: 2; }
+  .food-log-btn  { grid-column: 3; white-space: nowrap; }
 }
 
 /* ═══════════════════════════════════════════
