@@ -128,7 +128,7 @@ function showTab(tabId) {
   const navBtn = document.getElementById('nav-' + tabId);
   if (navBtn) navBtn.classList.add('active');
 
-  if (tabId === 'home')        { renderGlance(); renderFoodLog(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderExerciseSuggest(); initFoodSearch(); }
+  if (tabId === 'home')        { renderGlance(); renderFoodLog(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderExerciseSuggest(); initFoodSearch(); updateExercisePreview(); }
   if (tabId === 'marketplace') renderMarketplace();
   if (tabId === 'quests')      { renderQuests(); renderMissions(); renderExerciseTip(); updateExercisePreview(); }
   if (tabId === 'shop')        renderShop();
