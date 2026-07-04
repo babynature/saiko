@@ -228,6 +228,38 @@ function startGame() {
   showScreen('game');
   renderAll();
   showToast(`🎮 ยินดีต้อนรับ ${name}! เริ่มเกมได้เลย!`, 'success');
+  setTimeout(() => _showFirstRunGuide(name), 600);
+}
+
+function _showFirstRunGuide(name) {
+  if (localStorage.getItem('shg-firstrun-done')) return;
+  localStorage.setItem('shg-firstrun-done', '1');
+
+  const overlay = document.createElement('div');
+  overlay.className = 'firstrun-overlay';
+  overlay.innerHTML = `
+    <div class="firstrun-sheet">
+      <div class="firstrun-emoji">👋</div>
+      <div class="firstrun-title">สวัสดี ${_escHtml(name)}!</div>
+      <div class="firstrun-sub">เริ่มต้น 3 ขั้นตอนง่าย ๆ เพื่อดูแลสุขภาพของคุณ</div>
+      <div class="firstrun-steps">
+        <div class="firstrun-step">
+          <div class="firstrun-step-num">1</div>
+          <div class="firstrun-step-text">บันทึก <strong>อาหาร</strong> ที่กินวันนี้ → ได้ XP ทันที</div>
+        </div>
+        <div class="firstrun-step">
+          <div class="firstrun-step-num">2</div>
+          <div class="firstrun-step-text">ดื่ม <strong>น้ำ</strong> ให้ครบเป้าหมายรายวัน</div>
+        </div>
+        <div class="firstrun-step">
+          <div class="firstrun-step-num">3</div>
+          <div class="firstrun-step-text">เก็บ <strong>Quest</strong> ให้ครบ → รับ XP พิเศษ</div>
+        </div>
+      </div>
+      <button class="firstrun-btn" onclick="this.closest('.firstrun-overlay').remove()">เริ่มเลย! 🚀</button>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
 }
 
 function showFormError(msg) {
@@ -649,6 +681,19 @@ function renderQuests() {
 
   const list = document.getElementById('quest-list');
   list.innerHTML = '';
+
+  // All-done celebration banner
+  const allClaimed = quests.length > 0 && quests.every(q => questModule.isClaimed(q.id));
+  if (allClaimed) {
+    const banner = document.createElement('div');
+    banner.className = 'empty-state';
+    banner.style.cssText = 'background:rgba(34,197,94,.06);border-radius:12px;border:1px solid rgba(34,197,94,.2);margin-bottom:12px;';
+    banner.innerHTML = `
+      <div class="empty-state-icon">🏆</div>
+      <div class="empty-state-msg" style="color:#4ade80">เก็บทุก Quest วันนี้แล้ว!</div>
+      <div class="empty-state-hint">มาพบกันใหม่พรุ่งนี้ — Quest จะรีเซ็ตทุกวัน</div>`;
+    list.appendChild(banner);
+  }
 
   quests.forEach(q => {
     const prog    = questModule.getProgress(q.id);
@@ -2614,10 +2659,10 @@ function renderFoodLog() {
 
   if (!log.length) {
     listEl.innerHTML = `
-      <div class="food-log-empty">
-        <div class="food-log-empty-icon">🍽️</div>
-        <div class="food-log-empty-msg">ยังไม่มีรายการวันนี้</div>
-        <div class="food-log-empty-hint">↑ ค้นหาหรือพิมพ์อาหารด้านบน</div>
+      <div class="empty-state">
+        <div class="empty-state-icon">🍽️</div>
+        <div class="empty-state-msg">ยังไม่มีรายการวันนี้</div>
+        <div class="empty-state-hint">↑ ค้นหาหรือพิมพ์อาหารด้านบน</div>
       </div>`;
     return;
   }

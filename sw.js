@@ -1,5 +1,5 @@
-// sw.js — Service Worker (Phase 10)
-const CACHE = 'shg-v10';
+// sw.js — Service Worker (Phase 11)
+const CACHE = 'shg-v11';
 const ASSETS = [
   '/', '/index.html', '/styles.css', '/i18n.js', '/app.js',
   '/firebase-config.js',
