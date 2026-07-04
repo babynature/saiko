@@ -2491,14 +2491,9 @@ function initFoodSearch() {
     _activeIdx = idx;
   }
 
-  // Show frequent foods on focus when input is empty
-  input.addEventListener('focus', () => {
-    if (!input.value.trim()) openFreqDrop();
-  });
-
   input.addEventListener('input', () => {
     const q = input.value.trim();
-    if (!q || !window.FOOD_DB) { closeDrop(); if (!q) openFreqDrop(); return; }
+    if (!q || !window.FOOD_DB) { closeDrop(); return; }
     const lower = q.toLowerCase();
     // Postel's Law: accept multi-word search (e.g. "ข้าว กระเพรา" matches "ข้าวผัดกระเพรา")
     const terms = lower.split(/\s+/).filter(Boolean);
