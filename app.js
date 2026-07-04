@@ -317,8 +317,8 @@ function renderCalorieBar() {
   const net    = hungerModule.getNetCalories();
   const pct    = hungerModule.getCaloriePct(target);
   document.getElementById('calorie-bar').style.width = pct + '%';
-  document.getElementById('calorie-display').textContent =
-    `${net.toLocaleString()} / ${target.toLocaleString()} kcal`;
+  document.getElementById('calorie-display').innerHTML =
+    `<strong>${net.toLocaleString()}</strong><span class="calorie-goal-text"> / ${target.toLocaleString()} kcal</span>`;
 }
 
 // ═══════════════════════════════════════════
@@ -2069,6 +2069,9 @@ function renderFatigue() {
   document.getElementById('fatigue-pct').textContent    = f + '%';
   document.getElementById('fatigue-status').textContent =
     f >= 70 ? 'มีพลังงาน' : f >= 40 ? 'พอใช้' : 'เหนื่อยล้า';
+  // Refactoring UI: "Don't rely on color alone" — icon changes shape/meaning
+  const iconEl = document.getElementById('fatigue-icon');
+  if (iconEl) iconEl.textContent = f >= 70 ? '⚡' : f >= 40 ? '😐' : '🥱';
 }
 
 // ═══════════════════════════════════════════
@@ -2083,6 +2086,9 @@ function renderStress() {
   document.getElementById('stress-pct').textContent    = s + '%';
   document.getElementById('stress-status').textContent =
     s <= 30 ? 'ผ่อนคลาย' : s <= 60 ? 'เครียดพอควร' : 'เครียดมาก';
+  // Refactoring UI: "Don't rely on color alone" — icon changes shape/meaning
+  const iconEl = document.getElementById('stress-icon');
+  if (iconEl) iconEl.textContent = s <= 30 ? '😌' : s <= 60 ? '😤' : '🤯';
 }
 
 // ═══════════════════════════════════════════

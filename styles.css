@@ -27,6 +27,14 @@
   --shadow:    0 4px 20px rgba(0,0,0,0.4);
   --shadow-lg: 0 8px 40px rgba(0,0,0,0.6);
 
+  /* Type scale — Refactoring UI: "Establish a type scale" (6 sizes only) */
+  --text-xs:  11px;
+  --text-sm:  13px;
+  --text-md:  15px;
+  --text-lg:  18px;
+  --text-xl:  22px;
+  --text-2xl: 28px;
+
   /* Meal type accent colors (Refactoring UI: accent borders) */
   --meal-breakfast: #60a5fa;
   --meal-lunch:     #4ade80;
@@ -316,13 +324,25 @@ html, body {
   padding: 14px;
   border: 1px solid var(--border);
 }
+/* Refactoring UI: "Size isn't everything" — % is the data (hero), label is supporting */
 .gauge-label {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
-  color: var(--text2);
+  align-items: baseline;
   margin-bottom: 8px;
+}
+.gauge-label > span:first-child {
+  font-size: var(--text-xs);
+  color: var(--text3);
   font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.gauge-label > span:last-child {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
 }
 .hunger-status {
   text-align: right;
@@ -352,7 +372,8 @@ html, body {
 .stats-grid .stat-card:nth-child(4) { border-top-color: #3b82f6; }
 .stats-grid .stat-card:nth-child(5) { border-top-color: #a78bfa; }
 .stat-icon { font-size: 18px; }
-.stat-name { font-size: 10px; color: var(--text3); margin: 3px 0 2px; }
+/* Refactoring UI: "Use letter-spacing effectively" — small labels need letter-spacing */
+.stat-name { font-size: var(--text-xs); color: var(--text3); margin: 3px 0 2px; letter-spacing: 0.5px; }
 .stat-value { font-size: 16px; font-weight: 800; color: var(--text); }
 
 /* ═══ CALORIE TRACKER ═══ */
@@ -362,13 +383,26 @@ html, body {
   padding: 14px;
   border: 1px solid var(--border);
 }
+/* Refactoring UI: "Labels are a last resort" — current kcal = hero, /goal = supporting */
 .calorie-header {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
+  align-items: baseline;
+  font-size: var(--text-xs);
   font-weight: 600;
-  color: var(--text2);
+  color: var(--text3);
+  letter-spacing: 0.4px;
   margin-bottom: 8px;
+}
+#calorie-display > strong {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+}
+.calorie-goal-text {
+  font-size: var(--text-xs);
+  color: var(--text3);
+  font-weight: 400;
 }
 
 /* ═══ QUICK ACTIONS ═══ */
@@ -673,7 +707,7 @@ html, body {
 }
 .nav-btn.active { color: var(--primary); }
 .nav-icon { font-size: 20px; }
-.nav-label { font-size: 10px; font-weight: 600; }
+.nav-label { font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.3px; }
 
 /* ═══ TOAST ═══ */
 .toast {
@@ -1840,9 +1874,10 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 }
 
 .food-log-title {
-  font-size: 14px;
+  font-size: var(--text-sm);
   font-weight: 700;
   color: var(--text);
+  letter-spacing: 0.2px;
 }
 
 .food-log-total {
@@ -1878,18 +1913,29 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 .food-log-kcal  { text-align: center; }
 .food-log-meal  { padding: 8px 6px; }
 
+/* Refactoring UI: "Semantics are secondary" — primary action gets elevation */
 .food-log-btn {
   background: var(--primary);
   color: #fff;
   border: none;
   border-radius: 8px;
   padding: 8px 14px;
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(108,99,255,0.45);
+  transition: box-shadow 0.15s, transform 0.1s;
 }
-.food-log-btn:active { opacity: .8; }
+.food-log-btn:active { box-shadow: none; transform: scale(0.97); }
+
+/* Secondary scan/custom buttons — outline only, not competing with primary */
+.bc-scan-trigger {
+  background: transparent !important;
+  border: 1.5px solid rgba(74,222,128,.35) !important;
+  color: rgba(74,222,128,.75) !important;
+  box-shadow: none !important;
+}
 
 /* Log list */
 /* Refactoring UI: "Don't overlook empty states" — engaging instead of plain text */

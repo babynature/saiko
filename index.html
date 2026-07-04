@@ -202,7 +202,7 @@
       <!-- Fatigue Gauge -->
       <div class="fatigue-section">
         <div class="gauge-label">
-          <span>😴 <span id="txt-fatigue">ความล้า</span></span>
+          <span><span id="fatigue-icon">😴</span> <span id="txt-fatigue">ความล้า</span></span>
           <span id="fatigue-pct">70%</span>
         </div>
         <div class="gauge-bar">
@@ -214,7 +214,7 @@
       <!-- Stress Gauge -->
       <div class="stress-section">
         <div class="gauge-label">
-          <span>😰 <span id="txt-stress">ความเครียด</span></span>
+          <span><span id="stress-icon">😌</span> <span id="txt-stress">ความเครียด</span></span>
           <span id="stress-pct">20%</span>
         </div>
         <div class="gauge-bar">
@@ -273,7 +273,7 @@
               <div class="food-search-dropdown" id="food-search-dropdown"></div>
             </div>
             <button class="bc-scan-trigger" onclick="barcodeModule.openScanner()" title="สแกน Barcode">📷</button>
-            <button class="bc-scan-trigger" onclick="customFoodModule.openModal()" title="เพิ่มอาหารของฉัน" style="background:rgba(108,99,255,0.2);color:#a78bfa">➕</button>
+            <button class="bc-scan-trigger" onclick="customFoodModule.openModal()" title="เพิ่มอาหารของฉัน" style="background:transparent!important;border-color:rgba(167,139,250,.3)!important;color:rgba(167,139,250,.6)!important">➕</button>
           </div>
           <input type="number" id="food-log-kcal" class="food-log-kcal" placeholder="kcal" min="1" max="5000">
           <select id="food-log-meal" class="food-log-meal">
