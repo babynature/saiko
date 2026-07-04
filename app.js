@@ -5,6 +5,27 @@ const SAVE_KEY = 'shg-v1';
 // ═══ PENDING FOOD PURCHASE (for modal) ═══
 let _pendingFood = null;
 let _currentTabId = 'home';
+let _foodFreq = {};
+
+function _loadFoodFreq() {
+  try { _foodFreq = JSON.parse(localStorage.getItem('shg-food-freq') || '{}'); } catch { _foodFreq = {}; }
+}
+function _saveFoodFreq() {
+  try { localStorage.setItem('shg-food-freq', JSON.stringify(_foodFreq)); } catch {}
+}
+function _trackFoodFreq(name) {
+  if (!name) return;
+  _foodFreq[name] = (_foodFreq[name] || 0) + 1;
+  _saveFoodFreq();
+}
+function _getFrequentFoods(n) {
+  if (!window.FOOD_DB) return [];
+  return Object.entries(_foodFreq)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, n)
+    .map(([name]) => FOOD_DB.find(f => f.name === name))
+    .filter(Boolean);
+}
 let _marketFilter = 'all';
 let _shopFilter = 'all';
 
@@ -128,7 +149,7 @@ function showTab(tabId) {
   const navBtn = document.getElementById('nav-' + tabId);
   if (navBtn) navBtn.classList.add('active');
 
-  if (tabId === 'home')        { renderGlance(); renderFoodLog(); renderExerciseCard(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderExerciseSuggest(); initFoodSearch(); updateExercisePreview(); }
+  if (tabId === 'home')        { renderGlance(); renderFoodLog(); renderExerciseCard(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderNearGoalBanner(); renderExerciseSuggest(); initFoodSearch(); updateExercisePreview(); }
   if (tabId === 'marketplace') renderMarketplace();
   if (tabId === 'quests')      { renderQuests(); renderMissions(); renderExerciseTip(); updateExercisePreview(); }
   if (tabId === 'shop')        renderShop();
@@ -225,7 +246,7 @@ window.renderAll = function() {
   renderLifeEvents();
   renderStats();
   renderCalorieBar();
-  if (_currentTabId === 'home')        { renderGlance(); renderFoodLog(); renderExerciseCard(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderExerciseSuggest(); initFoodSearch(); }
+  if (_currentTabId === 'home')        { renderGlance(); renderFoodLog(); renderExerciseCard(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderNearGoalBanner(); renderExerciseSuggest(); initFoodSearch(); }
   if (_currentTabId === 'marketplace') renderMarketplace();
   if (_currentTabId === 'quests')      { renderQuests(); renderMissions(); renderExerciseTip(); }
   if (_currentTabId === 'shop')        renderShop();
@@ -1525,11 +1546,49 @@ function renderProfile() {
 // ═══════════════════════════════════════════
 // XP AWARD
 // ═══════════════════════════════════════════
+function renderNearGoalBanner() {
+  const el = document.getElementById('near-goal-banner');
+  if (!el) return;
+  const msgs = [];
+
+  // Water goal
+  const glasses     = waterModule.getGlasses();
+  const goalGlasses = waterModule.getGoalGlasses();
+  const waterLeft   = goalGlasses - glasses;
+  if (waterLeft > 0 && waterLeft <= 3 && glasses > 0) {
+    msgs.push(`<div class="ng-item ng-water"><span class="ng-icon">💧</span>อีก ${waterLeft} แก้ว ครบเป้าน้ำ!</div>`);
+  } else if (waterLeft <= 0 && glasses > 0) {
+    msgs.push(`<div class="ng-item ng-water-done"><span class="ng-icon">💧</span>ครบเป้าน้ำ ${goalGlasses} แก้วแล้ว! 🎉</div>`);
+  }
+
+  // Calorie goal
+  const eaten = hungerModule.caloriesEaten || 0;
+  const goal  = characterModule.get('dailyCalorie') || 2000;
+  const kcalLeft = goal - eaten;
+  if (kcalLeft > 0 && eaten >= goal * 0.75) {
+    msgs.push(`<div class="ng-item ng-calorie"><span class="ng-icon">🎯</span>อีก ${kcalLeft.toLocaleString()} kcal ครบเป้าวันนี้!</div>`);
+  } else if (eaten >= goal) {
+    msgs.push(`<div class="ng-item ng-calorie-done"><span class="ng-icon">✅</span>ครบเป้าแคลอรี่ ${goal.toLocaleString()} kcal แล้ว!</div>`);
+  }
+
+  if (!msgs.length) { el.innerHTML = ''; el.style.display = 'none'; return; }
+  el.style.display = 'block';
+  el.innerHTML = msgs.join('');
+}
+
 function awardXP(amount, source) {
   const sleepMult  = sleepModule.getXPMultiplier();
   const eventBonus = stressModule.getXPBonus(source || 'all');
-  const final = Math.max(1, Math.round(amount * sleepMult * eventBonus));
 
+  // Variable reward: random lucky multiplier for food & exercise
+  let luckyMult = 1, luckyLabel = '';
+  if (source === 'log food' || source === 'exercise') {
+    const roll = Math.random();
+    if (roll < 0.02)       { luckyMult = 3; luckyLabel = '🎉 LUCKY! 3×'; }
+    else if (roll < 0.12)  { luckyMult = 2; luckyLabel = '✨ Lucky! 2×'; }
+  }
+
+  const final = Math.max(1, Math.round(amount * sleepMult * eventBonus * luckyMult));
   const result = characterModule.addExp(final);
   window._xpBalance = (window._xpBalance || 0) + final;
   checkAchievements('xp', {});
@@ -1537,8 +1596,24 @@ function awardXP(amount, source) {
     checkAchievements('level', {});
     setTimeout(() => { showLevelUp(); renderAll(); }, 200);
   }
+  if (luckyLabel) {
+    setTimeout(() => {
+      showToast(`${luckyLabel} XP! +${final} XP`, 'success');
+      _showLuckyFloat(luckyLabel);
+    }, 350);
+  }
   renderHUD();
-  return { gained: final, levelUp: result.levelUp };
+  return { gained: final, levelUp: result.levelUp, lucky: luckyMult > 1 };
+}
+
+function _showLuckyFloat(label) {
+  const el = document.createElement('div');
+  el.className = 'lucky-float';
+  el.textContent = label + ' ⭐';
+  el.style.left = (30 + Math.random() * 40) + '%';
+  el.style.top  = '60%';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1500);
 }
 
 // ═══════════════════════════════════════════
@@ -2269,28 +2344,40 @@ function initFoodSearch() {
   const drop  = document.getElementById('food-search-dropdown');
   if (!input || !drop || input._fsInit) return;
   input._fsInit = true;
+  _loadFoodFreq();
 
   let _activeIdx = -1;
 
-  function openDrop(items) {
+  function renderItems(items, header) {
+    return (header ? `<div class="fsd-freq-header">${header}</div>` : '') +
+      items.map((f, i) =>
+        `<div class="fsd-item" data-idx="${i}" onclick="selectFood(${i})">
+          <span class="fsd-emoji">${f.emoji || '🍽️'}</span>
+          <div class="fsd-info">
+            <div class="fsd-name">${f.name}</div>
+            <div class="fsd-portion">${f.portion || ''}</div>
+          </div>
+          <span class="fsd-kcal">${f.kcal} kcal</span>
+        </div>`
+      ).join('');
+  }
+
+  function openDrop(items, header) {
     _activeIdx = -1;
     if (!items.length) {
       drop.innerHTML = '<div class="fsd-no-result">ไม่พบอาหาร — พิมพ์ชื่อเองได้เลย</div>';
       drop.classList.add('open');
       return;
     }
-    drop.innerHTML = items.map((f, i) =>
-      `<div class="fsd-item" data-idx="${i}" onclick="selectFood(${i})">
-        <span class="fsd-emoji">${f.emoji || '🍽️'}</span>
-        <div class="fsd-info">
-          <div class="fsd-name">${f.name}</div>
-          <div class="fsd-portion">${f.portion || ''}</div>
-        </div>
-        <span class="fsd-kcal">${f.kcal} kcal</span>
-      </div>`
-    ).join('');
+    drop.innerHTML = renderItems(items, header);
     drop.classList.add('open');
     drop._items = items;
+  }
+
+  function openFreqDrop() {
+    const freq = _getFrequentFoods(5);
+    if (!freq.length) return;
+    openDrop(freq, '🕐 บ่อยๆ');
   }
 
   function closeDrop() {
@@ -2309,12 +2396,21 @@ function initFoodSearch() {
     _activeIdx = idx;
   }
 
+  // Show frequent foods on focus when input is empty
+  input.addEventListener('focus', () => {
+    if (!input.value.trim()) openFreqDrop();
+  });
+
   input.addEventListener('input', () => {
     const q = input.value.trim();
-    if (!q || !window.FOOD_DB) { closeDrop(); return; }
+    if (!q || !window.FOOD_DB) { closeDrop(); if (!q) openFreqDrop(); return; }
     const lower = q.toLowerCase();
-    const starts  = FOOD_DB.filter(f => f.name.toLowerCase().startsWith(lower));
+    const starts   = FOOD_DB.filter(f => f.name.toLowerCase().startsWith(lower));
     const contains = FOOD_DB.filter(f => !f.name.toLowerCase().startsWith(lower) && f.name.toLowerCase().includes(lower));
+    // sort each group by frequency desc
+    const byFreq = f => _foodFreq[f.name] || 0;
+    starts.sort((a, b) => byFreq(b) - byFreq(a));
+    contains.sort((a, b) => byFreq(b) - byFreq(a));
     const results = [...starts, ...contains].slice(0, 8);
     openDrop(results);
   });
@@ -2396,6 +2492,7 @@ function logCustomFood() {
   }
 
   const entry = hungerModule.logCustomFood(name || 'อาหาร', kcal, mealType, macros);
+  _trackFoodFreq(entry.name);
   questModule.update('meal_logged', mealType);
   questModule.update('calories_net', hungerModule.getNetCalories());
   checkAchievements('meal', {});
