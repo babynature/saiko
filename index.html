@@ -260,83 +260,86 @@
         </div>
       </div>
 
-      <!-- Paired Tracker Cards -->
-      <div class="tracker-pair">
-        <div class="tracker-card tc-card-open" id="tc-food" onclick="focusFoodSearch()">
-          <div class="tc-header">
-            <span class="tc-icon">🍽️</span>
-            <span class="tc-title">อาหารวันนี้</span>
-            <span class="tc-chevron" style="font-size:9px;opacity:.5">＋</span>
-          </div>
-          <div class="tc-total" id="food-log-total">0 kcal</div>
-          <div class="tc-sub" id="tc-food-items">0 รายการ</div>
-        </div>
-        <div class="tracker-card" id="tc-exercise" onclick="toggleExerciseLog()">
-          <div class="tc-header">
-            <span class="tc-icon">🏋️</span>
-            <span class="tc-title">ออกกำลัง</span>
-            <span class="tc-chevron" id="tc-ex-chevron">▼</span>
-          </div>
-          <div class="tc-total" id="tc-ex-burned">−0 kcal</div>
-          <div class="tc-sub" id="tc-ex-sub">ยังไม่ออกกำลัง</div>
-        </div>
-      </div>
-
-      <!-- Food Log Panel (accordion) -->
-      <div class="tracker-form-panel" id="panel-food">
-        <div class="food-log-form">
-          <div style="display:flex;gap:6px;align-items:flex-start">
-            <div class="food-search-wrap">
-              <input type="text" id="food-log-name" class="food-log-input" placeholder="🔍 ค้นหาอาหาร เช่น ข้าวผัด" maxlength="40" autocomplete="off">
-              <div class="food-search-dropdown" id="food-search-dropdown"></div>
+      <!-- Paired Tracker Cards + Food Dropdown -->
+      <div class="tracker-wrap">
+        <div class="tracker-pair">
+          <div class="tracker-card" id="tc-food" onclick="toggleFoodLog()">
+            <div class="tc-header">
+              <span class="tc-icon">🍽️</span>
+              <span class="tc-title">อาหารวันนี้</span>
+              <span class="tc-chevron" id="tc-food-chevron">▼</span>
             </div>
-            <button class="bc-scan-trigger" onclick="barcodeModule.openScanner()" title="สแกน Barcode">📷</button>
-            <button class="bc-scan-trigger" onclick="customFoodModule.openModal()" title="เพิ่มอาหารของฉัน" style="background:transparent!important;border-color:rgba(167,139,250,.3)!important;color:rgba(167,139,250,.6)!important">➕</button>
+            <div class="tc-total" id="food-log-total">0 kcal</div>
+            <div class="tc-sub" id="tc-food-items">0 รายการ</div>
           </div>
-          <input type="number" id="food-log-kcal" class="food-log-kcal" placeholder="kcal" min="1" max="5000">
-          <select id="food-log-meal" class="food-log-meal">
-            <option value="breakfast">🌅 เช้า</option>
-            <option value="lunch" selected>☀️ กลางวัน</option>
-            <option value="dinner">🌙 เย็น</option>
-            <option value="snack">🍪 ว่าง</option>
-          </select>
-          <button class="food-log-btn" onclick="logCustomFood()">+ บันทึก</button>
+          <div class="tracker-card" id="tc-exercise" onclick="toggleExerciseLog()">
+            <div class="tc-header">
+              <span class="tc-icon">🏋️</span>
+              <span class="tc-title">ออกกำลัง</span>
+              <span class="tc-chevron" id="tc-ex-chevron">▼</span>
+            </div>
+            <div class="tc-total" id="tc-ex-burned">−0 kcal</div>
+            <div class="tc-sub" id="tc-ex-sub">ยังไม่ออกกำลัง</div>
+          </div>
         </div>
-        <!-- Macro inputs row (optional) -->
-        <div class="macro-input-row">
-          <label class="macro-input-lbl">🥩</label>
-          <input type="number" id="food-log-protein" class="macro-inp" placeholder="P (g)" min="0" max="500">
-          <label class="macro-input-lbl">🍞</label>
-          <input type="number" id="food-log-carbs" class="macro-inp" placeholder="C (g)" min="0" max="500">
-          <label class="macro-input-lbl">🥑</label>
-          <input type="number" id="food-log-fat" class="macro-inp" placeholder="F (g)" min="0" max="300">
-          <span class="macro-optional-hint">ไม่บังคับ</span>
-        </div>
-        <div class="food-log-list" id="food-log-list"><!-- JS --></div>
-        <!-- Meal Suggestion (shown when calories remain) -->
-        <div id="meal-suggest" style="display:none"></div>
 
-        <!-- Macro Summary -->
-        <div class="macro-summary" id="macro-summary" style="display:none">
-          <div class="macro-sum-title">📊 สัดส่วนสารอาหารวันนี้</div>
-          <div class="macro-bar-row">
-            <span class="macro-bar-lbl">🥩 โปรตีน</span>
-            <div class="macro-bar-track"><div class="macro-bar-fill macro-p" id="bar-protein"></div></div>
-            <span class="macro-bar-val" id="val-protein">0g</span>
+        <!-- Food Dropdown (overlay — does NOT shift layout below) -->
+        <div id="panel-food">
+          <div class="food-log-form">
+            <div style="display:flex;gap:6px;align-items:flex-start">
+              <div class="food-search-wrap">
+                <input type="text" id="food-log-name" class="food-log-input" placeholder="🔍 ค้นหาอาหาร เช่น ข้าวผัด" maxlength="40" autocomplete="off">
+                <div class="food-search-dropdown" id="food-search-dropdown"></div>
+              </div>
+              <button class="bc-scan-trigger" onclick="barcodeModule.openScanner()" title="สแกน Barcode">📷</button>
+              <button class="bc-scan-trigger" onclick="customFoodModule.openModal()" title="เพิ่มอาหารของฉัน" style="background:transparent!important;border-color:rgba(167,139,250,.3)!important;color:rgba(167,139,250,.6)!important">➕</button>
+            </div>
+            <input type="number" id="food-log-kcal" class="food-log-kcal" placeholder="kcal" min="1" max="5000">
+            <select id="food-log-meal" class="food-log-meal">
+              <option value="breakfast">🌅 เช้า</option>
+              <option value="lunch" selected>☀️ กลางวัน</option>
+              <option value="dinner">🌙 เย็น</option>
+              <option value="snack">🍪 ว่าง</option>
+            </select>
+            <button class="food-log-btn" onclick="logCustomFood()">+ บันทึก</button>
           </div>
-          <div class="macro-bar-row">
-            <span class="macro-bar-lbl">🍞 คาร์บ</span>
-            <div class="macro-bar-track"><div class="macro-bar-fill macro-c" id="bar-carbs"></div></div>
-            <span class="macro-bar-val" id="val-carbs">0g</span>
+          <!-- Macro inputs row (optional) -->
+          <div class="macro-input-row">
+            <label class="macro-input-lbl">🥩</label>
+            <input type="number" id="food-log-protein" class="macro-inp" placeholder="P (g)" min="0" max="500">
+            <label class="macro-input-lbl">🍞</label>
+            <input type="number" id="food-log-carbs" class="macro-inp" placeholder="C (g)" min="0" max="500">
+            <label class="macro-input-lbl">🥑</label>
+            <input type="number" id="food-log-fat" class="macro-inp" placeholder="F (g)" min="0" max="300">
+            <span class="macro-optional-hint">ไม่บังคับ</span>
           </div>
-          <div class="macro-bar-row">
-            <span class="macro-bar-lbl">🥑 ไขมัน</span>
-            <div class="macro-bar-track"><div class="macro-bar-fill macro-f" id="bar-fat"></div></div>
-            <span class="macro-bar-val" id="val-fat">0g</span>
+          <div class="food-log-list" id="food-log-list"><!-- JS --></div>
+          <!-- Meal Suggestion -->
+          <div id="meal-suggest" style="display:none"></div>
+          <!-- Macro Summary -->
+          <div class="macro-summary" id="macro-summary" style="display:none">
+            <div class="macro-sum-title">📊 สัดส่วนสารอาหารวันนี้</div>
+            <div class="macro-bar-row">
+              <span class="macro-bar-lbl">🥩 โปรตีน</span>
+              <div class="macro-bar-track"><div class="macro-bar-fill macro-p" id="bar-protein"></div></div>
+              <span class="macro-bar-val" id="val-protein">0g</span>
+            </div>
+            <div class="macro-bar-row">
+              <span class="macro-bar-lbl">🍞 คาร์บ</span>
+              <div class="macro-bar-track"><div class="macro-bar-fill macro-c" id="bar-carbs"></div></div>
+              <span class="macro-bar-val" id="val-carbs">0g</span>
+            </div>
+            <div class="macro-bar-row">
+              <span class="macro-bar-lbl">🥑 ไขมัน</span>
+              <div class="macro-bar-track"><div class="macro-bar-fill macro-f" id="bar-fat"></div></div>
+              <span class="macro-bar-val" id="val-fat">0g</span>
+            </div>
+            <div class="macro-kcal-check" id="macro-kcal-check"></div>
+            <button class="ng-guide-btn" onclick="nutritionGuideModule.openModal()">📖 คู่มือโภชนาการ</button>
           </div>
-          <div class="macro-kcal-check" id="macro-kcal-check"></div>
-          <button class="ng-guide-btn" onclick="nutritionGuideModule.openModal()">📖 คู่มือโภชนาการ</button>
         </div>
+        <!-- Backdrop: click outside to close food dropdown -->
+        <div class="food-backdrop" id="food-backdrop" onclick="closeFoodLog()"></div>
       </div>
 
       <!-- Exercise Panel (accordion) -->

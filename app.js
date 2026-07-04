@@ -481,9 +481,22 @@ function updateExercisePreview() {
   }
 }
 
-function focusFoodSearch() {
-  const inp = document.getElementById('food-log-name');
-  if (inp) { inp.focus(); inp.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+function toggleFoodLog() {
+  const panel    = document.getElementById('panel-food');
+  const card     = document.getElementById('tc-food');
+  const backdrop = document.getElementById('food-backdrop');
+  if (!panel) return;
+  const opening = !panel.classList.contains('panel-open');
+  panel.classList.toggle('panel-open', opening);
+  card?.classList.toggle('tc-card-open', opening);
+  if (backdrop) backdrop.classList.toggle('active', opening);
+  if (opening) setTimeout(() => document.getElementById('food-log-name')?.focus(), 180);
+}
+
+function closeFoodLog() {
+  document.getElementById('panel-food')?.classList.remove('panel-open');
+  document.getElementById('tc-food')?.classList.remove('tc-card-open');
+  document.getElementById('food-backdrop')?.classList.remove('active');
 }
 
 function toggleExerciseLog() {
