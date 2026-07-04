@@ -28,6 +28,8 @@ function _getFrequentFoods(n) {
 }
 let _marketFilter = 'all';
 let _shopFilter = 'all';
+let _goalCelebrated = false;    // Peak–End Rule: fire once per session
+let _lastFoodLogCount = 0;      // Doherty: track new item for slide-in anim
 
 // ═══════════════════════════════════════════
 // INIT
@@ -518,6 +520,22 @@ function closeFoodLog() {
   document.getElementById('panel-food')?.classList.remove('panel-open');
   document.getElementById('tc-food')?.classList.remove('tc-card-open');
   document.getElementById('food-backdrop')?.classList.remove('active');
+  // Hick's Law: collapse macro row on close so it stays minimal next open
+  const macroRow = document.getElementById('macro-row');
+  const macroBtn = document.getElementById('macro-toggle-btn');
+  if (macroRow) macroRow.classList.remove('expanded');
+  if (macroBtn) { macroBtn.classList.remove('expanded'); macroBtn.textContent = '+ ใส่โปรตีน / คาร์บ / ไขมัน ▼'; }
+}
+
+// Hick's Law: macro row toggle
+function toggleMacroRow() {
+  const row = document.getElementById('macro-row');
+  const btn = document.getElementById('macro-toggle-btn');
+  if (!row || !btn) return;
+  const expanded = row.classList.toggle('expanded');
+  btn.classList.toggle('expanded', expanded);
+  btn.textContent = expanded ? '🥩 โปรตีน / คาร์บ / ไขมัน ▲ ซ่อน' : '+ ใส่โปรตีน / คาร์บ / ไขมัน ▼';
+  if (expanded) setTimeout(() => document.getElementById('food-log-protein')?.focus(), 200);
 }
 
 function toggleExerciseLog() {
@@ -1616,6 +1634,33 @@ function _showLuckyFloat(label) {
   setTimeout(() => el.remove(), 1500);
 }
 
+// ─── Peak–End Rule: Goal Celebration ─────────────────────
+function _triggerGoalCelebration(kcalGoal) {
+  _launchConfetti();
+  const ov = document.createElement('div');
+  ov.className = 'goal-celebration-overlay';
+  ov.innerHTML = `
+    <div class="goal-burst">🎯</div>
+    <div class="goal-msg">ครบเป้าวันนี้แล้ว!</div>
+    <div class="goal-sub">${kcalGoal.toLocaleString()} kcal ✨ +20 XP</div>
+  `;
+  document.body.appendChild(ov);
+  setTimeout(() => ov.remove(), 2800);
+  awardXP(20, 'goal_complete');
+}
+
+function _launchConfetti() {
+  const colors = ['#fbbf24','#f87171','#4ade80','#60a5fa','#c084fc','#fb923c','#f9a8d4'];
+  for (let i = 0; i < 45; i++) {
+    const p = document.createElement('div');
+    const size = 5 + Math.random() * 8;
+    p.className = 'confetti-piece';
+    p.style.cssText = `left:${Math.random()*100}%;top:-10px;background:${colors[Math.floor(Math.random()*colors.length)]};width:${size}px;height:${size}px;border-radius:${Math.random()>.5?'50%':'2px'};--dur:${1.6+Math.random()*1.4}s;--delay:${Math.random()*.6}s;`;
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 3200);
+  }
+}
+
 // ═══════════════════════════════════════════
 // LEVEL UP MODAL
 // ═══════════════════════════════════════════
@@ -2378,6 +2423,11 @@ function initFoodSearch() {
     const freq = _getFrequentFoods(5);
     if (!freq.length) return;
     openDrop(freq, '🕐 บ่อยๆ');
+    // Add search hint below freq list
+    const hint = document.createElement('div');
+    hint.className = 'fsd-search-hint';
+    hint.textContent = '🔍 พิมพ์ชื่ออาหารเพื่อค้นหาเพิ่มเติม';
+    drop.appendChild(hint);
   }
 
   function closeDrop() {
@@ -2405,8 +2455,11 @@ function initFoodSearch() {
     const q = input.value.trim();
     if (!q || !window.FOOD_DB) { closeDrop(); if (!q) openFreqDrop(); return; }
     const lower = q.toLowerCase();
+    // Postel's Law: accept multi-word search (e.g. "ข้าว กระเพรา" matches "ข้าวผัดกระเพรา")
+    const terms = lower.split(/\s+/).filter(Boolean);
+    const matchAll = name => { const n = name.toLowerCase(); return terms.every(t => n.includes(t)); };
     const starts   = FOOD_DB.filter(f => f.name.toLowerCase().startsWith(lower));
-    const contains = FOOD_DB.filter(f => !f.name.toLowerCase().startsWith(lower) && f.name.toLowerCase().includes(lower));
+    const contains = FOOD_DB.filter(f => !f.name.toLowerCase().startsWith(lower) && matchAll(f.name));
     // sort each group by frequency desc
     const byFreq = f => _foodFreq[f.name] || 0;
     starts.sort((a, b) => byFreq(b) - byFreq(a));
@@ -2464,7 +2517,13 @@ function fillFood(f) {
   set('food-log-protein', f.protein || '');
   set('food-log-carbs',   f.carbs   || '');
   set('food-log-fat',     f.fat     || '');
-  document.getElementById('food-log-kcal').focus();
+  document.getElementById('food-log-kcal')?.focus();
+  // Tesler's Law: signal that kcal is pre-filled and user can just tap save
+  const btn = document.querySelector('.food-log-btn');
+  if (btn) {
+    btn.classList.add('ready');
+    setTimeout(() => btn.classList.remove('ready'), 2500);
+  }
 }
 
 // ─── Custom Food Log ─────────────────────────────────────
@@ -2507,16 +2566,22 @@ function logCustomFood() {
   nameEl.value = ''; kcalEl.value = '';
   proteinEl.value = ''; carbsEl.value = ''; fatEl.value = '';
 
-  const macroStr = entry.hasMacros
-    ? ` P:${entry.protein}g C:${entry.carbs}g F:${entry.fat}g`
-    : '';
-  showToast(`🍽️ ${entry.name} ${entry.kcal} kcal${macroStr} +${xpGained.gained} XP`, 'success');
   renderFoodLog();
   renderMacroSummary();
   renderCalorieBar();
   renderHunger();
   renderGlance();
   saveGame();
+
+  // Peak–End Rule: post-log toast with running total
+  const runningTotal = hungerModule.caloriesEaten || 0;
+  showToast(`✅ ${entry.name} +${entry.kcal} kcal · รวม ${runningTotal.toLocaleString()} kcal วันนี้`, 'success');
+
+  // Peak–End Rule: fire goal celebration once per session
+  if (runningTotal >= (characterModule.get('dailyCalorie') || 2000) && !_goalCelebrated) {
+    _goalCelebrated = true;
+    setTimeout(() => _triggerGoalCelebration(characterModule.get('dailyCalorie') || 2000), 500);
+  }
 }
 
 function removeFoodLog(index) {
@@ -2538,6 +2603,10 @@ function renderFoodLog() {
   const log   = hungerModule.getTodayFoodLog();
   const total = log.reduce((s, e) => s + e.kcal, 0);
   const goal  = characterModule.get('dailyCalorie') || 2000;
+  const prevCount = _lastFoodLogCount;
+  _lastFoodLogCount = log.length;
+  // Reset celebration flag on new day (total resets to 0)
+  if (total === 0 && _goalCelebrated) _goalCelebrated = false;
 
   if (totalEl) totalEl.textContent = `${total.toLocaleString()} kcal`;
   const itemsEl = document.getElementById('tc-food-items');
@@ -2578,6 +2647,16 @@ function renderFoodLog() {
     `;
     listEl.appendChild(row);
   });
+
+  // Doherty: animate newest item when a new food was just added
+  if (log.length > prevCount) {
+    const rows = listEl.querySelectorAll('.food-log-row');
+    const newest = rows[rows.length - 1];
+    if (newest) {
+      newest.classList.add('flog-new');
+      setTimeout(() => newest.classList.remove('flog-new'), 350);
+    }
+  }
 }
 
 function renderMacroSummary() {

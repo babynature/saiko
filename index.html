@@ -303,8 +303,10 @@
             </select>
             <button class="food-log-btn" onclick="logCustomFood()">+ บันทึก</button>
           </div>
+          <!-- Macro toggle (Hick's Law: hidden by default, expand on tap) -->
+          <button class="macro-toggle-btn" id="macro-toggle-btn" onclick="toggleMacroRow()">+ ใส่โปรตีน / คาร์บ / ไขมัน ▼</button>
           <!-- Macro inputs row (optional) -->
-          <div class="macro-input-row">
+          <div class="macro-input-row" id="macro-row">
             <label class="macro-input-lbl">🥩</label>
             <input type="number" id="food-log-protein" class="macro-inp" placeholder="P (g)" min="0" max="500">
             <label class="macro-input-lbl">🍞</label>
@@ -407,6 +409,9 @@
 
       <!-- Near-Goal Banner (Hooked: load next trigger) -->
       <div id="near-goal-banner"></div>
+
+      <!-- Miller's Law: visual chunk separator -->
+      <div class="chunk-sep"></div>
 
       <!-- Quick Actions -->
       <div class="quick-actions">
