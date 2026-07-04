@@ -1306,7 +1306,13 @@ function quickLogExercise(type, minutes, displayName, kcalOverride) {
   saveGame();
 }
 
-function logExercise() { showTab('quests'); }
+function logExercise() {
+  showTab('home');
+  setTimeout(() => {
+    const el = document.getElementById('exercise-logger');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
 
 function doLogExercise() {
   const type    = document.getElementById('ex-type').value;
