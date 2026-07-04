@@ -7,6 +7,129 @@ let _pendingFood = null;
 let _currentTabId = 'home';
 let _foodFreq = {};
 
+// ═══ FOOD LOG DATE NAVIGATION ═══
+let _foodLogViewDate = null; // null = today; "YYYY-MM-DD" = past day
+
+function _todayStr() { return new Date().toISOString().slice(0, 10); }
+
+function _saveFoodLogHistory() {
+  try {
+    const today = _todayStr();
+    localStorage.setItem(`shg-flog-${today}`, JSON.stringify(hungerModule.foodLog || []));
+    // Prune entries older than 30 days
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 30);
+    const cutoffStr = cutoff.toISOString().slice(0, 10);
+    const toRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('shg-flog-') && k.slice(9) < cutoffStr) toRemove.push(k);
+    }
+    toRemove.forEach(k => localStorage.removeItem(k));
+  } catch(e) {}
+}
+
+function _loadFoodLogForDate(dateStr) {
+  try {
+    const raw = localStorage.getItem(`shg-flog-${dateStr}`);
+    return raw ? JSON.parse(raw) : null;
+  } catch(e) { return null; }
+}
+
+function navigateFoodLog(delta) {
+  const today = _todayStr();
+  const current = _foodLogViewDate || today;
+  const d = new Date(current + 'T12:00:00');
+  d.setDate(d.getDate() + delta);
+  const newDate = d.toISOString().slice(0, 10);
+  if (newDate > today) return;
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() - 30);
+  if (newDate < minDate.toISOString().slice(0, 10)) return;
+  _foodLogViewDate = newDate === today ? null : newDate;
+  _syncFoodLogDateNav();
+  _renderFoodLogForDate();
+}
+
+function _syncFoodLogDateNav() {
+  const today    = _todayStr();
+  const viewing  = _foodLogViewDate || today;
+  const labelEl  = document.getElementById('flog-nav-label');
+  const dateEl   = document.getElementById('flog-nav-date');
+  const prevBtn  = document.getElementById('flog-nav-prev');
+  const nextBtn  = document.getElementById('flog-nav-next');
+  const panel    = document.getElementById('panel-food');
+  if (!labelEl) return;
+
+  // Human-readable label
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayStr = yesterday.toISOString().slice(0, 10);
+  if (!_foodLogViewDate)          labelEl.textContent = 'วันนี้';
+  else if (viewing === yesterdayStr) labelEl.textContent = 'เมื่อวาน';
+  else                               labelEl.textContent = 'ย้อนหลัง';
+
+  // Full date sub-label
+  const dObj = new Date(viewing + 'T12:00:00');
+  if (dateEl) dateEl.textContent = dObj.toLocaleDateString('th-TH', { weekday:'short', day:'numeric', month:'short', year:'numeric' });
+
+  // Button states
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() - 30);
+  if (prevBtn) prevBtn.disabled = viewing <= minDate.toISOString().slice(0, 10);
+  if (nextBtn) nextBtn.disabled = !_foodLogViewDate;
+
+  // Past-day mode on panel
+  if (panel) panel.classList.toggle('past-day', !!_foodLogViewDate);
+}
+
+function _renderFoodLogForDate() {
+  const listEl = document.getElementById('food-log-list');
+  if (!listEl) return;
+  if (!_foodLogViewDate) { renderFoodLog(); return; }
+
+  // Past day — read-only
+  const log   = _loadFoodLogForDate(_foodLogViewDate) || [];
+  const total = log.reduce((s, e) => s + (e.kcal || 0), 0);
+  const goal  = characterModule.get('dailyCalorie') || 2000;
+
+  const totalEl = document.getElementById('food-log-total');
+  const itemsEl = document.getElementById('tc-food-items');
+  if (totalEl) totalEl.textContent = `${total.toLocaleString()} kcal`;
+  if (itemsEl) itemsEl.textContent = log.length ? `${log.length} รายการ` : 'ไม่มีข้อมูล';
+
+  if (!log.length) {
+    listEl.innerHTML = `
+      <div class="empty-state" style="padding:20px 0">
+        <div class="empty-state-icon">📅</div>
+        <div class="empty-state-msg">ไม่มีบันทึกอาหารวันนี้</div>
+        <div class="empty-state-hint">ไม่พบข้อมูลวันนี้ในประวัติ</div>
+      </div>`;
+    return;
+  }
+
+  listEl.innerHTML = `<div class="flog-past-badge">📖 ประวัติย้อนหลัง — อ่านอย่างเดียว</div>`;
+  log.forEach(entry => {
+    const pct      = Math.min(100, Math.round((entry.kcal || 0) / goal * 100));
+    const barColor = pct > 30 ? '#ef4444' : pct > 15 ? '#f59e0b' : '#22c55e';
+    const macroHtml = entry.hasMacros
+      ? `<div class="flog-macros">
+           <span class="flog-macro-p"><span class="flog-macro-lbl">P</span>${entry.protein}g</span>
+           <span class="flog-macro-c"><span class="flog-macro-lbl">C</span>${entry.carbs}g</span>
+           <span class="flog-macro-f"><span class="flog-macro-lbl">F</span>${entry.fat}g</span>
+         </div>` : '';
+    const row = document.createElement('div');
+    row.className = `food-log-row meal-${entry.mealType || 'lunch'}${entry.hasMacros ? ' has-macros' : ''}`;
+    row.innerHTML = `
+      <span class="flog-meal">${MEAL_LABELS[entry.mealType] || '🍽️'}</span>
+      <span class="flog-name">${_escHtml(entry.name)}</span>
+      <span class="flog-time">${entry.time || ''}</span>
+      <span class="flog-kcal" style="color:${barColor}">${entry.kcal} kcal</span>
+      ${macroHtml}`;
+    listEl.appendChild(row);
+  });
+}
+
 function _loadFoodFreq() {
   try { _foodFreq = JSON.parse(localStorage.getItem('shg-food-freq') || '{}'); } catch { _foodFreq = {}; }
 }
@@ -97,6 +220,7 @@ function saveGame() {
   };
   const json = JSON.stringify(state);
   localStorage.setItem(SAVE_KEY, json);
+  _saveFoodLogHistory();
   // Phase 6: debounced cloud sync when logged in
   if (firebaseModule.isLoggedIn()) {
     firebaseModule.scheduleSyncToCloud(json);
@@ -545,7 +669,12 @@ function toggleFoodLog() {
   panel.classList.toggle('panel-open', opening);
   card?.classList.toggle('tc-card-open', opening);
   if (backdrop) backdrop.classList.toggle('active', opening);
-  if (opening) setTimeout(() => document.getElementById('food-log-name')?.focus(), 180);
+  if (opening) {
+    _foodLogViewDate = null;       // always start on today
+    panel.classList.remove('past-day');
+    _syncFoodLogDateNav();
+    setTimeout(() => document.getElementById('food-log-name')?.focus(), 180);
+  }
 }
 
 function closeFoodLog() {
@@ -2651,6 +2780,11 @@ function renderFoodLog() {
   if (totalEl) totalEl.textContent = `${total.toLocaleString()} kcal`;
   const itemsEl = document.getElementById('tc-food-items');
   if (itemsEl) itemsEl.textContent = log.length ? `${log.length} รายการ · เป้า ${goal.toLocaleString()}` : `เป้า ${goal.toLocaleString()} kcal`;
+
+  // Progress bar + card glow on tc-food
+  const fillEl = document.getElementById('tc-kcal-fill');
+  if (fillEl) fillEl.style.width = Math.min(100, Math.round(total / goal * 100)) + '%';
+  document.getElementById('tc-food')?.classList.toggle('has-food', log.length > 0);
 
   if (!log.length) {
     listEl.innerHTML = `
