@@ -1855,6 +1855,100 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 }
 
 /* ═══════════════════════════════════════════
+   PAIRED TRACKER CARDS + ACCORDION
+═══════════════════════════════════════════ */
+
+.tracker-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 12px 0 0;
+}
+
+.tracker-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 14px;
+  padding: 12px 14px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.tracker-card:active { background: rgba(255,255,255,.09); }
+
+.tc-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+.tc-icon { font-size: 14px; flex-shrink: 0; }
+.tc-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2, #a0a0c8);
+  flex: 1;
+  letter-spacing: 0.3px;
+}
+.tc-chevron {
+  font-size: 9px;
+  color: var(--text3, #6060a0);
+  transition: transform 0.25s ease;
+  display: inline-block;
+}
+.tc-card-open .tc-chevron { transform: rotate(180deg); }
+
+.tc-total {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text, #f0f0ff);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+.tc-sub {
+  font-size: 11px;
+  color: var(--text3, #6060a0);
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Accordion panels */
+.tracker-form-panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease;
+}
+.tracker-form-panel.panel-open {
+  max-height: 1400px;
+}
+
+/* Inner content gets card-like container */
+#panel-food > .food-log-form,
+#panel-food > .macro-input-row,
+#panel-food > .food-log-list,
+#panel-food > #meal-suggest,
+#panel-food > .macro-summary {
+  /* inherit from existing .food-log-section feel */
+}
+
+#panel-food {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 0 0 14px 14px;
+  border-top: none;
+  padding: 12px 14px 14px;
+  margin-bottom: 12px;
+}
+
+#panel-exercise {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+/* ═══════════════════════════════════════════
    QUICK FOOD LOG (Home Tab)
 ═══════════════════════════════════════════ */
 
@@ -1881,9 +1975,7 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 }
 
 .food-log-total {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--primary);
+  /* Styling handled by .tc-total in the paired card */
 }
 
 .food-log-form {

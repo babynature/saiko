@@ -260,12 +260,30 @@
         </div>
       </div>
 
-      <!-- Quick Food Log -->
-      <div class="food-log-section">
-        <div class="food-log-header">
-          <span class="food-log-title">🍽️ บันทึกอาหารวันนี้</span>
-          <span class="food-log-total" id="food-log-total">0 kcal</span>
+      <!-- Paired Tracker Cards -->
+      <div class="tracker-pair">
+        <div class="tracker-card tc-card-open" id="tc-food" onclick="toggleFoodLog()">
+          <div class="tc-header">
+            <span class="tc-icon">🍽️</span>
+            <span class="tc-title">อาหารวันนี้</span>
+            <span class="tc-chevron" id="tc-food-chevron">▼</span>
+          </div>
+          <div class="tc-total" id="food-log-total">0 kcal</div>
+          <div class="tc-sub" id="tc-food-items">0 รายการ</div>
         </div>
+        <div class="tracker-card" id="tc-exercise" onclick="toggleExerciseLog()">
+          <div class="tc-header">
+            <span class="tc-icon">🏋️</span>
+            <span class="tc-title">ออกกำลัง</span>
+            <span class="tc-chevron" id="tc-ex-chevron">▼</span>
+          </div>
+          <div class="tc-total" id="tc-ex-burned">−0 kcal</div>
+          <div class="tc-sub" id="tc-ex-sub">ยังไม่ออกกำลัง</div>
+        </div>
+      </div>
+
+      <!-- Food Log Panel (accordion) -->
+      <div class="tracker-form-panel panel-open" id="panel-food">
         <div class="food-log-form">
           <div style="display:flex;gap:6px;align-items:flex-start">
             <div class="food-search-wrap">
@@ -324,60 +342,61 @@
       <!-- Water Tracker -->
       <div id="water-tracker"></div>
 
-      <!-- Exercise Logger -->
-      <div class="exercise-logger" id="exercise-logger">
-        <h3 id="txt-exercise-log">🏋️ บันทึกออกกำลัง</h3>
-        <div class="form-row">
-          <div class="form-group">
-            <label id="lbl-ex-type">ประเภท</label>
-            <select id="ex-type" onchange="updateExercisePreview()">
-              <optgroup label="🚶 เดิน / วิ่ง">
-                <option value="walking">🚶 เดิน (4 kcal/นาที)</option>
-                <option value="brisk_walk">🚶 เดินเร็ว (5 kcal/นาที)</option>
-                <option value="jogging">🏃 วิ่งจ็อกกิ้ง (7 kcal/นาที)</option>
-                <option value="running">🏃 วิ่ง (8 kcal/นาที)</option>
-                <option value="hiit">⚡ HIIT (11 kcal/นาที)</option>
-                <option value="hiking">⛰️ เดินป่า/ไฮกิ้ง (5 kcal/นาที)</option>
-              </optgroup>
-              <optgroup label="🎽 คาร์ดิโอ">
-                <option value="aerobic">💃 แอโรบิก (6 kcal/นาที)</option>
-                <option value="jump_rope">🪢 กระโดดเชือก (10 kcal/นาที)</option>
-                <option value="dancing">🕺 เต้นรำ (5 kcal/นาที)</option>
-                <option value="cycling">🚴 จักรยาน (6 kcal/นาที)</option>
-                <option value="cycling_hard">🚴 จักรยานหนัก (9 kcal/นาที)</option>
-                <option value="swimming">🏊 ว่ายน้ำ (7 kcal/นาที)</option>
-              </optgroup>
-              <optgroup label="🏸 กีฬา">
-                <option value="badminton">🏸 แบดมินตัน (6 kcal/นาที)</option>
-                <option value="tennis">🎾 เทนนิส (7 kcal/นาที)</option>
-                <option value="football">⚽ ฟุตบอล (7 kcal/นาที)</option>
-                <option value="basketball">🏀 บาสเกตบอล (7 kcal/นาที)</option>
-                <option value="volleyball">🏐 วอลเลย์บอล (5 kcal/นาที)</option>
-                <option value="court_sport">🏟️ กีฬาบนคอร์ต (7 kcal/นาที)</option>
-                <option value="muay_thai">🥊 มวย / คิกบ็อกซิ่ง (9 kcal/นาที)</option>
-              </optgroup>
-              <optgroup label="🏋️ ฟิตเนส / แรงต้าน">
-                <option value="gym">🏋️ ฟิตเนส (5 kcal/นาที)</option>
-                <option value="weight_train">🏋️ ยกน้ำหนัก (5 kcal/นาที)</option>
-                <option value="bodyweight">💪 บอดี้เวท (5 kcal/นาที)</option>
-              </optgroup>
-              <optgroup label="🧘 ยืดเหยียด / ผ่อนคลาย">
-                <option value="yoga">🧘 โยคะ (3 kcal/นาที)</option>
-                <option value="stretching">🤸 ยืดเหยียด (2 kcal/นาที)</option>
-              </optgroup>
-            </select>
+      <!-- Exercise Panel (accordion) -->
+      <div class="tracker-form-panel" id="panel-exercise">
+        <div class="exercise-logger" id="exercise-logger">
+          <div class="form-row">
+            <div class="form-group">
+              <label id="lbl-ex-type">ประเภท</label>
+              <select id="ex-type" onchange="updateExercisePreview()">
+                <optgroup label="🚶 เดิน / วิ่ง">
+                  <option value="walking">🚶 เดิน (4 kcal/นาที)</option>
+                  <option value="brisk_walk">🚶 เดินเร็ว (5 kcal/นาที)</option>
+                  <option value="jogging">🏃 วิ่งจ็อกกิ้ง (7 kcal/นาที)</option>
+                  <option value="running">🏃 วิ่ง (8 kcal/นาที)</option>
+                  <option value="hiit">⚡ HIIT (11 kcal/นาที)</option>
+                  <option value="hiking">⛰️ เดินป่า/ไฮกิ้ง (5 kcal/นาที)</option>
+                </optgroup>
+                <optgroup label="🎽 คาร์ดิโอ">
+                  <option value="aerobic">💃 แอโรบิก (6 kcal/นาที)</option>
+                  <option value="jump_rope">🪢 กระโดดเชือก (10 kcal/นาที)</option>
+                  <option value="dancing">🕺 เต้นรำ (5 kcal/นาที)</option>
+                  <option value="cycling">🚴 จักรยาน (6 kcal/นาที)</option>
+                  <option value="cycling_hard">🚴 จักรยานหนัก (9 kcal/นาที)</option>
+                  <option value="swimming">🏊 ว่ายน้ำ (7 kcal/นาที)</option>
+                </optgroup>
+                <optgroup label="🏸 กีฬา">
+                  <option value="badminton">🏸 แบดมินตัน (6 kcal/นาที)</option>
+                  <option value="tennis">🎾 เทนนิส (7 kcal/นาที)</option>
+                  <option value="football">⚽ ฟุตบอล (7 kcal/นาที)</option>
+                  <option value="basketball">🏀 บาสเกตบอล (7 kcal/นาที)</option>
+                  <option value="volleyball">🏐 วอลเลย์บอล (5 kcal/นาที)</option>
+                  <option value="court_sport">🏟️ กีฬาบนคอร์ต (7 kcal/นาที)</option>
+                  <option value="muay_thai">🥊 มวย / คิกบ็อกซิ่ง (9 kcal/นาที)</option>
+                </optgroup>
+                <optgroup label="🏋️ ฟิตเนส / แรงต้าน">
+                  <option value="gym">🏋️ ฟิตเนส (5 kcal/นาที)</option>
+                  <option value="weight_train">🏋️ ยกน้ำหนัก (5 kcal/นาที)</option>
+                  <option value="bodyweight">💪 บอดี้เวท (5 kcal/นาที)</option>
+                </optgroup>
+                <optgroup label="🧘 ยืดเหยียด / ผ่อนคลาย">
+                  <option value="yoga">🧘 โยคะ (3 kcal/นาที)</option>
+                  <option value="stretching">🤸 ยืดเหยียด (2 kcal/นาที)</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="form-group">
+              <label id="lbl-ex-min">นาที</label>
+              <input type="number" id="ex-minutes" placeholder="30" min="1" max="300" value="30" oninput="updateExercisePreview()">
+            </div>
           </div>
-          <div class="form-group">
-            <label id="lbl-ex-min">นาที</label>
-            <input type="number" id="ex-minutes" placeholder="30" min="1" max="300" value="30" oninput="updateExercisePreview()">
+          <!-- Live Preview -->
+          <div class="ex-preview" id="ex-preview">
+            <span id="ex-preview-kcal">🔥 ~120 kcal</span>
+            <span class="ex-preview-tag" id="ex-preview-tag"></span>
           </div>
+          <button class="btn-log-ex" onclick="doLogExercise()" id="btn-log-ex">🔥 บันทึก</button>
         </div>
-        <!-- Live Preview -->
-        <div class="ex-preview" id="ex-preview">
-          <span id="ex-preview-kcal">🔥 ~120 kcal</span>
-          <span class="ex-preview-tag" id="ex-preview-tag"></span>
-        </div>
-        <button class="btn-log-ex" onclick="doLogExercise()" id="btn-log-ex">🔥 บันทึก</button>
       </div>
 
       <!-- Exercise Suggestion (shown when over calories) -->

@@ -128,7 +128,7 @@ function showTab(tabId) {
   const navBtn = document.getElementById('nav-' + tabId);
   if (navBtn) navBtn.classList.add('active');
 
-  if (tabId === 'home')        { renderGlance(); renderFoodLog(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderExerciseSuggest(); initFoodSearch(); updateExercisePreview(); }
+  if (tabId === 'home')        { renderGlance(); renderFoodLog(); renderExerciseCard(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderExerciseSuggest(); initFoodSearch(); updateExercisePreview(); }
   if (tabId === 'marketplace') renderMarketplace();
   if (tabId === 'quests')      { renderQuests(); renderMissions(); renderExerciseTip(); updateExercisePreview(); }
   if (tabId === 'shop')        renderShop();
@@ -225,7 +225,7 @@ window.renderAll = function() {
   renderLifeEvents();
   renderStats();
   renderCalorieBar();
-  if (_currentTabId === 'home')        { renderGlance(); renderFoodLog(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderExerciseSuggest(); initFoodSearch(); }
+  if (_currentTabId === 'home')        { renderGlance(); renderFoodLog(); renderExerciseCard(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderExerciseSuggest(); initFoodSearch(); }
   if (_currentTabId === 'marketplace') renderMarketplace();
   if (_currentTabId === 'quests')      { renderQuests(); renderMissions(); renderExerciseTip(); }
   if (_currentTabId === 'shop')        renderShop();
@@ -479,6 +479,33 @@ function updateExercisePreview() {
     tagEl.textContent  = '';
     tagEl.className    = 'ex-preview-tag';
   }
+}
+
+function toggleFoodLog() {
+  const panel = document.getElementById('panel-food');
+  const card  = document.getElementById('tc-food');
+  if (!panel) return;
+  const isOpen = panel.classList.contains('panel-open');
+  panel.classList.toggle('panel-open', !isOpen);
+  card?.classList.toggle('tc-card-open', !isOpen);
+}
+
+function toggleExerciseLog() {
+  const panel = document.getElementById('panel-exercise');
+  const card  = document.getElementById('tc-exercise');
+  if (!panel) return;
+  const isOpen = panel.classList.contains('panel-open');
+  panel.classList.toggle('panel-open', !isOpen);
+  card?.classList.toggle('tc-card-open', !isOpen);
+}
+
+function renderExerciseCard() {
+  const burned  = hungerModule.caloriesBurned || 0;
+  const minutes = hungerModule.exerciseMinutes || 0;
+  const burnEl  = document.getElementById('tc-ex-burned');
+  const subEl   = document.getElementById('tc-ex-sub');
+  if (burnEl) burnEl.textContent = `−${burned.toLocaleString()} kcal`;
+  if (subEl)  subEl.textContent  = minutes > 0 ? `${minutes} นาที` : 'ยังไม่ออกกำลัง';
 }
 
 function openFoodModal(food) {
@@ -1317,7 +1344,12 @@ function quickLogExercise(type, minutes, displayName, kcalOverride) {
 function logExercise() {
   showTab('home');
   setTimeout(() => {
-    const el = document.getElementById('exercise-logger');
+    const panel = document.getElementById('panel-exercise');
+    if (panel && !panel.classList.contains('panel-open')) {
+      panel.classList.add('panel-open');
+      document.getElementById('tc-exercise')?.classList.add('tc-card-open');
+    }
+    const el = document.getElementById('tc-exercise');
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 50);
 }
@@ -2401,7 +2433,9 @@ function renderFoodLog() {
   const total = log.reduce((s, e) => s + e.kcal, 0);
   const goal  = characterModule.get('dailyCalorie') || 2000;
 
-  if (totalEl) totalEl.textContent = `${total.toLocaleString()} / ${goal.toLocaleString()} kcal`;
+  if (totalEl) totalEl.textContent = `${total.toLocaleString()} kcal`;
+  const itemsEl = document.getElementById('tc-food-items');
+  if (itemsEl) itemsEl.textContent = log.length ? `${log.length} รายการ · เป้า ${goal.toLocaleString()}` : `เป้า ${goal.toLocaleString()} kcal`;
 
   if (!log.length) {
     listEl.innerHTML = `
