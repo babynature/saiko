@@ -154,10 +154,44 @@ class BarcodeModule {
   }
 
   _showNotFound(code) {
-    this._setStatus(`❌ ไม่พบข้อมูลสินค้า (${code})<br>ลองสแกนใหม่ หรือพิมพ์บาร์โค้ดเพื่อลองอีกครั้ง`, 'warn');
+    const el = document.getElementById('bc-result');
+    el.innerHTML = `
+      <div class="bc-nf-card">
+        <div class="bc-nf-icon">🔍</div>
+        <div class="bc-nf-msg">ไม่พบสินค้าในฐานข้อมูล</div>
+        <div class="bc-nf-code">${this._esc(code)}</div>
+        <div class="bc-nf-hint">กรอกข้อมูลสินค้าด้านล่าง แล้วกด "บันทึก" ได้เลย</div>
+      </div>
+      <div class="bc-qf">
+        <input class="bc-qf-name" id="bc-qf-name" type="text" placeholder="ชื่อสินค้า (บังคับ)" maxlength="50" autocomplete="off">
+        <div class="bc-qf-row">
+          <div class="bc-qf-cell">
+            <label class="bc-qf-lbl">🔥 kcal</label>
+            <input class="bc-qf-num" id="bc-qf-kcal" type="number" placeholder="0" min="0" max="9999">
+          </div>
+          <div class="bc-qf-cell">
+            <label class="bc-qf-lbl">🥩 P (g)</label>
+            <input class="bc-qf-num" id="bc-qf-p" type="number" placeholder="0" min="0">
+          </div>
+          <div class="bc-qf-cell">
+            <label class="bc-qf-lbl">🍞 C (g)</label>
+            <input class="bc-qf-num" id="bc-qf-c" type="number" placeholder="0" min="0">
+          </div>
+          <div class="bc-qf-cell">
+            <label class="bc-qf-lbl">🥑 F (g)</label>
+            <input class="bc-qf-num" id="bc-qf-f" type="number" placeholder="0" min="0">
+          </div>
+        </div>
+        <div class="bc-result-actions">
+          <button class="bc-btn-confirm" onclick="barcodeModule.confirmManualEntry()">✅ บันทึกอาหารนี้</button>
+          <button class="bc-btn-rescan"  onclick="barcodeModule.rescan()">🔄 สแกนใหม่</button>
+        </div>
+      </div>`;
+    el.style.display = 'block';
+    document.getElementById('bc-status').style.display    = 'none';
     document.getElementById('bc-video-wrap').style.display = 'none';
-    document.getElementById('bc-manual-wrap').style.display = 'flex';
-    document.getElementById('bc-manual-input').value = code;
+    document.getElementById('bc-manual-wrap').style.display = 'none';
+    setTimeout(() => document.getElementById('bc-qf-name')?.focus(), 100);
   }
 
   // ─── Actions ─────────────────────────────────────────────
@@ -177,6 +211,22 @@ class BarcodeModule {
     document.getElementById('bc-status').style.display    = 'block';
     this.lastCode = null;
     this._startDetection();
+  }
+
+  confirmManualEntry() {
+    const name = (document.getElementById('bc-qf-name')?.value || '').trim();
+    if (!name) {
+      const inp = document.getElementById('bc-qf-name');
+      if (inp) { inp.style.outline = '2px solid #f87171'; inp.focus(); }
+      return;
+    }
+    const kcal    = parseFloat(document.getElementById('bc-qf-kcal')?.value) || null;
+    const protein = parseFloat(document.getElementById('bc-qf-p')?.value)    || null;
+    const carbs   = parseFloat(document.getElementById('bc-qf-c')?.value)    || null;
+    const fat     = parseFloat(document.getElementById('bc-qf-f')?.value)    || null;
+    this._fill({ name, kcal, protein, carbs, fat });
+    this.closeScanner();
+    if (window.showToast) showToast(`➕ เพิ่ม "${name}" แล้ว`, 'success');
   }
 
   submitManual() {
@@ -319,6 +369,33 @@ class BarcodeModule {
   border-radius: 12px; color: #e2e8f0; font-size: 13px; font-weight: 700;
   padding: 13px; cursor: pointer;
 }
+
+/* ── Not-found quick form ── */
+.bc-nf-card {
+  text-align: center; padding: 14px 16px 10px;
+}
+.bc-nf-icon { font-size: 2.2rem; }
+.bc-nf-msg  { font-size: 15px; font-weight: 700; color: #fbbf24; margin: 6px 0 2px; }
+.bc-nf-code { font-size: 12px; color: rgba(255,255,255,.4); margin-bottom: 6px; font-family: monospace; }
+.bc-nf-hint { font-size: 12px; color: rgba(255,255,255,.55); }
+.bc-qf { padding: 0 16px 12px; }
+.bc-qf-name {
+  width: 100%; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.25);
+  border-radius: 10px; color: #fff; font-size: 15px; padding: 11px 12px;
+  outline: none; margin-bottom: 10px; box-sizing: border-box;
+}
+.bc-qf-name:focus { border-color: #4ade80; }
+.bc-qf-name::placeholder { color: rgba(255,255,255,.35); }
+.bc-qf-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin-bottom: 12px; }
+.bc-qf-cell { display: flex; flex-direction: column; gap: 3px; }
+.bc-qf-lbl { font-size: 10px; color: rgba(255,255,255,.5); text-align: center; }
+.bc-qf-num {
+  width: 100%; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18);
+  border-radius: 8px; color: #fff; font-size: 14px; padding: 8px 4px;
+  text-align: center; outline: none; box-sizing: border-box;
+}
+.bc-qf-num:focus { border-color: #60a5fa; }
+.bc-qf-num::placeholder { color: rgba(255,255,255,.25); }
 
 /* ── Scan button (inline in food form) ── */
 .bc-scan-trigger {
