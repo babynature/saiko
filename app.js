@@ -2004,29 +2004,85 @@ function _showToastNow(msg, type, duration) {
 }
 
 // ═══════════════════════════════════════════
+// PHASE 1.5: LIVE FATIGUE / STRESS COMPUTE
+// Based on food intake, exercise, and water.
+// If nothing is logged → bad values (requirement).
+// ═══════════════════════════════════════════
+function computeLiveFatigue() {
+  const eaten   = hungerModule?.caloriesEaten  || 0;
+  const burned  = hungerModule?.caloriesBurned || 0;
+  const meals   = hungerModule?.mealsLogged    || 0;
+  const glasses = waterModule?.getGlasses()    || 0;
+  const goal    = characterModule.get('dailyCalorie') || 2000;
+
+  let score = 40;
+  if (meals === 0) score -= 20;
+  const pct = goal > 0 ? eaten / goal : 0;
+  if (pct >= 0.8)           score += 15;
+  else if (pct >= 0.5)      score += 8;
+  else if (meals > 0)       score -= 10;
+  if      (burned >= 200)   score += 15;
+  else if (burned >= 100)   score += 8;
+  if      (glasses >= 6)    score += 15;
+  else if (glasses >= 4)    score += 8;
+  else if (glasses >= 2)    score += 3;
+  else if (glasses === 0)   score -= 15;
+
+  return Math.max(5, Math.min(95, Math.round(score)));
+}
+
+function computeLiveStress() {
+  const eaten   = hungerModule?.caloriesEaten  || 0;
+  const burned  = hungerModule?.caloriesBurned || 0;
+  const meals   = hungerModule?.mealsLogged    || 0;
+  const glasses = waterModule?.getGlasses()    || 0;
+  const goal    = characterModule.get('dailyCalorie') || 2000;
+
+  let score = 55;
+  if (meals === 0) score += 20;
+  const pct = goal > 0 ? eaten / goal : 0;
+  if (pct >= 0.8)                  score -= 12;
+  else if (pct < 0.5 && meals > 0) score += 10;
+  if      (burned >= 200)   score -= 15;
+  else if (burned >= 100)   score -= 8;
+  else                      score += 5;
+  if      (glasses >= 6)    score -= 10;
+  else if (glasses >= 3)    score -= 5;
+  else if (glasses === 0)   score += 10;
+
+  // Life events still apply on top
+  const events = stressModule?.getActiveEvents?.() || [];
+  events.forEach(ev => { score += (ev.stress_change || 0); });
+
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+// ═══════════════════════════════════════════
 // PHASE 1.5: FATIGUE RENDER
 // ═══════════════════════════════════════════
 function renderFatigue() {
-  const f = sleepModule.getCurrentFatigue();
+  const f   = computeLiveFatigue();
   const bar = document.getElementById('fatigue-bar');
   if (!bar) return;
-  bar.style.width = f + '%';
+  bar.style.width      = f + '%';
   bar.style.background = f >= 70 ? '#4ade80' : f >= 40 ? '#fbbf24' : '#f87171';
-  document.getElementById('fatigue-pct').textContent = f + '%';
-  document.getElementById('fatigue-status').textContent = t(sleepModule.getStatusKey());
+  document.getElementById('fatigue-pct').textContent    = f + '%';
+  document.getElementById('fatigue-status').textContent =
+    f >= 70 ? 'มีพลังงาน' : f >= 40 ? 'พอใช้' : 'เหนื่อยล้า';
 }
 
 // ═══════════════════════════════════════════
 // PHASE 1.5: STRESS RENDER
 // ═══════════════════════════════════════════
 function renderStress() {
-  const s = stressModule.stress;
+  const s   = computeLiveStress();
   const bar = document.getElementById('stress-bar');
   if (!bar) return;
-  bar.style.width = s + '%';
+  bar.style.width      = s + '%';
   bar.style.background = s <= 30 ? '#4ade80' : s <= 60 ? '#fbbf24' : '#f87171';
-  document.getElementById('stress-pct').textContent = s + '%';
-  document.getElementById('stress-status').textContent = t(stressModule.getStatusKey());
+  document.getElementById('stress-pct').textContent    = s + '%';
+  document.getElementById('stress-status').textContent =
+    s <= 30 ? 'ผ่อนคลาย' : s <= 60 ? 'เครียดพอควร' : 'เครียดมาก';
 }
 
 // ═══════════════════════════════════════════
