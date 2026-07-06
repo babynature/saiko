@@ -145,13 +145,24 @@
       <!-- Hunger Gauge -->
       <div class="hunger-section">
         <div class="gauge-label">
-          <span>🍽️ <span id="txt-hunger">ความหิว</span></span>
+          <span>🍽️ <span id="txt-hunger">ความหิว</span>
+            <button class="gauge-info-btn" onclick="toggleGaugeInfo('hunger')" aria-label="อธิบายความหิว">ℹ️</button>
+          </span>
           <span id="hunger-pct">50%</span>
         </div>
         <div class="gauge-bar">
           <div class="gauge-fill hunger-fill" id="hunger-bar" style="width:50%"></div>
         </div>
         <div class="hunger-status" id="hunger-status">ปกติ</div>
+        <div class="gauge-info" id="info-hunger" hidden>
+          <b>🍽️ ความหิว มาจากอะไร?</b>
+          <ul>
+            <li>ลดลงเรื่อยๆ ตามเวลา — ยิ่งขยับ/ออกกำลังกายเยอะ ยิ่งหิวเร็ว</li>
+            <li>🟢 กินอาหาร → อิ่มขึ้น (ยิ่งแคลอรี่สูง ยิ่งอิ่มมาก)</li>
+            <li>🟢 ดื่มน้ำ ช่วยได้เล็กน้อย</li>
+            <li>🔴 ความเครียดสูง → หิวเร็วขึ้น</li>
+          </ul>
+        </div>
       </div>
 
       <!-- Stats Grid -->
@@ -197,25 +208,49 @@
       <!-- Fatigue Gauge -->
       <div class="fatigue-section">
         <div class="gauge-label">
-          <span><span id="fatigue-icon">😴</span> <span id="txt-fatigue">ความล้า</span></span>
+          <span><span id="fatigue-icon">😴</span> <span id="txt-fatigue">ความล้า</span>
+            <button class="gauge-info-btn" onclick="toggleGaugeInfo('fatigue')" aria-label="อธิบายความล้า">ℹ️</button>
+          </span>
           <span id="fatigue-pct">70%</span>
         </div>
         <div class="gauge-bar">
           <div class="fatigue-fill" id="fatigue-bar" style="width:70%"></div>
         </div>
         <div class="fatigue-status" id="fatigue-status">พักผ่อนพอ</div>
+        <div class="gauge-info" id="info-fatigue" hidden>
+          <b>⚡ พลังงาน/ความล้า คิดจากอะไร?</b>
+          <ul>
+            <li>🟢 กินครบมื้อ + ได้แคลอรี่ใกล้เป้าหมาย</li>
+            <li>🟢 ออกกำลังกาย (เผาผลาญ 100+ kcal)</li>
+            <li>🟢 ดื่มน้ำ 4–6 แก้วขึ้นไป</li>
+            <li>🔴 ไม่กินข้าวทั้งวัน / ไม่ดื่มน้ำเลย → อ่อนเพลีย</li>
+          </ul>
+          <small>% สูง = สดชื่นมีแรง • % ต่ำ = ล้า</small>
+        </div>
       </div>
 
       <!-- Stress Gauge -->
       <div class="stress-section">
         <div class="gauge-label">
-          <span><span id="stress-icon">😌</span> <span id="txt-stress">ความเครียด</span></span>
+          <span><span id="stress-icon">😌</span> <span id="txt-stress">ความเครียด</span>
+            <button class="gauge-info-btn" onclick="toggleGaugeInfo('stress')" aria-label="อธิบายความเครียด">ℹ️</button>
+          </span>
           <span id="stress-pct">20%</span>
         </div>
         <div class="gauge-bar">
           <div class="stress-fill" id="stress-bar" style="width:20%"></div>
         </div>
         <div class="stress-status" id="stress-status">ผ่อนคลาย</div>
+        <div class="gauge-info" id="info-stress" hidden>
+          <b>😰 ความเครียด คิดจากอะไร?</b>
+          <ul>
+            <li>🟢 กินใกล้เป้า / ออกกำลังกาย / ดื่มน้ำ → ลดเครียด</li>
+            <li>🔴 ไม่กินข้าว / กินน้อย / ไม่ออกกำลัง / ไม่ดื่มน้ำ → เพิ่มเครียด</li>
+            <li>🔴 เหตุการณ์ชีวิต (สอบ, งานหนัก, ป่วย) → เพิ่มเครียด</li>
+            <li>🟢 กิจกรรมผ่อนคลาย → ลดเครียด</li>
+          </ul>
+          <small>% ต่ำ = ผ่อนคลาย • % สูง = เครียด</small>
+        </div>
       </div>
 
       <!-- Today at a Glance (Phase 7) -->

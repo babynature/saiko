@@ -2690,6 +2690,12 @@ function computeLiveStress() {
   return Math.max(0, Math.min(100, Math.round(score)));
 }
 
+// Toggle the "why is this value?" info panel under a gauge
+function toggleGaugeInfo(id) {
+  const el = document.getElementById('info-' + id);
+  if (el) el.hidden = !el.hidden;
+}
+
 // ═══════════════════════════════════════════
 // PHASE 1.5: FATIGUE RENDER
 // ═══════════════════════════════════════════

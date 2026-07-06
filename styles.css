@@ -368,6 +368,36 @@ html, body {
   margin-top: 6px;
 }
 
+/* ── Gauge "why?" info panel ── */
+.gauge-info-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 11px;
+  padding: 0 2px;
+  opacity: .55;
+  vertical-align: middle;
+  line-height: 1;
+}
+.gauge-info-btn:hover { opacity: 1; }
+.gauge-info {
+  margin-top: 8px;
+  background: var(--surface-inset, #13131f);
+  border: 1px solid var(--border-subtle, rgba(255,255,255,.08));
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.55;
+  text-transform: none;
+  animation: fadeIn .15s ease;
+}
+.gauge-info[hidden] { display: none; }
+.gauge-info b { display: block; color: var(--text, #e2e8f0); margin-bottom: 5px; font-size: 12px; }
+.gauge-info ul { margin: 0; padding-left: 18px; }
+.gauge-info li { margin: 3px 0; }
+.gauge-info small { display: block; margin-top: 6px; color: var(--text-faint, #475569); font-size: 11px; }
+
 /* ═══ STATS GRID ═══ */
 .stats-grid {
   display: grid;
