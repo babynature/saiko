@@ -720,6 +720,13 @@ function toggleFoodLog() {
     _foodLogViewDate = null;       // always start on today
     panel.classList.remove('past-day');
     _syncFoodLogDateNav();
+    // Reset date picker to today
+    const di = document.getElementById('food-log-date');
+    if (di) {
+      const today = new Date().toISOString().slice(0, 10);
+      di.value = today; di.max = today;
+      di.min = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+    }
     setTimeout(() => document.getElementById('food-log-name')?.focus(), 180);
   }
 }
@@ -2792,26 +2799,33 @@ function logCustomFood() {
     return;
   }
 
-  // Past-day mode: write directly to localStorage key for that date
-  if (_foodLogViewDate) {
+  const today     = new Date().toISOString().slice(0, 10);
+  const entryDate = document.getElementById('food-log-date')?.value || today;
+  const isPast    = entryDate < today;
+
+  // Past date: write to per-day localStorage key only
+  if (isPast) {
     const p = parseFloat(proteinEl.value) || 0;
     const c = parseFloat(carbsEl.value)   || 0;
     const f = parseFloat(fatEl.value)     || 0;
     const pastEntry = {
-      name: name || 'อาหาร',
-      kcal: Math.round(kcal),
+      name: name || 'อาหาร', kcal: Math.round(kcal),
       protein: p, carbs: c, fat: f,
       hasMacros: p > 0 || c > 0 || f > 0,
-      mealType, time: '—',
+      mealType,
+      time: new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }),
     };
-    const pastLog = _loadFoodLogForDate(_foodLogViewDate) || [];
+    const pastLog = _loadFoodLogForDate(entryDate) || [];
     pastLog.push(pastEntry);
-    try { localStorage.setItem(`shg-flog-${_foodLogViewDate}`, JSON.stringify(pastLog)); } catch(e) {}
+    try { localStorage.setItem(`shg-flog-${entryDate}`, JSON.stringify(pastLog)); } catch(e) {}
     _trackFoodFreq(pastEntry.name);
     nameEl.value = ''; kcalEl.value = '';
     proteinEl.value = ''; carbsEl.value = ''; fatEl.value = '';
-    _renderFoodLogForDate();
-    showToast(`✅ บันทึกย้อนหลัง ${_foodLogViewDate} — ${pastEntry.name} +${pastEntry.kcal} kcal`, 'info');
+    // Reset date back to today after logging past entry
+    const di = document.getElementById('food-log-date');
+    if (di) di.value = today;
+    renderFoodLog();
+    showToast(`✅ บันทึกย้อนหลัง ${entryDate} — ${pastEntry.name} +${pastEntry.kcal} kcal`, 'info');
     return;
   }
 
