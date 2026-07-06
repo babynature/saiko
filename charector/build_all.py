@@ -80,6 +80,9 @@ def _make_proc_face(kind):
 BASE_M     = 'Gemini_Generated_Image_jt0zepjt0zepjt0z.png'
 BASE_F     = 'Gemini_Generated_Image_2yo4i52yo4i52yo4.png'
 FACE_STRIP = 'Gemini_Generated_Image_wt4gztwt4gztwt4g.png'
+FACE_GRID  = 'Gemini_Generated_Image_6xqrz66xqrz66xqr.png'  # 9-face 2-row grid
+
+FACE_SIZE  = 44   # output PNG size (square px) — at SCALE=2 renders 88×88 on canvas
 
 MALE_OUTFITS = [
     ('Gemini_Generated_Image_u17b0lu17b0lu17b.png', 'm_school'),
@@ -183,11 +186,11 @@ def make_preview(layers_order, name, bg=(30, 30, 46)):
         p = os.path.join(OUT, lname + '.png')
         if os.path.exists(p):
             prev.alpha_composite(Image.open(p))
-    # face_0 overlay
+    # face_0 overlay — y=6 tile coords matches avatarModule face y position
     f0 = os.path.join(OUT, 'face_0.png')
     if os.path.exists(f0):
         f = Image.open(f0)
-        prev.alpha_composite(f, (TILE_W // 2 - f.width // 2, 28))
+        prev.alpha_composite(f, (TILE_W // 2 - f.width // 2, 6))
     out = os.path.join(PREV, f'preview_{name}.png')
     prev.resize((TILE_W * PREV_SCALE, TILE_H * PREV_SCALE), Image.NEAREST).save(out)
 
@@ -228,78 +231,162 @@ def process_base(src_file, out_name):
         layer = patch_base_f_chest(layer)
     save_layer(layer, out_name)
 
-# ── 2. Face strip ──────────────────────────────────────────────────────────────
+# ── 2. Face grid (2-row × 5+4 layout on magenta bg) ───────────────────────────
 def process_faces(src_file):
+    """Slice 9 chibi faces from a grid image on magenta background.
+    Uses connected-component detection so layout can be 2 rows or 1 row.
+    No feature-only filter: pixel-art faces are already clean."""
     print(f"\n[FACES] {src_file}")
-    src = Image.open(os.path.join(HERE, src_file)).convert('RGBA')
-    sa = arr(src)
-    r, g, b, a = sa[:,:,0], sa[:,:,1], sa[:,:,2], sa[:,:,3]
-    bg = ((r > 140) & (g < 120) & (b > 140)) | (a < 20)
-    char = ~bg
 
-    # Find vertical bands (columns that have any non-bg pixel)
-    col_has = char.any(axis=0)
-    # Group consecutive non-empty columns into face segments
-    faces = []
-    in_face = False
-    start = 0
-    for x in range(len(col_has)):
-        if col_has[x] and not in_face:
-            start = x
-            in_face = True
-        elif not col_has[x] and in_face:
-            faces.append((start, x - 1))
-            in_face = False
-    if in_face:
-        faces.append((start, len(col_has) - 1))
+    src_path = os.path.join(HERE, src_file)
+    if not os.path.exists(src_path):
+        print(f"  ERROR: file not found — {src_path}")
+        _proc_faces_fallback()
+        return
 
-    print(f"  Detected {len(faces)} face segments")
+    img = Image.open(src_path).convert('RGBA')
+    ia  = np.array(img)
+    r4, g4, b4, a4 = ia[:,:,0], ia[:,:,1], ia[:,:,2], ia[:,:,3]
 
-    FACE_W, FACE_H = 40, 28  # larger tile: more pixels → better symmetry + breathing room
-    MIN_FACE_WIDTH = 130   # skip narrow artifacts
+    # Key magenta: R high, G low, B high
+    is_mag = (r4.astype(int) > 150) & (g4.astype(int) < 100) & (b4.astype(int) > 150)
+    mask   = (~is_mag) & (a4 > 20)
 
-    valid_faces = [(x1, x2) for (x1, x2) in faces if (x2 - x1) >= MIN_FACE_WIDTH]
-    print(f"  Valid face segments (width>={MIN_FACE_WIDTH}): {len(valid_faces)}")
+    # Connected-component detection via row/col projection per horizontal band
+    blobs = _find_face_blobs(mask, img.width, img.height)
 
-    for i, emotion in enumerate(FACE_EMOTION_ORDER):
-        if i < len(valid_faces):
-            fx1, fx2 = valid_faces[i]
-            # Per-face bounding box: tighter crop avoids empty-space squishing
-            seg = np.array(src)[: , fx1:fx2+1]
-            seg_r,seg_g,seg_b,seg_a = seg[:,:,0],seg[:,:,1],seg[:,:,2],seg[:,:,3]
-            seg_bg = ((seg_r>140)&(seg_g<120)&(seg_b>140))|(seg_a<20)
-            seg_char = ~seg_bg
-            if seg_char.any():
-                fy_rows = np.where(seg_char.any(axis=1))[0]
-                fy1_i, fy2_i = int(fy_rows[0]), int(fy_rows[-1])
-            else:
-                fy1_i, fy2_i = 0, src.height - 1
-            face_crop = src.crop((fx1, fy1_i, fx2 + 1, fy2_i + 1))
-            face_tile  = face_crop.resize((FACE_W, FACE_H), Image.NEAREST)
-            fa = np.array(face_tile.convert('RGBA'))
-            r4,g4,b4,a4 = fa[:,:,0],fa[:,:,1],fa[:,:,2],fa[:,:,3]
-            # Remove magenta (any pixel with magenta hue: r and b high, g low)
-            is_mag = (r4.astype(int) - g4.astype(int) > 50) & (b4.astype(int) - g4.astype(int) > 50)
-            # Keep only expression features; discard face-skin (warm mid-tones)
-            # Dark outline/pupils (very dark), highlights (very bright), or vivid color
-            is_dark      = (r4 < 80) & (g4 < 80) & (b4 < 80)
-            is_highlight = (r4 > 200) & (g4 > 160) & (b4 > 150)   # eye shine
-            is_lip       = (r4 > 150) & (g4 < 120) & (b4 < 120)    # lips/blush
-            is_tongue    = (r4 > 180) & (g4 > 90) & (g4 < 160) & (b4 < 130)  # salmon/pink tongue
-            is_feature = is_dark | is_highlight | is_lip | is_tongue
-            # Anything that is not a feature OR is magenta → transparent
-            discard = ~is_feature | is_mag | (a4 < 20)
-            fa[discard] = [0, 0, 0, 0]
-            face_tile = Image.fromarray(fa, 'RGBA')
-            src_label = f"strip cols {fx1}-{fx2}"
+    if len(blobs) < 9:
+        print(f"  WARNING: only {len(blobs)} blobs found — using procedural for missing")
+
+    PAD = 5
+    for idx in range(9):
+        emotion = FACE_EMOTION_ORDER[idx]
+        if idx < len(blobs):
+            b = blobs[idx]
+            y0 = max(0, b['y0'] - PAD)
+            y1 = min(img.height - 1, b['y1'] + PAD)
+            x0 = max(0, b['x0'] - PAD)
+            x1 = min(img.width  - 1, b['x1'] + PAD)
+
+            crop = img.crop((x0, y0, x1 + 1, y1 + 1)).convert('RGBA')
+
+            # Remove any remaining magenta fringe
+            ca = np.array(crop)
+            cm = (ca[:,:,0].astype(int) > 150) & (ca[:,:,1].astype(int) < 100) & (ca[:,:,2].astype(int) > 150)
+            ca[cm] = [0, 0, 0, 0]
+            crop = Image.fromarray(ca, 'RGBA')
+
+            # Pad to square so resize doesn't squish
+            cw, ch = crop.size
+            side = max(cw, ch)
+            sq = Image.new('RGBA', (side, side))
+            sq.paste(crop, ((side - cw) // 2, (side - ch) // 2))
+
+            # Resize — NEAREST keeps pixel-art crispness
+            face_out = sq.resize((FACE_SIZE, FACE_SIZE), Image.NEAREST)
+            label = f"blob ({x0},{y0})-({x1},{y1})"
         else:
-            # Fallback: procedural face
-            face_tile = _make_proc_face(emotion)
-            src_label = "procedural fallback"
+            face_out = _make_proc_face(emotion)
+            label = "procedural fallback"
 
-        path = os.path.join(OUT, f'face_{i}.png')
-        face_tile.save(path)
-        print(f"  face_{i} ({emotion:<10s}): {src_label}")
+        path = os.path.join(OUT, f'face_{idx}.png')
+        face_out.save(path)
+        print(f"  face_{idx} ({emotion:<10s}): {label} -> {FACE_SIZE}x{FACE_SIZE}")
+
+    _preview_faces()
+
+
+def _find_face_blobs(mask, img_w, img_h):
+    """Find face bounding boxes via row-projection band detection + column projection.
+    Returns list of {'y0','y1','x0','x1','cy','cx'} sorted top→bottom, left→right."""
+    row_sum = mask.sum(axis=1).astype(int)
+
+    # Detect horizontal bands (rows with significant content)
+    MIN_ROW_PIX = img_w // 10
+    in_band, bands = False, []
+    for y in range(img_h):
+        if row_sum[y] > MIN_ROW_PIX and not in_band:
+            band_start = y; in_band = True
+        elif row_sum[y] <= MIN_ROW_PIX and in_band:
+            bands.append((band_start, y - 1)); in_band = False
+    if in_band:
+        bands.append((band_start, img_h - 1))
+
+    blobs = []
+    for (by0, by1) in bands:
+        band_mask = mask[by0:by1 + 1, :]
+        col_sum   = band_mask.sum(axis=0).astype(int)
+        MIN_COL_PIX = (by1 - by0) // 8
+
+        in_face = False
+        for x in range(img_w):
+            if col_sum[x] > MIN_COL_PIX and not in_face:
+                fx0 = x; in_face = True
+            elif col_sum[x] <= MIN_COL_PIX and in_face:
+                fx1 = x - 1
+                # Tight vertical bounds within this column slice
+                col_slice = mask[by0:by1 + 1, fx0:fx1 + 1]
+                rows_with = np.where(col_slice.any(axis=1))[0]
+                ry0 = by0 + int(rows_with[0])
+                ry1 = by0 + int(rows_with[-1])
+                blobs.append({'y0': ry0, 'y1': ry1, 'x0': fx0, 'x1': fx1,
+                              'cy': (ry0 + ry1) // 2, 'cx': (fx0 + fx1) // 2})
+                in_face = False
+        if in_face:
+            fx1 = img_w - 1
+            col_slice = mask[by0:by1 + 1, fx0:fx1 + 1]
+            rows_with = np.where(col_slice.any(axis=1))[0]
+            ry0 = by0 + int(rows_with[0])
+            ry1 = by0 + int(rows_with[-1])
+            blobs.append({'y0': ry0, 'y1': ry1, 'x0': fx0, 'x1': fx1,
+                          'cy': (ry0 + ry1) // 2, 'cx': (fx0 + fx1) // 2})
+
+    # Filter tiny noise
+    if blobs:
+        sizes = sorted([b['x1'] - b['x0'] for b in blobs])
+        med_w = sizes[len(sizes) // 2]
+        blobs = [b for b in blobs if (b['x1'] - b['x0']) > med_w * 0.4]
+
+    # Sort: top-to-bottom rows, left-to-right within each row
+    if blobs:
+        blobs.sort(key=lambda b: b['cy'])
+        med_h = sorted([b['y1'] - b['y0'] for b in blobs])[len(blobs) // 2]
+        row_thresh = med_h * 0.6
+        row_id = 0; prev_cy = blobs[0]['cy']
+        for b in blobs:
+            if b['cy'] - prev_cy > row_thresh:
+                row_id += 1
+            b['row'] = row_id
+            prev_cy = b['cy']
+        blobs.sort(key=lambda b: (b['row'], b['cx']))
+
+    print(f"  Detected {len(blobs)} face blobs across {len(bands)} row-bands")
+    return blobs
+
+
+def _proc_faces_fallback():
+    for i, em in enumerate(FACE_EMOTION_ORDER):
+        _make_proc_face(em).save(os.path.join(OUT, f'face_{i}.png'))
+
+
+def _preview_faces():
+    """Save poc/face_on_white.png + face_on_dark.png showing all 9 faces."""
+    FS = FACE_SIZE
+    imgs = []
+    for i in range(9):
+        p = os.path.join(OUT, f'face_{i}.png')
+        if os.path.exists(p):
+            imgs.append(Image.open(p).convert('RGBA'))
+    if not imgs:
+        return
+    W = len(imgs) * (FS + 2) + 2
+    H = FS + 4
+    for bg, fname in [((255,255,255,255), 'face_on_white'), ((30,30,46,255), 'face_on_dark')]:
+        c = Image.new('RGBA', (W, H), bg)
+        for i, f in enumerate(imgs):
+            c.alpha_composite(f, (2 + i * (FS + 2), 2))
+        c.save(os.path.join(PREV, f'{fname}.png'))
+        print(f"  Preview: {fname}.png")
 
 # ── 3. Outfit (top + bottom layers) ───────────────────────────────────────────
 HAIR_MAX_TY_M = 36   # male: head zone rows 0-35
@@ -375,8 +462,8 @@ def main():
     process_base(BASE_M, 'base_m')
     process_base(BASE_F, 'base_f')
 
-    # Face strip
-    process_faces(FACE_STRIP)
+    # Face grid (9-face 2-row pixel art)
+    process_faces(FACE_GRID)
 
     # Male: load base once
     print("\n[MALE OUTFITS]")

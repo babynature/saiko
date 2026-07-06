@@ -232,11 +232,18 @@
       // Pre-composited body
       if (this._bodyCanvas) ctx.drawImage(this._bodyCanvas, 0, 0, W, H);
 
-      // Face overlay (separate so emotion swaps are instant)
-      // y=12: positions eyes at ~35% and mouth at ~75% of the chibi head height
+      // Face overlay — destination-out erases body head area so the face
+      // circle replaces it cleanly (no double-outline with base sprite).
       const f = this.img[`face_${this.faceIdx}`];
       if (f && f.width) {
-        ctx.drawImage(f, (TW / 2 - f.width / 2) * SCALE, 12 * SCALE, f.width * SCALE, f.height * SCALE);
+        const fx = Math.round((TW / 2 - f.width / 2) * SCALE);
+        const fy = 6 * SCALE;
+        const fw = f.width  * SCALE;
+        const fh = f.height * SCALE;
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.drawImage(f, fx, fy, fw, fh);
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.drawImage(f, fx, fy, fw, fh);
       }
 
       ctx.restore();
