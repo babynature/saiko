@@ -127,10 +127,11 @@
     <!-- Character Section -->
     <div class="character-section">
       <div class="character-display" id="character-display">
-        <div class="char-avatar" id="char-avatar">
+        <div class="char-avatar" id="char-avatar" onclick="openCharacterPicker()" title="เปลี่ยนตัวละคร">
           <div class="char-sprite" id="char-sprite"></div>
           <div class="char-emotion" id="char-face">😊</div>
           <div class="char-aura" id="char-aura"></div>
+          <div class="char-change-hint">เปลี่ยน</div>
         </div>
         <div class="char-info">
           <div class="char-name" id="char-name">Sam</div>
@@ -890,6 +891,21 @@
     <p id="txt-life-event-sub" style="font-size:12px;color:var(--text2);margin:6px 0 12px">เลือกเหตุการณ์ที่กำลังเกิดขึ้น</p>
     <div class="life-events-grid" id="life-events-grid"></div>
     <button class="btn-close-modal" onclick="closeLifeEventModal()" id="btn-close-event">✅ ปิด</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHARACTER PICKER MODAL
+═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="char-picker-modal" style="display:none" onclick="if(event.target===this)closeCharacterPicker()">
+  <div class="modal-card" style="text-align:center">
+    <h3 style="margin-bottom:14px">🎮 เลือกตัวละคร</h3>
+    <div class="char-picker-tabs">
+      <button class="char-picker-tab active" id="tab-male" onclick="switchCharPickerGender('M')">🧑 ชาย</button>
+      <button class="char-picker-tab" id="tab-female" onclick="switchCharPickerGender('F')">👧 หญิง</button>
+    </div>
+    <div class="char-picker-grid" id="char-picker-grid"></div>
+    <button class="btn-cancel" style="width:100%;margin-top:12px" onclick="closeCharacterPicker()">ปิด</button>
   </div>
 </div>
 
