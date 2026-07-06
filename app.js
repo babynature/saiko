@@ -176,6 +176,20 @@ window.addEventListener('DOMContentLoaded', () => {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
   }
 
+  // Safety: close food panel if backdrop is stuck but panel isn't open
+  document.addEventListener('touchstart', () => {
+    const backdrop = document.getElementById('food-backdrop');
+    const panel    = document.getElementById('panel-food');
+    if (backdrop?.classList.contains('active') && !panel?.classList.contains('panel-open')) {
+      backdrop.classList.remove('active');
+    }
+  }, { passive: true });
+
+  // Safety: close food panel when app returns from background
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) closeFoodLog();
+  });
+
   // Phase 6: Init Firebase (if configured)
   firebaseModule.init(onAuthStateChanged);
 
@@ -273,6 +287,7 @@ function showScreen(screenId) {
 }
 
 function showTab(tabId) {
+  closeFoodLog();
   _currentTabId = tabId;
   document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
   document.getElementById('tab-' + tabId).classList.remove('hidden');

@@ -225,7 +225,11 @@ html, body {
 .tab-content {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 12px 14px 90px;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
 }
 .tab-content.hidden { display: none; }
 
