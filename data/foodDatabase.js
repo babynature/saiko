@@ -312,4 +312,10 @@ window.FOOD_DB = [
   { name: 'ผัดซีฟู้ดรวม',             kcal: 280, protein: 24, carbs: 10, fat: 16, emoji: '🦐', portion: '1 จาน (กุ้ง+ปลาหมึก+หอย)' },
   { name: 'ต้มยำซีฟู้ด',              kcal: 200, protein: 24, carbs: 10, fat: 8,  emoji: '🍲', portion: '1 ชาม' },
   { name: 'ยำซีฟู้ด',                 kcal: 220, protein: 22, carbs: 14, fat: 8,  emoji: '🦐', portion: '1 จาน' },
+
+  // ── ปิ้งย่าง / สุกี้ / ยำ (เพิ่มเติม) ─────────────────
+  { name: 'คอหมูย่าง',               kcal: 320, protein: 24, carbs: 3,  fat: 24, emoji: '🍖', portion: '1 ที่ (~120g)' },
+  { name: 'ยำขนมจีน',                kcal: 300, protein: 10, carbs: 48, fat: 8,  emoji: '🍜', portion: '1 จาน' },
+  { name: 'สุกี้ทะเล',               kcal: 320, protein: 26, carbs: 26, fat: 12, emoji: '🍲', portion: '1 จาน (กุ้ง+ปลาหมึก+หอย)' },
+  { name: 'สุกี้หมู',                kcal: 340, protein: 24, carbs: 28, fat: 14, emoji: '🍲', portion: '1 จาน' },
 ];
