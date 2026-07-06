@@ -233,9 +233,10 @@
       if (this._bodyCanvas) ctx.drawImage(this._bodyCanvas, 0, 0, W, H);
 
       // Face overlay (separate so emotion swaps are instant)
+      // y=12: positions eyes at ~35% and mouth at ~75% of the chibi head height
       const f = this.img[`face_${this.faceIdx}`];
       if (f && f.width) {
-        ctx.drawImage(f, (TW / 2 - f.width / 2) * SCALE, 28 * SCALE, f.width * SCALE, f.height * SCALE);
+        ctx.drawImage(f, (TW / 2 - f.width / 2) * SCALE, 12 * SCALE, f.width * SCALE, f.height * SCALE);
       }
 
       ctx.restore();

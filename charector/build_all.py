@@ -31,47 +31,49 @@ FACE_EMOTION_ORDER = ['neutral','happy','yum','hungry','stressed','tired','sad',
 # Procedural face generator (fallback when strip segment is missing/corrupt)
 from PIL import ImageDraw as _IDraw
 def _make_proc_face(kind):
-    FW, FH = 24, 16
+    FW, FH = 40, 28
     EYE   = (45, 40, 52, 255)
     MOUTH = (150, 70, 80, 255)
     TONGUE= (235, 130, 140, 255)
     BLUSH = (255, 150, 150, 110)
-    LX, RX, EY = 6, 17, 7
+    # Eye centres at 35% height, mouth at 78% height — symmetric about x=FW/2
+    LX, RX, EY = 12, 27, 10
+    MY = 22   # mouth y
     im = Image.new('RGBA', (FW, FH))
     d  = _IDraw.Draw(im)
-    def eye_dot(cx):  d.rectangle([cx-1, EY-1, cx+1, EY+2], fill=EYE)
-    def eye_up(cx):   d.arc([cx-3, EY-1, cx+3, EY+5], 180, 360, fill=EYE, width=2)
-    def eye_line(cx): d.line([cx-2, EY+1, cx+2, EY+1], fill=EYE, width=2)
+    def eye_dot(cx):  d.rectangle([cx-2, EY-1, cx+2, EY+3], fill=EYE)
+    def eye_up(cx):   d.arc([cx-4, EY-1, cx+4, EY+7], 180, 360, fill=EYE, width=2)
+    def eye_line(cx): d.line([cx-3, EY+2, cx+3, EY+2], fill=EYE, width=2)
     def blush():
-        d.ellipse([2, EY+2, 6, EY+5], fill=BLUSH)
-        d.ellipse([FW-7, EY+2, FW-3, EY+5], fill=BLUSH)
+        d.ellipse([3, EY+4, 9, EY+8], fill=BLUSH)
+        d.ellipse([FW-10, EY+4, FW-4, EY+8], fill=BLUSH)
     if kind == 'neutral':
-        eye_dot(LX); eye_dot(RX); d.line([10, 13, 15, 13], fill=MOUTH, width=1)
+        eye_dot(LX); eye_dot(RX); d.line([17, MY, 23, MY], fill=MOUTH, width=2)
     elif kind == 'happy':
-        eye_up(LX); eye_up(RX); d.arc([8,9,16,15], 0, 180, fill=MOUTH, width=2); blush()
+        eye_up(LX); eye_up(RX); d.arc([14,MY-3,26,MY+5], 0, 180, fill=MOUTH, width=2); blush()
     elif kind == 'yum':
-        eye_up(LX); eye_up(RX); d.ellipse([9,11,15,15], fill=MOUTH)
-        d.ellipse([10,13,14,15], fill=TONGUE); blush()
+        eye_up(LX); eye_up(RX); d.ellipse([15,MY-2,25,MY+6], fill=MOUTH)
+        d.ellipse([17,MY+1,23,MY+6], fill=TONGUE); blush()
     elif kind == 'hungry':
         eye_dot(LX); eye_dot(RX)
-        d.line([9,13,11,14],fill=MOUTH); d.line([11,14,13,13],fill=MOUTH); d.line([13,13,15,14],fill=MOUTH)
+        d.line([15,MY,18,MY+2],fill=MOUTH,width=2); d.line([18,MY+2,21,MY],fill=MOUTH,width=2); d.line([21,MY,24,MY+2],fill=MOUTH,width=2)
     elif kind == 'stressed':
         eye_dot(LX); eye_dot(RX)
-        for x in range(10,16,2): d.line([x,12,x,14], fill=MOUTH)
+        for x in range(16,25,3): d.line([x,MY-1,x,MY+2], fill=MOUTH, width=2)
     elif kind == 'tired':
-        eye_line(LX); eye_line(RX); d.line([10,13,15,13], fill=MOUTH, width=1)
+        eye_line(LX); eye_line(RX); d.line([17, MY, 23, MY], fill=MOUTH, width=2)
     elif kind == 'sad':
-        d.rectangle([LX-1,EY,LX+1,EY+3],fill=EYE); d.rectangle([RX-1,EY,RX+1,EY+3],fill=EYE)
-        d.arc([8,13,16,18], 180, 360, fill=MOUTH, width=2)
+        d.rectangle([LX-2,EY,LX+2,EY+4],fill=EYE); d.rectangle([RX-2,EY,RX+2,EY+4],fill=EYE)
+        d.arc([14,MY+2,26,MY+10], 180, 360, fill=MOUTH, width=2)
     elif kind == 'sleep':
-        d.arc([LX-3,EY-2,LX+3,EY+3], 0,180,fill=EYE,width=2)
-        d.arc([RX-3,EY-2,RX+3,EY+3], 0,180,fill=EYE,width=2)
-        d.ellipse([11,12,14,15], fill=MOUTH)
+        d.arc([LX-4,EY-2,LX+4,EY+6], 0,180,fill=EYE,width=2)
+        d.arc([RX-4,EY-2,RX+4,EY+6], 0,180,fill=EYE,width=2)
+        d.ellipse([17,MY-1,23,MY+5], fill=MOUTH)
     elif kind == 'angry':
-        d.line([LX-3,EY-2,LX+2,EY], fill=EYE, width=2)
-        d.line([RX-2,EY,RX+3,EY-2], fill=EYE, width=2)
-        d.rectangle([LX-1,EY+1,LX+1,EY+3],fill=EYE); d.rectangle([RX-1,EY+1,RX+1,EY+3],fill=EYE)
-        d.arc([8,13,16,18], 180, 360, fill=MOUTH, width=2)
+        d.line([LX-4,EY-2,LX+2,EY+1], fill=EYE, width=2)
+        d.line([RX-2,EY+1,RX+4,EY-2], fill=EYE, width=2)
+        d.rectangle([LX-2,EY+2,LX+2,EY+5],fill=EYE); d.rectangle([RX-2,EY+2,RX+2,EY+5],fill=EYE)
+        d.arc([14,MY+2,26,MY+10], 180, 360, fill=MOUTH, width=2)
     return im
 
 # ── File map ──────────────────────────────────────────────────────────────────
@@ -253,12 +255,7 @@ def process_faces(src_file):
 
     print(f"  Detected {len(faces)} face segments")
 
-    # Find vertical extent of face strip
-    row_has = char.any(axis=1)
-    y_rows = np.where(row_has)[0]
-    fy1, fy2 = int(y_rows[0]), int(y_rows[-1])
-
-    FACE_W, FACE_H = 24, 16
+    FACE_W, FACE_H = 40, 28  # larger tile: more pixels → better symmetry + breathing room
     MIN_FACE_WIDTH = 130   # skip narrow artifacts
 
     valid_faces = [(x1, x2) for (x1, x2) in faces if (x2 - x1) >= MIN_FACE_WIDTH]
@@ -267,10 +264,20 @@ def process_faces(src_file):
     for i, emotion in enumerate(FACE_EMOTION_ORDER):
         if i < len(valid_faces):
             fx1, fx2 = valid_faces[i]
-            face_crop = src.crop((fx1, fy1, fx2 + 1, fy2 + 1))
-            face_tile  = face_crop.resize((FACE_W, FACE_H), Image.NEAREST)
+            # Per-face bounding box: tighter crop avoids empty-space squishing
+            seg = np.array(src)[: , fx1:fx2+1]
+            seg_r,seg_g,seg_b,seg_a = seg[:,:,0],seg[:,:,1],seg[:,:,2],seg[:,:,3]
+            seg_bg = ((seg_r>140)&(seg_g<120)&(seg_b>140))|(seg_a<20)
+            seg_char = ~seg_bg
+            if seg_char.any():
+                fy_rows = np.where(seg_char.any(axis=1))[0]
+                fy1_i, fy2_i = int(fy_rows[0]), int(fy_rows[-1])
+            else:
+                fy1_i, fy2_i = 0, src.height - 1
+            face_crop = src.crop((fx1, fy1_i, fx2 + 1, fy2_i + 1))
+            face_tile  = face_crop.resize((FACE_W, FACE_H), Image.LANCZOS)
             # Remove magenta background → transparent so face skin shows through
-            fa = np.array(face_tile)
+            fa = np.array(face_tile.convert('RGBA'))
             mag = (fa[:,:,0] > 140) & (fa[:,:,1] < 120) & (fa[:,:,2] > 140)
             fa[mag] = [0, 0, 0, 0]
             face_tile = Image.fromarray(fa, 'RGBA')
