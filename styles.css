@@ -239,51 +239,34 @@ html, body {
 
 .character-display {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 16px;
   background: var(--card);
   border-radius: var(--radius);
   padding: 16px;
   border: 1px solid var(--border);
+  min-height: 176px;
 }
 
 .char-avatar {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 96px;
+  height: 160px;
   flex-shrink: 0;
 }
-.char-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 0.5s;
-  transform-origin: center bottom;
+.char-sprite {
+  width: 96px;
+  height: 160px;
+  image-rendering: pixelated;
 }
-.char-head {
-  width: 44px;
-  height: 44px;
-  background: var(--card2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--primary);
-}
-.char-face { font-size: 26px; }
-.char-torso {
-  width: 34px;
-  height: 22px;
-  background: var(--primary);
-  border-radius: 4px;
-  margin-top: 2px;
-}
-.char-legs {
-  width: 30px;
-  height: 14px;
-  background: var(--primary-d);
-  border-radius: 2px;
-  margin-top: 2px;
+.char-emotion {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  font-size: 18px;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.6));
+  pointer-events: none;
 }
 .char-aura {
   position: absolute;
@@ -291,9 +274,9 @@ html, body {
   border-radius: 50%;
   pointer-events: none;
 }
-.char-aura.golden { box-shadow: 0 0 20px 6px rgba(251,191,36,0.4); }
-.char-aura.azure  { box-shadow: 0 0 20px 6px rgba(59,130,246,0.4); }
-.char-aura.crimson{ box-shadow: 0 0 20px 6px rgba(239,68,68,0.4); }
+.char-aura.golden { box-shadow: 0 0 24px 8px rgba(251,191,36,0.45); }
+.char-aura.azure  { box-shadow: 0 0 24px 8px rgba(59,130,246,0.45); }
+.char-aura.crimson{ box-shadow: 0 0 24px 8px rgba(239,68,68,0.45); }
 
 .char-info { flex: 1; }
 .char-name { font-size: 18px; font-weight: 800; }

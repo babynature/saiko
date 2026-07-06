@@ -584,37 +584,48 @@ function renderHUD() {
 // ═══════════════════════════════════════════
 // CHARACTER
 // ═══════════════════════════════════════════
+// Sprite sheet: 1536×1024 → 5 cols × 2 rows (row0=male, row1=female)
+// Display size per sprite: 96×160px → sheet scaled to 480×320px
+const SPRITE_W = 96, SPRITE_H = 160;
+const SPRITE_COLS = 5, SPRITE_ROWS = 2;
+
 function renderCharacter() {
-  const ch = characterModule;
-  const scale = ch.getSizeScale();
-  document.getElementById('char-body').style.transform = `scale(${scale})`;
-
+  const ch  = characterModule;
   const hun = hungerModule.getHungerPct();
-  document.getElementById('char-face').textContent = ch.getEmotionFace(hun);
 
-  document.getElementById('char-name').textContent = ch.get('name');
+  // ── Pixel sprite ──
+  const spriteEl = document.getElementById('char-sprite');
+  if (spriteEl) {
+    const gender  = (ch.get('gender') || 'M').toUpperCase();
+    const row     = gender === 'F' ? 1 : 0;
+    const col     = ch.get('cosmetics')?.characterIdx ?? 0;
+    const sheetW  = SPRITE_W * SPRITE_COLS;   // 480
+    const sheetH  = SPRITE_H * SPRITE_ROWS;   // 320
+    const posX    = -(col * SPRITE_W);
+    const posY    = -(row * SPRITE_H);
+    spriteEl.style.cssText = `
+      width:${SPRITE_W}px; height:${SPRITE_H}px;
+      background: url('charector/char-sprite.png') ${posX}px ${posY}px / ${sheetW}px ${sheetH}px no-repeat;
+      image-rendering: pixelated;
+    `;
+  }
+
+  // ── Emotion badge ──
+  const faceEl = document.getElementById('char-face');
+  if (faceEl) faceEl.textContent = ch.getEmotionFace(hun);
+
+  document.getElementById('char-name').textContent  = ch.get('name');
   document.getElementById('char-title').textContent = ch.getTitle();
 
-  const bmi = ch.get('bmi');
+  const bmi      = ch.get('bmi');
   const bmiLabel = bmiModule.getCategoryLabel(bmi);
   const bmiColor = bmiModule.getCategoryColor(bmi);
-  const bmiEl = document.getElementById('char-bmi-badge');
-  bmiEl.textContent = `BMI ${bmi.toFixed(1)} • ${bmiLabel}`;
-  bmiEl.style.color = bmiColor;
-  bmiEl.style.background = bmiColor + '22';
+  const bmiEl    = document.getElementById('char-bmi-badge');
+  bmiEl.textContent       = `BMI ${bmi.toFixed(1)} • ${bmiLabel}`;
+  bmiEl.style.color       = bmiColor;
+  bmiEl.style.background  = bmiColor + '22';
 
-  const aura = document.getElementById('char-aura');
-  aura.className = 'char-aura ' + ch.getAuraClass();
-
-  // Apply color cosmetic to torso/legs
-  const color = ch.get('cosmetics').color;
-  const colorMap = { red:'#ef4444', green:'#22c55e', purple:'#8b5cf6', gold:'#f59e0b', rainbow:'linear-gradient(90deg,#f87171,#fbbf24,#4ade80,#60a5fa,#a78bfa)' };
-  const torso = document.getElementById('char-torso');
-  const legs  = document.getElementById('char-legs');
-  if (color && colorMap[color]) {
-    torso.style.background = colorMap[color];
-    legs.style.background  = colorMap[color];
-  }
+  document.getElementById('char-aura').className = 'char-aura ' + ch.getAuraClass();
 }
 
 // ═══════════════════════════════════════════
