@@ -613,6 +613,7 @@ html, body {
 
 /* ═══ PROFILE ═══ */
 .profile-card {
+  position: relative;
   display: flex;
   align-items: flex-start;
   gap: 16px;
@@ -627,7 +628,6 @@ html, body {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  cursor: pointer;
   flex-shrink: 0;
   overflow: hidden;
   background: var(--surface-inset, #13131f);
@@ -635,9 +635,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.2s;
 }
-.profile-avatar-wrap:hover  { border-color: var(--primary-d); }
 .profile-avatar-wrap:active { opacity: 0.85; }
 .profile-avatar-img {
   position: absolute;
@@ -650,20 +648,21 @@ html, body {
 }
 .profile-avatar-img.loaded { display: block; }
 .profile-avatar-fallback { font-size: 44px; line-height: 1; }
-.profile-avatar-edit {
+.profile-settings-btn {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0,0,0,.55);
-  text-align: center;
-  font-size: 13px;
-  padding: 3px 0;
-  transition: opacity 0.2s;
-  opacity: 0;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0.5;
+  line-height: 1;
+  padding: 4px;
+  transition: opacity 0.2s, transform 0.2s;
 }
-.profile-avatar-wrap:hover .profile-avatar-edit { opacity: 1; }
-@media (hover: none) { .profile-avatar-edit { opacity: 1; } }
+.profile-settings-btn:hover  { opacity: 1; transform: rotate(30deg); }
+.profile-settings-btn:active { transform: rotate(60deg); }
 .profile-name { font-size: 22px; font-weight: 800; }
 .profile-title-text { font-size: 13px; color: var(--primary); font-weight: 600; margin-top: 4px; }
 
