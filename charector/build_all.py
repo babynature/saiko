@@ -80,9 +80,14 @@ def _make_proc_face(kind):
 BASE_M     = 'Gemini_Generated_Image_jt0zepjt0zepjt0z.png'
 BASE_F     = 'Gemini_Generated_Image_2yo4i52yo4i52yo4.png'
 FACE_STRIP = 'Gemini_Generated_Image_wt4gztwt4gztwt4g.png'
-FACE_GRID  = 'Gemini_Generated_Image_6xqrz66xqrz66xqr.png'  # 9-face 2-row grid
+FACE_GRID  = 'Gemini_Generated_Image_vgfy42vgfy42vgfy.png'  # 9-face 2-row features-only
 
-FACE_SIZE  = 32   # output PNG size (square px) — at SCALE=2 renders 64×64 on canvas
+FACE_SIZE  = 44   # output PNG size (square px) — at SCALE=2 renders 88×88 on canvas
+
+# Blob selection: override default first-9 order when some blobs are extras.
+# None = use first 9 detected blobs; list = explicit blob indices for face_0..face_8.
+# blob_7 in this image is 'worried/sweat' (not in our emotion set) — skip it.
+FACE_BLOB_SELECT = [0, 1, 2, 3, 4, 5, 6, 8, 9]
 
 MALE_OUTFITS = [
     ('Gemini_Generated_Image_u17b0lu17b0lu17b.png', 'm_school'),
@@ -235,7 +240,7 @@ def process_base(src_file, out_name):
 def process_faces(src_file):
     """Slice 9 chibi faces from a grid image on magenta background.
     Uses connected-component detection so layout can be 2 rows or 1 row.
-    No feature-only filter: pixel-art faces are already clean."""
+    Feature-only filter keeps eyes/outlines/blush, discards skin oval."""
     print(f"\n[FACES] {src_file}")
 
     src_path = os.path.join(HERE, src_file)
@@ -258,11 +263,17 @@ def process_faces(src_file):
     if len(blobs) < 9:
         print(f"  WARNING: only {len(blobs)} blobs found — using procedural for missing")
 
+    # Apply blob selection (allows skipping extras / reordering)
+    if FACE_BLOB_SELECT is not None:
+        selected = [blobs[i] for i in FACE_BLOB_SELECT if i < len(blobs)]
+    else:
+        selected = blobs[:9]
+
     PAD = 5
     for idx in range(9):
         emotion = FACE_EMOTION_ORDER[idx]
-        if idx < len(blobs):
-            b = blobs[idx]
+        if idx < len(selected):
+            b = selected[idx]
             y0 = max(0, b['y0'] - PAD)
             y1 = min(img.height - 1, b['y1'] + PAD)
             x0 = max(0, b['x0'] - PAD)
@@ -284,6 +295,18 @@ def process_faces(src_file):
 
             # Resize — NEAREST keeps pixel-art crispness
             face_out = sq.resize((FACE_SIZE, FACE_SIZE), Image.NEAREST)
+
+            # Feature-only filter: keep outlines/eyes/blush, discard face skin.
+            # Pixel-art skin is clean peach (~230,185,155) so thresholds are reliable.
+            fa = np.array(face_out)
+            fr, fg, fb, falpha = fa[:,:,0], fa[:,:,1], fa[:,:,2], fa[:,:,3]
+            is_dark  = (fr < 100) & (fg < 85)  & (fb < 85)          # outlines, pupils, eyebrows
+            is_white = (fr > 210) & (fg > 205) & (fb > 200)          # eye whites / highlight dots
+            is_pink  = (fr > 180) & (fg < 150) & (fb < 150)          # blush, lips, tongue, mouth
+            is_tear  = (fb.astype(int) > fr.astype(int) + 40) & (fb > 150)  # tear drop (sad face)
+            keep = is_dark | is_white | is_pink | is_tear
+            fa[~keep | (falpha < 20)] = [0, 0, 0, 0]
+            face_out = Image.fromarray(fa, 'RGBA')
             label = f"blob ({x0},{y0})-({x1},{y1})"
         else:
             face_out = _make_proc_face(emotion)
@@ -297,67 +320,79 @@ def process_faces(src_file):
 
 
 def _find_face_blobs(mask, img_w, img_h):
-    """Find face bounding boxes via row-projection band detection + column projection.
-    Returns list of {'y0','y1','x0','x1','cy','cx'} sorted top→bottom, left→right."""
-    row_sum = mask.sum(axis=1).astype(int)
+    """Find face bounding boxes using dilation to merge disconnected features.
+    Works for both full-face and features-only (eyes/mouth separate blobs) images.
+    Returns list of {'y0','y1','x0','x1','cy','cx','row'} sorted top→bottom, left→right."""
 
-    # Detect horizontal bands (rows with significant content)
-    MIN_ROW_PIX = img_w // 10
+    # Dilation radii: bridge small gaps between disconnected features within one face.
+    # Keep DC small so inter-face gaps (~15% of image width) are never bridged.
+    DR = max(8,  img_h // 30)   # vertical dilation
+    DC = max(10, img_w // 80)   # horizontal dilation — ~1.25% of width
+
+    def dilate_1d(arr, radius):
+        out = np.zeros_like(arr, dtype=bool)
+        for shift in range(-radius, radius + 1):
+            shifted = np.roll(arr.astype(bool), shift)
+            if shift > 0:  shifted[:shift] = False
+            elif shift < 0: shifted[shift:] = False
+            out |= shifted
+        return out
+
+    # Row projection → dilate → find horizontal bands
+    row_has = mask.sum(axis=1) > (img_w // 100)
+    row_dil = dilate_1d(row_has, DR)
     in_band, bands = False, []
     for y in range(img_h):
-        if row_sum[y] > MIN_ROW_PIX and not in_band:
-            band_start = y; in_band = True
-        elif row_sum[y] <= MIN_ROW_PIX and in_band:
-            bands.append((band_start, y - 1)); in_band = False
-    if in_band:
-        bands.append((band_start, img_h - 1))
+        if row_dil[y] and not in_band:   band_start = y; in_band = True
+        elif not row_dil[y] and in_band: bands.append((band_start, y - 1)); in_band = False
+    if in_band: bands.append((band_start, img_h - 1))
 
     blobs = []
     for (by0, by1) in bands:
         band_mask = mask[by0:by1 + 1, :]
-        col_sum   = band_mask.sum(axis=0).astype(int)
-        MIN_COL_PIX = (by1 - by0) // 8
+        col_has = band_mask.sum(axis=0) > 0
+        col_dil = dilate_1d(col_has, DC)     # merge intra-face horizontal gaps
 
         in_face = False
         for x in range(img_w):
-            if col_sum[x] > MIN_COL_PIX and not in_face:
+            if col_dil[x] and not in_face:
                 fx0 = x; in_face = True
-            elif col_sum[x] <= MIN_COL_PIX and in_face:
+            elif not col_dil[x] and in_face:
                 fx1 = x - 1
-                # Tight vertical bounds within this column slice
-                col_slice = mask[by0:by1 + 1, fx0:fx1 + 1]
-                rows_with = np.where(col_slice.any(axis=1))[0]
-                ry0 = by0 + int(rows_with[0])
-                ry1 = by0 + int(rows_with[-1])
-                blobs.append({'y0': ry0, 'y1': ry1, 'x0': fx0, 'x1': fx1,
-                              'cy': (ry0 + ry1) // 2, 'cx': (fx0 + fx1) // 2})
+                sl = mask[by0:by1 + 1, fx0:fx1 + 1]
+                rws = np.where(sl.any(axis=1))[0]
+                cws = np.where(sl.any(axis=0))[0]
+                if len(rws) and len(cws):
+                    ry0 = by0 + int(rws[0]); ry1 = by0 + int(rws[-1])
+                    rx0 = fx0 + int(cws[0]); rx1 = fx0 + int(cws[-1])
+                    blobs.append({'y0':ry0,'y1':ry1,'x0':rx0,'x1':rx1,
+                                  'cy':(ry0+ry1)//2,'cx':(rx0+rx1)//2})
                 in_face = False
         if in_face:
-            fx1 = img_w - 1
-            col_slice = mask[by0:by1 + 1, fx0:fx1 + 1]
-            rows_with = np.where(col_slice.any(axis=1))[0]
-            ry0 = by0 + int(rows_with[0])
-            ry1 = by0 + int(rows_with[-1])
-            blobs.append({'y0': ry0, 'y1': ry1, 'x0': fx0, 'x1': fx1,
-                          'cy': (ry0 + ry1) // 2, 'cx': (fx0 + fx1) // 2})
+            sl = mask[by0:by1 + 1, fx0:]
+            rws = np.where(sl.any(axis=1))[0]
+            cws = np.where(sl.any(axis=0))[0]
+            if len(rws) and len(cws):
+                ry0 = by0 + int(rws[0]); ry1 = by0 + int(rws[-1])
+                rx0 = fx0 + int(cws[0]); rx1 = fx0 + len(sl[0]) - 1
+                blobs.append({'y0':ry0,'y1':ry1,'x0':rx0,'x1':rx1,
+                              'cy':(ry0+ry1)//2,'cx':(rx0+rx1)//2})
 
-    # Filter tiny noise
+    # Filter blobs much smaller than median width (noise)
     if blobs:
-        sizes = sorted([b['x1'] - b['x0'] for b in blobs])
-        med_w = sizes[len(sizes) // 2]
-        blobs = [b for b in blobs if (b['x1'] - b['x0']) > med_w * 0.4]
+        widths = sorted([b['x1'] - b['x0'] for b in blobs])
+        med_w = widths[len(widths) // 2]
+        blobs = [b for b in blobs if (b['x1'] - b['x0']) > med_w * 0.35]
 
-    # Sort: top-to-bottom rows, left-to-right within each row
+    # Sort top→bottom, then left→right within each row
     if blobs:
         blobs.sort(key=lambda b: b['cy'])
         med_h = sorted([b['y1'] - b['y0'] for b in blobs])[len(blobs) // 2]
-        row_thresh = med_h * 0.6
+        row_thresh = max(med_h * 0.8, DR * 2)
         row_id = 0; prev_cy = blobs[0]['cy']
         for b in blobs:
-            if b['cy'] - prev_cy > row_thresh:
-                row_id += 1
-            b['row'] = row_id
-            prev_cy = b['cy']
+            if b['cy'] - prev_cy > row_thresh: row_id += 1
+            b['row'] = row_id; prev_cy = b['cy']
         blobs.sort(key=lambda b: (b['row'], b['cx']))
 
     print(f"  Detected {len(blobs)} face blobs across {len(bands)} row-bands")

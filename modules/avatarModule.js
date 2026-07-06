@@ -232,18 +232,12 @@
       // Pre-composited body
       if (this._bodyCanvas) ctx.drawImage(this._bodyCanvas, 0, 0, W, H);
 
-      // Face overlay — destination-out erases body head area so the face
-      // circle replaces it cleanly (no double-outline with base sprite).
+      // Face overlay — features only (eyes/mouth/blush), source-over on body head area.
       const f = this.img[`face_${this.faceIdx}`];
       if (f && f.width) {
         const fx = Math.round((TW / 2 - f.width / 2) * SCALE);
         const fy = 6 * SCALE;
-        const fw = f.width  * SCALE;
-        const fh = f.height * SCALE;
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.drawImage(f, fx, fy, fw, fh);
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.drawImage(f, fx, fy, fw, fh);
+        ctx.drawImage(f, fx, fy, f.width * SCALE, f.height * SCALE);
       }
 
       ctx.restore();
