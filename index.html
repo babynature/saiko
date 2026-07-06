@@ -296,6 +296,7 @@
             <button class="flog-nav-btn" id="flog-nav-next" onclick="navigateFoodLog(1)" disabled>›</button>
           </div>
           <div class="food-log-form">
+            <input type="date" id="food-log-date" class="food-log-date">
             <div style="display:flex;gap:6px;align-items:flex-start">
               <div class="food-search-wrap">
                 <input type="text" id="food-log-name" class="food-log-input" placeholder="🔍 ค้นหาอาหาร เช่น ข้าวผัด" maxlength="40" autocomplete="off">
@@ -828,6 +829,54 @@
     <div class="food-modal-btns">
       <button class="btn-cancel" onclick="closeWeightModal()">❌ <span id="txt-cancel-weight">ยกเลิก</span></button>
       <button class="btn-confirm" onclick="confirmLogWeight()">✅ <span id="txt-weight-save">บันทึก</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     EDIT FOOD ENTRY MODAL
+═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="edit-food-modal" style="display:none" onclick="if(event.target===this)closeEditFoodModal()">
+  <div class="modal-card" style="text-align:left">
+    <h3 style="text-align:center;margin-bottom:16px">✏️ แก้ไขรายการอาหาร</h3>
+    <div class="form-group">
+      <label>ชื่ออาหาร</label>
+      <input type="text" id="edit-food-name" placeholder="ชื่ออาหาร" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>📅 วันที่</label>
+      <input type="date" id="edit-food-date">
+    </div>
+    <div class="form-group">
+      <label>แคลอรี่ (kcal)</label>
+      <input type="number" id="edit-food-kcal" min="1" max="5000" placeholder="kcal">
+    </div>
+    <div class="form-group">
+      <label>มื้อ</label>
+      <select id="edit-food-meal">
+        <option value="breakfast">🌅 เช้า</option>
+        <option value="lunch">☀️ กลางวัน</option>
+        <option value="dinner">🌙 เย็น</option>
+        <option value="snack">🍪 ว่าง</option>
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      <div class="form-group">
+        <label>โปรตีน (g)</label>
+        <input type="number" id="edit-food-protein" min="0" max="300" step="0.1" placeholder="0">
+      </div>
+      <div class="form-group">
+        <label>คาร์บ (g)</label>
+        <input type="number" id="edit-food-carbs" min="0" max="500" step="0.1" placeholder="0">
+      </div>
+      <div class="form-group">
+        <label>ไขมัน (g)</label>
+        <input type="number" id="edit-food-fat" min="0" max="200" step="0.1" placeholder="0">
+      </div>
+    </div>
+    <div class="food-modal-btns">
+      <button class="btn-cancel" onclick="closeEditFoodModal()">❌ ยกเลิก</button>
+      <button class="btn-confirm" onclick="saveEditFoodEntry()">✅ บันทึก</button>
     </div>
   </div>
 </div>

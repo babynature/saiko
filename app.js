@@ -9,6 +9,8 @@ let _foodFreq = {};
 
 // ═══ FOOD LOG DATE NAVIGATION ═══
 let _foodLogViewDate = null; // null = today; "YYYY-MM-DD" = past day
+let _editFoodIdx  = -1;
+let _editFoodDate = null; // null = today entry, "YYYY-MM-DD" = past entry
 
 function _todayStr() { return new Date().toISOString().slice(0, 10); }
 
@@ -122,12 +124,14 @@ function _renderFoodLogForDate() {
          </div>` : '';
     const row = document.createElement('div');
     row.className = `food-log-row meal-${entry.mealType || 'lunch'}${entry.hasMacros ? ' has-macros' : ''}`;
+    row.setAttribute('role', 'button');
+    row.onclick = () => openEditFoodEntry(i, dateStr);
     row.innerHTML = `
       <span class="flog-meal">${MEAL_LABELS[entry.mealType] || '🍽️'}</span>
       <span class="flog-name">${_escHtml(entry.name)}</span>
       <span class="flog-time">${entry.time || '—'}</span>
       <span class="flog-kcal" style="color:${barColor}">${entry.kcal} kcal</span>
-      <button class="flog-del" onclick="removeFoodLogForDate(${i},'${dateStr}')" title="ลบ">✕</button>
+      <button class="flog-del" onclick="event.stopPropagation();removeFoodLogForDate(${i},'${dateStr}')" title="ลบ">✕</button>
       ${macroHtml}`;
     listEl.appendChild(row);
   });
@@ -141,6 +145,111 @@ function removeFoodLogForDate(idx, date) {
   log.splice(idx, 1);
   try { localStorage.setItem(`shg-flog-${date}`, JSON.stringify(log)); } catch(e) {}
   _renderFoodLogForDate();
+}
+
+function openEditFoodEntry(idx, dateStr) {
+  _editFoodIdx  = idx;
+  _editFoodDate = dateStr || null;
+  const today = _todayStr();
+
+  let entry;
+  if (_editFoodDate) {
+    const log = _loadFoodLogForDate(_editFoodDate) || [];
+    entry = log[idx];
+  } else {
+    entry = hungerModule.getTodayFoodLog()[idx];
+  }
+  if (!entry) return;
+
+  const minDate = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+  document.getElementById('edit-food-name').value    = entry.name     || '';
+  document.getElementById('edit-food-kcal').value    = entry.kcal     || '';
+  document.getElementById('edit-food-meal').value    = entry.mealType || 'lunch';
+  document.getElementById('edit-food-protein').value = entry.protein  || 0;
+  document.getElementById('edit-food-carbs').value   = entry.carbs    || 0;
+  document.getElementById('edit-food-fat').value     = entry.fat      || 0;
+  const di = document.getElementById('edit-food-date');
+  di.value = _editFoodDate || today;
+  di.min   = minDate;
+  di.max   = today;
+  document.getElementById('edit-food-modal').style.display = 'flex';
+  setTimeout(() => document.getElementById('edit-food-name')?.focus(), 100);
+}
+
+function closeEditFoodModal() {
+  document.getElementById('edit-food-modal').style.display = 'none';
+  _editFoodIdx = -1; _editFoodDate = null;
+}
+
+function saveEditFoodEntry() {
+  const name    = document.getElementById('edit-food-name').value.trim();
+  const kcal    = parseFloat(document.getElementById('edit-food-kcal').value);
+  const meal    = document.getElementById('edit-food-meal').value;
+  const newDate = document.getElementById('edit-food-date').value;
+  const protein = parseFloat(document.getElementById('edit-food-protein').value) || 0;
+  const carbs   = parseFloat(document.getElementById('edit-food-carbs').value)   || 0;
+  const fat     = parseFloat(document.getElementById('edit-food-fat').value)     || 0;
+  const today   = _todayStr();
+  const oldDate = _editFoodDate || today;
+
+  if (!name)                          { showToast('⚠️ ใส่ชื่ออาหารก่อน', 'error'); return; }
+  if (!kcal || kcal < 1 || kcal > 5000) { showToast('⚠️ แคลอรี่ไม่ถูกต้อง (1–5000)', 'error'); return; }
+
+  const sameDay = newDate === oldDate;
+
+  // ── Case: today → today (simple in-place update) ──
+  if (!_editFoodDate && newDate === today) {
+    hungerModule.updateFoodEntry(_editFoodIdx, { name, kcal, mealType: meal, protein, carbs, fat });
+    closeEditFoodModal();
+    saveGame(); renderFoodLog(); renderMacroSummary(); renderCalorieBar(); renderGlance();
+    showToast(`✅ แก้ไขแล้ว — ${name} ${Math.round(kcal)} kcal`, 'success');
+    return;
+  }
+
+  // ── Case: past → same past (in-place update in localStorage) ──
+  if (_editFoodDate && sameDay) {
+    const log = _loadFoodLogForDate(_editFoodDate) || [];
+    if (_editFoodIdx < 0 || _editFoodIdx >= log.length) { closeEditFoodModal(); return; }
+    const old = log[_editFoodIdx];
+    log[_editFoodIdx] = { ...old, name, kcal: Math.round(kcal), mealType: meal,
+      protein: Math.round(protein), carbs: Math.round(carbs), fat: Math.round(fat),
+      hasMacros: protein > 0 || carbs > 0 || fat > 0 };
+    try { localStorage.setItem(`shg-flog-${_editFoodDate}`, JSON.stringify(log)); } catch(e) {}
+    closeEditFoodModal();
+    _renderFoodLogForDate();
+    showToast(`✅ แก้ไขแล้ว — ${name} ${Math.round(kcal)} kcal`, 'success');
+    return;
+  }
+
+  // ── Case: cross-day move ──
+  // Step 1: remove from old location
+  if (_editFoodDate) {
+    const oldLog = _loadFoodLogForDate(_editFoodDate) || [];
+    oldLog.splice(_editFoodIdx, 1);
+    try { localStorage.setItem(`shg-flog-${_editFoodDate}`, JSON.stringify(oldLog)); } catch(e) {}
+  } else {
+    hungerModule.removeCustomFood(_editFoodIdx);
+  }
+
+  // Step 2: add to new location
+  if (newDate === today) {
+    hungerModule.logCustomFood(name, Math.round(kcal), meal, { protein, carbs, fat });
+  } else {
+    const newLog = _loadFoodLogForDate(newDate) || [];
+    newLog.push({ name, kcal: Math.round(kcal), mealType: meal,
+      protein: Math.round(protein), carbs: Math.round(carbs), fat: Math.round(fat),
+      hasMacros: protein > 0 || carbs > 0 || fat > 0,
+      time: new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) });
+    try { localStorage.setItem(`shg-flog-${newDate}`, JSON.stringify(newLog)); } catch(e) {}
+  }
+
+  closeEditFoodModal();
+  _foodLogViewDate = newDate === today ? null : newDate;
+  _syncFoodLogDateNav();
+  saveGame();
+  _renderFoodLogForDate();
+  if (newDate === today) { renderMacroSummary(); renderCalorieBar(); renderGlance(); }
+  showToast(`✅ ย้ายไป ${newDate === today ? 'วันนี้' : newDate} — ${name} ${Math.round(kcal)} kcal`, 'success');
 }
 
 function _loadFoodFreq() {
@@ -2923,12 +3032,14 @@ function renderFoodLog() {
       : '';
 
     row.className = `food-log-row meal-${entry.mealType || 'lunch'}` + (entry.hasMacros ? ' has-macros' : '');
+    row.setAttribute('role', 'button');
+    row.onclick = () => openEditFoodEntry(i, null);
     row.innerHTML = `
       <span class="flog-meal">${MEAL_LABELS[entry.mealType] || '🍽️'}</span>
       <span class="flog-name">${_escHtml(entry.name)}</span>
       <span class="flog-time">${entry.time}</span>
       <span class="flog-kcal" style="color:${barColor}">${entry.kcal} kcal</span>
-      <button class="flog-del" onclick="removeFoodLog(${i})" title="ลบ">✕</button>
+      <button class="flog-del" onclick="event.stopPropagation();removeFoodLog(${i})" title="ลบ">✕</button>
       ${macroHtml}
     `;
     listEl.appendChild(row);

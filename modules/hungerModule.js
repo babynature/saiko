@@ -133,6 +133,36 @@ class HungerModule {
     this.foodLog.splice(index, 1);
   }
 
+  updateFoodEntry(index, { name, kcal, mealType, protein, carbs, fat }) {
+    if (index < 0 || index >= this.foodLog.length) return;
+    const old = this.foodLog[index];
+    this.caloriesEaten       = Math.max(0, this.caloriesEaten - old.kcal);
+    this.macroTotals.protein = Math.max(0, this.macroTotals.protein - (old.protein || 0));
+    this.macroTotals.carbs   = Math.max(0, this.macroTotals.carbs   - (old.carbs   || 0));
+    this.macroTotals.fat     = Math.max(0, this.macroTotals.fat     - (old.fat     || 0));
+    this.hunger              = Math.max(0, this.hunger - Math.round(old.kcal / 20));
+    const p = Math.round(protein > 0 ? protein : 0);
+    const c = Math.round(carbs   > 0 ? carbs   : 0);
+    const f = Math.round(fat     > 0 ? fat     : 0);
+    const updated = {
+      name: name || old.name, kcal: Math.round(kcal),
+      protein: p, carbs: c, fat: f,
+      hasMacros: p > 0 || c > 0 || f > 0,
+      mealType: mealType || old.mealType,
+      time: old.time,
+    };
+    this.foodLog[index]       = updated;
+    this.caloriesEaten       += updated.kcal;
+    this.macroTotals.protein += p;
+    this.macroTotals.carbs   += c;
+    this.macroTotals.fat     += f;
+    this.hunger = Math.min(100, this.hunger + Math.round(updated.kcal / 20));
+    if (mealType === 'breakfast') this.mealTypes.breakfast = true;
+    else if (mealType === 'lunch')  this.mealTypes.lunch    = true;
+    else if (mealType === 'dinner') this.mealTypes.dinner   = true;
+    return updated;
+  }
+
   getMacroTotals() { return { ...this.macroTotals }; }
 
   // Daily targets based on calorie goal + BMI category

@@ -2038,6 +2038,20 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   margin-bottom: 10px;
 }
 
+.food-log-date {
+  grid-column: 1 / -1;
+  background: rgba(108,99,255,.08);
+  border: 1px solid rgba(108,99,255,.25);
+  border-radius: 8px;
+  padding: 6px 10px;
+  color: var(--text);
+  font-size: 12px;
+  outline: none;
+  color-scheme: dark;
+  width: 100%;
+}
+.food-log-date:focus { border-color: var(--primary); }
+
 .food-log-input,
 .food-log-kcal,
 .food-log-meal {
@@ -2102,8 +2116,11 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   border-bottom: 1px solid rgba(255,255,255,.05);
   border-left: 3px solid transparent;
   font-size: 12px;
-  transition: border-left-color 0.2s;
+  cursor: pointer;
+  transition: border-left-color 0.2s, background 0.15s;
 }
+.food-log-row:hover  { background: rgba(255,255,255,.04); }
+.food-log-row:active { background: rgba(255,255,255,.08); }
 .food-log-row:last-child { border-bottom: none; }
 .food-log-row.meal-breakfast { border-left-color: var(--meal-breakfast); }
 .food-log-row.meal-lunch     { border-left-color: var(--meal-lunch); }
