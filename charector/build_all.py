@@ -82,7 +82,7 @@ BASE_F     = 'Gemini_Generated_Image_2yo4i52yo4i52yo4.png'
 FACE_STRIP = 'Gemini_Generated_Image_wt4gztwt4gztwt4g.png'
 FACE_GRID  = 'Gemini_Generated_Image_6xqrz66xqrz66xqr.png'  # 9-face 2-row grid
 
-FACE_SIZE  = 44   # output PNG size (square px) — at SCALE=2 renders 88×88 on canvas
+FACE_SIZE  = 32   # output PNG size (square px) — at SCALE=2 renders 64×64 on canvas
 
 MALE_OUTFITS = [
     ('Gemini_Generated_Image_u17b0lu17b0lu17b.png', 'm_school'),
