@@ -1103,6 +1103,20 @@ html, body {
 .witem-icon { font-size: 22px; }
 .witem-name { font-size: 9px; color: var(--text2); margin-top: 3px; line-height: 1.2; }
 .witem-active { font-size: 10px; color: var(--primary); font-weight: 700; }
+.wardrobe-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.wardrobe-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin-bottom: 4px;
+}
 
 /* Close button for life events modal */
 .btn-close-modal {

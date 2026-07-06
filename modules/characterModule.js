@@ -21,6 +21,8 @@ class CharacterModule {
       intelligence: 60,
       stamina: 60,
       cosmetics: { color: 'default', aura: 'none', accessory: 'none', pet: 'none' },
+      equippedOutfit: null,   // e.g. 'f_school' — matches top_/bottom_ layer names
+      equippedHair:   null,   // e.g. 'f_bob'    — matches hair_ layer name
       activeBuffs: [],   // [{ id, stat, amount, expiresAt }]
       xpMultiplier: 1.0,
       xpMultiplierExpires: null,
@@ -147,6 +149,21 @@ class CharacterModule {
   getSizeScale() {
     return window.bmiModule.getSizePercent(this.data.bmi) / 100;
   }
+
+  // Returns the avatar loadout for avatarModule.setLoadout()
+  getLoadout() {
+    const g = (this.data.gender || 'M').toLowerCase(); // 'M'/'F' → 'm'/'f'
+    const defaultOutfit = g === 'f' ? 'f_school' : 'm_school';
+    const defaultHair   = g === 'f' ? 'f_bob'    : 'm_short';
+    return {
+      gender: g,
+      outfit: this.data.equippedOutfit || defaultOutfit,
+      hair:   this.data.equippedHair   || defaultHair,
+    };
+  }
+
+  equipOutfit(name) { this.data.equippedOutfit = name || null; }
+  equipHair(name)   { this.data.equippedHair   = name || null; }
 
   equipCosmetic(type, value) {
     this.data.cosmetics[type] = value;

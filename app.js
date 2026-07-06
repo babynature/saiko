@@ -641,10 +641,14 @@ let _avatarMounted = false;
 function renderCharacter() {
   const ch = characterModule;
 
-  // Mount paper-doll avatar canvas once
-  if (!_avatarMounted && window.avatarModule) {
+  // Mount paper-doll avatar canvas once, then sync loadout on every render
+  if (window.avatarModule) {
     const canvas = document.getElementById('char-canvas');
-    if (canvas) { avatarModule.mount(canvas); _avatarMounted = true; }
+    if (!_avatarMounted && canvas) { avatarModule.mount(canvas); _avatarMounted = true; }
+    if (_avatarMounted) {
+      const { gender, outfit, hair } = characterModule.getLoadout();
+      avatarModule.setLoadout(gender, outfit, hair);
+    }
   }
 
   document.getElementById('char-name').textContent  = ch.get('name');
@@ -3988,22 +3992,98 @@ function testNotif(key) {
 
 // PHASE 1.5: WARDROBE
 // ═══════════════════════════════════════════
+
+// All available outfits and hairstyles (matched to charector/avatar/ layer names)
+const OUTFIT_CATALOG = {
+  m: [
+    { id: 'm_school',  label: 'ชุดนักเรียน',    icon: '🎒' },
+    { id: 'm_sports',  label: 'ชุดกีฬา',         icon: '👟' },
+    { id: 'm_hoodie',  label: 'ฮูดดี้',          icon: '🧥' },
+    { id: 'm_office',  label: 'ชุดทำงาน',        icon: '👔' },
+    { id: 'm_ninja',   label: 'นินจา',           icon: '🥷' },
+  ],
+  f: [
+    { id: 'f_school',  label: 'ชุดนักเรียน',    icon: '🎒' },
+    { id: 'f_sports',  label: 'ชุดกีฬา',         icon: '👟' },
+    { id: 'f_casual',  label: 'ชุดลำลอง',        icon: '👕' },
+    { id: 'f_office',  label: 'ชุดทำงาน',        icon: '💼' },
+    { id: 'f_princess',label: 'ชุดเจ้าหญิง',    icon: '👸' },
+  ],
+};
+const HAIR_CATALOG = {
+  m: [
+    { id: 'm_short',   label: 'ผมสั้น',          icon: '💇' },
+    { id: 'm_medium',  label: 'ผมกลาง',          icon: '💇' },
+    { id: 'm_spiky',   label: 'ผมแหลม',          icon: '⚡' },
+    { id: 'm_afro',    label: 'อัฟโฟร',          icon: '🌟' },
+    { id: 'm_bun',     label: 'มัดผม',           icon: '🎀' },
+  ],
+  f: [
+    { id: 'f_bob',        label: 'บ็อบ',         icon: '💇‍♀️' },
+    { id: 'f_twintails',  label: 'ทวินเทล',      icon: '🎀' },
+    { id: 'f_bun',        label: 'มัดผม',        icon: '🌸' },
+    { id: 'f_long_black', label: 'ผมยาวดำ',      icon: '🖤' },
+    { id: 'f_long_brown', label: 'ผมยาวน้ำตาล', icon: '🤎' },
+  ],
+};
+
 function renderWardrobe() {
   const equippedEl = document.getElementById('equipped-items');
   const ownedEl    = document.getElementById('owned-items');
   if (!equippedEl || !ownedEl) return;
 
-  const cosmetics    = characterModule.get('cosmetics');
-  const allCosmetics = xpModule.getAllItems('cosmetics');
+  const gender    = (characterModule.get('gender') || 'M').toLowerCase();
+  const loadout   = characterModule.getLoadout();
+  const cosmetics = characterModule.get('cosmetics');
 
-  // Equipped chips
+  // ── Outfit section ────────────────────────────────────────────────────────
+  const outfits = OUTFIT_CATALOG[gender] || [];
+  const hairs   = HAIR_CATALOG[gender]   || [];
+
+  equippedEl.innerHTML = `
+    <div class="wardrobe-section-title">ชุดเสื้อผ้า</div>
+    <div class="wardrobe-grid" id="wd-outfits"></div>
+    <div class="wardrobe-section-title" style="margin-top:12px">ทรงผม</div>
+    <div class="wardrobe-grid" id="wd-hairs"></div>
+    <div class="wardrobe-section-title" style="margin-top:12px">ไอเทมตกแต่ง</div>
+  `;
+
+  const outfitGrid = equippedEl.querySelector('#wd-outfits');
+  outfits.forEach(o => {
+    const active = loadout.outfit === o.id;
+    const card = document.createElement('div');
+    card.className = 'wardrobe-item' + (active ? ' equipped' : '');
+    card.innerHTML = `<div class="witem-icon">${o.icon}</div><div class="witem-name">${o.label}</div>${active ? '<div class="witem-active">✓</div>' : ''}`;
+    card.onclick = () => {
+      characterModule.equipOutfit(o.id);
+      renderWardrobe(); renderCharacter(); saveGame();
+      showToast(`${o.icon} ${o.label} ใส่แล้ว!`, 'success');
+    };
+    outfitGrid.appendChild(card);
+  });
+
+  const hairGrid = equippedEl.querySelector('#wd-hairs');
+  hairs.forEach(h => {
+    const active = loadout.hair === h.id;
+    const card = document.createElement('div');
+    card.className = 'wardrobe-item' + (active ? ' equipped' : '');
+    card.innerHTML = `<div class="witem-icon">${h.icon}</div><div class="witem-name">${h.label}</div>${active ? '<div class="witem-active">✓</div>' : ''}`;
+    card.onclick = () => {
+      characterModule.equipHair(h.id);
+      renderWardrobe(); renderCharacter(); saveGame();
+      showToast(`${h.icon} ${h.label} ใส่แล้ว!`, 'success');
+    };
+    hairGrid.appendChild(card);
+  });
+
+  // ── Existing cosmetics section (aura, pet, etc.) ─────────────────────────
+  const allCosmetics = xpModule.getAllItems('cosmetics');
   const slotDefs = [
     { key: 'color',     fallback: '🎨 —' },
     { key: 'aura',      fallback: '✨ —' },
     { key: 'accessory', fallback: '🪄 —' },
     { key: 'pet',       fallback: '🐾 —' },
   ];
-  equippedEl.innerHTML = '';
   slotDefs.forEach(({ key, fallback }) => {
     const val  = cosmetics[key];
     const item = val ? allCosmetics.find(i => i.effect_type === key && i.value === val) : null;
@@ -4013,7 +4093,7 @@ function renderWardrobe() {
     equippedEl.appendChild(chip);
   });
 
-  // Owned items grid
+  // Owned cosmetic items grid
   const owned = allCosmetics.filter(item => xpModule.owns(item.id));
   ownedEl.innerHTML = '';
   if (owned.length === 0) {
@@ -4026,9 +4106,7 @@ function renderWardrobe() {
     card.className = 'wardrobe-item' + (isEquipped ? ' equipped' : '');
     card.onclick = () => {
       xpModule.applyItem(item.id);
-      renderWardrobe();
-      renderCharacter();
-      saveGame();
+      renderWardrobe(); renderCharacter(); saveGame();
       showToast(`${item.icon} ${xpModule.getItemName(item)} ใส่แล้ว!`, 'success');
     };
     card.innerHTML = `

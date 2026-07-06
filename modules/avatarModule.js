@@ -1,16 +1,22 @@
-// modules/avatarModule.js — Paper-doll avatar renderer (Phase A)
-// Layers stack: shadow → base → bottom → top → hair → face(emotion)
-// Art lives in charector/avatar/*.png (tile 64x96, display 128x192).
+// modules/avatarModule.js — Paper-doll avatar renderer
+// Layers: shadow(procedural) → base_{gender} → bottom_{outfit} → top_{outfit} → hair_{hair} → face_{emotion}
 //
-// Double-outline fix: _buildBodyLayer() uses destination-out to erase
-// base pixels wherever clothing pixels exist, then draws clothing on top.
-// This ensures only one outline layer is visible at any garment boundary.
+// Double-outline fix: _buildBodyLayer() uses destination-out to erase base pixels
+// wherever clothing pixels exist, then redraws clothing on top → single outline.
+//
+// API:
+//   avatarModule.mount(canvas)
+//   avatarModule.setLoadout(gender, outfit, hair)   e.g. ('f', 'f_princess', 'f_long_black')
+//   avatarModule.setMood(moodKey)
+//   avatarModule.playOnce(animName, callback)
+//   avatarModule.snapshot()
 
 (function () {
   const TW = 64, TH = 96, SCALE = 2;
   const BASE_PATH = 'charector/avatar/';
 
-  const FACE = { neutral: 0, happy: 1, hungry: 2, tired: 3, stressed: 4, yum: 5, sad: 6, sleep: 7, angry: 8 };
+  // Order matches actual face strip: neutral happy yum hungry stressed tired sad sleep angry
+  const FACE = { neutral:0, happy:1, yum:2, hungry:3, stressed:4, tired:5, sad:6, sleep:7, angry:8 };
 
   const MOOD = {
     idle:      { face: 'neutral',  anim: 'idle'  },
@@ -22,37 +28,43 @@
     stressed:  { face: 'stressed', anim: 'jitter' },
   };
 
-  const IMG_KEYS = ['shadow', 'base', 'bottom', 'top', 'hair',
-    'face_0','face_1','face_2','face_3','face_4','face_5','face_6','face_7','face_8'];
+  const FACE_KEYS = ['face_0','face_1','face_2','face_3','face_4','face_5','face_6','face_7','face_8'];
 
   class AvatarModule {
     constructor() {
-      this.img = {};
+      this.img   = {};
       this.ready = false;
       this.canvas = null;
-      this.ctx = null;
-      this._raf = null;
-      this.worn = { top: true, bottom: true, hair: true };
-      this.faceIdx = 0;
-      this.anim = 'idle';
+      this.ctx    = null;
+      this._raf   = null;
+      this.faceIdx   = 0;
+      this.anim      = 'idle';
       this.animStart = 0;
-      this.onceCb = null;
+      this.onceCb    = null;
       this._bodyCanvas = null;
-      this._bodyCtx = null;
+      this._bodyCtx    = null;
+
+      // Current loadout
+      this._gender = 'm';
+      this._outfit = null;   // e.g. 'm_school' → loads top_m_school + bottom_m_school
+      this._hair   = null;   // e.g. 'm_short'  → loads hair_m_short
     }
 
-    init() {
-      if (this._initPromise) return this._initPromise;
-      this._initPromise = new Promise((resolve) => {
-        let loaded = 0;
-        const done = () => {
-          if (++loaded >= IMG_KEYS.length) {
-            this.ready = true;
-            this._buildBodyLayer();
-            resolve();
-          }
-        };
-        IMG_KEYS.forEach((k) => {
+    // ── Image loading ────────────────────────────────────────────────────────
+    _loadoutKeys() {
+      const keys = [`base_${this._gender}`, ...FACE_KEYS];
+      if (this._outfit) keys.push(`top_${this._outfit}`, `bottom_${this._outfit}`);
+      if (this._hair)   keys.push(`hair_${this._hair}`);
+      return keys;
+    }
+
+    _loadImages(keys) {
+      return new Promise((resolve) => {
+        const needed = keys.filter(k => !this.img[k] || !this.img[k].src);
+        if (!needed.length) { resolve(); return; }
+        let pending = needed.length;
+        const done = () => { if (--pending === 0) resolve(); };
+        needed.forEach((k) => {
           const im = new Image();
           im.onload = done;
           im.onerror = done;
@@ -60,55 +72,45 @@
           this.img[k] = im;
         });
       });
+    }
+
+    // ── Public API ────────────────────────────────────────────────────────────
+    init(gender, outfit, hair) {
+      this._gender = gender || 'm';
+      this._outfit = outfit || null;
+      this._hair   = hair   || null;
+      if (this._initPromise) return this._initPromise;
+      this._initPromise = this._loadImages(this._loadoutKeys()).then(() => {
+        this.ready = true;
+        this._buildBodyLayer();
+      });
       return this._initPromise;
     }
 
-    // Pre-composite body: base → erase where clothing goes → draw clothing.
-    // Result is a single canvas with no double-outline at garment boundaries.
-    _buildBodyLayer() {
-      const W = TW * SCALE, H = TH * SCALE;
-      if (!this._bodyCanvas) {
-        this._bodyCanvas = document.createElement('canvas');
-        this._bodyCanvas.width = W;
-        this._bodyCanvas.height = H;
-        this._bodyCtx = this._bodyCanvas.getContext('2d');
-        this._bodyCtx.imageSmoothingEnabled = false;
-      }
-      const bct = this._bodyCtx;
-      bct.clearRect(0, 0, W, H);
-
-      const drawImg = (k) => {
-        if (this.img[k] && this.img[k].width) bct.drawImage(this.img[k], 0, 0, W, H);
-      };
-
-      // 1. Draw full base (skin + body outline)
-      drawImg('base');
-
-      // 2. Erase base pixels that sit under any clothing layer
-      bct.globalCompositeOperation = 'destination-out';
-      if (this.worn.bottom) drawImg('bottom');
-      if (this.worn.top)    drawImg('top');
-      if (this.worn.hair)   drawImg('hair');
-
-      // 3. Draw clothing on top of the erased region
-      bct.globalCompositeOperation = 'source-over';
-      if (this.worn.bottom) drawImg('bottom');
-      if (this.worn.top)    drawImg('top');
-      if (this.worn.hair)   drawImg('hair');
+    setLoadout(gender, outfit, hair) {
+      const g = gender || 'm';
+      const o = outfit || null;
+      const h = hair   || null;
+      if (g === this._gender && o === this._outfit && h === this._hair) return;
+      this._gender = g;
+      this._outfit = o;
+      this._hair   = h;
+      this._loadImages(this._loadoutKeys()).then(() => {
+        if (this.ready) this._buildBodyLayer();
+      });
     }
 
     mount(canvas) {
       if (!canvas) return;
       this.canvas = canvas;
-      this.canvas.width = TW * SCALE;
+      this.canvas.width  = TW * SCALE;
       this.canvas.height = TH * SCALE;
       this.ctx = canvas.getContext('2d');
       this.ctx.imageSmoothingEnabled = false;
-      this.init();
+      this.init(this._gender, this._outfit, this._hair);
       if (!this._raf) this._loop(performance.now());
     }
 
-    // ── public API ──
     setEmotion(name) { if (name in FACE) this.faceIdx = FACE[name]; }
     setAnim(a) { this.anim = a; this.animStart = performance.now(); }
 
@@ -123,13 +125,6 @@
       if (a === 'eat') this.setEmotion('yum');
     }
 
-    equip(slot, on) {
-      if (slot in this.worn) {
-        this.worn[slot] = !!on;
-        if (this.ready) this._buildBodyLayer();
-      }
-    }
-
     snapshot(type) {
       return this.canvas ? this.canvas.toDataURL(type === 'webp' ? 'image/webp' : 'image/png') : null;
     }
@@ -139,6 +134,48 @@
       this._raf = null; this.canvas = null; this.ctx = null;
     }
 
+    // ── Body compositing ─────────────────────────────────────────────────────
+    // Pre-composites base → erase where clothing → draw clothing.
+    // Prevents double-outline at garment boundaries.
+    _buildBodyLayer() {
+      const W = TW * SCALE, H = TH * SCALE;
+      if (!this._bodyCanvas) {
+        this._bodyCanvas = document.createElement('canvas');
+        this._bodyCanvas.width  = W;
+        this._bodyCanvas.height = H;
+        this._bodyCtx = this._bodyCanvas.getContext('2d');
+        this._bodyCtx.imageSmoothingEnabled = false;
+      }
+      const bct = this._bodyCtx;
+      bct.clearRect(0, 0, W, H);
+
+      const draw = (k) => {
+        const im = this.img[k];
+        if (im && im.width) bct.drawImage(im, 0, 0, W, H);
+      };
+
+      const baseKey   = `base_${this._gender}`;
+      const topKey    = this._outfit ? `top_${this._outfit}`    : null;
+      const bottomKey = this._outfit ? `bottom_${this._outfit}` : null;
+      const hairKey   = this._hair   ? `hair_${this._hair}`     : null;
+
+      // 1. Full base
+      draw(baseKey);
+
+      // 2. Erase base pixels under clothing
+      bct.globalCompositeOperation = 'destination-out';
+      if (bottomKey) draw(bottomKey);
+      if (topKey)    draw(topKey);
+      if (hairKey)   draw(hairKey);
+
+      // 3. Draw clothing on top
+      bct.globalCompositeOperation = 'source-over';
+      if (bottomKey) draw(bottomKey);
+      if (topKey)    draw(topKey);
+      if (hairKey)   draw(hairKey);
+    }
+
+    // ── Animation ─────────────────────────────────────────────────────────────
     _motion(t) {
       const s = (t - this.animStart) / 1000;
       switch (this.anim) {
@@ -162,32 +199,41 @@
       const ctx = this.ctx;
       if (!ctx || !this.ready) return;
 
-      ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      const W = this.canvas.width, H = this.canvas.height;
+      ctx.clearRect(0, 0, W, H);
+
       const m = this._motion(t);
       if (m.done && this.onceCb) { const cb = this.onceCb; this.onceCb = null; cb(); }
 
-      const W = this.canvas.width, H = this.canvas.height;
+      const dx = (m.dx || 0) * SCALE;
+      const dy = (m.dy || 0) * SCALE;
+      const rot = (m.rot || 0) * Math.PI / 180;
+      const sy = m.sy || 1;
 
-      // Shadow stays on ground, shrinks as character lifts
+      // Procedural shadow ellipse at feet
       const lift = Math.max(0, -(m.dy || 0));
-      const shW = W * (1 - lift * 0.05);
-      if (this.img.shadow && this.img.shadow.width) {
-        ctx.drawImage(this.img.shadow, (W - shW) / 2, 0, shW, H);
-      }
-
-      // Character stack (pivot at feet)
-      const dx = (m.dx || 0), dy = (m.dy || 0), rot = (m.rot || 0) * Math.PI / 180, sy = (m.sy || 1);
+      const shW = W * 0.55 * (1 - lift * 0.04);
+      const shH = H * 0.04;
       ctx.save();
-      ctx.translate(W / 2 + dx * SCALE, H * 0.94);
+      ctx.globalAlpha = 0.25 - lift * 0.01;
+      ctx.beginPath();
+      ctx.ellipse(W / 2, H * 0.97, shW / 2, shH / 2, 0, 0, Math.PI * 2);
+      ctx.fillStyle = '#000';
+      ctx.fill();
+      ctx.restore();
+
+      // Character (pivot at feet)
+      ctx.save();
+      ctx.translate(W / 2 + dx, H * 0.94);
       ctx.rotate(rot);
       ctx.scale(1, sy);
-      ctx.translate(-W / 2, -H * 0.94 + dy * SCALE);
+      ctx.translate(-W / 2, -H * 0.94 + dy);
 
-      // Draw pre-composited body (no double-outline)
+      // Pre-composited body
       if (this._bodyCanvas) ctx.drawImage(this._bodyCanvas, 0, 0, W, H);
 
-      // Face drawn separately so emotion swaps don't require body rebuild
-      const f = this.img['face_' + this.faceIdx];
+      // Face overlay (separate so emotion swaps are instant)
+      const f = this.img[`face_${this.faceIdx}`];
       if (f && f.width) {
         ctx.drawImage(f, (TW / 2 - f.width / 2) * SCALE, 28 * SCALE, f.width * SCALE, f.height * SCALE);
       }
