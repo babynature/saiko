@@ -82,7 +82,7 @@ BASE_F     = 'Gemini_Generated_Image_2yo4i52yo4i52yo4.png'
 FACE_STRIP = 'Gemini_Generated_Image_wt4gztwt4gztwt4g.png'
 FACE_GRID  = 'Gemini_Generated_Image_vgfy42vgfy42vgfy.png'  # 9-face 2-row features-only
 
-FACE_SIZE  = 44   # output PNG size (square px) — at SCALE=2 renders 88×88 on canvas
+FACE_SIZE  = 28   # output PNG size (square px) — at SCALE=2 renders 56×56 on canvas
 
 # Blob selection: override default first-9 order when some blobs are extras.
 # None = use first 9 detected blobs; list = explicit blob indices for face_0..face_8.

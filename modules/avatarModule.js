@@ -235,9 +235,11 @@
       // Face overlay — features only (eyes/mouth/blush), source-over on body head area.
       const f = this.img[`face_${this.faceIdx}`];
       if (f && f.width) {
-        const fx = Math.round((TW / 2 - f.width / 2) * SCALE);
-        const fy = 6 * SCALE;
-        ctx.drawImage(f, fx, fy, f.width * SCALE, f.height * SCALE);
+        const fw = f.width  * SCALE;
+        const fh = f.height * SCALE;
+        const fx = Math.round((TW * SCALE - fw) / 2);
+        const fy = 9 * SCALE;   // y=9 tiles → canvas y=18, lands eyes mid-head
+        ctx.drawImage(f, fx, fy, fw, fh);
       }
 
       ctx.restore();
