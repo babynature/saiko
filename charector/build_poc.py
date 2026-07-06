@@ -60,9 +60,10 @@ for ty in range(TILE_H):
         blue  = b > 85 and r < 100 and g < 135 and b >= g - 15
         white = r > 175 and g > 175 and b > 175
 
-        # HAIR = dark pixels in the head region that are NOT part of the base
-        # head outline (base_dark) → removes the shared under-chin/jaw ring
-        if dark and not base_dark and ty <= 46:
+        # HAIR = top hair cap only (ty<=32). Below that, dark pixels are the
+        # head outline (chin/jaw ring) — dropped here since base.png already
+        # draws the head outline, so hair no longer looks like a 2nd layer.
+        if dark and not base_dark and ty <= 32:
             L['hair'].putpixel((tx, ty), (r, g, b, 255))
         elif red or (dark and 47 <= ty <= 64):             # shirt + its outline only
             L['top'].putpixel((tx, ty), (r, g, b, 255))
