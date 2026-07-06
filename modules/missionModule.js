@@ -22,7 +22,7 @@ const MISSION_POOL = [
 const MISSION_BONUS_XP = 500;
 
 function _missionTodayKey() {
-  return new Date().toISOString().slice(0, 10);
+  return window._localDate();
 }
 
 function _missionDateHash(s) {

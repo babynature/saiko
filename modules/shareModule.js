@@ -238,7 +238,7 @@ class ShareModule {
   download() {
     if (!this._canvas) return;
     const name = (window.characterModule?.get('name') || 'player').replace(/\W/g, '_');
-    const date = new Date().toISOString().slice(0, 10);
+    const date = window._localDate();
     const a    = document.createElement('a');
     a.download  = `shinka-${name}-${date}.png`;
     a.href      = this._canvas.toDataURL('image/png');

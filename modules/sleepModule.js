@@ -11,7 +11,7 @@ class SleepModule {
     this.avgSleepHours    = 0;
   }
 
-  _dateKey() { return new Date().toISOString().slice(0, 10); }
+  _dateKey() { return window._localDate(); }
 
   logSleep(hours, quality) {
     const qualMod = quality === 'good' ? 10 : quality === 'poor' ? -15 : 0;

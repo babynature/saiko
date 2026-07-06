@@ -5,7 +5,7 @@ class WaterModule {
     this.data = { mlToday: 0, goalMl: 2000, lastDate: '' };
   }
 
-  _today() { return new Date().toISOString().slice(0, 10); }
+  _today() { return window._localDate(); }
 
   _checkReset() {
     const today = this._today();

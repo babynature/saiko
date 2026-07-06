@@ -61,7 +61,7 @@ class StressModule {
     this.activeEvents = []; // [{ eventId, startDate, endsDate }]
   }
 
-  _dateKey() { return new Date().toISOString().slice(0, 10); }
+  _dateKey() { return window._localDate(); }
 
   addStress(amount) {
     this.stress = Math.min(100, Math.max(0, this.stress + amount));
@@ -77,7 +77,7 @@ class StressModule {
     // Replace existing same event
     this.activeEvents = this.activeEvents.filter(a => a.eventId !== eventId);
     const today = this._dateKey();
-    const ends = new Date(Date.now() + ev.duration_days * 86400000).toISOString().slice(0, 10);
+    const ends = window._localDate(new Date(Date.now() + ev.duration_days * 86400000));
     this.activeEvents.push({ eventId, startDate: today, endsDate: ends });
     this.addStress(ev.stress_change);
     return ev;

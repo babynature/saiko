@@ -12,7 +12,14 @@ let _foodLogViewDate = null; // null = today; "YYYY-MM-DD" = past day
 let _editFoodIdx  = -1;
 let _editFoodDate = null; // null = today entry, "YYYY-MM-DD" = past entry
 
-function _todayStr() { return new Date().toISOString().slice(0, 10); }
+// Local calendar date (YYYY-MM-DD) — NOT UTC. toISOString() returns UTC,
+// which in Thailand (UTC+7) rolls the "day" over ~7h early (00:00–07:00 local
+// still reads as yesterday), causing yesterday's calories to bleed into today.
+function _localDate(d = new Date()) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+window._localDate = _localDate;
+function _todayStr() { return _localDate(); }
 
 function _saveFoodLogHistory() {
   try {
@@ -21,7 +28,7 @@ function _saveFoodLogHistory() {
     // Prune entries older than 30 days
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - 30);
-    const cutoffStr = cutoff.toISOString().slice(0, 10);
+    const cutoffStr = _localDate(cutoff);
     const toRemove = [];
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
@@ -43,11 +50,11 @@ function navigateFoodLog(delta) {
   const current = _foodLogViewDate || today;
   const d = new Date(current + 'T12:00:00');
   d.setDate(d.getDate() + delta);
-  const newDate = d.toISOString().slice(0, 10);
+  const newDate = _localDate(d);
   if (newDate > today) return;
   const minDate = new Date();
   minDate.setDate(minDate.getDate() - 30);
-  if (newDate < minDate.toISOString().slice(0, 10)) return;
+  if (newDate < _localDate(minDate)) return;
   _foodLogViewDate = newDate === today ? null : newDate;
   _syncFoodLogDateNav();
   _renderFoodLogForDate();
@@ -66,7 +73,7 @@ function _syncFoodLogDateNav() {
   // Human-readable label
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
-  const yesterdayStr = yesterday.toISOString().slice(0, 10);
+  const yesterdayStr = _localDate(yesterday);
   if (!_foodLogViewDate)             labelEl.textContent = 'วันนี้';
   else if (viewing === yesterdayStr) labelEl.textContent = 'เมื่อวาน';
   else {
@@ -81,7 +88,7 @@ function _syncFoodLogDateNav() {
   // Button states
   const minDate = new Date();
   minDate.setDate(minDate.getDate() - 30);
-  if (prevBtn) prevBtn.disabled = viewing <= minDate.toISOString().slice(0, 10);
+  if (prevBtn) prevBtn.disabled = viewing <= _localDate(minDate);
   if (nextBtn) nextBtn.disabled = !_foodLogViewDate;
 
   // Past-day mode on panel
@@ -161,7 +168,7 @@ function openEditFoodEntry(idx, dateStr) {
   }
   if (!entry) return;
 
-  const minDate = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+  const minDate = _localDate(new Date(Date.now() - 30 * 86400000));
   document.getElementById('edit-food-name').value    = entry.name     || '';
   document.getElementById('edit-food-kcal').value    = entry.kcal     || '';
   document.getElementById('edit-food-meal').value    = entry.mealType || 'lunch';
@@ -303,11 +310,11 @@ window.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 
   // Safety: close food panel + reset day when app returns from background
-  let _lastActiveDate = new Date().toISOString().slice(0, 10);
+  let _lastActiveDate = _localDate();
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) return;
     closeFoodLog();
-    const today = new Date().toISOString().slice(0, 10);
+    const today = _localDate();
     if (_lastActiveDate < today) {
       _lastActiveDate = today;
       hungerModule.resetForNewDay();
@@ -350,7 +357,7 @@ function saveGame() {
   hungerModule.lastUpdate = Date.now();
   historyModule.saveSnapshot();
   const state = {
-    savedDate: new Date().toISOString().slice(0, 10),
+    savedDate: _localDate(),
     character: characterModule.toJSON(),
     hunger: hungerModule.toJSON(),
     quests: questModule.toJSON(),
@@ -398,7 +405,7 @@ function loadGame() {
     if (state.water)         waterModule.fromJSON(state.water);
 
     // Reset daily hunger/calorie/food data if saved on a previous day
-    const _today = new Date().toISOString().slice(0, 10);
+    const _today = _localDate();
     if (state.savedDate && state.savedDate < _today) {
       hungerModule.resetForNewDay();
     }
@@ -498,7 +505,7 @@ function startGame() {
 
   window._xpBalance = 100; // starting XP bonus
   weightModule.startWeight = weight;
-  weightModule.startDate   = new Date().toISOString().slice(0, 10);
+  weightModule.startDate   = _localDate();
   questModule.init();
   hungerModule.hunger = 50;
   streakModule.checkIn(0);
@@ -873,9 +880,9 @@ function toggleFoodLog() {
     // Reset date picker to today
     const di = document.getElementById('food-log-date');
     if (di) {
-      const today = new Date().toISOString().slice(0, 10);
+      const today = _localDate();
       di.value = today; di.max = today;
-      di.min = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+      di.min = _localDate(new Date(Date.now() - 30 * 86400000));
     }
     setTimeout(() => document.getElementById('food-log-name')?.focus(), 180);
   }
@@ -2326,7 +2333,7 @@ function exportCSV() {
   ].join(','));
   const csv = [headers.join(','), ...rows].join('\n');
   const name = characterModule.get('name') || 'player';
-  const date = new Date().toISOString().slice(0, 10);
+  const date = _localDate();
   _downloadFile(csv, `health-${name}-${date}.csv`, 'text/csv;charset=utf-8;');
   showToast(currentLang === 'en' ? '📊 CSV downloaded!' : '📊 ดาวน์โหลด CSV แล้ว!', 'success');
 }
@@ -2335,7 +2342,7 @@ function exportSaveJSON() {
   const raw = localStorage.getItem(SAVE_KEY);
   if (!raw) { showToast('⚠️ ไม่พบข้อมูล', 'error'); return; }
   const name = characterModule.get('name') || 'save';
-  const date = new Date().toISOString().slice(0, 10);
+  const date = _localDate();
   _downloadFile(raw, `shg-backup-${name}-${date}.json`, 'application/json');
   showToast(currentLang === 'en' ? '💾 Backup saved!' : '💾 บันทึกสำรองแล้ว!', 'success');
 }
@@ -2773,8 +2780,8 @@ function startStressDrain() {
 // PHASE 1.5: SLEEP MODAL
 // ═══════════════════════════════════════════
 function showSleepModal() {
-  const today = new Date().toISOString().slice(0, 10);
-  const min30 = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+  const today = _localDate();
+  const min30 = _localDate(new Date(Date.now() - 30 * 86400000));
   const di = document.getElementById('sleep-log-date');
   di.value = today; di.max = today; di.min = min30;
   document.getElementById('sleep-modal').style.display = 'flex';
@@ -2788,7 +2795,7 @@ function confirmLogSleep() {
   const hours   = parseFloat(document.getElementById('sleep-hours').value);
   const quality = document.getElementById('sleep-quality').value;
   const date    = document.getElementById('sleep-log-date').value;
-  const today   = new Date().toISOString().slice(0, 10);
+  const today   = _localDate();
 
   if (isNaN(hours) || hours < 0 || hours > 12) {
     showToast('⚠️ ใส่ชั่วโมงนอน 0–12', 'error');
@@ -3050,7 +3057,7 @@ function logCustomFood() {
     return;
   }
 
-  const today     = new Date().toISOString().slice(0, 10);
+  const today     = _localDate();
   const entryDate = document.getElementById('food-log-date')?.value || today;
   const isPast    = entryDate < today;
 
@@ -3214,7 +3221,7 @@ function renderFoodWeekChart() {
   for (let i = 6; i >= 1; i--) {
     const d = new Date(todayStr + 'T12:00:00');
     d.setDate(d.getDate() - i);
-    const ds = d.toISOString().slice(0, 10);
+    const ds = _localDate(d);
     const hist = days.find(x => x.date === ds);
     slots.push({ label: d.toLocaleDateString('th-TH', { weekday: 'short' }), kcal: hist ? hist.caloriesEaten : null, isToday: false });
   }
@@ -3448,7 +3455,7 @@ function renderAnalyticsChart() {
   // ── Macro stacked chart (separate render path) ──
   if (type === 'macro') {
     // Merge today's live macros into the snapshot array
-    const todayStr = new Date().toISOString().slice(0, 10);
+    const todayStr = _localDate();
     const liveMacro = hungerModule.getMacroTotals?.() || hungerModule.macroTotals || {};
     const liveHasData = (liveMacro.protein||0)+(liveMacro.carbs||0)+(liveMacro.fat||0) > 0;
     const effectiveDays = days.map(d => {
@@ -3634,8 +3641,8 @@ function showWeightModal() {
   const latest = weightModule.getLatest();
   const input  = document.getElementById('weight-log-input');
   input.value  = latest ? latest.weight : characterModule.get('weightKg');
-  const today = new Date().toISOString().slice(0, 10);
-  const min30 = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+  const today = _localDate();
+  const min30 = _localDate(new Date(Date.now() - 30 * 86400000));
   const di = document.getElementById('weight-log-date');
   di.value = today; di.max = today; di.min = min30;
   document.getElementById('weight-modal').style.display = 'flex';
@@ -3648,7 +3655,7 @@ function closeWeightModal() {
 function confirmLogWeight() {
   const w    = parseFloat(document.getElementById('weight-log-input').value);
   const date = document.getElementById('weight-log-date').value;
-  const today = new Date().toISOString().slice(0, 10);
+  const today = _localDate();
   const isPast = date && date < today;
 
   if (isNaN(w) || w < 20 || w > 200) {

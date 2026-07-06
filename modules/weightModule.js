@@ -8,7 +8,7 @@ class WeightModule {
     this.goalWeight  = null;  // kg target, null = not set
   }
 
-  _today() { return new Date().toISOString().slice(0, 10); }
+  _today() { return window._localDate(); }
 
   logWeight(kg, date = null) {
     const heightCm = window.characterModule.get('heightCm');

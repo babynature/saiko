@@ -18,7 +18,7 @@ class StreakModule {
   }
 
   _dateKey(d = new Date()) {
-    return d.toISOString().slice(0, 10);
+    return window._localDate(d);
   }
 
   // Call once per session on load

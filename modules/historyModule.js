@@ -5,7 +5,7 @@ class HistoryModule {
     this.days = []; // max 90 entries: [{ date, caloriesEaten, caloriesBurned, calorieGoal, sleepHours, sleepQuality, stress, exerciseMin, questsDone, waterDrank, weight, bmi, level }]
   }
 
-  _today() { return new Date().toISOString().slice(0, 10); }
+  _today() { return window._localDate(); }
 
   saveSnapshot() {
     const ch = window.characterModule;

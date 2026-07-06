@@ -81,7 +81,7 @@ class QuestModule {
   }
 
   _dateKey() {
-    return new Date().toISOString().slice(0, 10);
+    return window._localDate();
   }
 
   getAll() { return QUEST_DEFINITIONS; }
