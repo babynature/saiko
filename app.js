@@ -104,8 +104,7 @@ function _renderFoodLogForDate() {
     listEl.innerHTML = `
       <div class="empty-state" style="padding:16px 0">
         <div class="empty-state-icon">📅</div>
-        <div class="empty-state-msg">ยังไม่มีรายการ</div>
-        <div class="empty-state-hint">ค้นหาหรือพิมพ์อาหารด้านบนเพื่อบันทึกย้อนหลัง</div>
+        <div class="empty-state-msg">ไม่มีบันทึกอาหารวันนี้</div>
       </div>`;
     return;
   }

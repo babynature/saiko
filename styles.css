@@ -3216,6 +3216,7 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 }
 
 /* Past-day read-only mode */
+#panel-food.past-day .food-log-form    { display: none; }
 #panel-food.past-day .macro-toggle-btn { display: none; }
 #panel-food.past-day .macro-input-row  { display: none !important; }
 #panel-food.past-day #meal-suggest     { display: none !important; }
