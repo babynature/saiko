@@ -538,10 +538,16 @@
     </div>
 
     <div class="profile-card">
-      <div class="profile-avatar" id="profile-avatar">🧑</div>
+      <div class="profile-avatar-wrap" id="profile-avatar" onclick="triggerProfilePhotoUpload()" title="เปลี่ยนรูปโปรไฟล์">
+        <img class="profile-avatar-img" id="profile-avatar-img" alt="โปรไฟล์">
+        <div class="profile-avatar-fallback" id="profile-avatar-fallback">🧑</div>
+        <div class="profile-avatar-edit">📷</div>
+        <input type="file" id="profile-photo-input" accept="image/*" style="display:none" onchange="handleProfilePhotoChange(this)">
+      </div>
       <div class="profile-info">
         <div class="profile-name" id="profile-name">Sam</div>
         <div class="profile-title-text" id="profile-title-text">ผู้เริ่มต้น</div>
+        <button class="profile-remove-photo" id="profile-remove-photo" onclick="removeProfilePhoto()" style="display:none">✕ ลบรูป</button>
       </div>
     </div>
 

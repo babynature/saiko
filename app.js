@@ -1888,13 +1888,78 @@ function buyShopItem(itemId) {
 }
 
 // ═══════════════════════════════════════════
+// PROFILE PHOTO
+// ═══════════════════════════════════════════
+const PROFILE_PHOTO_KEY = 'shg-profile-photo';
+
+function triggerProfilePhotoUpload() {
+  document.getElementById('profile-photo-input')?.click();
+}
+
+function handleProfilePhotoChange(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) { showToast('⚠️ รูปใหญ่เกินไป (สูงสุด 10 MB)', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const srcImg = new Image();
+    srcImg.onload = () => {
+      const MAX = 320;
+      let w = srcImg.width, h = srcImg.height;
+      if (w > MAX || h > MAX) {
+        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+        else       { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(srcImg, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+      try { localStorage.setItem(PROFILE_PHOTO_KEY, dataUrl); }
+      catch(ex) { showToast('⚠️ พื้นที่จัดเก็บเต็ม ลองรูปเล็กกว่านี้', 'error'); return; }
+      _applyProfilePhoto(dataUrl);
+      showToast('✅ อัปเดตรูปโปรไฟล์แล้ว', 'success');
+    };
+    srcImg.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+function removeProfilePhoto() {
+  localStorage.removeItem(PROFILE_PHOTO_KEY);
+  _applyProfilePhoto(null);
+  showToast('ลบรูปโปรไฟล์แล้ว', 'info');
+}
+
+function _applyProfilePhoto(dataUrl) {
+  const img      = document.getElementById('profile-avatar-img');
+  const fallback = document.getElementById('profile-avatar-fallback');
+  const removeBtn= document.getElementById('profile-remove-photo');
+  if (!img) return;
+  if (dataUrl) {
+    img.src = dataUrl;
+    img.classList.add('loaded');
+    if (fallback)   fallback.style.display  = 'none';
+    if (removeBtn)  removeBtn.style.display = 'inline-block';
+  } else {
+    img.src = '';
+    img.classList.remove('loaded');
+    if (fallback) {
+      fallback.style.display = 'block';
+      fallback.textContent   = characterModule.get('gender') === 'M' ? '🧑' : '👧';
+    }
+    if (removeBtn) removeBtn.style.display = 'none';
+  }
+}
+
+// ═══════════════════════════════════════════
 // PROFILE
 // ═══════════════════════════════════════════
 function renderProfile() {
   const ch = characterModule;
   const bmi = ch.get('bmi');
 
-  document.getElementById('profile-avatar').textContent = ch.get('gender') === 'M' ? '🧑' : '👧';
+  _applyProfilePhoto(localStorage.getItem(PROFILE_PHOTO_KEY));
   document.getElementById('profile-name').textContent = ch.get('name');
   document.getElementById('profile-title-text').textContent = ch.getTitle();
   document.getElementById('profile-bmi').textContent = bmi.toFixed(1);
