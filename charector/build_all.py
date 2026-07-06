@@ -275,11 +275,21 @@ def process_faces(src_file):
             else:
                 fy1_i, fy2_i = 0, src.height - 1
             face_crop = src.crop((fx1, fy1_i, fx2 + 1, fy2_i + 1))
-            face_tile  = face_crop.resize((FACE_W, FACE_H), Image.LANCZOS)
-            # Remove magenta background → transparent so face skin shows through
+            face_tile  = face_crop.resize((FACE_W, FACE_H), Image.NEAREST)
             fa = np.array(face_tile.convert('RGBA'))
-            mag = (fa[:,:,0] > 140) & (fa[:,:,1] < 120) & (fa[:,:,2] > 140)
-            fa[mag] = [0, 0, 0, 0]
+            r4,g4,b4,a4 = fa[:,:,0],fa[:,:,1],fa[:,:,2],fa[:,:,3]
+            # Remove magenta (any pixel with magenta hue: r and b high, g low)
+            is_mag = (r4.astype(int) - g4.astype(int) > 50) & (b4.astype(int) - g4.astype(int) > 50)
+            # Keep only expression features; discard face-skin (warm mid-tones)
+            # Dark outline/pupils (very dark), highlights (very bright), or vivid color
+            is_dark      = (r4 < 80) & (g4 < 80) & (b4 < 80)
+            is_highlight = (r4 > 200) & (g4 > 160) & (b4 > 150)   # eye shine
+            is_lip       = (r4 > 150) & (g4 < 120) & (b4 < 120)    # lips/blush
+            is_tongue    = (r4 > 180) & (g4 > 90) & (g4 < 160) & (b4 < 130)  # salmon/pink tongue
+            is_feature = is_dark | is_highlight | is_lip | is_tongue
+            # Anything that is not a feature OR is magenta → transparent
+            discard = ~is_feature | is_mag | (a4 < 20)
+            fa[discard] = [0, 0, 0, 0]
             face_tile = Image.fromarray(fa, 'RGBA')
             src_label = f"strip cols {fx1}-{fx2}"
         else:
