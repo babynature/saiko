@@ -582,68 +582,11 @@ function renderHUD() {
 }
 
 // ═══════════════════════════════════════════
-// CHARACTER
+// CHARACTER (paper-doll avatar via avatarModule)
 // ═══════════════════════════════════════════
-// Sprite sheet: 1536×1024 → 5 cols × 2 rows (row0=male, row1=female)
-// Display size per sprite: 120×200px → sheet scaled to 600×400px
-const SPRITE_W = 120, SPRITE_H = 200;
-const SPRITE_COLS = 5, SPRITE_ROWS = 2;
-
-let _charPickerGender = 'M';
-
-function openCharacterPicker() {
-  _charPickerGender = (characterModule.get('gender') || 'M').toUpperCase();
-  _renderCharPickerGrid();
-  document.getElementById('char-picker-modal').style.display = 'flex';
-}
-function closeCharacterPicker() {
-  document.getElementById('char-picker-modal').style.display = 'none';
-}
-function switchCharPickerGender(g) {
-  _charPickerGender = g;
-  document.getElementById('tab-male').classList.toggle('active', g === 'M');
-  document.getElementById('tab-female').classList.toggle('active', g === 'F');
-  _renderCharPickerGrid();
-}
-function _renderCharPickerGrid() {
-  const grid = document.getElementById('char-picker-grid');
-  if (!grid) return;
-  const row        = _charPickerGender === 'F' ? 1 : 0;
-  const currentIdx = characterModule.get('cosmetics')?.characterIdx ?? 0;
-  const currentRow = _charPickerGender === (characterModule.get('gender') || 'M').toUpperCase() ? row : -1;
-  const TW = 72, TH = 120; // thumbnail size
-  const sheetW = TW * SPRITE_COLS, sheetH = TH * SPRITE_ROWS;
-  grid.innerHTML = '';
-  for (let col = 0; col < SPRITE_COLS; col++) {
-    const btn = document.createElement('button');
-    const isSelected = col === currentIdx && _charPickerGender === (characterModule.get('gender') || 'M').toUpperCase();
-    btn.className = 'char-picker-thumb' + (isSelected ? ' selected' : '');
-    btn.title = `ตัวละคร ${col + 1}`;
-    btn.onclick = () => selectCharacter(col, _charPickerGender);
-    const inner = document.createElement('div');
-    inner.style.cssText = `
-      width:${TW}px; height:${TH}px;
-      background: url('charector/char-sprite.png') ${-(col * TW)}px ${-(row * TH)}px / ${sheetW}px ${sheetH}px no-repeat;
-      image-rendering: pixelated;
-    `;
-    btn.appendChild(inner);
-    grid.appendChild(btn);
-  }
-}
-function selectCharacter(col, gender) {
-  characterModule.set('gender', gender);
-  const cos = characterModule.get('cosmetics') || {};
-  cos.characterIdx = col;
-  characterModule.set('cosmetics', cos);
-  saveGame();
-  renderCharacter();
-  _renderCharPickerGrid();
-  closeCharacterPicker();
-  showToast('✅ เปลี่ยนตัวละครแล้ว', 'success');
-}
 
 // ── Character mood: reflects hunger / fatigue / stress ──
-// Priority: most urgent state wins. Each returns anim class + face + status label.
+// Priority: most urgent state wins. Each returns anim key + status label.
 function getCharacterMood() {
   const hunger  = hungerModule.getHungerPct();
   const fatigue = (typeof computeLiveFatigue === 'function') ? computeLiveFatigue()
@@ -663,17 +606,11 @@ function getCharacterMood() {
 }
 
 // Lightweight mood refresh — safe to call from any state render (hunger/fatigue/stress)
+let _charEating = false;
 function _applyCharMood() {
-  const avatar = document.getElementById('char-avatar');
-  if (!avatar) return;
-  if (avatar.classList.contains('is-eating')) return; // don't interrupt eat reaction
-
+  if (_charEating) return; // don't interrupt eat reaction
   const m = getCharacterMood();
-  avatar.className = avatar.className.replace(/\bmood-\S+/g, '').replace(/\s+/g, ' ').trim();
-  avatar.classList.add('mood-' + m.anim);
-
-  const face = document.getElementById('char-face');
-  if (face) face.textContent = m.emoji;
+  if (window.avatarModule) avatarModule.setMood(m.anim);
 
   const bubble = document.getElementById('char-status-bubble');
   if (bubble) {
@@ -685,40 +622,22 @@ function _applyCharMood() {
 
 // Transient "nom nom" reaction when food is consumed
 function playCharEatReaction() {
-  const avatar = document.getElementById('char-avatar');
-  const sprite = document.getElementById('char-sprite');
-  const face   = document.getElementById('char-face');
-  if (!avatar || !sprite) return;
-  avatar.classList.add('is-eating');
-  sprite.classList.add('char-eating');
-  if (face) face.textContent = '😋';
+  _charEating = true;
+  if (window.avatarModule) avatarModule.playOnce('eat', () => { _charEating = false; _applyCharMood(); });
   const bubble = document.getElementById('char-status-bubble');
   if (bubble) { bubble.textContent = 'อร่อย!'; bubble.style.background = '#22c55e'; bubble.style.setProperty('--bubble-bg', '#22c55e'); }
-  setTimeout(() => {
-    sprite.classList.remove('char-eating');
-    avatar.classList.remove('is-eating');
-    _applyCharMood();
-  }, 650);
+  // safety: clear flag even if avatarModule missing
+  setTimeout(() => { if (_charEating) { _charEating = false; _applyCharMood(); } }, 700);
 }
 
+let _avatarMounted = false;
 function renderCharacter() {
-  const ch  = characterModule;
+  const ch = characterModule;
 
-  // ── Pixel sprite ──
-  const spriteEl = document.getElementById('char-sprite');
-  if (spriteEl) {
-    const gender  = (ch.get('gender') || 'M').toUpperCase();
-    const row     = gender === 'F' ? 1 : 0;
-    const col     = ch.get('cosmetics')?.characterIdx ?? 0;
-    const sheetW  = SPRITE_W * SPRITE_COLS;   // 480
-    const sheetH  = SPRITE_H * SPRITE_ROWS;   // 320
-    const posX    = -(col * SPRITE_W);
-    const posY    = -(row * SPRITE_H);
-    spriteEl.style.cssText = `
-      width:${SPRITE_W}px; height:${SPRITE_H}px;
-      background: url('charector/char-sprite.png') ${posX}px ${posY}px / ${sheetW}px ${sheetH}px no-repeat;
-      image-rendering: pixelated;
-    `;
+  // Mount paper-doll avatar canvas once
+  if (!_avatarMounted && window.avatarModule) {
+    const canvas = document.getElementById('char-canvas');
+    if (canvas) { avatarModule.mount(canvas); _avatarMounted = true; }
   }
 
   document.getElementById('char-name').textContent  = ch.get('name');

@@ -1,9 +1,9 @@
 // sw.js — Service Worker (Phase 11c)
-const CACHE = 'shg-v11n';
+const CACHE = 'shg-v11o';
 const ASSETS = [
   '/', '/index.html', '/styles.css', '/i18n.js', '/app.js',
   '/firebase-config.js',
-  '/modules/bmiModule.js', '/modules/characterModule.js',
+  '/modules/bmiModule.js', '/modules/avatarModule.js', '/modules/characterModule.js',
   '/modules/hungerModule.js', '/modules/marketplaceModule.js',
   '/modules/questModule.js', '/modules/xpModule.js',
   '/modules/streakModule.js', '/modules/sleepModule.js',

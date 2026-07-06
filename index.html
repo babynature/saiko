@@ -127,12 +127,10 @@
     <!-- Character Section -->
     <div class="character-section">
       <div class="character-display" id="character-display">
-        <div class="char-avatar" id="char-avatar" onclick="openCharacterPicker()" title="เปลี่ยนตัวละคร">
+        <div class="char-avatar" id="char-avatar">
           <div class="char-status-bubble" id="char-status-bubble"></div>
-          <div class="char-sprite" id="char-sprite"></div>
-          <div class="char-emotion" id="char-face">😊</div>
           <div class="char-aura" id="char-aura"></div>
-          <div class="char-change-hint">เปลี่ยน</div>
+          <canvas class="char-canvas" id="char-canvas"></canvas>
         </div>
         <div class="char-info">
           <div class="char-name" id="char-name">Sam</div>
@@ -896,21 +894,6 @@
 </div>
 
 <!-- ═══════════════════════════════════════════
-     CHARACTER PICKER MODAL
-═══════════════════════════════════════════ -->
-<div class="modal-overlay" id="char-picker-modal" style="display:none" onclick="if(event.target===this)closeCharacterPicker()">
-  <div class="modal-card" style="text-align:center">
-    <h3 style="margin-bottom:14px">🎮 เลือกตัวละคร</h3>
-    <div class="char-picker-tabs">
-      <button class="char-picker-tab active" id="tab-male" onclick="switchCharPickerGender('M')">🧑 ชาย</button>
-      <button class="char-picker-tab" id="tab-female" onclick="switchCharPickerGender('F')">👧 หญิง</button>
-    </div>
-    <div class="char-picker-grid" id="char-picker-grid"></div>
-    <button class="btn-cancel" style="width:100%;margin-top:12px" onclick="closeCharacterPicker()">ปิด</button>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
      CHANGE NAME MODAL
 ═══════════════════════════════════════════ -->
 <div class="modal-overlay" id="change-name-modal" style="display:none" onclick="if(event.target===this)closeChangeName()">
@@ -950,6 +933,7 @@
 <script src="firebase-config.js"></script>
 <script src="i18n.js"></script>
 <script src="modules/bmiModule.js"></script>
+<script src="modules/avatarModule.js"></script>
 <script src="modules/characterModule.js"></script>
 <script src="modules/hungerModule.js"></script>
 <script src="modules/marketplaceModule.js"></script>

@@ -250,27 +250,15 @@ html, body {
 
 .char-avatar {
   position: relative;
-  width: 120px;
-  height: 200px;
+  width: 128px;
+  height: 192px;
   flex-shrink: 0;
-  cursor: pointer;
 }
-.char-sprite {
-  width: 120px;
-  height: 200px;
+.char-canvas {
+  width: 128px;
+  height: 192px;
   image-rendering: pixelated;
-  transform-origin: center bottom;
-  animation: charBreathe 3s ease-in-out infinite;
-}
-.char-emotion {
-  position: absolute;
-  top: -4px;
-  right: -6px;
-  font-size: 20px;
-  line-height: 1;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,.6));
-  pointer-events: none;
-  transition: none;
+  display: block;
 }
 
 /* ── Character status bubble (floats above head) ── */
@@ -305,73 +293,10 @@ html, body {
   50%     { transform: translateX(-50%) translateY(-2px); }
 }
 
-/* ── Mood animations (reflect hunger / fatigue / stress) ── */
-@keyframes charBreathe {
-  0%,100% { transform: translateY(0) scaleY(1); }
-  50%     { transform: translateY(-3px) scaleY(1.015); }
-}
-@keyframes charHappy {
-  0%,100% { transform: translateY(0); }
-  30%     { transform: translateY(-9px); }
-  55%     { transform: translateY(0) scaleY(0.97); }
-  70%     { transform: translateY(-3px); }
-}
-@keyframes charHungry {
-  0%,100% { transform: translateX(0) rotate(0deg); }
-  25%     { transform: translateX(-1.5px) rotate(-0.6deg); }
-  75%     { transform: translateX(1.5px) rotate(0.6deg); }
-}
-@keyframes charStarving {
-  0%,100% { transform: translateX(0); }
-  20%,60% { transform: translateX(-2.5px); }
-  40%,80% { transform: translateX(2.5px); }
-}
-@keyframes charTired {
-  0%,100% { transform: rotate(-2.5deg) translateY(0); }
-  50%     { transform: rotate(2.5deg) translateY(2px); }
-}
-@keyframes charStressed {
-  0%,100% { transform: translate(0,0); }
-  25%     { transform: translate(-1.5px, 1px); }
-  50%     { transform: translate(1.5px, -1px); }
-  75%     { transform: translate(-1px, -1px); }
-}
-@keyframes charEat {
-  0%   { transform: scale(1); }
-  30%  { transform: scale(1.13) translateY(-7px); }
-  60%  { transform: scale(0.95); }
-  100% { transform: scale(1); }
-}
-
-.char-avatar.mood-idle      .char-sprite { animation: charBreathe 3s ease-in-out infinite; }
-.char-avatar.mood-happy     .char-sprite { animation: charHappy 0.95s ease-in-out infinite; }
-.char-avatar.mood-hungry    .char-sprite { animation: charHungry 0.5s ease-in-out infinite; filter: saturate(0.75) brightness(0.96); }
-.char-avatar.mood-starving  .char-sprite { animation: charStarving 0.34s ease-in-out infinite; filter: saturate(0.5) brightness(0.9); }
-.char-avatar.mood-tired     .char-sprite { animation: charTired 2.4s ease-in-out infinite; transform-origin: center bottom; filter: brightness(0.9) saturate(0.85); }
-.char-avatar.mood-exhausted .char-sprite { animation: charTired 2s ease-in-out infinite; transform-origin: center bottom; filter: brightness(0.8) saturate(0.7); }
-.char-avatar.mood-stressed  .char-sprite { animation: charStressed 0.28s ease-in-out infinite; filter: hue-rotate(-8deg) saturate(1.15); }
-.char-sprite.char-eating    { animation: charEat 0.55s ease-out !important; }
-
 /* respect reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-  .char-sprite, .char-avatar .char-sprite, .char-status-bubble { animation: none !important; }
+  .char-status-bubble { animation: none !important; }
 }
-.char-change-hint {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0,0,0,.55);
-  color: rgba(255,255,255,.8);
-  font-size: 10px;
-  text-align: center;
-  padding: 3px 0;
-  opacity: 0;
-  transition: opacity .2s;
-  border-radius: 0 0 4px 4px;
-}
-.char-avatar:hover .char-change-hint { opacity: 1; }
-@media (hover: none) { .char-change-hint { opacity: 1; } }
 .char-aura {
   position: absolute;
   inset: -6px;
@@ -769,48 +694,6 @@ html, body {
 .profile-settings-btn:active { transform: rotate(60deg); }
 .profile-name { font-size: 22px; font-weight: 800; }
 .profile-title-text { font-size: 13px; color: var(--primary); font-weight: 600; margin-top: 4px; }
-
-/* ── Character Picker ── */
-.char-picker-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-.char-picker-tab {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid rgba(255,255,255,.15);
-  background: none;
-  border-radius: 10px;
-  color: var(--text-muted, #94a3b8);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all .15s;
-}
-.char-picker-tab.active {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: #fff;
-}
-.char-picker-grid {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 4px;
-}
-.char-picker-thumb {
-  background: rgba(255,255,255,.05);
-  border: 2px solid rgba(255,255,255,.1);
-  border-radius: 12px;
-  padding: 6px;
-  cursor: pointer;
-  transition: border-color .15s, background .15s;
-  overflow: hidden;
-  line-height: 0;
-}
-.char-picker-thumb:hover  { border-color: var(--primary); background: rgba(108,99,255,.15); }
-.char-picker-thumb.selected { border-color: var(--primary); background: rgba(108,99,255,.2); box-shadow: 0 0 0 2px var(--primary); }
 
 /* ── Profile Photo Action Sheet ── */
 .action-sheet-overlay {
