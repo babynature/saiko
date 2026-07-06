@@ -44,10 +44,12 @@ for ty in range(TILE_H):
     for tx in range(TILE_W):
         sx, sy = inv(tx, ty)
 
-        # BASE body (skin/underwear)
-        r, g, b, a = sample(base, sx, sy)
-        if a > 20 and not is_magenta(r, g, b):
-            L['base'].putpixel((tx, ty), (r, g, b, 255))
+        # BASE body (skin/underwear) — also remember if base is dark (its own outline)
+        br, bg, bb, ba = sample(base, sx, sy)
+        base_has = ba > 20 and not is_magenta(br, bg, bb)
+        base_dark = base_has and br < 80 and bg < 80 and bb < 80
+        if base_has:
+            L['base'].putpixel((tx, ty), (br, bg, bb, 255))
 
         # CLOTHED → classify into garment layers
         r, g, b, a = sample(clothed, sx, sy)
@@ -58,10 +60,11 @@ for ty in range(TILE_H):
         blue  = b > 85 and r < 100 and g < 135 and b >= g - 15
         white = r > 175 and g > 175 and b > 175
 
-        # chibi head is big (~top 48px), so hair spans whole head region
-        if dark and ty <= 48:                              # hair (covers big head)
+        # HAIR = dark pixels in the head region that are NOT part of the base
+        # head outline (base_dark) → removes the shared under-chin/jaw ring
+        if dark and not base_dark and ty <= 46:
             L['hair'].putpixel((tx, ty), (r, g, b, 255))
-        elif red or (dark and 49 <= ty <= 64):             # shirt + its outline only
+        elif red or (dark and 47 <= ty <= 64):             # shirt + its outline only
             L['top'].putpixel((tx, ty), (r, g, b, 255))
         elif blue or white or (dark and ty >= 65):         # jeans + shoes + outline
             L['bottom'].putpixel((tx, ty), (r, g, b, 255))
@@ -76,32 +79,59 @@ d = ImageDraw.Draw(sh)
 d.ellipse([18, 88, 46, 94], fill=(0, 0, 0, 90))
 sh.save(os.path.join(OUT, 'shadow.png'))
 
-# ── face strip → 9 faces, autocropped ──
-face_ranges = [(19,143),(194,340),(379,507),(542,674),(704,838),
-               (866,1010),(1042,1174),(1214,1359),(1393,1517)]
-FW, FH = faces.size
-def nonbg(px):
-    r, g, b, a = px
-    return a > 20 and not (r > 235 and g > 235 and b > 235)
+# ── procedural pixel faces (clean + full 9 emotions) ──
+# AI face art gets muddy when downscaled, so draw faces from primitives.
+# Order must match avatarModule FACE map: neutral,happy,hungry,tired,
+# stressed,yum,sad,sleep,angry
+FW, FH = 24, 16
+EYE    = (45, 40, 52, 255)
+MOUTH  = (150, 70, 80, 255)
+TONGUE = (235, 130, 140, 255)
+BLUSH  = (255, 150, 150, 110)
+LX, RX, EY = 6, 17, 7
 
-for i, (x0, x1) in enumerate(face_ranges):
-    crop = faces.crop((x0, 0, x1, FH))
-    # autocrop to content
-    minx, miny, maxx, maxy = crop.width, crop.height, 0, 0
-    found = False
-    for y in range(crop.height):
-        for x in range(crop.width):
-            if nonbg(crop.getpixel((x, y))):
-                found = True
-                minx, miny = min(minx, x), min(miny, y)
-                maxx, maxy = max(maxx, x), max(maxy, y)
-    if found:
-        crop = crop.crop((minx, miny, maxx + 1, maxy + 1))
-    # scale to ~ head width (26px)
-    tw = 26
-    th = max(1, round(crop.height * tw / crop.width))
-    crop = crop.resize((tw, th), Image.NEAREST)
-    crop.save(os.path.join(OUT, f'face_{i}.png'))
+def make_face(kind):
+    im = Image.new('RGBA', (FW, FH), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    def eye_dot(cx):   d.rectangle([cx-1, EY-1, cx+1, EY+2], fill=EYE)
+    def eye_up(cx):    d.arc([cx-3, EY-1, cx+3, EY+5], 180, 360, fill=EYE, width=2)   # ^
+    def eye_line(cx):  d.line([cx-2, EY+1, cx+2, EY+1], fill=EYE, width=2)            # tired
+    def eye_closed(cx):d.arc([cx-3, EY-2, cx+3, EY+3], 0, 180, fill=EYE, width=2)     # u (sleep)
+    def blush():
+        d.ellipse([2, EY+2, 6, EY+5], fill=BLUSH)
+        d.ellipse([FW-7, EY+2, FW-3, EY+5], fill=BLUSH)
+
+    if kind == 'neutral':
+        eye_dot(LX); eye_dot(RX); d.line([10, 13, 15, 13], fill=MOUTH, width=1)
+    elif kind == 'happy':
+        eye_up(LX); eye_up(RX); d.arc([8, 9, 16, 15], 0, 180, fill=MOUTH, width=2); blush()
+    elif kind == 'hungry':
+        eye_dot(LX); eye_dot(RX)
+        d.line([9, 13, 11, 14], fill=MOUTH); d.line([11, 14, 13, 13], fill=MOUTH)
+        d.line([13, 13, 15, 14], fill=MOUTH)                                          # wavy
+    elif kind == 'tired':
+        eye_line(LX); eye_line(RX); d.line([10, 13, 15, 13], fill=MOUTH, width=1)
+    elif kind == 'stressed':
+        eye_dot(LX); eye_dot(RX)
+        for x in range(10, 16, 2): d.line([x, 12, x, 14], fill=MOUTH)                 # gritted
+    elif kind == 'yum':
+        eye_up(LX); eye_up(RX); d.ellipse([9, 11, 15, 15], fill=MOUTH)
+        d.ellipse([10, 13, 14, 15], fill=TONGUE); blush()
+    elif kind == 'sad':
+        d.rectangle([LX-1, EY, LX+1, EY+3], fill=EYE); d.rectangle([RX-1, EY, RX+1, EY+3], fill=EYE)
+        d.arc([8, 13, 16, 18], 180, 360, fill=MOUTH, width=2)                          # frown
+    elif kind == 'sleep':
+        eye_closed(LX); eye_closed(RX); d.ellipse([11, 12, 14, 15], fill=MOUTH)
+    elif kind == 'angry':
+        d.line([LX-3, EY-2, LX+2, EY], fill=EYE, width=2)                              # \  brow
+        d.line([RX-2, EY, RX+3, EY-2], fill=EYE, width=2)                              #  / brow
+        d.rectangle([LX-1, EY+1, LX+1, EY+3], fill=EYE); d.rectangle([RX-1, EY+1, RX+1, EY+3], fill=EYE)
+        d.arc([8, 13, 16, 18], 180, 360, fill=MOUTH, width=2)
+    return im
+
+FACE_NAMES = ['neutral','happy','hungry','tired','stressed','yum','sad','sleep','angry']
+for i, n in enumerate(FACE_NAMES):
+    make_face(n).save(os.path.join(OUT, f'face_{i}.png'))
 
 print('scale =', round(SCALE, 5), '| layers done')
 
@@ -110,6 +140,6 @@ prev = Image.new('RGBA', (TILE_W, TILE_H), (30, 30, 46, 255))
 for k in ('shadow', 'base', 'bottom', 'top', 'hair'):
     prev.alpha_composite(Image.open(os.path.join(OUT, k + '.png')))
 f0 = Image.open(os.path.join(OUT, 'face_0.png'))
-prev.alpha_composite(f0, (TILE_W // 2 - f0.width // 2, 20))
+prev.alpha_composite(f0, (TILE_W // 2 - f0.width // 2, 28))
 prev.resize((TILE_W * 4, TILE_H * 4), Image.NEAREST).save(os.path.join(HERE, 'poc', 'preview.png'))
 print('preview done')

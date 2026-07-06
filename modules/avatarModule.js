@@ -144,7 +144,7 @@
       if (this.worn.top) draw('top');
       if (this.worn.hair) draw('hair');
       const f = this.img['face_' + this.faceIdx];
-      if (f && f.width) ctx.drawImage(f, (TW / 2 - f.width / 2) * SCALE, 20 * SCALE, f.width * SCALE, f.height * SCALE);
+      if (f && f.width) ctx.drawImage(f, (TW / 2 - f.width / 2) * SCALE, 28 * SCALE, f.width * SCALE, f.height * SCALE);
       ctx.restore();
     }
   }
