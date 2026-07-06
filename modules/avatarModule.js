@@ -238,7 +238,7 @@
         const fw = f.width  * SCALE;
         const fh = f.height * SCALE;
         const fx = Math.round((TW * SCALE - fw) / 2);
-        const fy = 9 * SCALE;   // y=9 tiles → canvas y=18, lands eyes mid-head
+        const fy = 11 * SCALE;  // y=11 tiles → canvas y=22, eyes lower in head
         ctx.drawImage(f, fx, fy, fw, fh);
       }
 
