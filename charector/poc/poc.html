@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper-Doll Avatar — Proof of Concept</title>
+<style>
+  :root { --bg:#0f0f1a; --card:#1a1a2e; --primary:#6c63ff; --text:#e2e8f0; --muted:#94a3b8; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:system-ui,sans-serif;
+         display:flex; flex-direction:column; align-items:center; gap:16px; padding:24px; }
+  h1 { font-size:18px; margin:0; }
+  .sub { color:var(--muted); font-size:13px; margin:0; text-align:center; }
+  .stage { position:relative; background:linear-gradient(#242440,#1a1a2e);
+           border:1px solid rgba(255,255,255,.1); border-radius:16px; padding:16px; }
+  canvas { image-rendering:pixelated; display:block; }
+  .status { position:absolute; top:8px; left:50%; transform:translateX(-50%);
+            background:var(--primary); color:#fff; font-size:11px; font-weight:800;
+            padding:2px 10px; border-radius:999px; }
+  .controls { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; width:100%; max-width:320px; }
+  button { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14);
+           color:var(--text); border-radius:10px; padding:11px; font-size:14px; cursor:pointer; }
+  button:hover { background:rgba(108,99,255,.25); border-color:var(--primary); }
+  button:active { transform:scale(.97); }
+  .full { grid-column:1/-1; }
+  .primary { background:var(--primary); border-color:var(--primary); color:#fff; font-weight:700; }
+</style>
+</head>
+<body>
+  <h1>🧬 Paper-Doll Avatar — POC</h1>
+  <p class="sub">ประกอบจากเลเยอร์จริง (base + เสื้อ + กางเกง + ผม + หน้า) ที่หั่นจากภาพที่คุณเจน<br>ทุกอย่างขยับด้วย transform — ไม่ต้องวาดหลายเฟรม</p>
+
+  <div class="stage">
+    <div class="status" id="status">neutral</div>
+    <canvas id="cv" width="256" height="384"></canvas>
+  </div>
+
+  <div class="controls">
+    <button onclick="cycleFace()">😊 เปลี่ยนอารมณ์</button>
+    <button onclick="playOnce('eat')">🍚 กิน</button>
+    <button onclick="setAnim('cheer')">🎉 ดีใจ</button>
+    <button onclick="setAnim('idle')">🧍 ยืนปกติ</button>
+    <button onclick="toggle('top')">👕 ถอด/ใส่เสื้อ</button>
+    <button onclick="toggle('bottom')">👖 ถอด/ใส่กางเกง</button>
+    <button onclick="toggle('hair')">💇 ถอด/ใส่ผม</button>
+    <button onclick="setAnim('sleep')">😴 ง่วง</button>
+    <button class="full primary" onclick="randomOutfit()">🎲 สุ่มสถานะ (จำลอง mood)</button>
+  </div>
+
+<script>
+const SCALE = 4, TW = 64, TH = 96;
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+ctx.imageSmoothingEnabled = false;
+
+const FACE_NAMES = ['neutral','happy','hungry','tired','stressed','yum','sad','sleep','angry'];
+const layerFiles = {
+  shadow:'layers/shadow.png', base:'layers/base.png', bottom:'layers/bottom.png',
+  top:'layers/top.png', hair:'layers/hair.png',
+};
+for (let i=0;i<9;i++) layerFiles['face_'+i] = 'layers/face_'+i+'.png';
+
+const img = {};
+let loaded = 0, total = Object.keys(layerFiles).length;
+for (const k in layerFiles) {
+  img[k] = new Image();
+  img[k].onload = () => { if (++loaded === total) requestAnimationFrame(loop); };
+  img[k].src = layerFiles[k];
+}
+
+// avatar state
+const worn = { top:true, bottom:true, hair:true };
+let faceIdx = 0, anim = 'idle', animStart = 0, onceCb = null;
+
+function toggle(slot){ worn[slot] = !worn[slot]; }
+function cycleFace(){ faceIdx = (faceIdx+1) % 9; setStatus(FACE_NAMES[faceIdx]); }
+function setAnim(a){ anim = a; animStart = performance.now();
+  setStatus(a==='sleep'?'ง่วงนอน':a==='cheer'?'สดชื่น':a==='idle'?FACE_NAMES[faceIdx]:a); }
+function playOnce(a){ anim = a; animStart = performance.now(); onceCb = ()=>setAnim('idle');
+  if (a==='eat'){ faceIdx = 5; setStatus('อร่อย!'); } }
+function setStatus(s){ document.getElementById('status').textContent = s; }
+function randomOutfit(){
+  const moods = [['hungry','😖 หิว'],['tired','😴 ง่วง'],['stressed','😰 เครียด'],['happy','😄 สดชื่น']];
+  const [f,label] = moods[Math.floor(Math.random()*moods.length)];
+  faceIdx = FACE_NAMES.indexOf(f); if (faceIdx<0) faceIdx=0;
+  setStatus(label);
+  anim = (f==='hungry')?'hungryShake':(f==='tired')?'sleep':(f==='stressed')?'stressShake':'cheer';
+  animStart = performance.now();
+}
+
+// ── motion: returns {dx,dy,rot,sy} for the character (not shadow) ──
+function motion(t){
+  const s = (t - animStart)/1000;
+  switch(anim){
+    case 'idle':        return { dy: Math.sin(t/450)*2, rot:0, sy:1 };
+    case 'cheer':       return { dy: -Math.abs(Math.sin(t/180))*5, rot:0, sy:1 };
+    case 'sleep':       return { dy: Math.sin(t/700)*1.2, rot:Math.sin(t/700)*3, sy:1 };
+    case 'hungryShake': return { dx: Math.sin(t/70)*1.5, dy:0, rot:Math.sin(t/70)*1.5, sy:1 };
+    case 'stressShake': return { dx: Math.sin(t/45)*1.5, dy: Math.cos(t/50)*1, rot:0, sy:1 };
+    case 'eat': {
+      const k = Math.min(1, s/0.55);
+      const bounce = Math.sin(k*Math.PI);
+      return { dy: -bounce*6, sy: 1 - bounce*0.06, rot:0, done:k>=1 };
+    }
+    default: return { dy:0, rot:0, sy:1 };
+  }
+}
+
+function loop(t){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  const m = motion(t);
+  if (m.done && onceCb){ const cb=onceCb; onceCb=null; cb(); }
+
+  // shadow (stays on ground, shrinks when character lifts)
+  const lift = Math.max(0, -(m.dy||0));
+  const shScale = 1 - lift*0.05;
+  drawLayer('shadow', 0, 0, shScale, 1);
+
+  // character stack
+  const dx=(m.dx||0), dy=(m.dy||0), rot=(m.rot||0)*Math.PI/180, sy=(m.sy||1);
+  ctx.save();
+  ctx.translate(cv.width/2 + dx*SCALE, cv.height*0.94);   // pivot at feet
+  ctx.rotate(rot);
+  ctx.scale(1, sy);
+  ctx.translate(-cv.width/2, -cv.height*0.94 + dy*SCALE);
+
+  drawWhole('base');
+  if (worn.bottom) drawWhole('bottom');
+  if (worn.top)    drawWhole('top');
+  if (worn.hair)   drawWhole('hair');
+  // face on head
+  const f = img['face_'+faceIdx];
+  if (f) ctx.drawImage(f, (TW/2 - f.width/2)*SCALE, 20*SCALE, f.width*SCALE, f.height*SCALE);
+  ctx.restore();
+
+  requestAnimationFrame(loop);
+}
+
+function drawWhole(k){ ctx.drawImage(img[k], 0, 0, cv.width, cv.height); }
+function drawLayer(k, ox, oy, scale, alpha){
+  ctx.save(); ctx.globalAlpha = alpha;
+  const w = cv.width*scale, h = cv.height;
+  ctx.drawImage(img[k], (cv.width-w)/2 + ox, oy, w, h);
+  ctx.restore();
+}
+</script>
+</body>
+</html>
