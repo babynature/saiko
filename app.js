@@ -91,7 +91,6 @@ function _renderFoodLogForDate() {
   if (!listEl) return;
   if (!_foodLogViewDate) { renderFoodLog(); return; }
 
-  // Past day — read-only
   const log   = _loadFoodLogForDate(_foodLogViewDate) || [];
   const total = log.reduce((s, e) => s + (e.kcal || 0), 0);
   const goal  = characterModule.get('dailyCalorie') || 2000;
@@ -99,20 +98,21 @@ function _renderFoodLogForDate() {
   const totalEl = document.getElementById('food-log-total');
   const itemsEl = document.getElementById('tc-food-items');
   if (totalEl) totalEl.textContent = `${total.toLocaleString()} kcal`;
-  if (itemsEl) itemsEl.textContent = log.length ? `${log.length} รายการ` : 'ไม่มีข้อมูล';
+  if (itemsEl) itemsEl.textContent = log.length ? `${log.length} รายการ · เป้า ${goal.toLocaleString()}` : `เป้า ${goal.toLocaleString()} kcal`;
 
   if (!log.length) {
     listEl.innerHTML = `
-      <div class="empty-state" style="padding:20px 0">
+      <div class="empty-state" style="padding:16px 0">
         <div class="empty-state-icon">📅</div>
-        <div class="empty-state-msg">ไม่มีบันทึกอาหารวันนี้</div>
-        <div class="empty-state-hint">ไม่พบข้อมูลวันนี้ในประวัติ</div>
+        <div class="empty-state-msg">ยังไม่มีรายการ</div>
+        <div class="empty-state-hint">ค้นหาหรือพิมพ์อาหารด้านบนเพื่อบันทึกย้อนหลัง</div>
       </div>`;
     return;
   }
 
-  listEl.innerHTML = `<div class="flog-past-badge">📖 ประวัติย้อนหลัง — อ่านอย่างเดียว</div>`;
-  log.forEach(entry => {
+  listEl.innerHTML = '';
+  const dateStr = _foodLogViewDate;
+  log.forEach((entry, i) => {
     const pct      = Math.min(100, Math.round((entry.kcal || 0) / goal * 100));
     const barColor = pct > 30 ? '#ef4444' : pct > 15 ? '#f59e0b' : '#22c55e';
     const macroHtml = entry.hasMacros
@@ -126,13 +126,22 @@ function _renderFoodLogForDate() {
     row.innerHTML = `
       <span class="flog-meal">${MEAL_LABELS[entry.mealType] || '🍽️'}</span>
       <span class="flog-name">${_escHtml(entry.name)}</span>
-      <span class="flog-time">${entry.time || ''}</span>
+      <span class="flog-time">${entry.time || '—'}</span>
       <span class="flog-kcal" style="color:${barColor}">${entry.kcal} kcal</span>
+      <button class="flog-del" onclick="removeFoodLogForDate(${i},'${dateStr}')" title="ลบ">✕</button>
       ${macroHtml}`;
     listEl.appendChild(row);
   });
 
   renderFoodWeekChart();
+}
+
+function removeFoodLogForDate(idx, date) {
+  const log = _loadFoodLogForDate(date) || [];
+  if (idx < 0 || idx >= log.length) return;
+  log.splice(idx, 1);
+  try { localStorage.setItem(`shg-flog-${date}`, JSON.stringify(log)); } catch(e) {}
+  _renderFoodLogForDate();
 }
 
 function _loadFoodFreq() {
@@ -2781,6 +2790,29 @@ function logCustomFood() {
 
   if (!kcal || kcal < 1 || kcal > 5000) {
     showToast('⚠️ ใส่แคลอรี่ให้ถูกต้อง (1–5000)', 'error');
+    return;
+  }
+
+  // Past-day mode: write directly to localStorage key for that date
+  if (_foodLogViewDate) {
+    const p = parseFloat(proteinEl.value) || 0;
+    const c = parseFloat(carbsEl.value)   || 0;
+    const f = parseFloat(fatEl.value)     || 0;
+    const pastEntry = {
+      name: name || 'อาหาร',
+      kcal: Math.round(kcal),
+      protein: p, carbs: c, fat: f,
+      hasMacros: p > 0 || c > 0 || f > 0,
+      mealType, time: '—',
+    };
+    const pastLog = _loadFoodLogForDate(_foodLogViewDate) || [];
+    pastLog.push(pastEntry);
+    try { localStorage.setItem(`shg-flog-${_foodLogViewDate}`, JSON.stringify(pastLog)); } catch(e) {}
+    _trackFoodFreq(pastEntry.name);
+    nameEl.value = ''; kcalEl.value = '';
+    proteinEl.value = ''; carbsEl.value = ''; fatEl.value = '';
+    _renderFoodLogForDate();
+    showToast(`✅ บันทึกย้อนหลัง ${_foodLogViewDate} — ${pastEntry.name} +${pastEntry.kcal} kcal`, 'info');
     return;
   }
 
