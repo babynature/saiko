@@ -1892,7 +1892,17 @@ function buyShopItem(itemId) {
 // ═══════════════════════════════════════════
 const PROFILE_PHOTO_KEY = 'shg-profile-photo';
 
+function showProfilePhotoActions() {
+  const hasPhoto = !!localStorage.getItem(PROFILE_PHOTO_KEY);
+  const removeBtn = document.getElementById('action-remove-photo');
+  if (removeBtn) removeBtn.style.display = hasPhoto ? 'block' : 'none';
+  document.getElementById('profile-photo-sheet').style.display = 'flex';
+}
+function closeProfilePhotoActions() {
+  document.getElementById('profile-photo-sheet').style.display = 'none';
+}
 function triggerProfilePhotoUpload() {
+  closeProfilePhotoActions();
   document.getElementById('profile-photo-input')?.click();
 }
 
@@ -1926,6 +1936,7 @@ function handleProfilePhotoChange(input) {
 }
 
 function removeProfilePhoto() {
+  closeProfilePhotoActions();
   localStorage.removeItem(PROFILE_PHOTO_KEY);
   _applyProfilePhoto(null);
   showToast('ลบรูปโปรไฟล์แล้ว', 'info');
@@ -1934,13 +1945,11 @@ function removeProfilePhoto() {
 function _applyProfilePhoto(dataUrl) {
   const img      = document.getElementById('profile-avatar-img');
   const fallback = document.getElementById('profile-avatar-fallback');
-  const removeBtn= document.getElementById('profile-remove-photo');
   if (!img) return;
   if (dataUrl) {
     img.src = dataUrl;
     img.classList.add('loaded');
-    if (fallback)   fallback.style.display  = 'none';
-    if (removeBtn)  removeBtn.style.display = 'inline-block';
+    if (fallback) fallback.style.display = 'none';
   } else {
     img.src = '';
     img.classList.remove('loaded');
@@ -1948,7 +1957,6 @@ function _applyProfilePhoto(dataUrl) {
       fallback.style.display = 'block';
       fallback.textContent   = characterModule.get('gender') === 'M' ? '🧑' : '👧';
     }
-    if (removeBtn) removeBtn.style.display = 'none';
   }
 }
 
