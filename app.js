@@ -185,9 +185,19 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }, { passive: true });
 
-  // Safety: close food panel when app returns from background
+  // Safety: close food panel + reset day when app returns from background
+  let _lastActiveDate = new Date().toISOString().slice(0, 10);
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) closeFoodLog();
+    if (document.hidden) return;
+    closeFoodLog();
+    const today = new Date().toISOString().slice(0, 10);
+    if (_lastActiveDate < today) {
+      _lastActiveDate = today;
+      hungerModule.resetForNewDay();
+      questModule.init();
+      renderAll();
+      saveGame();
+    }
   });
 
   // Phase 6: Init Firebase (if configured)
@@ -223,6 +233,7 @@ function saveGame() {
   hungerModule.lastUpdate = Date.now();
   historyModule.saveSnapshot();
   const state = {
+    savedDate: new Date().toISOString().slice(0, 10),
     character: characterModule.toJSON(),
     hunger: hungerModule.toJSON(),
     quests: questModule.toJSON(),
@@ -268,6 +279,13 @@ function loadGame() {
     else                     missionModule.init();
     if (state.gear)          gearModule.fromJSON(state.gear);
     if (state.water)         waterModule.fromJSON(state.water);
+
+    // Reset daily hunger/calorie/food data if saved on a previous day
+    const _today = new Date().toISOString().slice(0, 10);
+    if (state.savedDate && state.savedDate < _today) {
+      hungerModule.resetForNewDay();
+    }
+
     return true;
   } catch (e) {
     console.error('Load failed', e);
