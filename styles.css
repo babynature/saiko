@@ -115,6 +115,7 @@ html, body {
 }
 .form-group input:focus, .form-group select:focus { border-color: var(--primary); }
 .form-group select option { background: var(--bg2); }
+.form-group input[type="date"] { color-scheme: dark; }
 
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 

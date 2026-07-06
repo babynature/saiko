@@ -2489,6 +2489,10 @@ function startStressDrain() {
 // PHASE 1.5: SLEEP MODAL
 // ═══════════════════════════════════════════
 function showSleepModal() {
+  const today = new Date().toISOString().slice(0, 10);
+  const min30 = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+  const di = document.getElementById('sleep-log-date');
+  di.value = today; di.max = today; di.min = min30;
   document.getElementById('sleep-modal').style.display = 'flex';
 }
 
@@ -2499,27 +2503,48 @@ function closeSleepModal() {
 function confirmLogSleep() {
   const hours   = parseFloat(document.getElementById('sleep-hours').value);
   const quality = document.getElementById('sleep-quality').value;
+  const date    = document.getElementById('sleep-log-date').value;
+  const today   = new Date().toISOString().slice(0, 10);
 
   if (isNaN(hours) || hours < 0 || hours > 12) {
     showToast('⚠️ ใส่ชั่วโมงนอน 0–12', 'error');
     return;
   }
 
+  // Backdate: update history snapshot only, no live-state changes
+  if (date && date < today) {
+    const idx = historyModule.days.findIndex(d => d.date === date);
+    if (idx >= 0) {
+      historyModule.days[idx].sleepHours   = hours;
+      historyModule.days[idx].sleepQuality = quality;
+    } else {
+      historyModule.days.push({
+        date, sleepHours: hours, sleepQuality: quality,
+        caloriesEaten: 0, caloriesBurned: 0,
+        calorieGoal: characterModule.get('dailyCalorie'),
+        stress: 0, exerciseMin: 0, questsDone: 0, waterDrank: 0,
+        weight: 0, bmi: 0, level: characterModule.get('level'),
+        macroProtein: 0, macroCarbs: 0, macroFat: 0,
+      });
+      historyModule.days.sort((a, b) => a.date.localeCompare(b.date));
+    }
+    const r = awardXP(5, 'sleep_backdate');
+    closeSleepModal();
+    showToast(`😴 บันทึกย้อนหลัง ${date} — ${hours}ชม. +${r.gained} XP`, 'info');
+    saveGame();
+    return;
+  }
+
+  // Today: normal full flow
   sleepModule.logSleep(hours, quality);
   checkAchievements('sleep', { hours });
-
-  // Good sleep reduces stress
   const stressReduce = quality === 'good' ? 15 : quality === 'poor' ? 0 : 8;
   if (stressReduce > 0) stressModule.reduceStress(stressReduce);
-
-  // XP reward: bonus for hitting the 7–9h sweet spot + gear bonus
   const xpSleepBase = (hours >= 7 && hours <= 9) ? 30 : 15;
   const xpReward = gearModule.applySleepXP(xpSleepBase);
   const result   = awardXP(xpReward, 'sleep');
-  // Phase 8: mission progress
   const mDoneS = missionModule.onEvent('sleep', { hours });
   mDoneS.forEach(m => { const r = awardXP(m.xp, 'mission'); showToast(t('txt_mission_new', { xp: r.gained }), 'success'); });
-
   closeSleepModal();
   const statusMsg = t(sleepModule.getStatusKey());
   showToast(`😴 นอน ${hours}ชม. ${statusMsg} +${result.gained} XP`, 'success');
@@ -3292,6 +3317,10 @@ function showWeightModal() {
   const latest = weightModule.getLatest();
   const input  = document.getElementById('weight-log-input');
   input.value  = latest ? latest.weight : characterModule.get('weightKg');
+  const today = new Date().toISOString().slice(0, 10);
+  const min30 = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+  const di = document.getElementById('weight-log-date');
+  di.value = today; di.max = today; di.min = min30;
   document.getElementById('weight-modal').style.display = 'flex';
 }
 
@@ -3300,15 +3329,29 @@ function closeWeightModal() {
 }
 
 function confirmLogWeight() {
-  const w = parseFloat(document.getElementById('weight-log-input').value);
+  const w    = parseFloat(document.getElementById('weight-log-input').value);
+  const date = document.getElementById('weight-log-date').value;
+  const today = new Date().toISOString().slice(0, 10);
+  const isPast = date && date < today;
+
   if (isNaN(w) || w < 20 || w > 200) {
     showToast('⚠️ น้ำหนักต้องอยู่ระหว่าง 20-200 kg', 'error');
     return;
   }
 
-  const result = weightModule.logWeight(w);
+  const result = weightModule.logWeight(w, isPast ? date : null);
+  const bmiLabel = bmiModule.getCategoryLabel(result.bmi);
 
-  // Sync characterModule with new weight & BMI
+  if (isPast) {
+    // Backdate: store in weightModule only, no live characterModule sync
+    const r = awardXP(5, 'weight_backdate');
+    closeWeightModal();
+    showToast(`⚖️ บันทึกย้อนหลัง ${date} — ${w}kg (BMI ${result.bmi}) +${r.gained} XP`, 'info');
+    saveGame();
+    return;
+  }
+
+  // Today: full sync
   characterModule.data.weightKg    = w;
   characterModule.data.bmi         = result.bmi;
   characterModule.data.categoryId  = bmiModule.getCategory(result.bmi).id;
@@ -3319,15 +3362,11 @@ function confirmLogWeight() {
     characterModule.get('gender'),
     characterModule.get('activity')
   );
-
   const change = weightModule.getChange();
   const arrow  = change < -0.05 ? '↓' : change > 0.05 ? '↑' : '→';
-  const bmiLabel = bmiModule.getCategoryLabel(result.bmi);
   checkAchievements('weight', { change });
-  // Phase 8: mission progress
   const mDoneW = missionModule.onEvent('weight', {});
   mDoneW.forEach(m => { const r = awardXP(m.xp, 'mission'); showToast(t('txt_mission_new', { xp: r.gained }), 'success'); });
-
   closeWeightModal();
   showToast(t('weight_logged', { w, bmi: result.bmi, arrow }) + ` (${bmiLabel})`, 'success');
   renderAll();

@@ -789,7 +789,11 @@
   <div class="modal-card" style="text-align:left">
     <h3 id="txt-sleep-modal-title" style="text-align:center;margin-bottom:16px">😴 บันทึกการนอนหลับ</h3>
     <div class="form-group">
-      <label id="lbl-sleep-hours">ชั่วโมงที่นอนคืนนี้</label>
+      <label>📅 วันที่</label>
+      <input type="date" id="sleep-log-date">
+    </div>
+    <div class="form-group">
+      <label id="lbl-sleep-hours">ชั่วโมงที่นอน</label>
       <input type="number" id="sleep-hours" min="0" max="12" value="7" step="0.5">
     </div>
     <div class="form-group">
@@ -813,6 +817,10 @@
 <div class="modal-overlay" id="weight-modal" style="display:none">
   <div class="modal-card" style="text-align:left">
     <h3 id="txt-weight-modal-title" style="text-align:center;margin-bottom:16px">⚖️ บันทึกน้ำหนัก</h3>
+    <div class="form-group">
+      <label>📅 วันที่</label>
+      <input type="date" id="weight-log-date">
+    </div>
     <div class="form-group">
       <label id="lbl-weight-log">น้ำหนัก (kg)</label>
       <input type="number" id="weight-log-input" min="20" max="200" step="0.1" placeholder="50.0">

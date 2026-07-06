@@ -10,11 +10,11 @@ class WeightModule {
 
   _today() { return new Date().toISOString().slice(0, 10); }
 
-  logWeight(kg) {
+  logWeight(kg, date = null) {
     const heightCm = window.characterModule.get('heightCm');
     const rawBmi   = window.bmiModule.calculateBMI(heightCm, kg);
     const bmi      = Math.round(rawBmi * 10) / 10;
-    const entry    = { date: this._today(), weight: kg, bmi };
+    const entry    = { date: date || this._today(), weight: kg, bmi };
 
     const idx = this.logs.findIndex(l => l.date === entry.date);
     if (idx >= 0) this.logs[idx] = entry;
