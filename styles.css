@@ -2071,10 +2071,13 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   grid-template-columns: 1fr 80px auto auto;
   gap: 6px;
   margin-bottom: 10px;
+  min-width: 0;
 }
 
 .food-log-date {
   grid-column: 1 / -1;
+  min-width: 0;
+  max-width: 100%;
   background: rgba(108,99,255,.08);
   border: 1px solid rgba(108,99,255,.25);
   border-radius: 8px;
@@ -2180,19 +2183,21 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 }
 .flog-del:hover { opacity: 1; color: #ef4444; }
 
-/* Mobile: search full-width row 1, kcal+meal+save row 2 */
+/* Mobile: date row1 full / search row2 full / kcal+meal+save row3 */
 @media (max-width: 500px) {
   .food-log-form {
-    grid-template-columns: 72px 1fr auto;
-    grid-template-rows: auto auto;
+    grid-template-columns: 80px 1fr auto;
+    grid-template-rows: auto auto auto;
     gap: 6px;
   }
-  /* Search+icon row spans all 3 columns */
-  .food-log-form > div:first-child { grid-column: 1 / -1; }
-  /* Row 2: kcal col-1, meal col-2, save col-3 */
-  .food-log-kcal { grid-column: 1; }
-  .food-log-meal { grid-column: 2; }
-  .food-log-btn  { grid-column: 3; white-space: nowrap; }
+  /* date spans all cols — row 1 */
+  .food-log-date { grid-column: 1 / -1; grid-row: 1; }
+  /* search+icon div spans all cols — row 2 */
+  .food-log-form > div:nth-child(2) { grid-column: 1 / -1; grid-row: 2; }
+  /* kcal / meal / save — row 3 */
+  .food-log-kcal { grid-column: 1; grid-row: 3; }
+  .food-log-meal { grid-column: 2; grid-row: 3; }
+  .food-log-btn  { grid-column: 3; grid-row: 3; white-space: nowrap; }
 }
 
 /* ═══════════════════════════════════════════
