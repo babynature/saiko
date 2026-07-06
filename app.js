@@ -642,9 +642,67 @@ function selectCharacter(col, gender) {
   showToast('✅ เปลี่ยนตัวละครแล้ว', 'success');
 }
 
+// ── Character mood: reflects hunger / fatigue / stress ──
+// Priority: most urgent state wins. Each returns anim class + face + status label.
+function getCharacterMood() {
+  const hunger  = hungerModule.getHungerPct();
+  const fatigue = (typeof computeLiveFatigue === 'function') ? computeLiveFatigue()
+                : (window.sleepModule && sleepModule.getCurrentFatigue) ? sleepModule.getCurrentFatigue() : 70;
+  const stress  = (typeof computeLiveStress === 'function') ? computeLiveStress()
+                : (window.stressModule ? stressModule.stress : 20);
+
+  if (hunger < 15)  return { anim: 'starving',  emoji: '😵', label: 'หิวจะเป็นลม', color: '#ef4444' };
+  if (fatigue < 18) return { anim: 'exhausted', emoji: '😪', label: 'หมดแรง',      color: '#8b5cf6' };
+  if (stress >= 75) return { anim: 'stressed',  emoji: '😫', label: 'เครียดมาก',   color: '#f59e0b' };
+  if (hunger < 35)  return { anim: 'hungry',    emoji: '😖', label: 'หิว',         color: '#f97316' };
+  if (fatigue < 40) return { anim: 'tired',     emoji: '😴', label: 'ง่วง',        color: '#818cf8' };
+  if (stress >= 55) return { anim: 'stressed',  emoji: '😰', label: 'เครียด',       color: '#fbbf24' };
+  if (hunger >= 65 && fatigue >= 55 && stress < 35)
+                    return { anim: 'happy',     emoji: '😄', label: 'สดชื่น',       color: '#22c55e' };
+  return            { anim: 'idle',      emoji: '🙂', label: 'สบายดี',      color: '#94a3b8' };
+}
+
+// Lightweight mood refresh — safe to call from any state render (hunger/fatigue/stress)
+function _applyCharMood() {
+  const avatar = document.getElementById('char-avatar');
+  if (!avatar) return;
+  if (avatar.classList.contains('is-eating')) return; // don't interrupt eat reaction
+
+  const m = getCharacterMood();
+  avatar.className = avatar.className.replace(/\bmood-\S+/g, '').replace(/\s+/g, ' ').trim();
+  avatar.classList.add('mood-' + m.anim);
+
+  const face = document.getElementById('char-face');
+  if (face) face.textContent = m.emoji;
+
+  const bubble = document.getElementById('char-status-bubble');
+  if (bubble) {
+    bubble.textContent      = m.label;
+    bubble.style.background  = m.color;
+    bubble.style.setProperty('--bubble-bg', m.color);
+  }
+}
+
+// Transient "nom nom" reaction when food is consumed
+function playCharEatReaction() {
+  const avatar = document.getElementById('char-avatar');
+  const sprite = document.getElementById('char-sprite');
+  const face   = document.getElementById('char-face');
+  if (!avatar || !sprite) return;
+  avatar.classList.add('is-eating');
+  sprite.classList.add('char-eating');
+  if (face) face.textContent = '😋';
+  const bubble = document.getElementById('char-status-bubble');
+  if (bubble) { bubble.textContent = 'อร่อย!'; bubble.style.background = '#22c55e'; bubble.style.setProperty('--bubble-bg', '#22c55e'); }
+  setTimeout(() => {
+    sprite.classList.remove('char-eating');
+    avatar.classList.remove('is-eating');
+    _applyCharMood();
+  }, 650);
+}
+
 function renderCharacter() {
   const ch  = characterModule;
-  const hun = hungerModule.getHungerPct();
 
   // ── Pixel sprite ──
   const spriteEl = document.getElementById('char-sprite');
@@ -663,10 +721,6 @@ function renderCharacter() {
     `;
   }
 
-  // ── Emotion badge ──
-  const faceEl = document.getElementById('char-face');
-  if (faceEl) faceEl.textContent = ch.getEmotionFace(hun);
-
   document.getElementById('char-name').textContent  = ch.get('name');
   document.getElementById('char-title').textContent = ch.getTitle();
 
@@ -679,6 +733,9 @@ function renderCharacter() {
   bmiEl.style.background  = bmiColor + '22';
 
   document.getElementById('char-aura').className = 'char-aura ' + ch.getAuraClass();
+
+  // ── Mood: face + animation + status bubble ──
+  _applyCharMood();
 }
 
 // ═══════════════════════════════════════════
@@ -690,6 +747,7 @@ function renderHunger() {
   document.getElementById('hunger-bar').style.width = pct + '%';
   document.getElementById('hunger-pct').textContent = pct + '%';
   document.getElementById('hunger-status').textContent = t(status.key);
+  _applyCharMood();
 }
 
 // ═══════════════════════════════════════════
@@ -1009,6 +1067,7 @@ function confirmBuyFood() {
 
   closeFoodModal();
   renderAll();
+  playCharEatReaction();
   saveGame();
 }
 
@@ -2727,6 +2786,7 @@ function renderFatigue() {
   // Refactoring UI: "Don't rely on color alone" — icon changes shape/meaning
   const iconEl = document.getElementById('fatigue-icon');
   if (iconEl) iconEl.textContent = f >= 70 ? '⚡' : f >= 40 ? '😐' : '🥱';
+  _applyCharMood();
 }
 
 // ═══════════════════════════════════════════
@@ -2744,6 +2804,7 @@ function renderStress() {
   // Refactoring UI: "Don't rely on color alone" — icon changes shape/meaning
   const iconEl = document.getElementById('stress-icon');
   if (iconEl) iconEl.textContent = s <= 30 ? '😌' : s <= 60 ? '😤' : '🤯';
+  _applyCharMood();
 }
 
 // ═══════════════════════════════════════════
@@ -3115,6 +3176,7 @@ function logCustomFood() {
   renderCalorieBar();
   renderHunger();
   renderGlance();
+  playCharEatReaction();
   saveGame();
 
   // Peak–End Rule: post-log toast with running total
