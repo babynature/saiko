@@ -894,11 +894,29 @@
 </div>
 
 <!-- ═══════════════════════════════════════════
+     CHANGE NAME MODAL
+═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="change-name-modal" style="display:none" onclick="if(event.target===this)closeChangeName()">
+  <div class="modal-card" style="text-align:left">
+    <h3 style="text-align:center;margin-bottom:16px">✏️ เปลี่ยนชื่อ</h3>
+    <div class="form-group">
+      <label>ชื่อใหม่</label>
+      <input type="text" id="change-name-input" maxlength="20" placeholder="ชื่อของคุณ" autocomplete="off">
+    </div>
+    <div class="food-modal-btns">
+      <button class="btn-cancel" onclick="closeChangeName()">❌ ยกเลิก</button>
+      <button class="btn-confirm" onclick="saveProfileName()">✅ บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
      PROFILE PHOTO ACTION SHEET
 ═══════════════════════════════════════════ -->
 <div class="action-sheet-overlay" id="profile-photo-sheet" style="display:none" onclick="if(event.target===this)closeProfilePhotoActions()">
   <div class="action-sheet">
-    <div class="action-sheet-title">รูปโปรไฟล์</div>
+    <div class="action-sheet-title">ตั้งค่าโปรไฟล์</div>
+    <button class="action-sheet-btn" onclick="showChangeName()">✏️ เปลี่ยนชื่อ</button>
     <button class="action-sheet-btn" onclick="triggerProfilePhotoUpload()">📷 เปลี่ยนรูปภาพ</button>
     <button class="action-sheet-btn danger" id="action-remove-photo" onclick="removeProfilePhoto()">🗑️ ลบรูปภาพ</button>
     <button class="action-sheet-btn cancel" onclick="closeProfilePhotoActions()">ยกเลิก</button>

@@ -1901,6 +1901,25 @@ function showProfilePhotoActions() {
 function closeProfilePhotoActions() {
   document.getElementById('profile-photo-sheet').style.display = 'none';
 }
+function showChangeName() {
+  closeProfilePhotoActions();
+  const input = document.getElementById('change-name-input');
+  if (input) input.value = characterModule.get('name') || '';
+  document.getElementById('change-name-modal').style.display = 'flex';
+  setTimeout(() => input?.select(), 120);
+}
+function closeChangeName() {
+  document.getElementById('change-name-modal').style.display = 'none';
+}
+function saveProfileName() {
+  const name = document.getElementById('change-name-input')?.value.trim();
+  if (!name) { showToast('⚠️ ใส่ชื่อก่อน', 'error'); return; }
+  characterModule.set('name', name);
+  saveGame();
+  renderProfile();
+  closeChangeName();
+  showToast(`✅ เปลี่ยนชื่อเป็น "${name}" แล้ว`, 'success');
+}
 function triggerProfilePhotoUpload() {
   closeProfilePhotoActions();
   document.getElementById('profile-photo-input')?.click();
