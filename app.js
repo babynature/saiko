@@ -3466,6 +3466,15 @@ function renderMacroSummary() {
 // ═══════════════════════════════════════════
 window._mealSuggestPicks = [];
 
+// xorshift32 seeded PRNG — seed is today's date as integer (e.g. 20260707)
+function _seededRng(seed) {
+  let s = (seed ^ 0xDEADBEEF) >>> 0 || 1;
+  return () => {
+    s ^= s << 13; s ^= s >>> 17; s ^= s << 5;
+    return (s >>> 0) / 0xFFFFFFFF;
+  };
+}
+
 function renderMealSuggest() {
   const el = document.getElementById('meal-suggest');
   if (!el) return;
@@ -3500,9 +3509,29 @@ function renderMealSuggest() {
     return { food: f, score };
   });
   scored.sort((a, b) => b.score - a.score);
-  window._mealSuggestPicks = scored.slice(0, 3).map(s => s.food);
 
-  const picks = window._mealSuggestPicks;
+  // Daily variety: try to load today's saved picks first (consistent within a day)
+  const today = _todayStr();
+  let picks = null;
+  try {
+    const saved = JSON.parse(localStorage.getItem('shg-ms-daily') || 'null');
+    if (saved && saved.date === today && Array.isArray(saved.names) && saved.names.length >= 3) {
+      const resolved = saved.names.map(n => FOOD_DB.find(f => f.name === n)).filter(Boolean);
+      if (resolved.length >= 3) picks = resolved.slice(0, 3);
+    }
+  } catch(e) {}
+
+  if (!picks) {
+    // New day: shuffle top-15 pool with daily seed → pick first 3
+    const pool = scored.slice(0, Math.min(15, scored.length)).map(s => s.food);
+    const seed = parseInt(today.replace(/-/g, ''), 10);
+    const rng  = _seededRng(seed);
+    const shuffled = [...pool].sort(() => rng() - 0.5);
+    picks = shuffled.slice(0, 3);
+    try { localStorage.setItem('shg-ms-daily', JSON.stringify({ date: today, names: picks.map(f => f.name) })); } catch(e) {}
+  }
+
+  window._mealSuggestPicks = picks;
   const reasons = [];
   if (pDef > 15) reasons.push(`โปรตีนยังขาด ~${Math.round(pDef)}g`);
   if (cDef > 30) reasons.push(`คาร์บยังขาด ~${Math.round(cDef)}g`);
