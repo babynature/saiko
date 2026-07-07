@@ -11,6 +11,7 @@ class HungerModule {
     this.mealTypes = { breakfast: false, lunch: false, dinner: false };
     this.lastUpdate = Date.now();
     this.foodLog = [];         // [{ name, kcal, protein, carbs, fat, mealType, time }]
+    this.exerciseLog = [];     // [{ name, type, minutes, kcal, time }]
     this.macroTotals = { protein: 0, carbs: 0, fat: 0 };
 
     // Drain rate per REAL minute
@@ -72,6 +73,30 @@ class HungerModule {
     this.caloriesBurned  += kcal;
     this.exerciseMinutes += (minutes || 0);
   }
+
+  logExercise(name, type, minutes, kcal) {
+    const entry = {
+      name: name || type || 'ออกกำลังกาย',
+      type: type || 'other',
+      minutes: minutes || 0,
+      kcal: Math.round(kcal || 0),
+      time: new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }),
+    };
+    this.exerciseLog.push(entry);
+    this.caloriesBurned  += entry.kcal;
+    this.exerciseMinutes += entry.minutes;
+    return entry;
+  }
+
+  removeExerciseEntry(index) {
+    if (index < 0 || index >= this.exerciseLog.length) return;
+    const entry = this.exerciseLog[index];
+    this.caloriesBurned  = Math.max(0, this.caloriesBurned  - entry.kcal);
+    this.exerciseMinutes = Math.max(0, this.exerciseMinutes - entry.minutes);
+    this.exerciseLog.splice(index, 1);
+  }
+
+  getTodayExerciseLog() { return this.exerciseLog; }
 
   getNetCalories() {
     return this.caloriesEaten - this.caloriesBurned;
@@ -192,6 +217,7 @@ class HungerModule {
     this.exerciseMinutes = 0;
     this.mealTypes   = { breakfast: false, lunch: false, dinner: false };
     this.foodLog     = [];
+    this.exerciseLog = [];
     this.macroTotals = { protein: 0, carbs: 0, fat: 0 };
     this.hunger = Math.max(20, this.hunger - 30); // wake up a bit hungry
   }
@@ -206,6 +232,7 @@ class HungerModule {
       exerciseMinutes: this.exerciseMinutes,
       mealTypes:       this.mealTypes,
       foodLog:         this.foodLog,
+      exerciseLog:     this.exerciseLog,
       macroTotals:     this.macroTotals,
       lastUpdate: this.lastUpdate,
     };
@@ -215,6 +242,7 @@ class HungerModule {
     Object.assign(this, d);
     this.exerciseMinutes = d.exerciseMinutes || 0;
     this.foodLog         = d.foodLog         || [];
+    this.exerciseLog     = d.exerciseLog     || [];
     this.macroTotals     = d.macroTotals     || { protein: 0, carbs: 0, fat: 0 };
     // If saved more than 8 hours ago, apply offline hunger decay
     const elapsed = (Date.now() - (d.lastUpdate || Date.now())) / 60000;

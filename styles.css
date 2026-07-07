@@ -649,6 +649,9 @@ html, body {
 }
 .btn-log-ex:active { transform: scale(0.97); }
 
+#exercise-log-list { margin-top: 10px; }
+.ex-log-empty { font-size: var(--text-sm); color: var(--text-faint); text-align: center; padding: 8px 0 2px; }
+
 /* ═══ SHOP GRID ═══ */
 .shop-grid {
   display: grid;

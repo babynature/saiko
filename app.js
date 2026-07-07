@@ -956,6 +956,22 @@ function renderExerciseCard() {
   const subEl   = document.getElementById('tc-ex-sub');
   if (burnEl) burnEl.textContent = `−${burned.toLocaleString()} kcal`;
   if (subEl)  subEl.textContent  = minutes > 0 ? `${minutes} นาที` : 'ยังไม่ออกกำลัง';
+
+  const listEl = document.getElementById('exercise-log-list');
+  if (!listEl) return;
+  const log = hungerModule.getTodayExerciseLog();
+  if (!log.length) {
+    listEl.innerHTML = '<div class="ex-log-empty">ยังไม่มีรายการออกกำลังกายวันนี้</div>';
+    return;
+  }
+  listEl.innerHTML = log.map((e, i) => `
+    <div class="log-row">
+      <span class="log-row-icon">🔥</span>
+      <span class="log-row-label">${e.name}</span>
+      <span class="log-row-sub">${e.time} · ${e.minutes} นาที</span>
+      <span class="log-row-value">−${e.kcal} kcal</span>
+      <button class="log-row-del" onclick="removeExerciseLog(${i})" aria-label="ลบ">✕</button>
+    </div>`).join('');
 }
 
 function openFoodModal(food) {
@@ -1800,7 +1816,7 @@ function quickLogExercise(type, minutes, displayName, kcalOverride) {
   const xpRaw  = questModule.getExerciseXP(kcal);
   const xpBase = gearModule.applyExerciseXP(xpRaw);
 
-  hungerModule.burnCalories(kcal, minutes);
+  hungerModule.logExercise(displayName || type, type, minutes, kcal);
   hungerModule.decayHunger(minutes, 'exercise');
   questModule.update('calories_burned', kcal);
   questModule.update('calories_net', hungerModule.getNetCalories());
@@ -1842,11 +1858,13 @@ function doLogExercise() {
     return;
   }
 
-  const kcal = questModule.getExerciseKcal(type, minutes);
+  const sel   = document.getElementById('ex-type');
+  const displayName = sel ? sel.options[sel.selectedIndex]?.text.replace(/\s*\(.*\)/, '').trim() : type;
+  const kcal  = questModule.getExerciseKcal(type, minutes);
   const xpRaw = questModule.getExerciseXP(kcal);
   const xpBase = gearModule.applyExerciseXP(xpRaw);
 
-  hungerModule.burnCalories(kcal, minutes);
+  hungerModule.logExercise(displayName, type, minutes, kcal);
   hungerModule.decayHunger(minutes, 'exercise');
   questModule.update('calories_burned', kcal);
   questModule.update('calories_net', hungerModule.getNetCalories());
@@ -1868,6 +1886,14 @@ function doLogExercise() {
 
   if (result.levelUp) showLevelUp();
 
+  renderAll();
+  saveGame();
+}
+
+function removeExerciseLog(idx) {
+  hungerModule.removeExerciseEntry(idx);
+  questModule.update('calories_burned', hungerModule.caloriesBurned);
+  questModule.update('calories_net', hungerModule.getNetCalories());
   renderAll();
   saveGame();
 }
