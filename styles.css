@@ -402,15 +402,16 @@ html, body {
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
+  gap: 6px;
 }
 .stat-card {
   background: var(--card);
   border-radius: var(--radius-sm);
-  padding: 10px 6px;
+  padding: 8px 4px;
   text-align: center;
   border-top: 3px solid transparent;
   box-shadow: var(--shadow-sm);
+  min-width: 0;
 }
 /* Accent top border per stat — Refactoring UI: "Add color with accent borders" */
 .stats-grid .stat-card:nth-child(1) { border-top-color: #ef4444; }
@@ -418,10 +419,10 @@ html, body {
 .stats-grid .stat-card:nth-child(3) { border-top-color: #22c55e; }
 .stats-grid .stat-card:nth-child(4) { border-top-color: #3b82f6; }
 .stats-grid .stat-card:nth-child(5) { border-top-color: #a78bfa; }
-.stat-icon { font-size: 18px; }
+.stat-icon { font-size: clamp(14px, 4vw, 18px); }
 /* Refactoring UI: "Use letter-spacing effectively" — small labels need letter-spacing */
-.stat-name { font-size: var(--text-xs); color: var(--text3); margin: 3px 0 2px; letter-spacing: 0.5px; }
-.stat-value { font-size: 16px; font-weight: 800; color: var(--text); }
+.stat-name { font-size: clamp(9px, 2.4vw, 11px); color: var(--text3); margin: 2px 0 1px; letter-spacing: 0.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stat-value { font-size: clamp(13px, 3.8vw, 16px); font-weight: 800; color: var(--text); }
 
 /* ═══ CALORIE TRACKER ═══ */
 .calorie-tracker {
