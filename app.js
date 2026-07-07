@@ -1575,7 +1575,7 @@ function _buildRecommendation(excess, bmiCat, dow, hour) {
   if (hour >= 11 && hour < 14) {
     if (excess > 300) {
       return mk('☀️', 'พักกลางวัน: HIIT 20 นาทีเผาแคลเร็ว',
-        `เกินเป้า +${excess.toLocaleString()} kcal — HIIT 20 นาทีช่วงพักกลางวันประหยัดเวลาและเผาแคลได้สูงสุด`,
+        'HIIT 20 นาทีช่วงพักกลางวันประหยัดเวลาและเผาแคลได้สูงสุด — เหนื่อยเร็ว ผลดี ใช้เวลาน้อย',
         ['hiit_run', 'mountain_climber', 'jumping_jack'],
         '💡 เปลี่ยนเสื้อผ้า อบอุ่น 3 นาทีก่อน อย่าลืมอาบน้ำหลังทำ');
     }
@@ -1589,9 +1589,9 @@ function _buildRecommendation(excess, bmiCat, dow, hour) {
   if (hour >= 14 && hour < 17) {
     const plans = {
       obese:       { ids: ['brisk_walk', 'glute_bridge', 'childs_pose'], title: 'บ่ายนี้: Low-Impact + ขาเบาๆ',    reason: 'Low-Impact เน้นเดินและ Glute Bridge — เผาแคลโดยไม่กดข้อเข่า เหมาะสุดสำหรับเริ่มต้น' },
-      overweight:  { ids: ['brisk_walk', 'squat', 'jumping_jack'],       title: 'บ่ายนี้: Cardio + Lower Body',    reason: `เกินเป้า +${excess.toLocaleString()} kcal — เดิน 30 นาที + สควอท เผาแคลได้ดีและไม่บาดเจ็บ` },
+      overweight:  { ids: ['brisk_walk', 'squat', 'jumping_jack'],       title: 'บ่ายนี้: Cardio + Lower Body',    reason: 'เดิน 30 นาที + สควอท เผาแคลได้ดีและไม่กดข้อเข่า เหมาะสำหรับน้ำหนักเกิน' },
       underweight: { ids: ['pushup', 'squat', 'lunge'],                  title: 'บ่ายนี้: Strength สร้างกล้ามเนื้อ', reason: 'BMI ต่ำ เป้าหมายคือเพิ่มกล้ามเนื้อ — Strength training ไม่ต้อง Cardio หนัก' },
-      normal:      { ids: ['squat', 'pushup', 'jump_rope'],              title: 'บ่ายนี้: Balanced Full Body',     reason: `เกินเป้า +${excess.toLocaleString()} kcal — Upper + Lower + กระโดดเชือก ครอบคลุมทุกส่วน` },
+      normal:      { ids: ['squat', 'pushup', 'jump_rope'],              title: 'บ่ายนี้: Balanced Full Body',     reason: 'Upper + Lower + กระโดดเชือก ครอบคลุมทุกกลุ่มกล้ามเนื้อ เผาแคลได้ครบในครั้งเดียว' },
     };
     const p = plans[bmiCat] || plans.normal;
     return mk('🌤️', p.title, p.reason, p.ids);
@@ -1615,7 +1615,7 @@ function _buildRecommendation(excess, bmiCat, dow, hour) {
 
   // Fallback
   return mk('🎯', 'แนะนำวันนี้: Core + Cardio',
-    `เกินเป้า +${excess.toLocaleString()} kcal — Core เสริม Stability และ Cardio เผาแคลคืนนี้`,
+    'Core เสริม Stability, Cardio ดูแลหัวใจและเผาแคล — ทำได้ทุกวันไม่ต้องมีอุปกรณ์',
     ['plank', 'mountain_climber', 'jog_zone2']);
 }
 
@@ -1633,7 +1633,6 @@ function renderExerciseSuggest() {
   const goal   = characterModule.get('dailyCalorie') || 2000;
   const excess = Math.round(net - goal);
 
-  if (excess < 150) { el.style.display = 'none'; return; }
   el.style.display = 'block';
 
   const now    = new Date();
@@ -1663,7 +1662,7 @@ function renderExerciseSuggest() {
         <span class="exs-rec-icon">${rec.icon}</span>
         <div class="exs-rec-title-wrap">
           <div class="exs-rec-title">${rec.title}</div>
-          <div class="exs-rec-meta">เกินเป้า <b>+${excess.toLocaleString()} kcal</b></div>
+          <div class="exs-rec-meta">${excess > 0 ? `เกินเป้า <b>+${excess.toLocaleString()} kcal</b>` : '💪 แนะนำสำหรับวันนี้'}</div>
         </div>
       </div>
       <div class="exs-rec-reason">${rec.reason}</div>
