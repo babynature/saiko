@@ -388,6 +388,15 @@
 
       <!-- Exercise Panel (accordion) -->
       <div class="tracker-form-panel" id="panel-exercise">
+        <!-- Date navigation header -->
+        <div class="flog-date-nav" id="exlog-date-nav">
+          <button class="flog-nav-btn" id="exlog-nav-prev" onclick="navigateExerciseLog(-1)">‹</button>
+          <div class="flog-nav-center">
+            <span class="flog-nav-label" id="exlog-nav-label">วันนี้</span>
+            <span class="flog-nav-date" id="exlog-nav-date"></span>
+          </div>
+          <button class="flog-nav-btn" id="exlog-nav-next" onclick="navigateExerciseLog(1)" disabled>›</button>
+        </div>
         <div class="exercise-logger" id="exercise-logger">
           <div class="form-row">
             <div class="form-group">

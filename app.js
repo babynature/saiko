@@ -12,6 +12,9 @@ let _foodLogViewDate = null; // null = today; "YYYY-MM-DD" = past day
 let _editFoodIdx  = -1;
 let _editFoodDate = null; // null = today entry, "YYYY-MM-DD" = past entry
 
+// ═══ EXERCISE LOG DATE NAVIGATION ═══
+let _exLogViewDate = null; // null = today; "YYYY-MM-DD" = past day
+
 // Local calendar date (YYYY-MM-DD) — NOT UTC. toISOString() returns UTC,
 // which in Thailand (UTC+7) rolls the "day" over ~7h early (00:00–07:00 local
 // still reads as yesterday), causing yesterday's calories to bleed into today.
@@ -144,6 +147,113 @@ function _renderFoodLogForDate() {
   });
 
   renderFoodWeekChart();
+}
+
+// ═══════════════════════════════════════════
+// EXERCISE LOG DATE NAVIGATION
+// ═══════════════════════════════════════════
+function _saveExerciseLogHistory() {
+  try {
+    const today = _todayStr();
+    localStorage.setItem(`shg-exlog-${today}`, JSON.stringify(hungerModule.exerciseLog || []));
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 30);
+    const cutoffStr = _localDate(cutoff);
+    const toRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('shg-exlog-') && k.slice(10) < cutoffStr) toRemove.push(k);
+    }
+    toRemove.forEach(k => localStorage.removeItem(k));
+  } catch(e) {}
+}
+
+function _loadExerciseLogForDate(dateStr) {
+  try {
+    const raw = localStorage.getItem(`shg-exlog-${dateStr}`);
+    return raw ? JSON.parse(raw) : null;
+  } catch(e) { return null; }
+}
+
+function navigateExerciseLog(delta) {
+  const today = _todayStr();
+  const current = _exLogViewDate || today;
+  const d = new Date(current + 'T12:00:00');
+  d.setDate(d.getDate() + delta);
+  const newDate = _localDate(d);
+  if (newDate > today) return;
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() - 30);
+  if (newDate < _localDate(minDate)) return;
+  _exLogViewDate = newDate === today ? null : newDate;
+  _syncExerciseLogDateNav();
+  _renderExerciseLogForDate();
+}
+
+function _syncExerciseLogDateNav() {
+  const today    = _todayStr();
+  const viewing  = _exLogViewDate || today;
+  const labelEl  = document.getElementById('exlog-nav-label');
+  const dateEl   = document.getElementById('exlog-nav-date');
+  const prevBtn  = document.getElementById('exlog-nav-prev');
+  const nextBtn  = document.getElementById('exlog-nav-next');
+  const panel    = document.getElementById('panel-exercise');
+  if (!labelEl) return;
+
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayStr = _localDate(yesterday);
+  if (!_exLogViewDate)              labelEl.textContent = 'วันนี้';
+  else if (viewing === yesterdayStr) labelEl.textContent = 'เมื่อวาน';
+  else {
+    const dLabel = new Date(viewing + 'T12:00:00');
+    labelEl.textContent = dLabel.toLocaleDateString('th-TH', { weekday: 'long' });
+  }
+
+  const dObj = new Date(viewing + 'T12:00:00');
+  if (dateEl) dateEl.textContent = dObj.toLocaleDateString('th-TH', { weekday:'short', day:'numeric', month:'short', year:'numeric' });
+
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() - 30);
+  if (prevBtn) prevBtn.disabled = viewing <= _localDate(minDate);
+  if (nextBtn) nextBtn.disabled = !_exLogViewDate;
+
+  if (panel) panel.classList.toggle('past-day', !!_exLogViewDate);
+}
+
+function _renderExerciseLogForDate() {
+  const listEl = document.getElementById('exercise-log-list');
+  if (!listEl) return;
+
+  if (!_exLogViewDate) {
+    const log = hungerModule.getTodayExerciseLog();
+    if (!log.length) {
+      listEl.innerHTML = '<div class="ex-log-empty">ยังไม่มีรายการออกกำลังกายวันนี้</div>';
+      return;
+    }
+    listEl.innerHTML = log.map((e, i) => `
+      <div class="log-row">
+        <span class="log-row-icon">🔥</span>
+        <span class="log-row-label">${_escHtml(e.name)}</span>
+        <span class="log-row-sub">${e.time} · ${e.minutes} นาที</span>
+        <span class="log-row-value">−${e.kcal} kcal</span>
+        <button class="log-row-del" onclick="removeExerciseLog(${i})" aria-label="ลบ">✕</button>
+      </div>`).join('');
+    return;
+  }
+
+  const log = _loadExerciseLogForDate(_exLogViewDate) || [];
+  if (!log.length) {
+    listEl.innerHTML = '<div class="ex-log-empty">ไม่มีบันทึกออกกำลังกายวันนั้น</div>';
+    return;
+  }
+  listEl.innerHTML = log.map((e) => `
+    <div class="log-row">
+      <span class="log-row-icon">🔥</span>
+      <span class="log-row-label">${_escHtml(e.name)}</span>
+      <span class="log-row-sub">${e.time || ''} · ${e.minutes} นาที</span>
+      <span class="log-row-value">−${e.kcal} kcal</span>
+    </div>`).join('');
 }
 
 function removeFoodLogForDate(idx, date) {
@@ -354,7 +464,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const saved = loadGame();
   if (saved) {
-    _saveFoodLogHistory(); // backfill today's snapshot for date nav history
+    _saveFoodLogHistory();     // backfill today's snapshot for date nav history
+    _saveExerciseLogHistory(); // backfill exercise snapshot
     showScreen('game');
     questModule.init();
     streakModule.checkIn(questModule.countCompleted(characterModule.get('dailyCalorie')));
@@ -401,6 +512,7 @@ function saveGame() {
   const json = JSON.stringify(state);
   localStorage.setItem(SAVE_KEY, json);
   _saveFoodLogHistory();
+  _saveExerciseLogHistory();
   // Phase 6: debounced cloud sync when logged in
   if (firebaseModule.isLoggedIn()) {
     firebaseModule.scheduleSyncToCloud(json);
@@ -956,22 +1068,8 @@ function renderExerciseCard() {
   const subEl   = document.getElementById('tc-ex-sub');
   if (burnEl) burnEl.textContent = `−${burned.toLocaleString()} kcal`;
   if (subEl)  subEl.textContent  = minutes > 0 ? `${minutes} นาที` : 'ยังไม่ออกกำลัง';
-
-  const listEl = document.getElementById('exercise-log-list');
-  if (!listEl) return;
-  const log = hungerModule.getTodayExerciseLog();
-  if (!log.length) {
-    listEl.innerHTML = '<div class="ex-log-empty">ยังไม่มีรายการออกกำลังกายวันนี้</div>';
-    return;
-  }
-  listEl.innerHTML = log.map((e, i) => `
-    <div class="log-row">
-      <span class="log-row-icon">🔥</span>
-      <span class="log-row-label">${e.name}</span>
-      <span class="log-row-sub">${e.time} · ${e.minutes} นาที</span>
-      <span class="log-row-value">−${e.kcal} kcal</span>
-      <button class="log-row-del" onclick="removeExerciseLog(${i})" aria-label="ลบ">✕</button>
-    </div>`).join('');
+  _syncExerciseLogDateNav();
+  _renderExerciseLogForDate();
 }
 
 function openFoodModal(food) {
@@ -1894,6 +1992,7 @@ function removeExerciseLog(idx) {
   hungerModule.removeExerciseEntry(idx);
   questModule.update('calories_burned', hungerModule.caloriesBurned);
   questModule.update('calories_net', hungerModule.getNetCalories());
+  _saveExerciseLogHistory();
   renderAll();
   saveGame();
 }

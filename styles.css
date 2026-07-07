@@ -651,6 +651,7 @@ html, body {
 
 #exercise-log-list { margin-top: 10px; }
 .ex-log-empty { font-size: var(--text-sm); color: var(--text-faint); text-align: center; padding: 8px 0 2px; }
+#panel-exercise.past-day #exercise-logger { display: none; }
 
 /* ═══ SHOP GRID ═══ */
 .shop-grid {
