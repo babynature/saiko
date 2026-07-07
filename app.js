@@ -1059,6 +1059,10 @@ function toggleExerciseLog() {
   const isOpen = panel.classList.contains('panel-open');
   panel.classList.toggle('panel-open', !isOpen);
   card?.classList.toggle('tc-card-open', !isOpen);
+  if (!isOpen) {
+    _saveExerciseLogHistory();
+    renderExerciseCard();
+  }
 }
 
 function renderExerciseCard() {

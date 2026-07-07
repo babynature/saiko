@@ -653,6 +653,9 @@ html, body {
 .ex-log-empty { font-size: var(--text-sm); color: var(--text-faint); text-align: center; padding: 8px 0 2px; }
 #panel-exercise.past-day #exercise-logger { display: none; }
 
+/* Exercise date nav: no sticky (panel has overflow:hidden — sticky breaks on iOS) */
+#exlog-date-nav { position: relative; top: auto; }
+
 /* ═══ SHOP GRID ═══ */
 .shop-grid {
   display: grid;
@@ -2107,7 +2110,7 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   transition: max-height 0.3s ease;
 }
 .tracker-form-panel.panel-open {
-  max-height: 1400px;
+  max-height: 2400px;
 }
 
 /* Food dropdown: overlay — zero layout impact on siblings */
