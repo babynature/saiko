@@ -2098,8 +2098,6 @@ function renderNearGoalBanner() {
   const waterLeft   = goalGlasses - glasses;
   if (waterLeft > 0 && waterLeft <= 3 && glasses > 0) {
     msgs.push(`<div class="ng-item ng-water"><span class="ng-icon">💧</span>อีก ${waterLeft} แก้ว ครบเป้าน้ำ!</div>`);
-  } else if (waterLeft <= 0 && glasses > 0) {
-    msgs.push(`<div class="ng-item ng-water-done"><span class="ng-icon">💧</span>ครบเป้าน้ำ ${goalGlasses} แก้วแล้ว! 🎉</div>`);
   }
 
   // Calorie goal — use food log only, not marketplace purchases
@@ -3437,6 +3435,7 @@ function fillFoodFromSuggest(idx) {
 function logWater() { addWater(250); }
 
 function addWater(ml) {
+  const wasGoalMet = waterModule.isGoalMet();
   const waterBonus = gearModule.getWaterBonus();
   const totalMl    = ml + waterBonus * 250;
   waterModule.add(totalMl);
@@ -3446,8 +3445,10 @@ function addWater(ml) {
   const result = awardXP(Math.max(1, Math.round(totalMl / 125)), 'food');
   const mDone  = missionModule.onEvent('water', {});
   mDone.forEach(m => { const r = awardXP(m.xp, 'mission'); showToast(t('txt_mission_new', { xp: r.gained }), 'success'); });
-  const goalBadge = waterModule.isGoalMet() ? ' 🎉 ครบเป้าแล้ว!' : '';
-  showToast(`💧 +${totalMl}ml น้ำ • +${result.gained} XP${goalBadge}`, 'info');
+  if (!wasGoalMet && waterModule.isGoalMet()) {
+    showToast(`💧 ครบเป้าน้ำ ${waterModule.getGoalGlasses()} แก้วแล้ว! 🎉`, 'success', 3500);
+  }
+  showToast(`💧 +${totalMl}ml น้ำ • +${result.gained} XP`, 'info');
   renderAll();
   saveGame();
 }
