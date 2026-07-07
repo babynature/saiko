@@ -1629,26 +1629,25 @@ function renderExerciseSuggest() {
   const el = document.getElementById('exercise-suggest');
   if (!el) return;
 
-  const net    = hungerModule.getNetCalories();
+  el.style.display = 'block';
+
+  const loggedKcal = hungerModule.getTodayFoodLog().reduce((s, e) => s + (e.kcal || 0), 0);
+  const net    = loggedKcal - (hungerModule.caloriesBurned || 0);
   const goal   = characterModule.get('dailyCalorie') || 2000;
   const excess = Math.round(net - goal);
 
-  el.style.display = 'block';
-
   const now    = new Date();
   const hour   = now.getHours();
-  const dow    = now.getDay();      // 0=Sun … 6=Sat
+  const dow    = now.getDay();
   const bmiCat = characterModule.get('categoryId') || 'normal';
   const rec    = _buildRecommendation(excess, bmiCat, dow, hour);
 
-  // Summary stats for the recommended plan
   const totalMins = rec.exercises.reduce((s, e) => s + (e.totalMins || 0), 0);
   const totalKcal = rec.exercises.reduce((s, e) => s + (e.kcal || 0), 0);
-  const covers    = totalKcal >= excess;
+  const covers    = totalKcal >= excess && excess > 0;
   const planIds   = JSON.stringify(rec.exercises.map(e => e.id));
 
-  // Individual "pick your own" cards — rotate daily, exclude already-shown
-  const dayIdx = now.getDate();
+  const dayIdx   = now.getDate();
   const shownIds = new Set(rec.exercises.map(e => e.id));
   const altPool  = EXERCISE_DB.filter(e => !shownIds.has(e.id));
   const altCats  = ['upper','lower','core','cardio','agility','flexibility'];
@@ -1656,48 +1655,64 @@ function renderExerciseSuggest() {
     .map(cat => { const pool = altPool.filter(e => e.cat === cat); return pool[(dayIdx + altCats.indexOf(cat)) % Math.max(pool.length,1)]; })
     .filter(Boolean).slice(0, 3);
 
+  const isOpen      = localStorage.getItem('shg-ex-open') !== '0';
+  const collapseClass = isOpen ? '' : ' collapsed';
+  const toggleLabel   = isOpen ? 'ซ่อน ▲' : 'ดู ▼';
+  const metaHtml = excess > 0
+    ? `เกินเป้า <b style="color:#ff8a65">+${excess.toLocaleString()} kcal</b>`
+    : `⏱ ${totalMins} นาที · 🔥 ${totalKcal} kcal`;
+
   el.innerHTML = `
-    <div class="exs-rec-banner">
-      <div class="exs-rec-top">
-        <span class="exs-rec-icon">${rec.icon}</span>
-        <div class="exs-rec-title-wrap">
-          <div class="exs-rec-title">${rec.title}</div>
-          <div class="exs-rec-meta">${excess > 0 ? `เกินเป้า <b>+${excess.toLocaleString()} kcal</b>` : '💪 แนะนำสำหรับวันนี้'}</div>
+    <div class="exs-card${collapseClass}" id="exs-card">
+      <div class="exs-card-header" onclick="toggleExerciseSuggest()">
+        <span class="exs-card-hicon">${rec.icon}</span>
+        <div class="exs-card-htitle">
+          <div class="exs-card-name">💪 ออกกำลังกายแนะนำ</div>
+          <div class="exs-card-sub">${metaHtml}</div>
         </div>
+        <button class="exs-card-toggle" id="exs-toggle-btn">${toggleLabel}</button>
       </div>
-      <div class="exs-rec-reason">${rec.reason}</div>
-      ${rec.note ? `<div class="exs-rec-note">${rec.note}</div>` : ''}
-
-      <div class="exs-rec-plan">
-        ${rec.exercises.map((e, i) => `
-          <div class="exs-rec-item">
-            <span class="exs-rec-num">${i+1}</span>
-            <span class="exs-rec-emoji">${e.emoji}</span>
-            <div class="exs-rec-item-info">
-              <span class="exs-rec-item-name">${e.name}</span>
-              <span class="exs-rec-item-plan">${e.plan}</span>
-            </div>
-            <span class="exs-rec-item-cat" style="color:${e.catColor}">${e.catLabel}</span>
-          </div>`).join('')}
-      </div>
-
-      <div class="exs-rec-footer">
-        <div class="exs-rec-stats">
-          <span>⏱ ~${totalMins} นาที</span>
-          <span>🔥 ~${totalKcal.toLocaleString()} kcal ${covers ? '✅ คุ้มเป้า' : `(ขาดอีก ~${excess-totalKcal} kcal)`}</span>
+      <div class="exs-body">
+        <div class="exs-rec-reason">${rec.icon} <b>${rec.title}</b> — ${rec.reason}</div>
+        ${rec.note ? `<div class="exs-rec-note">${rec.note}</div>` : ''}
+        <div class="exs-rec-plan">
+          ${rec.exercises.map((e, i) => `
+            <div class="exs-rec-item">
+              <span class="exs-rec-num">${i+1}</span>
+              <span class="exs-rec-emoji">${e.emoji}</span>
+              <div class="exs-rec-item-info">
+                <span class="exs-rec-item-name">${e.name}</span>
+                <span class="exs-rec-item-plan">${e.plan}</span>
+              </div>
+              <span class="exs-rec-item-cat" style="color:${e.catColor}">${e.catLabel}</span>
+            </div>`).join('')}
         </div>
-        <button class="exs-rec-log-all" onclick="logAllPlan(${planIds.replace(/"/g,"'")})">
-          🔥 บันทึกทั้งแผน (${rec.exercises.length} ท่า)
-        </button>
-      </div>
-    </div>
-
-    <div class="exs-alt-section">
-      <div class="exs-alt-title">หรือเลือกทำเองทีละท่า</div>
-      <div class="exs-list">
-        ${altPicks.map(p => _exsCard(p, excess)).join('')}
+        <div class="exs-rec-footer">
+          <div class="exs-rec-stats">
+            <span>⏱ ~${totalMins} นาที</span>
+            <span>🔥 ~${totalKcal.toLocaleString()} kcal${excess > 0 ? (covers ? ' ✅ คุ้มเป้า' : ` (ขาดอีก ~${excess - totalKcal} kcal)`) : ''}</span>
+          </div>
+          <button class="exs-rec-log-all" onclick="logAllPlan(${planIds.replace(/"/g,"'")})">
+            🔥 บันทึกทั้งแผน (${rec.exercises.length} ท่า)
+          </button>
+        </div>
+        <div class="exs-alt-section">
+          <div class="exs-alt-title">หรือเลือกทำเองทีละท่า</div>
+          <div class="exs-list">
+            ${altPicks.map(p => _exsCard(p, excess)).join('')}
+          </div>
+        </div>
       </div>
     </div>`;
+}
+
+function toggleExerciseSuggest() {
+  const card = document.getElementById('exs-card');
+  const btn  = document.getElementById('exs-toggle-btn');
+  if (!card || !btn) return;
+  const opening = card.classList.toggle('collapsed') === false;
+  btn.textContent = opening ? 'ซ่อน ▲' : 'ดู ▼';
+  try { localStorage.setItem('shg-ex-open', opening ? '1' : '0'); } catch(e) {}
 }
 
 function logAllPlan(ids) {
