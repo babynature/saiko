@@ -1018,13 +1018,8 @@ function toggleFoodLog() {
     _foodLogViewDate = null;       // always start on today
     panel.classList.remove('past-day');
     _syncFoodLogDateNav();
-    // Reset date picker to today
-    const di = document.getElementById('food-log-date');
-    if (di) {
-      const today = _localDate();
-      di.value = today; di.max = today;
-      di.min = _localDate(new Date(Date.now() - 30 * 86400000));
-    }
+    _saveFoodLogHistory();
+    _renderFoodLogForDate();
     setTimeout(() => document.getElementById('food-log-name')?.focus(), 180);
   }
 }
@@ -3229,7 +3224,7 @@ function logCustomFood() {
   }
 
   const today     = _localDate();
-  const entryDate = document.getElementById('food-log-date')?.value || today;
+  const entryDate = _foodLogViewDate || today;
   const isPast    = entryDate < today;
 
   // Past date: write to per-day localStorage key only
@@ -3250,10 +3245,7 @@ function logCustomFood() {
     _trackFoodFreq(pastEntry.name);
     nameEl.value = ''; kcalEl.value = '';
     proteinEl.value = ''; carbsEl.value = ''; fatEl.value = '';
-    // Reset date back to today after logging past entry
-    const di = document.getElementById('food-log-date');
-    if (di) di.value = today;
-    renderFoodLog();
+    _renderFoodLogForDate();
     showToast(`✅ บันทึกย้อนหลัง ${entryDate} — ${pastEntry.name} +${pastEntry.kcal} kcal`, 'info');
     return;
   }

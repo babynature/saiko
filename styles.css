@@ -2232,8 +2232,9 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 
 .food-log-date {
   grid-column: 1 / -1;
+  box-sizing: border-box;
+  width: 100%;
   min-width: 0;
-  max-width: 100%;
   background: rgba(108,99,255,.08);
   border: 1px solid rgba(108,99,255,.25);
   border-radius: 8px;
@@ -2242,7 +2243,6 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   font-size: 12px;
   outline: none;
   color-scheme: dark;
-  width: 100%;
 }
 .food-log-date:focus { border-color: var(--primary); }
 
@@ -2339,21 +2339,19 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 }
 .flog-del:hover { opacity: 1; color: #ef4444; }
 
-/* Mobile: date row1 full / search row2 full / kcal+meal+save row3 */
+/* Mobile: search row1 full / kcal+meal+save row2 */
 @media (max-width: 500px) {
   .food-log-form {
     grid-template-columns: 80px 1fr auto;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto auto;
     gap: 6px;
   }
-  /* date spans all cols — row 1 */
-  .food-log-date { grid-column: 1 / -1; grid-row: 1; }
-  /* search+icon div spans all cols — row 2 */
-  .food-log-form > div:nth-child(2) { grid-column: 1 / -1; grid-row: 2; }
-  /* kcal / meal / save — row 3 */
-  .food-log-kcal { grid-column: 1; grid-row: 3; }
-  .food-log-meal { grid-column: 2; grid-row: 3; }
-  .food-log-btn  { grid-column: 3; grid-row: 3; white-space: nowrap; }
+  /* search+icon div spans all cols — row 1 */
+  .food-log-form > div:first-child { grid-column: 1 / -1; grid-row: 1; }
+  /* kcal / meal / save — row 2 */
+  .food-log-kcal { grid-column: 1; grid-row: 2; }
+  .food-log-meal { grid-column: 2; grid-row: 2; }
+  .food-log-btn  { grid-column: 3; grid-row: 2; white-space: nowrap; }
 }
 
 /* ═══════════════════════════════════════════
@@ -3459,9 +3457,6 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 }
 
 /* Past-day read-only mode */
-#panel-food.past-day .food-log-form    { display: none; }
-#panel-food.past-day .macro-toggle-btn { display: none; }
-#panel-food.past-day .macro-input-row  { display: none !important; }
 #panel-food.past-day #meal-suggest     { display: none !important; }
 #panel-food.past-day #macro-summary    { display: none !important; }
 #panel-food.past-day .flog-nav-label   { color: var(--text-muted); }
