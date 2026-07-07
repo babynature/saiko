@@ -725,9 +725,10 @@ function renderStats() {
 // CALORIE BAR
 // ═══════════════════════════════════════════
 function renderCalorieBar() {
-  const target = characterModule.get('dailyCalorie');
-  const net    = hungerModule.getNetCalories();
-  const pct    = hungerModule.getCaloriePct(target);
+  const target     = characterModule.get('dailyCalorie');
+  const loggedKcal = hungerModule.getTodayFoodLog().reduce((s, e) => s + (e.kcal || 0), 0);
+  const net        = loggedKcal - (hungerModule.caloriesBurned || 0);
+  const pct        = Math.min(100, Math.round(net / target * 100));
   document.getElementById('calorie-bar').style.width = pct + '%';
   document.getElementById('calorie-display').innerHTML =
     `<strong>${net.toLocaleString()}</strong><span class="calorie-goal-text"> / ${target.toLocaleString()} kcal</span>`;
@@ -2087,8 +2088,8 @@ function renderNearGoalBanner() {
     msgs.push(`<div class="ng-item ng-water-done"><span class="ng-icon">💧</span>ครบเป้าน้ำ ${goalGlasses} แก้วแล้ว! 🎉</div>`);
   }
 
-  // Calorie goal
-  const eaten = hungerModule.caloriesEaten || 0;
+  // Calorie goal — use food log only, not marketplace purchases
+  const eaten = hungerModule.getTodayFoodLog().reduce((s, e) => s + (e.kcal || 0), 0);
   const goal  = characterModule.get('dailyCalorie') || 2000;
   const kcalLeft = goal - eaten;
   if (kcalLeft > 0 && eaten >= goal * 0.75) {
@@ -3141,8 +3142,8 @@ function logCustomFood() {
   playCharEatReaction();
   saveGame();
 
-  // Peak–End Rule: post-log toast with running total
-  const runningTotal = hungerModule.caloriesEaten || 0;
+  // Peak–End Rule: post-log toast with running total (food log only)
+  const runningTotal = hungerModule.getTodayFoodLog().reduce((s, e) => s + (e.kcal || 0), 0);
   showToast(`✅ ${entry.name} +${entry.kcal} kcal · รวม ${runningTotal.toLocaleString()} kcal วันนี้`, 'success');
 
   // Peak–End Rule: fire goal celebration once per session
@@ -3255,7 +3256,7 @@ function renderFoodWeekChart() {
     const hist = days.find(x => x.date === ds);
     slots.push({ label: d.toLocaleDateString('th-TH', { weekday: 'short' }), kcal: hist ? hist.caloriesEaten : null, isToday: false });
   }
-  const todayKcal = hungerModule.caloriesEaten || 0;
+  const todayKcal = hungerModule.getTodayFoodLog().reduce((s, e) => s + (e.kcal || 0), 0);
   slots.push({ label: 'วันนี้', kcal: todayKcal, isToday: true });
 
   const maxKcal = Math.max(...slots.map(s => s.kcal || 0), goal);
@@ -3310,9 +3311,9 @@ function renderMacroSummary() {
   set('bar-carbs',   'val-carbs',   totals.carbs,   targets.carbs);
   set('bar-fat',     'val-fat',     totals.fat,     targets.fat);
 
-  // Cross-check: macros → kcal estimate vs actual kcal logged
+  // Cross-check: macros → kcal estimate vs actual kcal logged (food log only)
   const macroKcal = totals.protein * 4 + totals.carbs * 4 + totals.fat * 9;
-  const actual    = hungerModule.caloriesEaten;
+  const actual    = hungerModule.getTodayFoodLog().reduce((s, e) => s + (e.kcal || 0), 0);
   const checkEl  = document.getElementById('macro-kcal-check');
   if (checkEl && macroKcal > 0) {
     const diff = Math.abs(macroKcal - actual);
@@ -3332,7 +3333,7 @@ function renderMealSuggest() {
   const el = document.getElementById('meal-suggest');
   if (!el) return;
 
-  const eaten  = hungerModule.caloriesEaten || 0;
+  const eaten  = hungerModule.getTodayFoodLog().reduce((s, e) => s + (e.kcal || 0), 0);
   const goal   = characterModule.get('dailyCalorie') || 2000;
   const remain = goal - eaten;
 
