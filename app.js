@@ -229,13 +229,21 @@ function saveEditFoodEntry() {
   }
 
   // ── Case: cross-day move ──
-  // Step 1: remove from old location
+  // Step 1: remove from old location — abort if deletion fails to prevent duplicates
   if (_editFoodDate) {
     const oldLog = _loadFoodLogForDate(_editFoodDate) || [];
     oldLog.splice(_editFoodIdx, 1);
-    try { localStorage.setItem(`shg-flog-${_editFoodDate}`, JSON.stringify(oldLog)); } catch(e) {}
+    try {
+      localStorage.setItem(`shg-flog-${_editFoodDate}`, JSON.stringify(oldLog));
+    } catch(e) {
+      showToast('⚠️ ย้ายไม่ได้ — พื้นที่บันทึกเต็ม', 'error');
+      return;
+    }
   } else {
+    // Today's entry: remove from memory; saveGame() will persist the updated list
     hungerModule.removeCustomFood(_editFoodIdx);
+    // Also pre-clear today's localStorage snapshot to prevent stale data
+    try { localStorage.setItem(`shg-flog-${today}`, JSON.stringify(hungerModule.foodLog)); } catch(e) {}
   }
 
   // Step 2: add to new location
@@ -247,16 +255,33 @@ function saveEditFoodEntry() {
       protein: Math.round(protein), carbs: Math.round(carbs), fat: Math.round(fat),
       hasMacros: protein > 0 || carbs > 0 || fat > 0,
       time: new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) });
-    try { localStorage.setItem(`shg-flog-${newDate}`, JSON.stringify(newLog)); } catch(e) {}
+    try {
+      localStorage.setItem(`shg-flog-${newDate}`, JSON.stringify(newLog));
+    } catch(e) {
+      // New-date write failed — restore old entry to avoid data loss
+      if (_editFoodDate) {
+        const restore = _loadFoodLogForDate(_editFoodDate) || [];
+        restore.splice(_editFoodIdx, 0, { name, kcal: Math.round(kcal), mealType: meal,
+          protein: Math.round(protein), carbs: Math.round(carbs), fat: Math.round(fat),
+          hasMacros: protein > 0 || carbs > 0 || fat > 0 });
+        try { localStorage.setItem(`shg-flog-${_editFoodDate}`, JSON.stringify(restore)); } catch(_) {}
+      } else {
+        hungerModule.logCustomFood(name, Math.round(kcal), meal, { protein, carbs, fat });
+      }
+      showToast('⚠️ บันทึกไม่สำเร็จ — พื้นที่บันทึกเต็ม', 'error');
+      closeEditFoodModal(); return;
+    }
   }
 
   closeEditFoodModal();
+  const oldViewDate = _editFoodDate; // remember old date for reference
   _foodLogViewDate = newDate === today ? null : newDate;
   _syncFoodLogDateNav();
   saveGame();
   _renderFoodLogForDate();
   if (newDate === today) { renderMacroSummary(); renderCalorieBar(); renderGlance(); }
-  showToast(`✅ ย้ายไป ${newDate === today ? 'วันนี้' : newDate} — ${name} ${Math.round(kcal)} kcal`, 'success');
+  const oldDateLabel = oldViewDate ? oldViewDate : 'วันนี้';
+  showToast(`✅ ย้ายจาก ${oldDateLabel} → ${newDate === today ? 'วันนี้' : newDate} — ${name} ${Math.round(kcal)} kcal`, 'success');
 }
 
 function _loadFoodFreq() {
