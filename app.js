@@ -2597,11 +2597,12 @@ function renderGlance() {
   const ch  = characterModule;
   const dailyCal = ch.get('dailyCalorie');
 
-  // Calories: eaten / goal, color-coded
-  const calPct = Math.round(hm.caloriesEaten / dailyCal * 100);
+  // Calories: sum only manually logged entries (not marketplace purchases)
+  const loggedKcal = hm.getTodayFoodLog().reduce((s, e) => s + (e.kcal || 0), 0);
+  const calPct = Math.round(loggedKcal / dailyCal * 100);
   const calEl  = document.getElementById('glance-cal');
   if (calEl) {
-    calEl.textContent = `${hm.caloriesEaten} kcal`;
+    calEl.textContent = `${loggedKcal} kcal`;
     calEl.style.color = calPct > 110 ? 'var(--danger)' : calPct > 85 ? 'var(--warning)' : 'var(--success)';
   }
 
