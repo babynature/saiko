@@ -225,35 +225,34 @@ function _renderExerciseLogForDate() {
   const listEl = document.getElementById('exercise-log-list');
   if (!listEl) return;
 
-  if (!_exLogViewDate) {
-    const log = hungerModule.getTodayExerciseLog();
-    if (!log.length) {
-      listEl.innerHTML = '<div class="ex-log-empty">ยังไม่มีรายการออกกำลังกายวันนี้</div>';
-      return;
-    }
-    listEl.innerHTML = log.map((e, i) => `
-      <div class="log-row">
-        <span class="log-row-icon">🔥</span>
-        <span class="log-row-label">${_escHtml(e.name)}</span>
-        <span class="log-row-sub">${e.time} · ${e.minutes} นาที</span>
-        <span class="log-row-value">−${e.kcal} kcal</span>
-        <button class="log-row-del" onclick="removeExerciseLog(${i})" aria-label="ลบ">✕</button>
-      </div>`).join('');
+  const isPast = !!_exLogViewDate;
+  const log = isPast
+    ? (_loadExerciseLogForDate(_exLogViewDate) || [])
+    : hungerModule.getTodayExerciseLog();
+
+  if (!log.length) {
+    listEl.innerHTML = `<div class="exlog-empty">${isPast ? 'ไม่มีบันทึกออกกำลังกายวันนั้น' : 'ยังไม่มีรายการออกกำลังกายวันนี้'}</div>`;
     return;
   }
 
-  const log = _loadExerciseLogForDate(_exLogViewDate) || [];
-  if (!log.length) {
-    listEl.innerHTML = '<div class="ex-log-empty">ไม่มีบันทึกออกกำลังกายวันนั้น</div>';
-    return;
-  }
-  listEl.innerHTML = log.map((e) => `
-    <div class="log-row">
-      <span class="log-row-icon">🔥</span>
-      <span class="log-row-label">${_escHtml(e.name)}</span>
-      <span class="log-row-sub">${e.time || ''} · ${e.minutes} นาที</span>
-      <span class="log-row-value">−${e.kcal} kcal</span>
-    </div>`).join('');
+  const rows = log.map((e, i) => {
+    const del = isPast ? '' : `<button class="exlog-del" onclick="removeExerciseLog(${i})" aria-label="ลบ">✕</button>`;
+    return `<div class="exlog-row${isPast ? ' readonly' : ''}">
+      <span class="exlog-name">${_escHtml(e.name)}</span>
+      <span class="exlog-meta">${e.time || ''} · ${e.minutes} นาที</span>
+      <span class="exlog-kcal">−${e.kcal}</span>
+      ${del}
+    </div>`;
+  }).join('');
+
+  const totalKcal = log.reduce((s, e) => s + (e.kcal || 0), 0);
+  const totalMins = log.reduce((s, e) => s + (e.minutes || 0), 0);
+  const total = `<div class="exlog-total">
+    <span>${log.length} รายการ · ${totalMins} นาที</span>
+    <span class="exlog-total-val">−${totalKcal} kcal</span>
+  </div>`;
+
+  listEl.innerHTML = rows + total;
 }
 
 function removeFoodLogForDate(idx, date) {
