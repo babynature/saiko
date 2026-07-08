@@ -1071,20 +1071,6 @@ function renderExerciseCard() {
 }
 
 function renderExerciseTab() {
-  const burned  = hungerModule.caloriesBurned || 0;
-  const minutes = hungerModule.exerciseMinutes || 0;
-  const log     = hungerModule.getTodayExerciseLog ? hungerModule.getTodayExerciseLog() : [];
-  const sessions = log.length;
-
-  const burnedEl   = document.getElementById('ex-tab-burned');
-  const minsEl     = document.getElementById('ex-tab-mins');
-  const sessionsEl = document.getElementById('ex-tab-sessions');
-  if (burnedEl)   burnedEl.textContent   = burned.toLocaleString();
-  if (minsEl)     minsEl.textContent     = minutes;
-  if (sessionsEl) sessionsEl.textContent = sessions;
-
-  _syncExerciseLogDateNav();
-  _renderExerciseLogForDate();
   renderExerciseSuggest();
   updateExercisePreview();
 }
