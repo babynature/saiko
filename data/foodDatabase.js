@@ -369,4 +369,143 @@ window.FOOD_DB = [
   { name: 'ยำขนมจีน',                kcal: 300, protein: 10, carbs: 48, fat: 8,  emoji: '🍜', portion: '1 จาน' },
   { name: 'สุกี้ทะเล',               kcal: 320, protein: 26, carbs: 26, fat: 12, emoji: '🍲', portion: '1 จาน (กุ้ง+ปลาหมึก+หอย)' },
   { name: 'สุกี้หมู',                kcal: 340, protein: 24, carbs: 28, fat: 14, emoji: '🍲', portion: '1 จาน' },
+
+  // ── อาหารตามสั่ง: ผัดเปรี้ยวหวาน ─────────────────────
+  { name: 'ผัดเปรี้ยวหวานหมู',       kcal: 310, protein: 18, carbs: 32, fat: 12, emoji: '🍖', portion: '1 ที่' },
+  { name: 'ผัดเปรี้ยวหวานไก่',       kcal: 290, protein: 20, carbs: 30, fat: 10, emoji: '🍗', portion: '1 ที่' },
+  { name: 'ผัดเปรี้ยวหวานกุ้ง',      kcal: 275, protein: 18, carbs: 28, fat: 9,  emoji: '🦐', portion: '1 ที่' },
+  { name: 'ผัดเปรี้ยวหวานปลา',       kcal: 285, protein: 20, carbs: 26, fat: 8,  emoji: '🐟', portion: '1 ที่' },
+  { name: 'ผัดเปรี้ยวหวานซีฟู้ด',    kcal: 295, protein: 22, carbs: 28, fat: 10, emoji: '🦑', portion: '1 ที่' },
+  { name: 'ผัดเปรี้ยวหวานเต้าหู้',   kcal: 240, protein: 10, carbs: 30, fat: 10, emoji: '🫘', portion: '1 ที่ (มังสวิรัติ)' },
+
+  // ── อาหารตามสั่ง: ผัดน้ำมันหอย ───────────────────────
+  { name: 'ผัดน้ำมันหอยหมู',         kcal: 280, protein: 20, carbs: 12, fat: 18, emoji: '🍖', portion: '1 ที่' },
+  { name: 'ผัดน้ำมันหอยไก่',         kcal: 260, protein: 22, carbs: 10, fat: 16, emoji: '🍗', portion: '1 ที่' },
+  { name: 'ผัดน้ำมันหอยเนื้อ',       kcal: 305, protein: 24, carbs: 12, fat: 18, emoji: '🥩', portion: '1 ที่' },
+  { name: 'ผัดน้ำมันหอยทะเล',        kcal: 245, protein: 22, carbs: 10, fat: 14, emoji: '🦐', portion: '1 ที่' },
+  { name: 'ผัดน้ำมันหอยเห็ด',        kcal: 160, protein: 6,  carbs: 14, fat: 10, emoji: '🍄', portion: '1 ที่ (มังสวิรัติ)' },
+
+  // ── อาหารตามสั่ง: ผัดขิง ──────────────────────────────
+  { name: 'ผัดขิงหมู',               kcal: 265, protein: 18, carbs: 10, fat: 18, emoji: '🍖', portion: '1 ที่' },
+  { name: 'ผัดขิงไก่',               kcal: 245, protein: 20, carbs: 8,  fat: 16, emoji: '🍗', portion: '1 ที่' },
+  { name: 'ผัดขิงทะเล',              kcal: 225, protein: 20, carbs: 8,  fat: 12, emoji: '🦐', portion: '1 ที่' },
+  { name: 'ผัดขิงเต้าหู้',           kcal: 190, protein: 10, carbs: 10, fat: 12, emoji: '🫘', portion: '1 ที่ (มังสวิรัติ)' },
+  { name: 'ผัดขิงเนื้อ',             kcal: 290, protein: 24, carbs: 8,  fat: 18, emoji: '🥩', portion: '1 ที่' },
+
+  // ── อาหารตามสั่ง: ผัดฉ่า ──────────────────────────────
+  { name: 'ผัดฉ่าทะเล',              kcal: 245, protein: 22, carbs: 10, fat: 14, emoji: '🦑', portion: '1 ที่' },
+  { name: 'ผัดฉ่าหมู',               kcal: 275, protein: 18, carbs: 10, fat: 18, emoji: '🍖', portion: '1 ที่' },
+  { name: 'ผัดฉ่าไก่',               kcal: 255, protein: 20, carbs: 8,  fat: 16, emoji: '🍗', portion: '1 ที่' },
+  { name: 'ผัดฉ่าเนื้อ',             kcal: 295, protein: 24, carbs: 8,  fat: 18, emoji: '🥩', portion: '1 ที่' },
+
+  // ── อาหารตามสั่ง: ผัดพริก ─────────────────────────────
+  { name: 'ผัดพริกแห้งหมู',          kcal: 295, protein: 18, carbs: 8,  fat: 22, emoji: '🌶️', portion: '1 ที่' },
+  { name: 'ผัดพริกแห้งไก่',          kcal: 265, protein: 20, carbs: 8,  fat: 16, emoji: '🌶️', portion: '1 ที่' },
+  { name: 'ผัดพริกไทยดำเนื้อ',       kcal: 325, protein: 24, carbs: 8,  fat: 22, emoji: '🥩', portion: '1 ที่' },
+  { name: 'ผัดพริกไทยดำกุ้ง',        kcal: 235, protein: 18, carbs: 8,  fat: 14, emoji: '🦐', portion: '1 ที่' },
+  { name: 'ผัดพริกขิงหมู',           kcal: 285, protein: 18, carbs: 8,  fat: 20, emoji: '🌿', portion: '1 ที่' },
+  { name: 'ผัดพริกขิงไก่',           kcal: 260, protein: 20, carbs: 8,  fat: 16, emoji: '🌿', portion: '1 ที่' },
+
+  // ── อาหารตามสั่ง: ผัดเมล็ดมะม่วงหิมพานต์ ──────────────
+  { name: 'ผัดเมล็ดมะม่วงหิมพานต์ไก่', kcal: 345, protein: 22, carbs: 20, fat: 20, emoji: '🥜', portion: '1 ที่' },
+  { name: 'ผัดเมล็ดมะม่วงหิมพานต์กุ้ง', kcal: 325, protein: 20, carbs: 18, fat: 18, emoji: '🦐', portion: '1 ที่' },
+  { name: 'ผัดเมล็ดมะม่วงหิมพานต์หมู', kcal: 355, protein: 20, carbs: 18, fat: 22, emoji: '🍖', portion: '1 ที่' },
+
+  // ── อาหารตามสั่ง: ผัดสะตอ ─────────────────────────────
+  { name: 'ผัดสะตอกุ้ง',             kcal: 265, protein: 18, carbs: 14, fat: 16, emoji: '🫘', portion: '1 ที่' },
+  { name: 'ผัดสะตอหมู',              kcal: 285, protein: 16, carbs: 14, fat: 18, emoji: '🫘', portion: '1 ที่' },
+  { name: 'ผัดสะตอไข่',              kcal: 240, protein: 10, carbs: 14, fat: 16, emoji: '🫘', portion: '1 ที่' },
+
+  // ── อาหารตามสั่ง: ผัดผัก ──────────────────────────────
+  { name: 'ผัดผักบุ้งไฟแดง',         kcal: 160, protein: 6,  carbs: 12, fat: 10, emoji: '🌿', portion: '1 ที่' },
+  { name: 'ผัดคะน้าน้ำมันหอย',        kcal: 200, protein: 6,  carbs: 14, fat: 14, emoji: '🥦', portion: '1 ที่' },
+  { name: 'ผัดคะน้าหมูกรอบ',          kcal: 305, protein: 16, carbs: 14, fat: 22, emoji: '🥦', portion: '1 ที่' },
+  { name: 'ผัดถั่วฝักยาวหมูสับ',      kcal: 255, protein: 16, carbs: 12, fat: 16, emoji: '🫘', portion: '1 ที่' },
+  { name: 'ผัดถั่วฝักยาวไข่',         kcal: 200, protein: 8,  carbs: 14, fat: 14, emoji: '🫘', portion: '1 ที่' },
+  { name: 'ผัดมะระ',                  kcal: 180, protein: 10, carbs: 10, fat: 10, emoji: '🫛', portion: '1 ที่' },
+  { name: 'ผัดกะหล่ำปลีน้ำมันหอย',   kcal: 140, protein: 4,  carbs: 14, fat: 8,  emoji: '🥬', portion: '1 ที่' },
+  { name: 'ผัดกุยช่าย',               kcal: 180, protein: 8,  carbs: 10, fat: 12, emoji: '🌿', portion: '1 ที่' },
+  { name: 'ผัดต้นหอมไข่',             kcal: 170, protein: 8,  carbs: 8,  fat: 12, emoji: '🌿', portion: '1 ที่' },
+  { name: 'ผัดเห็ดรวม',               kcal: 150, protein: 6,  carbs: 14, fat: 8,  emoji: '🍄', portion: '1 ที่' },
+  { name: 'ผัดบวบน้ำมันหอย',          kcal: 130, protein: 4,  carbs: 12, fat: 8,  emoji: '🥒', portion: '1 ที่' },
+
+  // ── อาหารตามสั่ง: แกง ─────────────────────────────────
+  { name: 'แกงกะหรี่ไก่',             kcal: 355, protein: 22, carbs: 20, fat: 22, emoji: '🍛', portion: '1 ชาม' },
+  { name: 'แกงกะหรี่เนื้อ',           kcal: 385, protein: 24, carbs: 20, fat: 24, emoji: '🍛', portion: '1 ชาม' },
+  { name: 'แกงกะหรี่หมู',             kcal: 370, protein: 20, carbs: 18, fat: 24, emoji: '🍛', portion: '1 ชาม' },
+  { name: 'แกงป่าหมู',                kcal: 225, protein: 18, carbs: 10, fat: 14, emoji: '🌿', portion: '1 ชาม' },
+  { name: 'แกงป่าไก่',                kcal: 205, protein: 20, carbs: 8,  fat: 12, emoji: '🌿', portion: '1 ชาม' },
+  { name: 'แกงป่าทะเล',               kcal: 210, protein: 22, carbs: 8,  fat: 12, emoji: '🌿', portion: '1 ชาม' },
+  { name: 'แกงคั่วกุ้ง',              kcal: 205, protein: 18, carbs: 10, fat: 12, emoji: '🦐', portion: '1 ชาม' },
+  { name: 'แกงคั่วไก่',               kcal: 220, protein: 20, carbs: 10, fat: 14, emoji: '🍗', portion: '1 ชาม' },
+  { name: 'แกงเขียวหวานหมู',          kcal: 390, protein: 20, carbs: 14, fat: 30, emoji: '🍲', portion: '1 ชาม' },
+  { name: 'แกงเขียวหวานเนื้อ',        kcal: 420, protein: 24, carbs: 14, fat: 32, emoji: '🍲', portion: '1 ชาม' },
+  { name: 'แกงพะแนงหมู',             kcal: 380, protein: 20, carbs: 12, fat: 30, emoji: '🍲', portion: '1 ชาม' },
+  { name: 'แกงพะแนงเนื้อ',           kcal: 400, protein: 24, carbs: 12, fat: 30, emoji: '🍲', portion: '1 ชาม' },
+  { name: 'แกงส้มปลา',                kcal: 180, protein: 18, carbs: 12, fat: 6,  emoji: '🐟', portion: '1 ชาม' },
+
+  // ── อาหารตามสั่ง: ต้ม ─────────────────────────────────
+  { name: 'ต้มจืดเต้าหู้หมูสับ',      kcal: 130, protein: 10, carbs: 6,  fat: 8,  emoji: '🍲', portion: '1 ชาม' },
+  { name: 'ต้มจืดผักกาดขาวหมู',       kcal: 110, protein: 8,  carbs: 8,  fat: 4,  emoji: '🥬', portion: '1 ชาม' },
+  { name: 'ต้มจืดวุ้นเส้นหมู',        kcal: 155, protein: 10, carbs: 14, fat: 6,  emoji: '🍜', portion: '1 ชาม' },
+  { name: 'ต้มยำหมู',                  kcal: 165, protein: 14, carbs: 8,  fat: 8,  emoji: '🍲', portion: '1 ชาม' },
+  { name: 'ต้มข่าหมู',                 kcal: 220, protein: 14, carbs: 6,  fat: 16, emoji: '🍲', portion: '1 ชาม' },
+  { name: 'ต้มส้มปลา',                 kcal: 150, protein: 16, carbs: 8,  fat: 5,  emoji: '🐟', portion: '1 ชาม' },
+
+  // ── อาหารตามสั่ง: ปลา ─────────────────────────────────
+  { name: 'ปลาราดพริก',               kcal: 285, protein: 24, carbs: 12, fat: 16, emoji: '🐟', portion: '1 จาน' },
+  { name: 'ปลานึ่งมะนาว',             kcal: 165, protein: 24, carbs: 6,  fat: 4,  emoji: '🐟', portion: '1 จาน' },
+  { name: 'ปลาน้ำ 3 รส',              kcal: 305, protein: 22, carbs: 20, fat: 16, emoji: '🐟', portion: '1 จาน' },
+  { name: 'ปลาทูทอด',                 kcal: 225, protein: 22, carbs: 4,  fat: 14, emoji: '🐟', portion: '1 ตัว' },
+  { name: 'ปลากะพงทอด',               kcal: 255, protein: 26, carbs: 6,  fat: 14, emoji: '🐟', portion: '1 ชิ้น' },
+  { name: 'ปลากะพงนึ่ง',              kcal: 170, protein: 26, carbs: 4,  fat: 4,  emoji: '🐟', portion: '1 จาน' },
+  { name: 'ปลาช่อนผัดเผ็ด',           kcal: 245, protein: 22, carbs: 10, fat: 14, emoji: '🐟', portion: '1 จาน' },
+  { name: 'ปลาหมึกน้ำ 3 รส',          kcal: 280, protein: 18, carbs: 22, fat: 14, emoji: '🦑', portion: '1 จาน' },
+  { name: 'กุ้งแช่น้ำปลา',            kcal: 100, protein: 18, carbs: 4,  fat: 2,  emoji: '🦐', portion: '5–6 ตัว' },
+
+  // ── อาหารตามสั่ง: ไก่/หมู/เนื้อ ──────────────────────
+  { name: 'ไก่ย่างซีอิ๊ว',            kcal: 225, protein: 26, carbs: 6,  fat: 12, emoji: '🍗', portion: '1 ชิ้น (~150g)' },
+  { name: 'ไก่น้ำ 3 รส',              kcal: 290, protein: 24, carbs: 18, fat: 14, emoji: '🍗', portion: '1 จาน' },
+  { name: 'ไก่ต้มมะนาว',              kcal: 185, protein: 24, carbs: 4,  fat: 8,  emoji: '🍗', portion: '1 จาน' },
+  { name: 'หมูสามชั้นทอด',            kcal: 405, protein: 18, carbs: 4,  fat: 36, emoji: '🐷', portion: '1 ที่ (~100g)' },
+  { name: 'หมูแดดเดียว',               kcal: 305, protein: 22, carbs: 4,  fat: 22, emoji: '🐷', portion: '1 ที่ (~100g)' },
+  { name: 'หมูกระทะอบ',               kcal: 340, protein: 24, carbs: 8,  fat: 24, emoji: '🍖', portion: '1 ที่ (~150g)' },
+  { name: 'เนื้อผัดน้ำมันหอย',         kcal: 305, protein: 24, carbs: 12, fat: 18, emoji: '🥩', portion: '1 ที่' },
+  { name: 'เนื้อสันในย่าง',            kcal: 250, protein: 28, carbs: 0,  fat: 14, emoji: '🥩', portion: '1 ชิ้น (~150g)' },
+
+  // ── อาหารตามสั่ง: พะโล้ ───────────────────────────────
+  { name: 'พะโล้ไข่+เต้าหู้',          kcal: 285, protein: 14, carbs: 18, fat: 18, emoji: '🟤', portion: '1 ที่' },
+  { name: 'พะโล้หมูสามชั้น',           kcal: 355, protein: 16, carbs: 18, fat: 26, emoji: '🐷', portion: '1 ที่' },
+  { name: 'พะโล้ไก่',                  kcal: 300, protein: 24, carbs: 16, fat: 16, emoji: '🍗', portion: '1 ที่' },
+  { name: 'พะโล้เป็ด',                 kcal: 380, protein: 24, carbs: 16, fat: 24, emoji: '🦆', portion: '1 ที่' },
+  { name: 'ไข่พะโล้',                  kcal: 155, protein: 10, carbs: 10, fat: 8,  emoji: '🥚', portion: '2 ฟอง' },
+
+  // ── อาหารตามสั่ง: ไข่ ─────────────────────────────────
+  { name: 'ไข่ตุ๋น',                   kcal: 100, protein: 8,  carbs: 2,  fat: 6,  emoji: '🥚', portion: '1 ฟอง' },
+  { name: 'ไข่ลูกเขย',                 kcal: 185, protein: 8,  carbs: 14, fat: 12, emoji: '🥚', portion: '2 ฟอง (ราดซอสมะขาม)' },
+  { name: 'ไข่เจียวหมูสับ',            kcal: 205, protein: 12, carbs: 4,  fat: 16, emoji: '🍳', portion: '1 ที่' },
+  { name: 'ไข่เจียวซีฟู้ด',            kcal: 195, protein: 14, carbs: 4,  fat: 14, emoji: '🍳', portion: '1 ที่' },
+  { name: 'ไข่ดาวราดน้ำมันหอย',         kcal: 120, protein: 6,  carbs: 4,  fat: 9,  emoji: '🍳', portion: '1 ฟอง' },
+
+  // ── อาหารตามสั่ง: ข้าวจานเดียวเพิ่มเติม ──────────────
+  { name: 'ข้าวคลุกกะปิ',              kcal: 425, protein: 14, carbs: 58, fat: 16, emoji: '🍚', portion: '1 จาน' },
+  { name: 'ข้าวแกงกะหรี่ไก่',          kcal: 470, protein: 20, carbs: 62, fat: 16, emoji: '🍛', portion: '1 จาน' },
+  { name: 'ข้าวผัดพริก',               kcal: 385, protein: 14, carbs: 48, fat: 16, emoji: '🌶️', portion: '1 จาน' },
+  { name: 'ข้าวผัดปู',                 kcal: 400, protein: 18, carbs: 48, fat: 14, emoji: '🦀', portion: '1 จาน' },
+  { name: 'ข้าวผัดแหนม',               kcal: 390, protein: 14, carbs: 48, fat: 16, emoji: '🌭', portion: '1 จาน' },
+  { name: 'ข้าวผัดอเมริกัน',           kcal: 540, protein: 20, carbs: 58, fat: 24, emoji: '🍳', portion: '1 จาน (ข้าว+ไส้กรอก+ไข่+มะเขือเทศ)' },
+  { name: 'ข้าวหมูกรอบ',               kcal: 460, protein: 18, carbs: 52, fat: 20, emoji: '🐷', portion: '1 จาน' },
+  { name: 'ข้าวเป็ดย่าง',              kcal: 480, protein: 22, carbs: 52, fat: 20, emoji: '🦆', portion: '1 จาน' },
+  { name: 'ข้าวไข่ข้น',                kcal: 380, protein: 12, carbs: 52, fat: 14, emoji: '🥚', portion: '1 จาน' },
+  { name: 'ข้าวสุกี้',                 kcal: 430, protein: 18, carbs: 56, fat: 14, emoji: '🍲', portion: '1 จาน' },
+
+  // ── อาหารตามสั่ง: ยำ (เพิ่มเติม) ─────────────────────
+  { name: 'ยำเนื้อ',                   kcal: 260, protein: 22, carbs: 14, fat: 14, emoji: '🥩', portion: '1 จาน' },
+  { name: 'ยำไก่สับ',                  kcal: 220, protein: 20, carbs: 12, fat: 12, emoji: '🍗', portion: '1 จาน' },
+  { name: 'ยำมะม่วง',                  kcal: 180, protein: 8,  carbs: 22, fat: 8,  emoji: '🥭', portion: '1 จาน' },
+  { name: 'ยำถั่วพู',                  kcal: 160, protein: 8,  carbs: 18, fat: 6,  emoji: '🫘', portion: '1 จาน' },
+  { name: 'ยำเห็ด',                    kcal: 140, protein: 6,  carbs: 16, fat: 6,  emoji: '🍄', portion: '1 จาน' },
+  { name: 'ยำปลากระป๋อง',              kcal: 200, protein: 16, carbs: 12, fat: 10, emoji: '🥫', portion: '1 จาน' },
+  { name: 'ยำส้มโอ',                   kcal: 190, protein: 8,  carbs: 24, fat: 8,  emoji: '🍊', portion: '1 จาน' },
+  { name: 'ยำเกาหลีหมู',               kcal: 280, protein: 18, carbs: 20, fat: 14, emoji: '🌶️', portion: '1 จาน' },
 ];
