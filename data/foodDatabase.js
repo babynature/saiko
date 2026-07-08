@@ -328,7 +328,14 @@ window.FOOD_DB = [
   { name: 'ข้าวซอยไก่',             kcal: 560, protein: 26, carbs: 60, fat: 22, emoji: '🍜', portion: '1 ชาม' },
 
   // ── กับข้าวอื่นๆ (เพิ่มเติม) ─────────────────────────
+  // ยำวุ้นเส้น
   { name: 'ยำวุ้นเส้น',             kcal: 200, protein: 10, carbs: 28, fat: 6,  emoji: '🍜', portion: '1 จาน' },
+  { name: 'ยำวุ้นเส้นกุ้ง',         kcal: 215, protein: 14, carbs: 26, fat: 6,  emoji: '🦐', portion: '1 จาน' },
+  { name: 'ยำวุ้นเส้นหมู',          kcal: 230, protein: 14, carbs: 26, fat: 8,  emoji: '🍖', portion: '1 จาน' },
+  { name: 'ยำวุ้นเส้นทะเล',         kcal: 225, protein: 16, carbs: 26, fat: 7,  emoji: '🦑', portion: '1 จาน (กุ้ง+ปลาหมึก)' },
+  { name: 'ยำวุ้นเส้นไก่',          kcal: 210, protein: 14, carbs: 26, fat: 6,  emoji: '🍗', portion: '1 จาน' },
+  { name: 'ยำวุ้นเส้นหมูสับ',       kcal: 235, protein: 14, carbs: 26, fat: 9,  emoji: '🐷', portion: '1 จาน' },
+  // ยำอื่นๆ
   { name: 'ยำทะเล',                 kcal: 220, protein: 20, carbs: 14, fat: 8,  emoji: '🦐', portion: '1 จาน' },
   { name: 'ยำไก่ย่าง',              kcal: 240, protein: 22, carbs: 14, fat: 10, emoji: '🍗', portion: '1 จาน' },
   { name: 'แกงเลียง',               kcal: 130, protein: 8,  carbs: 14, fat: 5,  emoji: '🌿', portion: '1 ชาม' },
@@ -480,12 +487,45 @@ window.FOOD_DB = [
   { name: 'พะโล้เป็ด',                 kcal: 380, protein: 24, carbs: 16, fat: 24, emoji: '🦆', portion: '1 ที่' },
   { name: 'ไข่พะโล้',                  kcal: 155, protein: 10, carbs: 10, fat: 8,  emoji: '🥚', portion: '2 ฟอง' },
 
-  // ── อาหารตามสั่ง: ไข่ ─────────────────────────────────
-  { name: 'ไข่ตุ๋น',                   kcal: 100, protein: 8,  carbs: 2,  fat: 6,  emoji: '🥚', portion: '1 ฟอง' },
-  { name: 'ไข่ลูกเขย',                 kcal: 185, protein: 8,  carbs: 14, fat: 12, emoji: '🥚', portion: '2 ฟอง (ราดซอสมะขาม)' },
-  { name: 'ไข่เจียวหมูสับ',            kcal: 205, protein: 12, carbs: 4,  fat: 16, emoji: '🍳', portion: '1 ที่' },
-  { name: 'ไข่เจียวซีฟู้ด',            kcal: 195, protein: 14, carbs: 4,  fat: 14, emoji: '🍳', portion: '1 ที่' },
+  // ── อาหารตามสั่ง: เมนูไข่ ─────────────────────────────
+  // ต้ม / ลวก
+  { name: 'ไข่ต้มสุก',                 kcal: 78,  protein: 6,  carbs: 1,  fat: 5,  emoji: '🥚', portion: '1 ฟอง' },
+  { name: 'ไข่ต้มยางมะตูม',             kcal: 78,  protein: 6,  carbs: 1,  fat: 5,  emoji: '🥚', portion: '1 ฟอง (ไข่แดงกึ่งสุก)' },
+  { name: 'ไข่ออนเซ็น',                kcal: 75,  protein: 6,  carbs: 1,  fat: 5,  emoji: '🥚', portion: '1 ฟอง' },
+  { name: 'ไข่ลวก',                    kcal: 70,  protein: 6,  carbs: 1,  fat: 4,  emoji: '🥚', portion: '1 ฟอง' },
+  // ดาว / ตุ๋น
+  { name: 'ไข่ดาว',                    kcal: 90,  protein: 6,  carbs: 0,  fat: 7,  emoji: '🍳', portion: '1 ฟอง' },
   { name: 'ไข่ดาวราดน้ำมันหอย',         kcal: 120, protein: 6,  carbs: 4,  fat: 9,  emoji: '🍳', portion: '1 ฟอง' },
+  { name: 'ไข่ดาว 2 ฟอง',              kcal: 180, protein: 12, carbs: 0,  fat: 14, emoji: '🍳', portion: '2 ฟอง' },
+  { name: 'ไข่ตุ๋น',                   kcal: 100, protein: 8,  carbs: 2,  fat: 6,  emoji: '🥚', portion: '1 ฟอง' },
+  { name: 'ไข่ตุ๋นนึ่ง',               kcal: 95,  protein: 8,  carbs: 2,  fat: 6,  emoji: '🥚', portion: '1 ถ้วย' },
+  // เจียว
+  { name: 'ไข่เจียว',                  kcal: 150, protein: 8,  carbs: 2,  fat: 12, emoji: '🍳', portion: '2 ฟอง' },
+  { name: 'ไข่เจียวหมูสับ',            kcal: 205, protein: 12, carbs: 4,  fat: 16, emoji: '🍳', portion: '1 ที่' },
+  { name: 'ไข่เจียวกุ้งสับ',           kcal: 195, protein: 14, carbs: 4,  fat: 14, emoji: '🍳', portion: '1 ที่' },
+  { name: 'ไข่เจียวปลาหมึก',           kcal: 190, protein: 14, carbs: 4,  fat: 13, emoji: '🍳', portion: '1 ที่' },
+  { name: 'ไข่เจียวซีฟู้ด',            kcal: 195, protein: 14, carbs: 4,  fat: 14, emoji: '🍳', portion: '1 ที่' },
+  { name: 'ไข่เจียวต้นหอม',             kcal: 160, protein: 8,  carbs: 3,  fat: 12, emoji: '🍳', portion: '2 ฟอง' },
+  { name: 'ไข่เจียวใส่ผัก',             kcal: 165, protein: 8,  carbs: 5,  fat: 12, emoji: '🍳', portion: '2 ฟอง' },
+  // คน / ม้วน
+  { name: 'ไข่คน',                     kcal: 145, protein: 10, carbs: 2,  fat: 10, emoji: '🍳', portion: '2 ฟอง' },
+  { name: 'ไข่คนชีส',                  kcal: 200, protein: 14, carbs: 2,  fat: 15, emoji: '🍳', portion: '2 ฟอง + ชีส' },
+  { name: 'ไข่ม้วนญี่ปุ่น (ทามาโกะ)',   kcal: 130, protein: 8,  carbs: 6,  fat: 8,  emoji: '🥚', portion: '4–5 ชิ้น' },
+  { name: 'ไข่ม้วนไส้หมูสับ',           kcal: 220, protein: 14, carbs: 6,  fat: 16, emoji: '🥚', portion: '1 ม้วน' },
+  // ราดซอส / ลูกเขย
+  { name: 'ไข่ลูกเขย',                 kcal: 185, protein: 8,  carbs: 14, fat: 12, emoji: '🥚', portion: '2 ฟอง (ราดซอสมะขาม)' },
+  { name: 'ไข่ดาวราดซอสหอยนางรม',       kcal: 135, protein: 7,  carbs: 6,  fat: 9,  emoji: '🍳', portion: '1 ฟอง' },
+  { name: 'ไข่ดาวราดพริก',              kcal: 120, protein: 6,  carbs: 4,  fat: 9,  emoji: '🍳', portion: '1 ฟอง' },
+  // พะโล้ / หมัก
+  { name: 'ไข่พะโล้',                  kcal: 155, protein: 10, carbs: 10, fat: 8,  emoji: '🥚', portion: '2 ฟอง' },
+  { name: 'ไข่เยี่ยวม้า',              kcal: 80,  protein: 6,  carbs: 2,  fat: 5,  emoji: '🥚', portion: '1 ฟอง (ไข่ดำ)' },
+  // ยัดไส้ / กุ้งห่อ
+  { name: 'ไข่ยัดไส้ทอด',              kcal: 260, protein: 14, carbs: 8,  fat: 18, emoji: '🥚', portion: '1 ที่ (2 ฟอง ยัดหมูสับ)' },
+  { name: 'ไข่กุ้งสด (กุ้งห่อไข่)',    kcal: 210, protein: 16, carbs: 6,  fat: 14, emoji: '🦐', portion: '1 ที่' },
+  // ข้าวไข่
+  { name: 'ข้าวไข่ดาว',                kcal: 260, protein: 9,  carbs: 30, fat: 11, emoji: '🍳', portion: '1 จาน (ข้าว + ไข่ 1 ฟอง)' },
+  { name: 'ข้าวไข่เจียว',              kcal: 310, protein: 11, carbs: 32, fat: 14, emoji: '🍳', portion: '1 จาน' },
+  { name: 'ข้าวไข่คน',                 kcal: 295, protein: 12, carbs: 32, fat: 12, emoji: '🍳', portion: '1 จาน' },
 
   // ── อาหารตามสั่ง: ข้าวจานเดียวเพิ่มเติม ──────────────
   { name: 'ข้าวคลุกกะปิ',              kcal: 425, protein: 14, carbs: 58, fat: 16, emoji: '🍚', portion: '1 จาน' },
