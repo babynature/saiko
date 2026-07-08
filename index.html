@@ -303,11 +303,11 @@
             <div class="tc-sub" id="tc-food-items">0 รายการ</div>
             <div class="tc-kcal-bar"><div class="tc-kcal-fill" id="tc-kcal-fill"></div></div>
           </div>
-          <div class="tracker-card" id="tc-exercise" onclick="toggleExerciseLog()">
+          <div class="tracker-card" id="tc-exercise" onclick="showTab('exercise')">
             <div class="tc-header">
               <span class="tc-icon">🏋️</span>
               <span class="tc-title">ออกกำลัง</span>
-              <span class="tc-chevron" id="tc-ex-chevron">▼</span>
+              <span class="tc-chevron">›</span>
             </div>
             <div class="tc-total" id="tc-ex-burned">−0 kcal</div>
             <div class="tc-sub" id="tc-ex-sub">ยังไม่ออกกำลัง</div>
@@ -384,76 +384,6 @@
         <!-- Backdrop: click outside to close food dropdown -->
         <div class="food-backdrop" id="food-backdrop" onclick="closeFoodLog()"></div>
       </div>
-
-      <!-- Exercise Panel (accordion) -->
-      <div class="tracker-form-panel" id="panel-exercise">
-        <!-- Date navigation header -->
-        <div class="flog-date-nav" id="exlog-date-nav">
-          <button class="flog-nav-btn" id="exlog-nav-prev" onclick="navigateExerciseLog(-1)">‹</button>
-          <div class="flog-nav-center">
-            <span class="flog-nav-label" id="exlog-nav-label">วันนี้</span>
-            <span class="flog-nav-date" id="exlog-nav-date"></span>
-          </div>
-          <button class="flog-nav-btn" id="exlog-nav-next" onclick="navigateExerciseLog(1)" disabled>›</button>
-        </div>
-        <div class="exercise-logger" id="exercise-logger">
-          <div class="form-row">
-            <div class="form-group">
-              <label id="lbl-ex-type">ประเภท</label>
-              <select id="ex-type" onchange="updateExercisePreview()">
-                <optgroup label="🚶 เดิน / วิ่ง">
-                  <option value="walking">🚶 เดิน (4 kcal/นาที)</option>
-                  <option value="brisk_walk">🚶 เดินเร็ว (5 kcal/นาที)</option>
-                  <option value="jogging">🏃 วิ่งจ็อกกิ้ง (7 kcal/นาที)</option>
-                  <option value="running">🏃 วิ่ง (8 kcal/นาที)</option>
-                  <option value="hiit">⚡ HIIT (11 kcal/นาที)</option>
-                  <option value="hiking">⛰️ เดินป่า/ไฮกิ้ง (5 kcal/นาที)</option>
-                </optgroup>
-                <optgroup label="🎽 คาร์ดิโอ">
-                  <option value="aerobic">💃 แอโรบิก (6 kcal/นาที)</option>
-                  <option value="jump_rope">🪢 กระโดดเชือก (10 kcal/นาที)</option>
-                  <option value="dancing">🕺 เต้นรำ (5 kcal/นาที)</option>
-                  <option value="cycling">🚴 จักรยาน (6 kcal/นาที)</option>
-                  <option value="cycling_hard">🚴 จักรยานหนัก (9 kcal/นาที)</option>
-                  <option value="swimming">🏊 ว่ายน้ำ (7 kcal/นาที)</option>
-                </optgroup>
-                <optgroup label="🏸 กีฬา">
-                  <option value="badminton">🏸 แบดมินตัน (6 kcal/นาที)</option>
-                  <option value="tennis">🎾 เทนนิส (7 kcal/นาที)</option>
-                  <option value="football">⚽ ฟุตบอล (7 kcal/นาที)</option>
-                  <option value="basketball">🏀 บาสเกตบอล (7 kcal/นาที)</option>
-                  <option value="volleyball">🏐 วอลเลย์บอล (5 kcal/นาที)</option>
-                  <option value="court_sport">🏟️ กีฬาบนคอร์ต (7 kcal/นาที)</option>
-                  <option value="muay_thai">🥊 มวย / คิกบ็อกซิ่ง (9 kcal/นาที)</option>
-                </optgroup>
-                <optgroup label="🏋️ ฟิตเนส / แรงต้าน">
-                  <option value="gym">🏋️ ฟิตเนส (5 kcal/นาที)</option>
-                  <option value="weight_train">🏋️ ยกน้ำหนัก (5 kcal/นาที)</option>
-                  <option value="bodyweight">💪 บอดี้เวท (5 kcal/นาที)</option>
-                </optgroup>
-                <optgroup label="🧘 ยืดเหยียด / ผ่อนคลาย">
-                  <option value="yoga">🧘 โยคะ (3 kcal/นาที)</option>
-                  <option value="stretching">🤸 ยืดเหยียด (2 kcal/นาที)</option>
-                </optgroup>
-              </select>
-            </div>
-            <div class="form-group">
-              <label id="lbl-ex-min">นาที</label>
-              <input type="number" id="ex-minutes" placeholder="30" min="1" max="300" value="30" oninput="updateExercisePreview()">
-            </div>
-          </div>
-          <!-- Live Preview -->
-          <div class="ex-preview" id="ex-preview">
-            <span id="ex-preview-kcal">🔥 ~120 kcal</span>
-            <span class="ex-preview-tag" id="ex-preview-tag"></span>
-          </div>
-          <button class="btn-log-ex" onclick="doLogExercise()" id="btn-log-ex">🔥 บันทึก</button>
-        </div>
-        <div id="exercise-log-list"></div>
-      </div>
-
-      <!-- Exercise Suggestion (shown when over calories) -->
-      <div id="exercise-suggest" style="display:none"></div>
 
       <!-- Miller's Law: visual chunk separator -->
       <div class="chunk-sep"></div>
@@ -769,6 +699,102 @@
     </div>
   </div>
 
+  <!-- Exercise Tab -->
+  <div class="tab-content hidden" id="tab-exercise">
+    <div class="tab-header">
+      <h2>🏋️ ออกกำลังกาย</h2>
+    </div>
+
+    <!-- Today's summary stats -->
+    <div class="ex-tab-summary" id="ex-tab-summary">
+      <div class="ex-sum-stat">
+        <span class="ex-sum-val" id="ex-tab-burned">0</span>
+        <span class="ex-sum-lbl">kcal เผา</span>
+      </div>
+      <div class="ex-sum-sep">·</div>
+      <div class="ex-sum-stat">
+        <span class="ex-sum-val" id="ex-tab-mins">0</span>
+        <span class="ex-sum-lbl">นาที</span>
+      </div>
+      <div class="ex-sum-sep">·</div>
+      <div class="ex-sum-stat">
+        <span class="ex-sum-val" id="ex-tab-sessions">0</span>
+        <span class="ex-sum-lbl">ครั้ง</span>
+      </div>
+    </div>
+
+    <!-- Date navigation -->
+    <div class="flog-date-nav" id="exlog-date-nav">
+      <button class="flog-nav-btn" id="exlog-nav-prev" onclick="navigateExerciseLog(-1)">‹</button>
+      <div class="flog-nav-center">
+        <span class="flog-nav-label" id="exlog-nav-label">วันนี้</span>
+        <span class="flog-nav-date" id="exlog-nav-date"></span>
+      </div>
+      <button class="flog-nav-btn" id="exlog-nav-next" onclick="navigateExerciseLog(1)" disabled>›</button>
+    </div>
+
+    <!-- Exercise history list -->
+    <div id="exercise-log-list"></div>
+
+    <!-- Add exercise form -->
+    <div class="exercise-logger" id="exercise-logger">
+      <div class="form-row">
+        <div class="form-group">
+          <label id="lbl-ex-type">ประเภท</label>
+          <select id="ex-type" onchange="updateExercisePreview()">
+            <optgroup label="🚶 เดิน / วิ่ง">
+              <option value="walking">🚶 เดิน (4 kcal/นาที)</option>
+              <option value="brisk_walk">🚶 เดินเร็ว (5 kcal/นาที)</option>
+              <option value="jogging">🏃 วิ่งจ็อกกิ้ง (7 kcal/นาที)</option>
+              <option value="running">🏃 วิ่ง (8 kcal/นาที)</option>
+              <option value="hiit">⚡ HIIT (11 kcal/นาที)</option>
+              <option value="hiking">⛰️ เดินป่า/ไฮกิ้ง (5 kcal/นาที)</option>
+            </optgroup>
+            <optgroup label="🎽 คาร์ดิโอ">
+              <option value="aerobic">💃 แอโรบิก (6 kcal/นาที)</option>
+              <option value="jump_rope">🪢 กระโดดเชือก (10 kcal/นาที)</option>
+              <option value="dancing">🕺 เต้นรำ (5 kcal/นาที)</option>
+              <option value="cycling">🚴 จักรยาน (6 kcal/นาที)</option>
+              <option value="cycling_hard">🚴 จักรยานหนัก (9 kcal/นาที)</option>
+              <option value="swimming">🏊 ว่ายน้ำ (7 kcal/นาที)</option>
+            </optgroup>
+            <optgroup label="🏸 กีฬา">
+              <option value="badminton">🏸 แบดมินตัน (6 kcal/นาที)</option>
+              <option value="tennis">🎾 เทนนิส (7 kcal/นาที)</option>
+              <option value="football">⚽ ฟุตบอล (7 kcal/นาที)</option>
+              <option value="basketball">🏀 บาสเกตบอล (7 kcal/นาที)</option>
+              <option value="volleyball">🏐 วอลเลย์บอล (5 kcal/นาที)</option>
+              <option value="court_sport">🏟️ กีฬาบนคอร์ต (7 kcal/นาที)</option>
+              <option value="muay_thai">🥊 มวย / คิกบ็อกซิ่ง (9 kcal/นาที)</option>
+            </optgroup>
+            <optgroup label="🏋️ ฟิตเนส / แรงต้าน">
+              <option value="gym">🏋️ ฟิตเนส (5 kcal/นาที)</option>
+              <option value="weight_train">🏋️ ยกน้ำหนัก (5 kcal/นาที)</option>
+              <option value="bodyweight">💪 บอดี้เวท (5 kcal/นาที)</option>
+            </optgroup>
+            <optgroup label="🧘 ยืดเหยียด / ผ่อนคลาย">
+              <option value="yoga">🧘 โยคะ (3 kcal/นาที)</option>
+              <option value="stretching">🤸 ยืดเหยียด (2 kcal/นาที)</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="form-group">
+          <label id="lbl-ex-min">นาที</label>
+          <input type="number" id="ex-minutes" placeholder="30" min="1" max="300" value="30" oninput="updateExercisePreview()">
+        </div>
+      </div>
+      <!-- Live Preview -->
+      <div class="ex-preview" id="ex-preview">
+        <span id="ex-preview-kcal">🔥 ~120 kcal</span>
+        <span class="ex-preview-tag" id="ex-preview-tag"></span>
+      </div>
+      <button class="btn-log-ex" onclick="doLogExercise()" id="btn-log-ex">🔥 บันทึก</button>
+    </div>
+
+    <!-- Exercise Recommendations -->
+    <div id="exercise-suggest" style="display:none"></div>
+  </div>
+
   <!-- Bottom Navigation -->
   <nav class="bottom-nav">
     <button class="nav-btn active" id="nav-home" onclick="showTab('home')">
@@ -782,6 +808,10 @@
     <button class="nav-btn" id="nav-quests" onclick="showTab('quests')">
       <span class="nav-icon">📋</span>
       <span class="nav-label" id="txt-nav-quests">ภารกิจ</span>
+    </button>
+    <button class="nav-btn" id="nav-exercise" onclick="showTab('exercise')">
+      <span class="nav-icon">🏋️</span>
+      <span class="nav-label">ออกกำลัง</span>
     </button>
     <button class="nav-btn" id="nav-shop" onclick="showTab('shop')">
       <span class="nav-icon">🏪</span>

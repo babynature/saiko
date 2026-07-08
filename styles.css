@@ -649,10 +649,10 @@ html, body {
 }
 .btn-log-ex:active { transform: scale(0.97); }
 
-/* Exercise date nav: no sticky (panel has overflow:hidden — sticky breaks on iOS) */
+/* Exercise date nav: no sticky needed in dedicated tab */
 #exlog-date-nav { position: relative; top: auto; }
 
-#panel-exercise.past-day #exercise-logger { display: none; }
+#tab-exercise.past-day #exercise-logger { display: none; }
 
 /* ── Exercise log rows (mirrors food-log-row style) ── */
 #exercise-log-list { margin-top: 8px; }
@@ -879,17 +879,18 @@ html, body {
   background: none;
   border: none;
   color: var(--text3);
-  padding: 10px 4px 8px;
+  padding: 8px 2px 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
   cursor: pointer;
   transition: color 0.15s;
+  min-width: 0;
 }
 .nav-btn.active { color: var(--primary); }
-.nav-icon { font-size: 20px; }
-.nav-label { font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.3px; }
+.nav-icon { font-size: 18px; }
+.nav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
 /* ═══ TOAST ═══ */
 .toast {
@@ -2187,9 +2188,40 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   display: block;
 }
 
-#panel-exercise {
-  margin-top: 4px;
-  margin-bottom: 4px;
+/* ── Exercise Tab Summary Bar ── */
+.ex-tab-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(245,158,11,.1);
+  border: 1px solid rgba(245,158,11,.25);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.ex-sum-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.ex-sum-val {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fbbf24;
+  line-height: 1;
+}
+.ex-sum-lbl {
+  font-size: 11px;
+  color: var(--text3);
+  font-weight: 600;
+}
+.ex-sum-sep {
+  font-size: 18px;
+  color: var(--border);
+  font-weight: 300;
+  align-self: center;
 }
 
 /* ═══════════════════════════════════════════

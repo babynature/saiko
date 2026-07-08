@@ -197,7 +197,6 @@ function _syncExerciseLogDateNav() {
   const dateEl   = document.getElementById('exlog-nav-date');
   const prevBtn  = document.getElementById('exlog-nav-prev');
   const nextBtn  = document.getElementById('exlog-nav-next');
-  const panel    = document.getElementById('panel-exercise');
   if (!labelEl) return;
 
   const yesterday = new Date();
@@ -218,7 +217,8 @@ function _syncExerciseLogDateNav() {
   if (prevBtn) prevBtn.disabled = viewing <= _localDate(minDate);
   if (nextBtn) nextBtn.disabled = !_exLogViewDate;
 
-  if (panel) panel.classList.toggle('past-day', !!_exLogViewDate);
+  const tabEx = document.getElementById('tab-exercise');
+  if (tabEx) tabEx.classList.toggle('past-day', !!_exLogViewDate);
 }
 
 function _renderExerciseLogForDate() {
@@ -574,9 +574,10 @@ function showTab(tabId) {
   const navBtn = document.getElementById('nav-' + tabId);
   if (navBtn) navBtn.classList.add('active');
 
-  if (tabId === 'home')        { renderGlance(); renderFoodLog(); renderExerciseCard(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderNearGoalBanner(); renderExerciseSuggest(); initFoodSearch(); updateExercisePreview(); }
+  if (tabId === 'home')        { renderGlance(); renderFoodLog(); renderExerciseCard(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderNearGoalBanner(); initFoodSearch(); }
   if (tabId === 'marketplace') renderMarketplace();
-  if (tabId === 'quests')      { renderQuests(); renderMissions(); renderExerciseTip(); updateExercisePreview(); }
+  if (tabId === 'quests')      { renderQuests(); renderMissions(); renderExerciseTip(); }
+  if (tabId === 'exercise')    renderExerciseTab();
   if (tabId === 'shop')        renderShop();
   if (tabId === 'profile')     { renderProfile(); renderWeeklySummary(); renderAnalyticsChart(); renderWeightSection(); renderWeightGoal(); renderAchievements(); renderWardrobe(); renderNotifSettings(); }
 }
@@ -703,9 +704,10 @@ window.renderAll = function() {
   renderLifeEvents();
   renderStats();
   renderCalorieBar();
-  if (_currentTabId === 'home')        { renderGlance(); renderFoodLog(); renderExerciseCard(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderNearGoalBanner(); renderExerciseSuggest(); initFoodSearch(); }
+  if (_currentTabId === 'home')        { renderGlance(); renderFoodLog(); renderExerciseCard(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderNearGoalBanner(); initFoodSearch(); }
   if (_currentTabId === 'marketplace') renderMarketplace();
   if (_currentTabId === 'quests')      { renderQuests(); renderMissions(); renderExerciseTip(); }
+  if (_currentTabId === 'exercise')    renderExerciseTab();
   if (_currentTabId === 'shop')        renderShop();
   if (_currentTabId === 'profile')     { renderProfile(); renderWeeklySummary(); renderAnalyticsChart(); renderWeightSection(); renderWeightGoal(); renderAchievements(); renderWardrobe(); renderNotifSettings(); }
 };
@@ -1066,8 +1068,25 @@ function renderExerciseCard() {
   const subEl   = document.getElementById('tc-ex-sub');
   if (burnEl) burnEl.textContent = `−${burned.toLocaleString()} kcal`;
   if (subEl)  subEl.textContent  = minutes > 0 ? `${minutes} นาที` : 'ยังไม่ออกกำลัง';
+}
+
+function renderExerciseTab() {
+  const burned  = hungerModule.caloriesBurned || 0;
+  const minutes = hungerModule.exerciseMinutes || 0;
+  const log     = hungerModule.getTodayExerciseLog ? hungerModule.getTodayExerciseLog() : [];
+  const sessions = log.length;
+
+  const burnedEl   = document.getElementById('ex-tab-burned');
+  const minsEl     = document.getElementById('ex-tab-mins');
+  const sessionsEl = document.getElementById('ex-tab-sessions');
+  if (burnedEl)   burnedEl.textContent   = burned.toLocaleString();
+  if (minsEl)     minsEl.textContent     = minutes;
+  if (sessionsEl) sessionsEl.textContent = sessions;
+
   _syncExerciseLogDateNav();
   _renderExerciseLogForDate();
+  renderExerciseSuggest();
+  updateExercisePreview();
 }
 
 function openFoodModal(food) {
