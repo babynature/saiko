@@ -1286,7 +1286,7 @@ const EXERCISE_DB = [
   },
   {
     id: 'tricep_dip', type: 'gym', cat: 'upper', catLabel: 'Upper Body', catColor: '#6366f1',
-    name: 'Tricep Dip (เก้าอี้)', emoji: '🪑',
+    name: 'Tricep Dip', emoji: '🪑',
     muscles: ['ไทรเซ็ป', 'ไหล่หน้า', 'อก (ล่าง)'],
     plan: '3 เซต × 12–15 ครั้ง  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 38,
@@ -1328,7 +1328,7 @@ const EXERCISE_DB = [
   },
   {
     id: 'wall_sit', type: 'gym', cat: 'lower', catLabel: 'Lower Body', catColor: '#f59e0b',
-    name: 'Wall Sit (นั่งผนัง)', emoji: '🧱',
+    name: 'Wall Sit', emoji: '🧱',
     muscles: ['ต้นขาหน้า (Quad)', 'น่อง', 'Core'],
     plan: '3 เซต × 30–45 วินาที  |  พักเซตละ 60 วิ',
     totalMins: 8, kcal: 25,
@@ -1338,7 +1338,7 @@ const EXERCISE_DB = [
   },
   {
     id: 'calf_raise', type: 'gym', cat: 'lower', catLabel: 'Lower Body', catColor: '#f59e0b',
-    name: 'Calf Raise (ยืนปลายเท้า)', emoji: '🦶',
+    name: 'Calf Raise', emoji: '🦶',
     muscles: ['น่อง (Gastrocnemius)', 'น่องลึก (Soleus)'],
     plan: '3 เซต × 20 ครั้ง  |  พักเซตละ 45 วิ  |  ค้าง 1 วิที่ยอด',
     totalMins: 8, kcal: 22,
@@ -1390,7 +1390,7 @@ const EXERCISE_DB = [
   },
   {
     id: 'leg_raises', type: 'gym', cat: 'core', catLabel: 'Core / Abs', catColor: '#10b981',
-    name: 'Leg Raises (นอนหงายยกขาคู่)', emoji: '🦵',
+    name: 'Leg Raises', emoji: '🦵',
     muscles: ['หน้าท้องล่าง (Lower Abs)', 'สะโพกด้านหน้า (Hip Flexors)'],
     plan: '3 เซต × 12–15 ครั้ง  |  พักเซตละ 45 วิ  |  ไม่วางขาลงพื้น',
     totalMins: 11, kcal: 30, kcalRange: '25–38',
@@ -1410,7 +1410,7 @@ const EXERCISE_DB = [
   },
   {
     id: 'bird_dog', type: 'gym', cat: 'core', catLabel: 'Core / Abs', catColor: '#10b981',
-    name: 'Bird-Dog (คุกเข่ายกแขนสลับขา)', emoji: '🐦',
+    name: 'Bird-Dog', emoji: '🐦',
     muscles: ['หลังล่าง (Lower Back)', 'Core', 'ก้น (Glute)', 'บาลานซ์'],
     plan: '3 เซต × 10 ครั้ง/ข้าง  |  พักเซตละ 45 วิ  |  ค้าง 2 วิที่ยอด',
     totalMins: 12, kcal: 22, kcalRange: '18–28',
@@ -1421,8 +1421,8 @@ const EXERCISE_DB = [
 
   // ══ Agility & Power ═════════════════════════════════════
   {
-    id: 'jump_squat', type: 'gym', cat: 'agility', catLabel: 'Agility & Power', catColor: '#a855f7',
-    name: 'Jump Squats (สควอทกระโดด)', emoji: '🦘',
+    id: 'jump_squat', type: 'gym', cat: 'agility', catLabel: 'Agility', catColor: '#a855f7',
+    name: 'Jump Squats', emoji: '🦘',
     muscles: ['ขาโดยรวม', 'พลังระเบิด (Power)', 'หัวใจ'],
     effort: 'Zone 3–4  •  เหนื่อยปานกลาง-สูง', effortColor: '#ff9800',
     plan: '3 เซต × 12–15 ครั้ง  |  พักเซตละ 60 วิ',
@@ -1432,8 +1432,8 @@ const EXERCISE_DB = [
     harder: 'เพิ่มเป็น 4 เซต หรือถือ Dumbbell เบาๆ ทั้งสองมือ',
   },
   {
-    id: 'lateral_lunge', type: 'gym', cat: 'agility', catLabel: 'Agility & Power', catColor: '#a855f7',
-    name: 'Lateral Lunges (ก้าวออกด้านข้าง)', emoji: '↔️',
+    id: 'lateral_lunge', type: 'gym', cat: 'agility', catLabel: 'Agility', catColor: '#a855f7',
+    name: 'Lateral Lunges', emoji: '↔️',
     muscles: ['ต้นขาด้านใน (Adductor)', 'Quad', 'ก้น', 'ความคล่องตัว'],
     effort: 'Zone 2–3  •  เน้นควบคุม ไม่เร่ง', effortColor: '#8bc34a',
     plan: '3 เซต × 10 ครั้ง/ข้าง  |  พักเซตละ 45 วิ',
@@ -1443,8 +1443,8 @@ const EXERCISE_DB = [
     harder: 'เพิ่ม Dumbbell หรือทำ Walking Lateral Lunge เดินไปข้างหน้า',
   },
   {
-    id: 'burpee_power', type: 'hiit', cat: 'agility', catLabel: 'Agility & Power', catColor: '#a855f7',
-    name: 'Burpees (พุ่งหลังกระโดด)', emoji: '💥',
+    id: 'burpee_power', type: 'hiit', cat: 'agility', catLabel: 'Agility', catColor: '#a855f7',
+    name: 'Burpees', emoji: '💥',
     muscles: ['ทั่วตัว (Full Body)', 'หัวใจ', 'พลังระเบิด'],
     effort: 'Zone 4–5  •  เหนื่อยสูงมาก เผาแคลเร็ว', effortColor: '#f44336',
     plan: '3 เซต × 10–12 ครั้ง  |  พักเซตละ 60 วิ',
@@ -1454,8 +1454,8 @@ const EXERCISE_DB = [
     harder: 'เพิ่ม Box jump หลังกระโดดขึ้น หรือเพิ่มเป็น 15 ครั้ง/เซต',
   },
   {
-    id: 'high_knees_power', type: 'hiit', cat: 'agility', catLabel: 'Agility & Power', catColor: '#a855f7',
-    name: 'High Knees (วิ่งยกเข่าสูง)', emoji: '🏃‍♂️',
+    id: 'high_knees_power', type: 'hiit', cat: 'agility', catLabel: 'Agility', catColor: '#a855f7',
+    name: 'High Knees', emoji: '🏃‍♂️',
     muscles: ['คาร์ดิโอ', 'หน้าท้อง (Core)', 'ต้นขา', 'น่อง'],
     effort: 'Zone 3–4  •  เหนื่อยปานกลาง-สูง', effortColor: '#ff9800',
     plan: '4 เซต × 30 วินาที  |  พักเซตละ 45 วิ',
@@ -1465,8 +1465,8 @@ const EXERCISE_DB = [
     harder: 'เพิ่มความเร็ว หรือยืดเวลาเป็น 45 วิ/เซต',
   },
   {
-    id: 'skaters', type: 'running', cat: 'agility', catLabel: 'Agility & Power', catColor: '#a855f7',
-    name: 'Skaters (กระโดดสลับซ้าย-ขวา)', emoji: '⛸️',
+    id: 'skaters', type: 'running', cat: 'agility', catLabel: 'Agility', catColor: '#a855f7',
+    name: 'Skaters', emoji: '⛸️',
     muscles: ['ข้อเท้า', 'เอ็นร้อยหวาย', 'ต้นขาด้านนอก', 'บาลานซ์'],
     effort: 'Zone 3–4  •  เน้น Lateral power และบาลานซ์', effortColor: '#ff9800',
     plan: '3 เซต × 20 ครั้ง (ซ้าย-ขวานับ 1)  |  พักเซตละ 45 วิ',
@@ -1479,7 +1479,7 @@ const EXERCISE_DB = [
   // ══ Posture & Flexibility ════════════════════════════════
   {
     id: 'superman', type: 'gym', cat: 'flexibility', catLabel: 'Posture & Flex', catColor: '#06b6d4',
-    name: 'Superman (นอนคว่ำยกแขนและขา)', emoji: '🦸',
+    name: 'Superman', emoji: '🦸',
     muscles: ['หลังล่าง (Lower Back)', 'ก้น (Glute)', 'ไหล่หลัง (Rear Delt)'],
     effort: 'Zone 1–2  •  เบา เน้นหลังล่างและก้น', effortColor: '#4caf50',
     plan: '3 เซต × 12–15 ครั้ง  |  พักเซตละ 45 วิ  |  ค้าง 2 วิที่ยอด',
@@ -1490,7 +1490,7 @@ const EXERCISE_DB = [
   },
   {
     id: 'cat_cow', type: 'gym', cat: 'flexibility', catLabel: 'Posture & Flex', catColor: '#06b6d4',
-    name: 'Cat-Cow (โก่งหลัง-แอ่นหลัง)', emoji: '🐈',
+    name: 'Cat-Cow', emoji: '🐈',
     muscles: ['กระดูกสันหลัง (Spine)', 'คอ (Cervical)', 'หลังล่าง'],
     effort: 'Zone 1  •  เบามาก เน้นลมหายใจ', effortColor: '#4caf50',
     plan: '3 เซต × 10–12 ครั้ง  |  พักเซตละ 30 วิ  |  เคลื่อนไหวตามลมหายใจ',
@@ -1501,7 +1501,7 @@ const EXERCISE_DB = [
   },
   {
     id: 'childs_pose', type: 'gym', cat: 'flexibility', catLabel: 'Posture & Flex', catColor: '#06b6d4',
-    name: "Child's Pose (ท่านั่งพับเพียบหมอบ)", emoji: '🙏',
+    name: "Child's Pose", emoji: '🙏',
     muscles: ['หลัง (ทั้งหมด)', 'ไหล่', 'สะโพก (Stretching)'],
     effort: 'Zone 1  •  ยืดเหยียด ผ่อนคลาย', effortColor: '#4caf50',
     plan: 'ค้างไว้ 60 วินาที × 3 รอบ  |  พักเพียง 20 วิ  |  หายใจลึกตลอด',
@@ -1512,7 +1512,7 @@ const EXERCISE_DB = [
   },
   {
     id: 'downward_dog', type: 'gym', cat: 'flexibility', catLabel: 'Posture & Flex', catColor: '#06b6d4',
-    name: 'Downward Dog (ท่าสุนัขก้มหน้า)', emoji: '🐕',
+    name: 'Downward Dog', emoji: '🐕',
     muscles: ['น่อง', 'เอ็นร้อยหวาย (Hamstring)', 'หลัง', 'ไหล่'],
     effort: 'Zone 1–2  •  ยืดขาหลังและหลัง', effortColor: '#4caf50',
     plan: 'ค้างไว้ 30–45 วินาที × 3 รอบ  |  พักเพียง 20 วิ',
