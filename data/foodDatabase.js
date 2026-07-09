@@ -1128,6 +1128,46 @@ window.FOOD_DB = [
   { name: 'ทับทิมกรอบ',                   kcal: 150, protein: 0,  carbs: 36, fat: 1,  emoji: '💎', portion: '1 ถ้วย (แห้วเคลือบแป้ง+กะทิ)' },
   { name: 'กระยาสารท',                    kcal: 200, protein: 4,  carbs: 36, fat: 6,  emoji: '🟤', portion: '1 แผ่น (~60g ข้าวตอก+ถั่ว+น้ำตาล)' },
 
+  // ── น้ำเต้าหู้ / เครื่องดื่มถั่ว / ธัญพืช ───────────
+  // น้ำเต้าหู้
+  { name: 'น้ำเต้าหู้ร้อน (ไม่หวาน)',        kcal: 80,  protein: 7,  carbs: 4,  fat: 4,  emoji: '🥛', portion: '1 แก้ว (240ml)' },
+  { name: 'น้ำเต้าหู้เย็น (ไม่หวาน)',        kcal: 80,  protein: 7,  carbs: 4,  fat: 4,  emoji: '🥛', portion: '1 แก้ว (240ml)' },
+  { name: 'น้ำเต้าหู้หวาน (ถุงตลาด)',         kcal: 150, protein: 7,  carbs: 18, fat: 4,  emoji: '🥛', portion: '1 ถุง (300ml + น้ำตาล)' },
+  { name: 'น้ำเต้าหู้งาดำ',                  kcal: 140, protein: 7,  carbs: 16, fat: 6,  emoji: '⬛', portion: '1 แก้ว (240ml)' },
+  { name: 'น้ำเต้าหู้ขิง',                   kcal: 110, protein: 7,  carbs: 12, fat: 4,  emoji: '🥛', portion: '1 แก้ว (240ml + ขิง + น้ำตาลน้อย)' },
+  { name: 'เต้าหู้หลอด (เต้าฮวย)',            kcal: 120, protein: 8,  carbs: 12, fat: 4,  emoji: '🍮', portion: '1 ถ้วย (~200g)' },
+  { name: 'เต้าฮวยน้ำขิง',                   kcal: 170, protein: 8,  carbs: 24, fat: 4,  emoji: '🍮', portion: '1 ถ้วย + น้ำขิง' },
+  { name: 'เต้าฮวยนมสด',                    kcal: 180, protein: 9,  carbs: 20, fat: 6,  emoji: '🍮', portion: '1 ถ้วย + นมสด' },
+  { name: 'นมถั่วเหลือง (กล่อง ไม่หวาน)',    kcal: 80,  protein: 7,  carbs: 4,  fat: 4,  emoji: '🥛', portion: '1 กล่อง (250ml)' },
+  { name: 'นมถั่วเหลือง (กล่อง หวาน)',       kcal: 120, protein: 6,  carbs: 14, fat: 4,  emoji: '🥛', portion: '1 กล่อง (250ml)' },
+  // น้ำถั่วปั่น
+  { name: 'น้ำถั่วแดงปั่น',                  kcal: 180, protein: 5,  carbs: 34, fat: 2,  emoji: '🫘', portion: '1 แก้ว (300ml + น้ำตาล)' },
+  { name: 'น้ำถั่วเขียวปั่น',                kcal: 150, protein: 6,  carbs: 28, fat: 1,  emoji: '🫘', portion: '1 แก้ว (300ml)' },
+  { name: 'น้ำถั่วดำปั่น',                   kcal: 160, protein: 6,  carbs: 28, fat: 2,  emoji: '🖤', portion: '1 แก้ว (300ml + น้ำตาล)' },
+  { name: 'น้ำถั่วลิสงปั่น',                 kcal: 200, protein: 8,  carbs: 18, fat: 11, emoji: '🥜', portion: '1 แก้ว (250ml)' },
+  { name: 'นมถั่วลิสง (peanut milk)',         kcal: 170, protein: 7,  carbs: 16, fat: 9,  emoji: '🥜', portion: '1 แก้ว (240ml)' },
+  // ถั่วต้ม
+  { name: 'ถั่วแดงต้ม (ชาม)',                kcal: 130, protein: 8,  carbs: 24, fat: 0,  emoji: '🫘', portion: '1 ชาม (~150g + น้ำหวาน)' },
+  { name: 'ถั่วเขียวต้มน้ำตาล',              kcal: 160, protein: 6,  carbs: 30, fat: 0,  emoji: '🫘', portion: '1 ชาม (~150g + น้ำตาล)' },
+  { name: 'ถั่วดำต้ม',                       kcal: 140, protein: 7,  carbs: 24, fat: 1,  emoji: '🖤', portion: '1 ถ้วย (~150g)' },
+  { name: 'ถั่วลิสงต้ม',                     kcal: 170, protein: 7,  carbs: 12, fat: 11, emoji: '🥜', portion: '1 ถ้วย (~100g)' },
+  { name: 'ถั่วแระญี่ปุ่น (Edamame)',         kcal: 120, protein: 11, carbs: 9,  fat: 5,  emoji: '🫛', portion: '1/2 ถ้วย (~80g ฝักลวก)' },
+  // ธัญพืชเครื่องดื่ม
+  { name: 'น้ำข้าวโพด (ปั่น)',               kcal: 130, protein: 3,  carbs: 26, fat: 2,  emoji: '🌽', portion: '1 แก้ว (300ml)' },
+  { name: 'นมข้าว (rice milk)',               kcal: 110, protein: 1,  carbs: 22, fat: 2,  emoji: '🍚', portion: '1 แก้ว (240ml)' },
+  { name: 'นมอัลมอนด์ (หวาน)',               kcal: 80,  protein: 1,  carbs: 14, fat: 2,  emoji: '🥜', portion: '1 แก้ว (240ml)' },
+  { name: 'นมมะม่วงหิมพานต์ (cashew milk)',  kcal: 100, protein: 1,  carbs: 14, fat: 4,  emoji: '🥛', portion: '1 แก้ว (240ml)' },
+  { name: 'โอวัลติน (ชง)',                    kcal: 150, protein: 4,  carbs: 26, fat: 3,  emoji: '🍫', portion: '1 แก้ว (240ml + นม)' },
+  { name: 'มาลต์ (ชง)',                       kcal: 140, protein: 4,  carbs: 24, fat: 3,  emoji: '🥛', portion: '1 แก้ว (240ml + นม)' },
+  { name: 'ธัญพืช 8 อย่าง (ปั่น)',           kcal: 180, protein: 6,  carbs: 32, fat: 3,  emoji: '🌾', portion: '1 แก้ว (300ml)' },
+  // เครื่องดื่มสมุนไพร
+  { name: 'น้ำขิง (ร้อน/เย็น)',              kcal: 60,  protein: 0,  carbs: 14, fat: 0,  emoji: '🫚', portion: '1 แก้ว (240ml + น้ำตาล)' },
+  { name: 'น้ำมะตูม',                         kcal: 50,  protein: 0,  carbs: 12, fat: 0,  emoji: '🍵', portion: '1 แก้ว (240ml)' },
+  { name: 'น้ำใบเตย',                         kcal: 40,  protein: 0,  carbs: 10, fat: 0,  emoji: '🌿', portion: '1 แก้ว (240ml + น้ำตาลน้อย)' },
+  { name: 'น้ำลำไย',                          kcal: 100, protein: 0,  carbs: 25, fat: 0,  emoji: '🍈', portion: '1 แก้ว (240ml)' },
+  { name: 'น้ำกระเจี๊ยบ',                    kcal: 45,  protein: 0,  carbs: 11, fat: 0,  emoji: '🌺', portion: '1 แก้ว (240ml)' },
+  { name: 'น้ำว่านหางจระเข้',                kcal: 40,  protein: 0,  carbs: 10, fat: 0,  emoji: '🌵', portion: '1 แก้ว (240ml)' },
+
   // ── 7-Eleven เพิ่มเติม ───────────────────────────────
   { name: 'เกาลัดอบ 7-Eleven',            kcal: 240, protein: 4,  carbs: 52, fat: 3,  emoji: '🌰', portion: '1 ถุง (~100g)' },
   { name: 'ซาลาเปาไส้สังขยา 7-Eleven',    kcal: 210, protein: 5,  carbs: 38, fat: 5,  emoji: '🥐', portion: '1 ลูก' },
