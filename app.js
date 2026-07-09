@@ -2120,7 +2120,8 @@ function renderExerciseSuggest() {
           </div>
         </div>
       </div>
-    </div>`;
+    </div>
+    ${_exsLibraryHTML()}`;
 }
 
 function toggleExerciseSuggest() {
@@ -2145,6 +2146,54 @@ function toggleExsAltCard(el) {
   const isCollapsed = el.classList.toggle('exs-card-collapsed');
   const chevron = el.querySelector('.exs-alt-chevron');
   if (chevron) chevron.textContent = isCollapsed ? '▼' : '▲';
+}
+
+function _exsLibraryHTML() {
+  const cats = [
+    { id: 'upper',       label: '💪 Upper Body — ส่วนบน',      color: '#60a5fa' },
+    { id: 'lower',       label: '🦵 Lower Body — ส่วนล่าง',    color: '#4ade80' },
+    { id: 'core',        label: '🌀 Core & Abs — แกนกลาง',     color: '#fb923c' },
+    { id: 'agility',     label: '⚡ Agility & Power — ความคล่อง', color: '#facc15' },
+    { id: 'flexibility', label: '🧘 Flexibility — ยืดหยุ่น',   color: '#e879f9' },
+    { id: 'cardio',      label: '🏃 Cardio — คาร์ดิโอ',        color: '#f87171' },
+  ];
+  const catSections = cats.map(cat => {
+    const exs = EXERCISE_DB.filter(e => e.cat === cat.id);
+    if (!exs.length) return '';
+    const libId = 'exs-lib-' + cat.id;
+    return `
+      <div class="exs-lib-cat">
+        <div class="exs-lib-cat-header" onclick="toggleExsLibCat('${libId}')">
+          <span class="exs-lib-cat-label" style="color:${cat.color}">${cat.label}</span>
+          <span class="exs-lib-cat-count">${exs.length} ท่า</span>
+          <span class="exs-lib-cat-chevron">▼</span>
+        </div>
+        <div class="exs-lib-cat-body" id="${libId}">
+          <div class="exs-list">
+            ${exs.map(e => _exsCard(e, 0)).join('')}
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+  return `
+    <div class="exs-library">
+      <div class="exs-library-hdr">
+        <span class="exs-library-title">📚 คลังท่าออกกำลังกายทั้งหมด</span>
+        <span class="exs-library-count">${EXERCISE_DB.length} ท่า</span>
+      </div>
+      ${catSections}
+    </div>`;
+}
+
+function toggleExsLibCat(id) {
+  const body = document.getElementById(id);
+  if (!body) return;
+  const isOpen = body.classList.toggle('open');
+  const header = body.previousElementSibling;
+  if (header) {
+    const chevron = header.querySelector('.exs-lib-cat-chevron');
+    if (chevron) chevron.textContent = isOpen ? '▲' : '▼';
+  }
 }
 
 function logAllPlan(ids) {

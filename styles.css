@@ -3180,6 +3180,50 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   margin: 8px 0 10px;
 }
 
+/* ── Exercise Library ── */
+.exs-library {
+  margin-top: 14px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.02);
+  overflow: hidden;
+}
+.exs-library-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.exs-library-title {
+  font-size: 13px; font-weight: 700; color: var(--text);
+}
+.exs-library-count {
+  font-size: 11px; color: var(--text-muted);
+  background: rgba(255,255,255,.07);
+  padding: 2px 8px; border-radius: var(--radius-full);
+}
+.exs-lib-cat { border-bottom: 1px solid rgba(255,255,255,.05); }
+.exs-lib-cat:last-child { border-bottom: none; }
+.exs-lib-cat-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 11px 16px;
+  cursor: pointer; user-select: none;
+}
+.exs-lib-cat-label { font-size: 12px; font-weight: 700; flex: 1; }
+.exs-lib-cat-count {
+  font-size: 10px; color: var(--text-muted);
+  background: rgba(255,255,255,.06);
+  padding: 1px 7px; border-radius: var(--radius-full);
+}
+.exs-lib-cat-chevron {
+  font-size: 9px; color: rgba(255,255,255,.3);
+}
+.exs-lib-cat-body {
+  overflow: hidden; max-height: 0;
+  transition: max-height .35s ease;
+}
+.exs-lib-cat-body.open { max-height: 12000px; }
+.exs-lib-cat-body > .exs-list { padding: 0 12px 12px; }
+
 /* ══════════════════════════════════════════════
    WATER TRACKER WIDGET
    ══════════════════════════════════════════════ */
