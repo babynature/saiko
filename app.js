@@ -1905,6 +1905,12 @@ function toggleExsPlanStep(el) {
   if (chevron) chevron.textContent = isOpen ? '▼' : '▲';
 }
 
+function toggleExsAltCard(el) {
+  const isCollapsed = el.classList.toggle('exs-card-collapsed');
+  const chevron = el.querySelector('.exs-alt-chevron');
+  if (chevron) chevron.textContent = isCollapsed ? '▼' : '▲';
+}
+
 function logAllPlan(ids) {
   if (!Array.isArray(ids) || !ids.length) return;
   let totalKcal = 0, totalMins = 0;
@@ -1946,48 +1952,53 @@ function _exsCard(ex, excess) {
     </div>` : '';
 
   return `
-    <div class="exs-card">
+    <div class="exs-card exs-card-collapsed" onclick="toggleExsAltCard(this)" style="cursor:pointer">
       <div class="exs-card-head">
         <span class="exs-emoji">${ex.emoji}</span>
         <div class="exs-card-title-wrap">
           <span class="exs-card-name">${ex.name}</span>
           <span class="exs-cat-badge" style="background:${ex.catColor}22;color:${ex.catColor};border-color:${ex.catColor}44">${ex.catLabel}</span>
         </div>
-        <div class="exs-burn-pill ${covers ? 'covers' : ''}">
-          🔥 ${kcalLabel}${covers ? ' ✅' : ''}
+        <div style="display:flex;align-items:center;gap:6px">
+          <div class="exs-burn-pill ${covers ? 'covers' : ''}">
+            🔥 ${kcalLabel}${covers ? ' ✅' : ''}
+          </div>
+          <span class="exs-alt-chevron">▼</span>
         </div>
       </div>
 
-      ${effortRow}
+      <div class="exs-alt-body">
+        ${effortRow}
 
-      <div class="exs-muscles">${muscleTags}</div>
+        <div class="exs-muscles">${muscleTags}</div>
 
-      <div class="exs-plan-box">
-        <div class="exs-plan-row">
-          <span class="exs-plan-icon">📋</span>
-          <span class="exs-plan-text">${ex.plan}</span>
+        <div class="exs-plan-box">
+          <div class="exs-plan-row">
+            <span class="exs-plan-icon">📋</span>
+            <span class="exs-plan-text">${ex.plan}</span>
+          </div>
+          <div class="exs-plan-row">
+            <span class="exs-plan-icon">⏱</span>
+            <span class="exs-plan-text">รวมประมาณ <b>${ex.totalMins} นาที</b></span>
+          </div>
         </div>
-        <div class="exs-plan-row">
-          <span class="exs-plan-icon">⏱</span>
-          <span class="exs-plan-text">รวมประมาณ <b>${ex.totalMins} นาที</b></span>
+
+        ${ex.steps ? `
+        <div class="exs-steps-box">
+          <div class="exs-steps-title">📝 ขั้นตอน</div>
+          ${ex.img ? `<img class="exs-anat-img" src="${ex.img}" alt="${ex.name}" loading="lazy" onerror="this.style.display='none'">` : ''}
+          ${ex.steps.map((s, i) => `<div class="exs-step-row"><span class="exs-step-num">${i + 1}</span><span class="exs-step-text">${s}</span></div>`).join('')}
+        </div>` : ''}
+
+        <div class="exs-how-box">
+          <div class="exs-how-row easier"><span class="exs-how-icon">✅</span><span><b>ง่ายกว่า:</b> ${ex.easier}</span></div>
+          <div class="exs-how-row harder"><span class="exs-how-icon">⬆️</span><span><b>ยากกว่า:</b> ${ex.harder}</span></div>
         </div>
+
+        <button class="exs-log-btn" onclick="event.stopPropagation();quickLogExercise('${ex.type}',${ex.totalMins},'${ex.name}',${ex.kcal})">
+          🔥 บันทึก — ${ex.name} ${ex.totalMins} นาที (~${ex.kcal} kcal)
+        </button>
       </div>
-
-      ${ex.steps ? `
-      <div class="exs-steps-box">
-        <div class="exs-steps-title">📝 ขั้นตอน</div>
-        ${ex.img ? `<img class="exs-anat-img" src="${ex.img}" alt="${ex.name}" loading="lazy" onerror="this.style.display='none'">` : ''}
-        ${ex.steps.map((s, i) => `<div class="exs-step-row"><span class="exs-step-num">${i + 1}</span><span class="exs-step-text">${s}</span></div>`).join('')}
-      </div>` : ''}
-
-      <div class="exs-how-box">
-        <div class="exs-how-row easier"><span class="exs-how-icon">✅</span><span><b>ง่ายกว่า:</b> ${ex.easier}</span></div>
-        <div class="exs-how-row harder"><span class="exs-how-icon">⬆️</span><span><b>ยากกว่า:</b> ${ex.harder}</span></div>
-      </div>
-
-      <button class="exs-log-btn" onclick="quickLogExercise('${ex.type}',${ex.totalMins},'${ex.name}',${ex.kcal})">
-        🔥 บันทึก — ${ex.name} ${ex.totalMins} นาที (~${ex.kcal} kcal)
-      </button>
     </div>`;
 }
 

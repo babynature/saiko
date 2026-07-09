@@ -3153,6 +3153,23 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 
 /* divider between rec banner and individual cards */
 .exs-alt-section { margin-top: 4px; }
+.exs-alt-chevron {
+  font-size: 9px;
+  color: rgba(255,255,255,.35);
+  flex-shrink: 0;
+  transition: transform .2s;
+}
+.exs-alt-body {
+  overflow: hidden;
+  max-height: 3000px;
+  transition: max-height .35s ease, opacity .25s ease;
+  opacity: 1;
+}
+.exs-card-collapsed .exs-alt-body {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
 .exs-alt-title {
   font-size: 11px;
   font-weight: 700;
