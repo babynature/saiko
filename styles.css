@@ -2763,8 +2763,8 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 .exs-card-toggle:hover { background: rgba(34,197,94,.12); }
 .exs-body {
   overflow: hidden;
-  max-height: 1200px;
-  transition: max-height .3s ease, opacity .25s ease;
+  max-height: 6000px;
+  transition: max-height .4s ease, opacity .25s ease;
   opacity: 1;
 }
 .exs-card.collapsed .exs-body {
