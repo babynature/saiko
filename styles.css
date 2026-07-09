@@ -3033,11 +3033,34 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 }
 .exs-rec-item {
   display: flex;
-  align-items: flex-start;
-  gap: 8px;
+  flex-direction: column;
   background: rgba(255,255,255,.04);
   border-radius: 10px;
+  overflow: hidden;
+}
+.exs-rec-item.has-steps { cursor: pointer; }
+.exs-rec-item.has-steps:active { background: rgba(255,255,255,.07); }
+.exs-rec-item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   padding: 9px 10px;
+}
+.exs-plan-chevron {
+  font-size: 9px;
+  color: rgba(255,255,255,.35);
+  align-self: center;
+  flex-shrink: 0;
+  transition: transform .2s;
+}
+.exs-plan-steps {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 10px 10px 10px;
+  border-top: 1px solid rgba(255,255,255,.06);
+  margin-top: 0;
+  padding-top: 9px;
 }
 .exs-rec-num {
   width: 18px;

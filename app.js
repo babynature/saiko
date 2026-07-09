@@ -1830,14 +1830,18 @@ function renderExerciseSuggest() {
         ${rec.note ? `<div class="exs-rec-note">${rec.note}</div>` : ''}
         <div class="exs-rec-plan">
           ${rec.exercises.map((e, i) => `
-            <div class="exs-rec-item">
-              <span class="exs-rec-num">${i+1}</span>
-              <span class="exs-rec-emoji">${e.emoji}</span>
-              <div class="exs-rec-item-info">
-                <span class="exs-rec-item-name">${e.name}</span>
-                <span class="exs-rec-item-plan">${e.plan}</span>
+            <div class="exs-rec-item${e.steps ? ' has-steps' : ''}"${e.steps ? ' onclick="toggleExsPlanStep(this)"' : ''}>
+              <div class="exs-rec-item-row">
+                <span class="exs-rec-num">${i+1}</span>
+                <span class="exs-rec-emoji">${e.emoji}</span>
+                <div class="exs-rec-item-info">
+                  <span class="exs-rec-item-name">${e.name}</span>
+                  <span class="exs-rec-item-plan">${e.plan}</span>
+                </div>
+                <span class="exs-rec-item-cat" style="color:${e.catColor}">${e.catLabel}</span>
+                ${e.steps ? '<span class="exs-plan-chevron">▼</span>' : ''}
               </div>
-              <span class="exs-rec-item-cat" style="color:${e.catColor}">${e.catLabel}</span>
+              ${e.steps ? `<div class="exs-plan-steps">${e.steps.map((s,si) => `<div class="exs-step-row"><span class="exs-step-num">${si+1}</span><span class="exs-step-text">${s}</span></div>`).join('')}</div>` : ''}
             </div>`).join('')}
         </div>
         <div class="exs-rec-footer">
@@ -1866,6 +1870,15 @@ function toggleExerciseSuggest() {
   const opening = card.classList.toggle('collapsed') === false;
   btn.textContent = opening ? 'ซ่อน ▲' : 'ดู ▼';
   try { localStorage.setItem('shg-ex-open', opening ? '1' : '0'); } catch(e) {}
+}
+
+function toggleExsPlanStep(el) {
+  const steps = el.querySelector('.exs-plan-steps');
+  if (!steps) return;
+  const isOpen = steps.style.display === 'flex';
+  steps.style.display = isOpen ? 'none' : 'flex';
+  const chevron = el.querySelector('.exs-plan-chevron');
+  if (chevron) chevron.textContent = isOpen ? '▼' : '▲';
 }
 
 function logAllPlan(ids) {
