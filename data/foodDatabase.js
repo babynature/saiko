@@ -884,4 +884,66 @@ window.FOOD_DB = [
   // โยเกิร์ตเย็น
   { name: 'โฟรเซ่นโยเกิร์ต',             kcal: 100, protein: 4,  carbs: 18, fat: 2,  emoji: '🍦', portion: '1 ถ้วยเล็ก (~100ml)' },
   { name: 'โฟรเซ่นโยเกิร์ต + ผลไม้',    kcal: 140, protein: 4,  carbs: 26, fat: 2,  emoji: '🍓', portion: '1 ถ้วย + ผลไม้' },
+
+  // ── ข้าวราดแกง / ร้านแกง ─────────────────────────────
+  // ข้าวราด 1 อย่าง
+  { name: 'ข้าวราดแกงเขียวหวานไก่',       kcal: 520, protein: 26, carbs: 60, fat: 20, emoji: '🍛', portion: '1 จาน (ข้าว+แกง)' },
+  { name: 'ข้าวราดแกงเขียวหวานหมู',       kcal: 540, protein: 24, carbs: 60, fat: 22, emoji: '🍛', portion: '1 จาน' },
+  { name: 'ข้าวราดแกงมัสมั่นไก่',         kcal: 560, protein: 24, carbs: 64, fat: 24, emoji: '🍛', portion: '1 จาน' },
+  { name: 'ข้าวราดแกงมัสมั่นเนื้อ',       kcal: 590, protein: 26, carbs: 64, fat: 26, emoji: '🍛', portion: '1 จาน' },
+  { name: 'ข้าวราดแกงพะแนงไก่',           kcal: 530, protein: 26, carbs: 60, fat: 22, emoji: '🍛', portion: '1 จาน' },
+  { name: 'ข้าวราดแกงส้มปลา',             kcal: 410, protein: 22, carbs: 58, fat: 10, emoji: '🐟', portion: '1 จาน' },
+  { name: 'ข้าวราดแกงป่าหมู',             kcal: 460, protein: 22, carbs: 56, fat: 16, emoji: '🌿', portion: '1 จาน' },
+  { name: 'ข้าวราดแกงกะหรี่ไก่',          kcal: 500, protein: 24, carbs: 62, fat: 18, emoji: '🍛', portion: '1 จาน' },
+  { name: 'ข้าวราดต้มยำน้ำข้น',           kcal: 440, protein: 22, carbs: 58, fat: 14, emoji: '🍲', portion: '1 จาน' },
+  // ข้าวราดผัด
+  { name: 'ข้าวราดผัดกะเพราไก่',          kcal: 460, protein: 24, carbs: 54, fat: 18, emoji: '🌿', portion: '1 จาน' },
+  { name: 'ข้าวราดผัดกะเพราหมูสับ',       kcal: 500, protein: 22, carbs: 54, fat: 22, emoji: '🌿', portion: '1 จาน' },
+  { name: 'ข้าวราดผัดพริกแกงหมู',         kcal: 490, protein: 22, carbs: 54, fat: 22, emoji: '🌶️', portion: '1 จาน' },
+  { name: 'ข้าวราดหมูกรอบพะโล้',          kcal: 560, protein: 20, carbs: 58, fat: 26, emoji: '🐷', portion: '1 จาน' },
+  // ข้าวราดผัก / กึ่งมังสวิรัติ
+  { name: 'ข้าวราดผัดผักรวม',             kcal: 350, protein: 8,  carbs: 56, fat: 10, emoji: '🥦', portion: '1 จาน' },
+  { name: 'ข้าวราดเต้าหู้ทอดน้ำมันหอย',   kcal: 420, protein: 14, carbs: 56, fat: 16, emoji: '🫘', portion: '1 จาน' },
+  { name: 'ข้าวราดไข่เจียวหมูสับ',        kcal: 470, protein: 18, carbs: 52, fat: 22, emoji: '🍳', portion: '1 จาน' },
+  // ข้าวราด 2 อย่าง (combo)
+  { name: 'ข้าวราดแกง 2 อย่าง (ผัด+แกง)', kcal: 620, protein: 24, carbs: 68, fat: 26, emoji: '🍱', portion: '1 จาน (เลือก 2 เมนู)' },
+  { name: 'ข้าวราดแกง 2 อย่าง (แกง+ผัก)', kcal: 560, protein: 20, carbs: 66, fat: 20, emoji: '🍱', portion: '1 จาน' },
+
+  // ── ขนมจีน ───────────────────────────────────────────
+  // ขนมจีนน้ำยา / น้ำพริก
+  { name: 'ขนมจีนน้ำยากะทิ',             kcal: 380, protein: 14, carbs: 52, fat: 14, emoji: '🍜', portion: '1 จาน (เส้น+น้ำยา+ผัก)' },
+  { name: 'ขนมจีนน้ำยาป่า',              kcal: 340, protein: 16, carbs: 50, fat: 10, emoji: '🍜', portion: '1 จาน' },
+  { name: 'ขนมจีนน้ำพริก',               kcal: 310, protein: 12, carbs: 52, fat: 6,  emoji: '🍜', portion: '1 จาน' },
+  { name: 'ขนมจีนแกงเขียวหวาน',          kcal: 420, protein: 18, carbs: 54, fat: 16, emoji: '🍜', portion: '1 จาน' },
+  { name: 'ขนมจีนแกงไตปลา',              kcal: 360, protein: 14, carbs: 52, fat: 12, emoji: '🍜', portion: '1 จาน' },
+  { name: 'ขนมจีนน้ำเงี้ยว',             kcal: 390, protein: 18, carbs: 50, fat: 14, emoji: '🍜', portion: '1 จาน (ซี่โครงหมู+เลือด)' },
+  { name: 'ขนมจีนซาวน้ำ',               kcal: 280, protein: 10, carbs: 48, fat: 6,  emoji: '🍜', portion: '1 จาน (เส้น+มะพร้าว+มะขาม)' },
+  // เส้นขนมจีนเปล่า
+  { name: 'เส้นขนมจีน (เปล่า)',          kcal: 180, protein: 4,  carbs: 40, fat: 1,  emoji: '🌾', portion: '1 จับ (~120g)' },
+
+  // ── ขนมญี่ปุ่น ───────────────────────────────────────
+  // โมจิ
+  { name: 'โมจิถั่วแดง',                  kcal: 110, protein: 2,  carbs: 24, fat: 1,  emoji: '🍡', portion: '1 ชิ้น (~50g)' },
+  { name: 'โมจิไอศกรีม',                  kcal: 100, protein: 2,  carbs: 17, fat: 3,  emoji: '🍡', portion: '1 ลูก (~45g)' },
+  { name: 'โมจิมัทฉะ',                    kcal: 105, protein: 2,  carbs: 22, fat: 1,  emoji: '🍵', portion: '1 ชิ้น' },
+  { name: 'โมจิสตรอว์เบอร์รี',            kcal: 95,  protein: 2,  carbs: 20, fat: 1,  emoji: '🍓', portion: '1 ชิ้น' },
+  { name: 'ดาอิฟุกุ (Daifuku)',           kcal: 120, protein: 2,  carbs: 26, fat: 1,  emoji: '🍡', portion: '1 ชิ้น (โมจิไส้ครีม)' },
+  // ขนมแป้ง / ถั่ว
+  { name: 'ทาโกะยากิ',                    kcal: 200, protein: 8,  carbs: 24, fat: 8,  emoji: '🐙', portion: '6 ลูก' },
+  { name: 'ทาโกะยากิ (ซอส+มาโย)',         kcal: 280, protein: 8,  carbs: 28, fat: 15, emoji: '🐙', portion: '6 ลูก + ซอส' },
+  { name: 'ทาเบกาชิ (Taiyaki ปลาไส้ถั่ว)', kcal: 180, protein: 4, carbs: 34, fat: 3, emoji: '🐟', portion: '1 ชิ้น' },
+  { name: 'ทาเบกาชิไส้คัสตาร์ด',          kcal: 200, protein: 5,  carbs: 34, fat: 6,  emoji: '🐟', portion: '1 ชิ้น' },
+  { name: 'ดังโกะ (Dango)',               kcal: 130, protein: 2,  carbs: 28, fat: 1,  emoji: '🍡', portion: '1 ไม้ (3 ลูก)' },
+  { name: 'ซากุระโมจิ',                   kcal: 115, protein: 2,  carbs: 24, fat: 1,  emoji: '🌸', portion: '1 ชิ้น' },
+  // เค้ก / ของหวานญี่ปุ่น
+  { name: 'ชีสเค้กญี่ปุ่น (Japanese Cheesecake)', kcal: 220, protein: 6, carbs: 28, fat: 10, emoji: '🍰', portion: '1 ชิ้น (~80g, ฟู นุ่ม)' },
+  { name: 'โดรายากิ (Dorayaki)',           kcal: 250, protein: 5,  carbs: 46, fat: 5,  emoji: '🥞', portion: '1 ชิ้น (แพนเค้ก 2 ชั้นไส้ถั่ว)' },
+  { name: 'คาสเทลล่า (Castella)',          kcal: 170, protein: 4,  carbs: 32, fat: 3,  emoji: '🍰', portion: '1 ชิ้น (~60g สปันจ์เค้กญี่ปุ่น)' },
+  { name: 'ยากกัง (Yokan ถั่วแดงวุ้น)',   kcal: 180, protein: 2,  carbs: 42, fat: 0,  emoji: '🟫', portion: '1 ชิ้น (~80g)' },
+  { name: 'อันมิตสึ (Anmitsu)',           kcal: 220, protein: 3,  carbs: 50, fat: 1,  emoji: '🍧', portion: '1 ถ้วย (วุ้น+ถั่ว+ผลไม้+น้ำเชื่อม)' },
+  // ของทอด / คาวปนหวาน
+  { name: 'ไทยากิ (Imagawayaki) ไส้ถั่ว', kcal: 210, protein: 5, carbs: 38, fat: 5,  emoji: '🥞', portion: '1 ชิ้น (กลม)' },
+  { name: 'เมลอนปัง (Melon Pan)',          kcal: 300, protein: 6,  carbs: 52, fat: 8,  emoji: '🍈', portion: '1 ชิ้น (~100g ขนมปังกรอบ)' },
+  { name: 'อันปัง (Anpan ขนมปังถั่ว)',    kcal: 260, protein: 7,  carbs: 46, fat: 5,  emoji: '🍞', portion: '1 ชิ้น (~90g)' },
+  { name: 'ครีมปัง (Cream Pan)',           kcal: 280, protein: 7,  carbs: 44, fat: 9,  emoji: '🍞', portion: '1 ชิ้น (~90g)' },
 ];
