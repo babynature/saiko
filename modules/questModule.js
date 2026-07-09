@@ -62,6 +62,9 @@ const EXERCISE_KCAL_PER_MIN = {
   basketball: 7,   volleyball: 5,   muay_thai: 9,   court_sport: 7,
   aerobic: 6,      jump_rope: 10,   dancing: 5,     hiking: 5,
   yoga: 3,         stretching: 2,
+  kb_swing: 8,     kb_press: 5,     kb_squat: 6,    kb_snatch: 9,
+  kb_row: 5,       kb_turkish_getup: 6, kb_renegade_row: 7, kb_lunge: 6,
+  kb_russian_twist: 4, kb_figure8: 6,
 };
 
 class QuestModule {
