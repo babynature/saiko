@@ -810,4 +810,78 @@ window.FOOD_DB = [
   { name: 'น้ำสลัดบาลซามิค',            kcal: 60,  protein: 0,  carbs: 8,  fat: 3,  emoji: '🫙', portion: '2 ช้อนโต๊ะ' },
   { name: 'น้ำสลัดมะนาวน้ำมันมะกอก',    kcal: 80,  protein: 0,  carbs: 2,  fat: 8,  emoji: '🍋', portion: '2 ช้อนโต๊ะ (คลีน)' },
   { name: 'น้ำสลัดพันเกาะ (1000 Island)', kcal: 110, protein: 0, carbs: 8,  fat: 10, emoji: '🫙', portion: '2 ช้อนโต๊ะ' },
+
+  // ── เบียร์ ────────────────────────────────────────────
+  // เบียร์ไทย (กระป๋อง 330ml)
+  { name: 'เบียร์ช้าง (330ml)',           kcal: 148, protein: 1,  carbs: 12, fat: 0,  emoji: '🍺', portion: '1 กระป๋อง (330ml, 5%)' },
+  { name: 'เบียร์สิงห์ (330ml)',          kcal: 145, protein: 1,  carbs: 11, fat: 0,  emoji: '🍺', portion: '1 กระป๋อง (330ml, 5%)' },
+  { name: 'เบียร์ลีโอ (330ml)',           kcal: 142, protein: 1,  carbs: 11, fat: 0,  emoji: '🍺', portion: '1 กระป๋อง (330ml, 5%)' },
+  { name: 'เบียร์ไฮเนเก้น (330ml)',       kcal: 139, protein: 1,  carbs: 11, fat: 0,  emoji: '🍺', portion: '1 กระป๋อง (330ml, 5%)' },
+  { name: 'เบียร์อาชา (330ml)',           kcal: 135, protein: 1,  carbs: 10, fat: 0,  emoji: '🍺', portion: '1 กระป๋อง (330ml, 4.5%)' },
+  { name: 'เบียร์เฟเดอร์บรอย (330ml)',    kcal: 145, protein: 1,  carbs: 11, fat: 0,  emoji: '🍺', portion: '1 กระป๋อง (330ml, 5%)' },
+  // เบียร์ขวดใหญ่ / แก้ว
+  { name: 'เบียร์ช้างขวด (620ml)',        kcal: 279, protein: 2,  carbs: 23, fat: 0,  emoji: '🍺', portion: '1 ขวด (620ml)' },
+  { name: 'เบียร์สิงห์ขวด (630ml)',       kcal: 283, protein: 2,  carbs: 22, fat: 0,  emoji: '🍺', portion: '1 ขวด (630ml)' },
+  { name: 'เบียร์แก้วร้านอาหาร',         kcal: 180, protein: 1,  carbs: 14, fat: 0,  emoji: '🍺', portion: '1 แก้ว (~400ml)' },
+  // เบียร์คราฟต์ / พิเศษ
+  { name: 'คราฟต์เบียร์ IPA (330ml)',     kcal: 195, protein: 2,  carbs: 16, fat: 0,  emoji: '🍺', portion: '1 กระป๋อง (330ml, 6.5%)' },
+  { name: 'คราฟต์เบียร์สเตาต์ (330ml)',  kcal: 210, protein: 2,  carbs: 18, fat: 0,  emoji: '🍺', portion: '1 กระป๋อง (330ml, 7%)' },
+  { name: 'เบียร์ไม่มีแอลกอฮอล์ (330ml)', kcal: 70, protein: 1,  carbs: 15, fat: 0,  emoji: '🍺', portion: '1 กระป๋อง (0.5%)' },
+
+  // ── ไวน์ / สุรา / ค็อกเทล ────────────────────────────
+  // ไวน์
+  { name: 'ไวน์แดง',                      kcal: 125, protein: 0,  carbs: 4,  fat: 0,  emoji: '🍷', portion: '1 แก้ว (150ml, 12–14%)' },
+  { name: 'ไวน์ขาว',                      kcal: 120, protein: 0,  carbs: 4,  fat: 0,  emoji: '🥂', portion: '1 แก้ว (150ml, 11–13%)' },
+  { name: 'ไวน์โรเซ่',                    kcal: 110, protein: 0,  carbs: 5,  fat: 0,  emoji: '🥂', portion: '1 แก้ว (150ml)' },
+  { name: 'สปาร์กลิ้งไวน์ / โปรเซคโก',   kcal: 90,  protein: 0,  carbs: 3,  fat: 0,  emoji: '🥂', portion: '1 แก้ว (120ml)' },
+  // เหล้าไทย / สาเก / โชจู
+  { name: 'รูเย่ / แม่โขง 1 ช็อต',       kcal: 70,  protein: 0,  carbs: 0,  fat: 0,  emoji: '🥃', portion: '1 ช็อต (30ml, 35%)' },
+  { name: 'เหล้าขาว (สาโท/กลั่น) 1 ช็อต', kcal: 65, protein: 0,  carbs: 0,  fat: 0,  emoji: '🥃', portion: '1 ช็อต (30ml, 28%)' },
+  { name: 'สาเกญี่ปุ่น',                  kcal: 115, protein: 0,  carbs: 5,  fat: 0,  emoji: '🍶', portion: '1 ถ้วย (150ml, 15%)' },
+  { name: 'โชจูเกาหลี (Soju) 1 แก้ว',    kcal: 95,  protein: 0,  carbs: 0,  fat: 0,  emoji: '🥃', portion: '1 แก้วเล็ก (60ml, 16–25%)' },
+  // วิสกี้ / สปิริต
+  { name: 'วิสกี้ 1 ช็อต',               kcal: 70,  protein: 0,  carbs: 0,  fat: 0,  emoji: '🥃', portion: '1 ช็อต (30ml, 40%)' },
+  { name: 'วอดก้า 1 ช็อต',               kcal: 65,  protein: 0,  carbs: 0,  fat: 0,  emoji: '🥃', portion: '1 ช็อต (30ml, 40%)' },
+  { name: 'รัม 1 ช็อต',                  kcal: 65,  protein: 0,  carbs: 0,  fat: 0,  emoji: '🥃', portion: '1 ช็อต (30ml, 40%)' },
+  { name: 'จิน 1 ช็อต',                  kcal: 65,  protein: 0,  carbs: 0,  fat: 0,  emoji: '🥃', portion: '1 ช็อต (30ml, 40%)' },
+  // ค็อกเทล / มิกซ์ดริ้งค์
+  { name: 'วิสกี้โซดา',                  kcal: 110, protein: 0,  carbs: 0,  fat: 0,  emoji: '🥃', portion: '1 แก้ว (วิสกี้ 45ml + โซดา)' },
+  { name: 'โมจิโต้',                      kcal: 170, protein: 0,  carbs: 22, fat: 0,  emoji: '🍹', portion: '1 แก้ว (รัม+มิ้นต์+น้ำตาล)' },
+  { name: 'มาการิต้า',                    kcal: 200, protein: 0,  carbs: 14, fat: 0,  emoji: '🍹', portion: '1 แก้ว (เทควีล่า+ลูกแพร์)' },
+  { name: 'ค็อกเทลผสมน้ำผลไม้',          kcal: 180, protein: 0,  carbs: 24, fat: 0,  emoji: '🍹', portion: '1 แก้ว (~200ml)' },
+  { name: 'เบียร์ผสมมะนาว (Shandy)',      kcal: 120, protein: 0,  carbs: 10, fat: 0,  emoji: '🍺', portion: '1 แก้ว (เบียร์+น้ำมะนาว)' },
+  { name: 'เหล้าผสมโค้ก',               kcal: 160, protein: 0,  carbs: 18, fat: 0,  emoji: '🥃', portion: '1 แก้ว (วิสกี้ 45ml + โค้ก)' },
+  { name: 'เหล้าผสมเรดบูล',             kcal: 175, protein: 0,  carbs: 22, fat: 0,  emoji: '🥃', portion: '1 แก้ว (วิสกี้ 45ml + เรดบูล)' },
+
+  // ── ไอศกรีม / ไอติม ──────────────────────────────────
+  // แท่ง / บาร์ (ยอดนิยมไทย)
+  { name: 'ไอติมหวานเย็น (แท่ง)',         kcal: 70,  protein: 1,  carbs: 16, fat: 1,  emoji: '🧊', portion: '1 แท่ง (กะทิ+น้ำตาล)' },
+  { name: 'ไอติมมะพร้าว (แท่ง)',          kcal: 110, protein: 1,  carbs: 16, fat: 5,  emoji: '🥥', portion: '1 แท่ง' },
+  { name: 'ไอติมกะทิข้าวเหนียว',          kcal: 200, protein: 3,  carbs: 30, fat: 8,  emoji: '🍚', portion: '1 ถ้วย (ไอติม+ข้าวเหนียว)' },
+  { name: 'ไอติมเนื้อครีม (Wall\'s แท่ง)',  kcal: 130, protein: 2,  carbs: 18, fat: 6,  emoji: '🍦', portion: '1 แท่ง' },
+  { name: 'ไอติมโกโก้ครั้น (Cornetto)',   kcal: 220, protein: 3,  carbs: 28, fat: 11, emoji: '🍦', portion: '1 กรวย' },
+  { name: 'ไอติมแท่งช็อกโกแลต (Magnum)', kcal: 270, protein: 3,  carbs: 26, fat: 17, emoji: '🍫', portion: '1 แท่ง (86ml)' },
+  { name: 'ไอติม Paddle Pop',             kcal: 75,  protein: 1,  carbs: 13, fat: 2,  emoji: '🍭', portion: '1 แท่ง' },
+  // ถ้วย / ซอฟต์เสิร์ฟ
+  { name: 'ไอศกรีมซอฟต์เสิร์ฟวานิลลา',   kcal: 140, protein: 3,  carbs: 22, fat: 5,  emoji: '🍦', portion: '1 กรวยเล็ก (~100ml)' },
+  { name: 'ไอศกรีมซอฟต์เสิร์ฟชาเขียว',   kcal: 150, protein: 3,  carbs: 24, fat: 5,  emoji: '🍵', portion: '1 กรวยเล็ก (~100ml)' },
+  { name: 'ไอศกรีมถ้วย 1 ลูก',            kcal: 130, protein: 2,  carbs: 18, fat: 6,  emoji: '🍨', portion: '1 scoop (~80ml)' },
+  { name: 'ไอศกรีมถ้วย 2 ลูก',            kcal: 260, protein: 4,  carbs: 36, fat: 12, emoji: '🍨', portion: '2 scoops (~160ml)' },
+  { name: 'ไอศกรีม Swensen\'s 1 scoop',   kcal: 200, protein: 3,  carbs: 26, fat: 10, emoji: '🍨', portion: '1 scoop พรีเมียม' },
+  // รสชาติยอดนิยม (เพิ่มเป็น reference)
+  { name: 'ไอศกรีมวานิลลา (1 scoop)',     kcal: 130, protein: 2,  carbs: 18, fat: 6,  emoji: '🍦', portion: '1 scoop (~80ml)' },
+  { name: 'ไอศกรีมช็อกโกแลต (1 scoop)',   kcal: 145, protein: 2,  carbs: 20, fat: 7,  emoji: '🍫', portion: '1 scoop (~80ml)' },
+  { name: 'ไอศกรีมสตรอว์เบอร์รี (1 scoop)', kcal: 120, protein: 2, carbs: 18, fat: 5, emoji: '🍓', portion: '1 scoop (~80ml)' },
+  { name: 'ไอศกรีมชาเขียวมัทฉะ (1 scoop)', kcal: 135, protein: 3, carbs: 18, fat: 6, emoji: '🍵', portion: '1 scoop (~80ml)' },
+  { name: 'ไอศกรีมมะม่วง (1 scoop)',      kcal: 115, protein: 1,  carbs: 20, fat: 4,  emoji: '🥭', portion: '1 scoop (~80ml)' },
+  // ซันเดย์ / พาร์เฟต์
+  { name: 'ซันเดย์ช็อกโกแลตฟัดจ์',       kcal: 380, protein: 5,  carbs: 56, fat: 15, emoji: '🍨', portion: '1 ถ้วย (ไอศกรีม+ซอส+วิป)' },
+  { name: 'พาร์เฟต์ผลไม้',               kcal: 280, protein: 6,  carbs: 44, fat: 9,  emoji: '🍧', portion: '1 แก้ว (ไอศกรีม+โยเกิร์ต+ผลไม้)' },
+  { name: 'วาฟเฟิลไอศกรีม',              kcal: 420, protein: 7,  carbs: 58, fat: 18, emoji: '🧇', portion: '1 จาน (วาฟเฟิล+ไอศกรีม 2 scoop)' },
+  // Gelato / Sorbet
+  { name: 'เจลาโต้ (1 scoop)',            kcal: 110, protein: 3,  carbs: 20, fat: 3,  emoji: '🍨', portion: '1 scoop (~80ml นมสูง)' },
+  { name: 'เซอร์เบต์ผลไม้ (1 scoop)',    kcal: 80,  protein: 0,  carbs: 20, fat: 0,  emoji: '🍧', portion: '1 scoop (~80ml ไม่มีนม)' },
+  // โยเกิร์ตเย็น
+  { name: 'โฟรเซ่นโยเกิร์ต',             kcal: 100, protein: 4,  carbs: 18, fat: 2,  emoji: '🍦', portion: '1 ถ้วยเล็ก (~100ml)' },
+  { name: 'โฟรเซ่นโยเกิร์ต + ผลไม้',    kcal: 140, protein: 4,  carbs: 26, fat: 2,  emoji: '🍓', portion: '1 ถ้วย + ผลไม้' },
 ];
