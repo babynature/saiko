@@ -754,4 +754,60 @@ window.FOOD_DB = [
   { name: 'นมสดเย็น',                   kcal: 150, protein: 8,  carbs: 12, fat: 8,  emoji: '🥛', portion: '1 แก้ว (240ml)' },
   { name: 'นมโอ๊ต (Oat Milk Latte)',    kcal: 130, protein: 4,  carbs: 18, fat: 4,  emoji: '🥛', portion: '1 แก้ว (ลาเต้นมโอ๊ต)' },
   { name: 'วิปครีมท็อปปิ้ง',           kcal: 70,  protein: 0,  carbs: 2,  fat: 7,  emoji: '🍦', portion: '+1 scoop (เพิ่มเติม)' },
+
+  // ── เครป ─────────────────────────────────────────────
+  // เครปกรอบ (ตลาดนัด / ฟู้ดคอร์ต)
+  { name: 'เครปกรอบไส้ช็อกโกแลตกล้วย',   kcal: 320, protein: 5,  carbs: 50, fat: 12, emoji: '🥞', portion: '1 ชิ้น' },
+  { name: 'เครปกรอบไส้สตรอว์เบอร์รีครีม', kcal: 290, protein: 5,  carbs: 44, fat: 11, emoji: '🥞', portion: '1 ชิ้น' },
+  { name: 'เครปกรอบไส้คัสตาร์ด',         kcal: 270, protein: 6,  carbs: 40, fat: 10, emoji: '🥞', portion: '1 ชิ้น' },
+  { name: 'เครปกรอบไส้ Nutella',          kcal: 340, protein: 5,  carbs: 52, fat: 14, emoji: '🥞', portion: '1 ชิ้น' },
+  { name: 'เครปกรอบไส้ไอศกรีม',          kcal: 380, protein: 6,  carbs: 58, fat: 14, emoji: '🥞', portion: '1 ชิ้น' },
+  { name: 'เครปกรอบไส้ถั่วแดง (อันโกะ)', kcal: 280, protein: 5,  carbs: 48, fat: 7,  emoji: '🥞', portion: '1 ชิ้น' },
+  { name: 'เครปกรอบไส้มะม่วง',           kcal: 260, protein: 4,  carbs: 44, fat: 8,  emoji: '🥭', portion: '1 ชิ้น' },
+  // เครปนิ่ม (คาเฟ่ / ร้านฝรั่งเศส)
+  { name: 'เครปนิ่มไส้ครีมสตรอว์เบอร์รี', kcal: 310, protein: 6,  carbs: 42, fat: 13, emoji: '🫔', portion: '1 ชิ้น' },
+  { name: 'เครปนิ่มไส้ช็อกโกแลต',        kcal: 330, protein: 6,  carbs: 46, fat: 14, emoji: '🫔', portion: '1 ชิ้น' },
+  { name: 'เครปนิ่มไส้ผลไม้รวม',         kcal: 250, protein: 6,  carbs: 38, fat: 9,  emoji: '🫔', portion: '1 ชิ้น' },
+  { name: 'มิลเครป (Mille Crepe) ชาเขียว', kcal: 420, protein: 7,  carbs: 52, fat: 20, emoji: '🎂', portion: '1 ชิ้น (~120g)' },
+  { name: 'มิลเครปช็อกโกแลต',            kcal: 450, protein: 7,  carbs: 56, fat: 22, emoji: '🎂', portion: '1 ชิ้น (~120g)' },
+  { name: 'มิลเครปออริจินัล',            kcal: 400, protein: 7,  carbs: 50, fat: 19, emoji: '🎂', portion: '1 ชิ้น (~120g)' },
+  // เครปสาวรี / เค็ม
+  { name: 'เครปไข่ชีสไส้กรอก',           kcal: 360, protein: 14, carbs: 32, fat: 20, emoji: '🫔', portion: '1 ชิ้น' },
+  { name: 'เครปไข่ผัก',                  kcal: 260, protein: 10, carbs: 28, fat: 13, emoji: '🫔', portion: '1 ชิ้น' },
+  { name: 'เครปไก่ชีส',                  kcal: 380, protein: 18, carbs: 32, fat: 20, emoji: '🫔', portion: '1 ชิ้น' },
+  { name: 'เครปทูน่ามายองเนส',           kcal: 340, protein: 16, carbs: 30, fat: 18, emoji: '🫔', portion: '1 ชิ้น' },
+
+  // ── สลัด ─────────────────────────────────────────────
+  // สลัดผัก (คลีน)
+  { name: 'สลัดผักรวม (ไม่ราดน้ำสลัด)',  kcal: 50,  protein: 2,  carbs: 8,  fat: 1,  emoji: '🥗', portion: '1 ชาม' },
+  { name: 'สลัดผักรวมน้ำสลัดใส',         kcal: 100, protein: 2,  carbs: 12, fat: 4,  emoji: '🥗', portion: '1 ชาม' },
+  { name: 'สลัดผักน้ำสลัดครีม',          kcal: 180, protein: 3,  carbs: 12, fat: 14, emoji: '🥗', portion: '1 ชาม' },
+  { name: 'สลัดซีซาร์',                  kcal: 300, protein: 8,  carbs: 14, fat: 24, emoji: '🥗', portion: '1 ชาม (ครูตอง+ซอส+พาร์เมซาน)' },
+  { name: 'สลัดซีซาร์ + ไก่',           kcal: 420, protein: 28, carbs: 14, fat: 28, emoji: '🥗', portion: '1 ชาม + ไก่ย่าง' },
+  { name: 'สลัดกรีก',                    kcal: 200, protein: 6,  carbs: 12, fat: 14, emoji: '🫒', portion: '1 ชาม (แตงกวา+มะเขือเทศ+เฟต้า+ออลีฟ)' },
+  { name: 'สลัดคาปรีเซ่',               kcal: 250, protein: 10, carbs: 6,  fat: 20, emoji: '🍅', portion: '1 จาน (มอสซาเรลล่า+มะเขือเทศ+บาซิล)' },
+  // สลัดโปรตีน
+  { name: 'สลัดไก่ย่าง',                 kcal: 280, protein: 28, carbs: 10, fat: 14, emoji: '🍗', portion: '1 ชาม' },
+  { name: 'สลัดทูน่า',                   kcal: 200, protein: 24, carbs: 6,  fat: 8,  emoji: '🐟', portion: '1 ชาม' },
+  { name: 'สลัดไข่ต้ม',                  kcal: 220, protein: 14, carbs: 8,  fat: 14, emoji: '🥚', portion: '1 ชาม (ไข่ 2 ฟอง)' },
+  { name: 'สลัดกุ้ง',                    kcal: 180, protein: 20, carbs: 8,  fat: 6,  emoji: '🦐', portion: '1 ชาม' },
+  { name: 'สลัดแซลมอน',                  kcal: 320, protein: 26, carbs: 8,  fat: 20, emoji: '🍣', portion: '1 ชาม' },
+  { name: 'สลัดเต้าหู้ญี่ปุ่น',          kcal: 150, protein: 10, carbs: 8,  fat: 8,  emoji: '🥗', portion: '1 ชาม' },
+  // สลัดเมดิเตอร์เรเนียน / คลีน
+  { name: 'สลัดควินัว',                  kcal: 320, protein: 10, carbs: 42, fat: 12, emoji: '🌾', portion: '1 ชาม (quinoa+ผัก+น้ำมันมะกอก)' },
+  { name: 'สลัดอะโวคาโด',               kcal: 280, protein: 4,  carbs: 14, fat: 24, emoji: '🥑', portion: '1 ชาม' },
+  { name: 'สลัดโคบ (Cobb Salad)',        kcal: 450, protein: 28, carbs: 10, fat: 34, emoji: '🥗', portion: '1 ชาม (ไก่+ไข่+เบคอน+อะโวคาโด)' },
+  // สลัดไทย
+  { name: 'ส้มตำไทย',                    kcal: 150, protein: 5,  carbs: 20, fat: 4,  emoji: '🌶️', portion: '1 ครก (มะละกอ+มะเขือเทศ+ถั่ว)' },
+  { name: 'ส้มตำปูปลาร้า',              kcal: 180, protein: 8,  carbs: 22, fat: 5,  emoji: '🦀', portion: '1 ครก' },
+  { name: 'ส้มตำซีฟู้ด',                kcal: 170, protein: 10, carbs: 20, fat: 4,  emoji: '🦐', portion: '1 ครก' },
+  { name: 'ยำแบบไทย (ยำวุ้นเส้น)',       kcal: 200, protein: 10, carbs: 26, fat: 6,  emoji: '🥗', portion: '1 จาน' },
+  { name: 'ลาบไก่',                      kcal: 200, protein: 20, carbs: 10, fat: 8,  emoji: '🌿', portion: '1 จาน' },
+  { name: 'ลาบเนื้อ',                    kcal: 240, protein: 22, carbs: 10, fat: 12, emoji: '🌿', portion: '1 จาน' },
+  // น้ำสลัด (คำนวณแยก)
+  { name: 'น้ำสลัดงา',                   kcal: 80,  protein: 1,  carbs: 6,  fat: 6,  emoji: '🫙', portion: '2 ช้อนโต๊ะ' },
+  { name: 'น้ำสลัดซีซาร์',              kcal: 120, protein: 1,  carbs: 4,  fat: 12, emoji: '🫙', portion: '2 ช้อนโต๊ะ' },
+  { name: 'น้ำสลัดบาลซามิค',            kcal: 60,  protein: 0,  carbs: 8,  fat: 3,  emoji: '🫙', portion: '2 ช้อนโต๊ะ' },
+  { name: 'น้ำสลัดมะนาวน้ำมันมะกอก',    kcal: 80,  protein: 0,  carbs: 2,  fat: 8,  emoji: '🍋', portion: '2 ช้อนโต๊ะ (คลีน)' },
+  { name: 'น้ำสลัดพันเกาะ (1000 Island)', kcal: 110, protein: 0, carbs: 8,  fat: 10, emoji: '🫙', portion: '2 ช้อนโต๊ะ' },
 ];
