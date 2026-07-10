@@ -1181,6 +1181,18 @@ window.FOOD_DB = [
   { name: 'พุดดิ้งไข่ 7-Eleven',           kcal: 140, protein: 4,  carbs: 20, fat: 5,  emoji: '🍮', portion: '1 ถ้วย' },
   { name: 'นมถั่วเหลือง 7-Eleven',         kcal: 110, protein: 4,  carbs: 16, fat: 3,  emoji: '🥛', portion: '1 กล่อง (250ml)' },
 
+  // โบโลน่า 7-Eleven
+  { name: '7-11 โบโลน่าหมู CP (1 แผ่น)',       kcal: 80,  protein: 4,  carbs: 3,  fat: 6,  emoji: '🥩', portion: '1 แผ่น (~30g)' },
+  { name: '7-11 โบโลน่าไก่ CP (1 แผ่น)',       kcal: 60,  protein: 4,  carbs: 2,  fat: 4,  emoji: '🍗', portion: '1 แผ่น (~25g)' },
+  { name: '7-11 โบโลน่าชีส (1 แผ่น)',          kcal: 95,  protein: 4,  carbs: 3,  fat: 8,  emoji: '🧀', portion: '1 แผ่น (~35g)' },
+  { name: '7-11 โบโลน่าควัน (1 แผ่น)',         kcal: 85,  protein: 3,  carbs: 2,  fat: 7,  emoji: '🥩', portion: '1 แผ่น (~30g)' },
+  { name: '7-11 โบโลน่าหมู CP (แพ็ค 4 แผ่น)', kcal: 320, protein: 14, carbs: 10, fat: 26, emoji: '🥩', portion: '1 แพ็ค (~120g)' },
+  { name: '7-11 โบโลน่าไก่ CP (แพ็ค 4 แผ่น)', kcal: 240, protein: 16, carbs: 8,  fat: 16, emoji: '🍗', portion: '1 แพ็ค (~100g)' },
+  { name: '7-11 โบโลน่าชีส (แพ็ค 4 แผ่น)',    kcal: 380, protein: 16, carbs: 10, fat: 32, emoji: '🧀', portion: '1 แพ็ค (~140g)' },
+  { name: '7-11 โบโลน่าทอด (หน้าร้าน)',        kcal: 155, protein: 6,  carbs: 5,  fat: 13, emoji: '🌭', portion: '2 ชิ้น (~60g)' },
+  { name: '7-11 แซนด์วิชโบโลน่า',             kcal: 245, protein: 10, carbs: 28, fat: 10, emoji: '🥪', portion: '1 ชิ้น' },
+  { name: '7-11 โบโลน่าผัดพริก (กล่อง)',       kcal: 285, protein: 12, carbs: 18, fat: 17, emoji: '🌶️', portion: '1 กล่อง (~150g)' },
+
   // ── อาหารญี่ปุ่น ─────────────────────────────────────
   // ราเมน
   { name: 'ราเมนซุปกระดูกหมู (Tonkotsu)',  kcal: 550, protein: 26, carbs: 62, fat: 20, emoji: '🍜', portion: '1 ชาม' },
