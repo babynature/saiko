@@ -184,6 +184,84 @@ class NutritionGuideModule {
       </div>`;
   }
 
+  _panelBurnScience() {
+    const cards = [
+      {
+        icon: '🔥', color: '#f97316', bg: 'rgba(249,115,22,.1)',
+        title: 'ออกกำลังกาย ≠ เผาผลาญมากขึ้น',
+        subtitle: 'Constrained Energy Expenditure',
+        body: 'งานวิจัยในชนเผ่า Hadza แทนซาเนีย พบว่าคนล่าสัตว์ที่เดิน 16,000 ก้าว/วัน ใช้พลังงานรวมต่อวัน <strong>เท่ากับ</strong>คนนั่งโต๊ะในเมือง เพราะร่างกายปรับลดการใช้พลังงานส่วนอื่น (การอักเสบ ฮอร์โมน) เพื่อชดเชย นี่คือ "การเผาผลาญแบบจำกัด" (Constrained Total Energy Expenditure)',
+        source: 'Pontzer et al. (2012) PLOS ONE · Pontzer "Burn" (2021)'
+      },
+      {
+        icon: '🏃', color: '#22c55e', bg: 'rgba(34,197,94,.1)',
+        title: 'ออกกำลังกาย = สุขภาพดี ไม่ใช่ลดน้ำหนัก',
+        subtitle: 'Exercise Benefits Beyond Calories',
+        body: 'เมื่อออกกำลังกายสม่ำเสมอ ร่างกายจัดสรรพลังงานใหม่: <br>• ลดการอักเสบเรื้อรัง (ลดเสี่ยงมะเร็ง โรคหัวใจ เบาหวาน)<br>• ลดการตอบสนองต่อความเครียด (cortisol ลด 30%)<br>• ลดฮอร์โมนสืบพันธุ์เกิน (ลดเสี่ยงมะเร็งเต้านม/ต่อมลูกหมาก)<br>• ช่วย<strong>รักษาน้ำหนัก</strong>หลังลดได้ แต่ไม่ค่อยช่วยลดน้ำหนักอย่างเดียว',
+        source: 'Pontzer "Burn" Ch.7 · Hackney et al. (2012)'
+      },
+      {
+        icon: '💨', color: '#38bdf8', bg: 'rgba(56,189,248,.1)',
+        title: 'ไขมันหายไปไหน?',
+        subtitle: 'Fat Is Exhaled as CO₂',
+        body: 'เมื่อร่างกาย "เผา" ไขมัน 10 กก. จะกลายเป็น:<br>• CO₂ 8.4 กก. — <strong>หายใจออก</strong>ทิ้ง<br>• H₂O 1.6 กก. — ออกมาทางเหงื่อ ปัสสาวะ<br><br>ไขมันไม่ได้เปลี่ยนเป็นความร้อนหรือกล้ามเนื้อโดยตรง ปอดคือ "อวัยวะลดน้ำหนัก" หลักของร่างกาย',
+        source: 'Meerman & Brown (2014) BMJ'
+      },
+      {
+        icon: '📊', color: '#a78bfa', bg: 'rgba(167,139,250,.1)',
+        title: 'คาลอรี่จริงๆ ต่อวัน',
+        subtitle: 'Real Daily Calorie Needs',
+        body: 'ฉลากอาหารบอก 2,000 แคล แต่ <strong>ผู้ใหญ่ส่วนใหญ่ใช้พลังงาน 2,500–3,000 แคล/วัน</strong><br>• ผู้ชายเฉลี่ย: ~3,000 แคล<br>• ผู้หญิงเฉลี่ย: ~2,400 แคล<br>• ค่า 2,000 แคลเป็นตัวเลขกลมๆ สำหรับฉลาก ไม่ใช่ค่าวิทยาศาสตร์<br>• ความแตกต่างระหว่างบุคคลสูงถึง ±500 แคล/วัน',
+        source: 'Pontzer et al. Doubly-Labeled Water Database (2021)'
+      },
+      {
+        icon: '🦧', color: '#fbbf24', bg: 'rgba(251,191,36,.1)',
+        title: 'มาตรฐานก้าวเดิน 3 ระดับ',
+        subtitle: 'Steps Benchmark: Chimp → Human → Hadza',
+        body: '• 🦧 <strong>5,000 ก้าว</strong> — ระดับลิงชิมแปนซี (นั่งเฉยเกินไป → ควบคุมความหิวผิดปกติ)<br>• 👟 <strong>10,000 ก้าว</strong> — ขั้นต่ำ CDC แนะนำ<br>• 🏹 <strong>16,000 ก้าว</strong> — ระดับ Hadza (สุขภาพดีที่สุด ลดเสี่ยงตายได้ 80%)<br><br>คนอเมริกันเฉลี่ย ~5,000 ก้าว/วัน — เหมือนชิมแปนซี!',
+        source: 'Pontzer et al. (2012) · Glasgow postal workers study (2017)'
+      },
+      {
+        icon: '🪑', color: '#ef4444', bg: 'rgba(239,68,68,.1)',
+        title: 'นั่งนาน = อันตรายต่อสุขภาพ',
+        subtitle: 'Sedentary Behavior Disrupts Hunger',
+        body: 'การนั่งนานมากๆ (>8 ชม./วัน) ทำให้สมองควบคุมความหิวผิดปกติ ส่งผลให้กินเกิน แม้ไม่รู้ตัว<br><br>งานวิจัยโรงงานอินเดียพบว่าคนนั่งเฉยที่สุด <strong>หนักกว่าคนงานทั่วไป 22 กก.</strong> แม้จะกินอาหารปริมาณใกล้เคียงกัน<br><br>การเดินสั้นๆ ทุก 30 นาทีช่วยได้มาก',
+        source: 'Mayer et al. (1956) · Pontzer "Burn" Ch.7'
+      },
+      {
+        icon: '⚠️', color: '#f59e0b', bg: 'rgba(245,158,11,.1)',
+        title: 'ระวัง! อดอาหารหนักทำ BMR ลดถาวร',
+        subtitle: 'Metabolic Adaptation Warning',
+        body: 'นักแข่ง The Biggest Loser ที่ลดน้ำหนักได้ 57 กก. พบว่า:<br>• BMR ลดลง <strong>700 แคล/วัน</strong> (25%)<br>• ผ่านไป <strong>6 ปี BMR ยังต่ำกว่าปกติ</strong><br>• 13 ใน 14 คนน้ำหนักกลับขึ้นมา<br><br>ลดน้ำหนักอย่างปลอดภัย: ขาดดุลไม่เกิน 500 แคล/วัน และออกกำลังกายควบคู่',
+        source: 'Hall et al. (2016) Obesity · Pontzer "Burn" Ch.5'
+      },
+      {
+        icon: '🥗', color: '#4ade80', bg: 'rgba(74,222,128,.1)',
+        title: 'อาหารสำคัญกว่าออกกำลังกาย สำหรับลดน้ำหนัก',
+        subtitle: 'Diet vs Exercise for Weight Loss',
+        body: 'งานวิจัย DIETFITS (609 คน, 12 เดือน) พบว่า:<br>• ทุกไดเอทที่ทำให้กินน้อยลง ลดน้ำหนักได้เท่ากัน<br>• Low-carb = Low-fat ในแง่น้ำหนัก<br><br><strong>สูตรง่ายๆ:</strong> ลดน้ำหนัก = ควบคุมอาหาร | รักษาน้ำหนัก = ออกกำลังกาย | สุขภาพดี = ทั้งคู่',
+        source: 'Gardner et al. DIETFITS (2018) JAMA · Pontzer "Burn" Ch.6'
+      },
+    ];
+
+    return `
+      <div class="ng-panel" id="ng-p-burn" style="display:none">
+        <p class="ng-intro">งานวิจัยใหม่จาก <strong>Herman Pontzer, PhD</strong> (Duke University) และทีมวิจัยทั่วโลก เปลี่ยนความเข้าใจเรื่องการเผาผลาญและสุขภาพ</p>
+        ${cards.map(c => `
+          <div class="ng-burncard" style="border-left-color:${c.color};background:${c.bg}">
+            <div class="ng-burnhead">
+              <span class="ng-burnicon">${c.icon}</span>
+              <div>
+                <div class="ng-burntitle">${c.title}</div>
+                <div class="ng-burnsub">${c.subtitle}</div>
+              </div>
+            </div>
+            <div class="ng-burnbody">${c.body}</div>
+            <div class="ng-burnsource">📚 ${c.source}</div>
+          </div>`).join('')}
+      </div>`;
+  }
+
   _injectCSS() {
     if (document.getElementById('ng-style')) return;
     const s = document.createElement('style');
@@ -227,6 +305,14 @@ class NutritionGuideModule {
       .ng-tipicon{font-size:1.4rem;flex-shrink:0;padding-top:2px}
       .ng-tiptitle{font-size:.88rem;font-weight:700;color:#e2e8f0;margin-bottom:3px}
       .ng-tiptext{font-size:.78rem;color:#94a3b8;line-height:1.55}
+      .ng-burncard{border-radius:14px;padding:14px;margin-bottom:12px;border-left:4px solid #6c63ff}
+      .ng-burnhead{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+      .ng-burnicon{font-size:1.6rem;flex-shrink:0;line-height:1.2}
+      .ng-burntitle{font-size:.92rem;font-weight:700;color:#e2e8f0;line-height:1.3}
+      .ng-burnsub{font-size:.7rem;color:#64748b;margin-top:2px;font-style:italic}
+      .ng-burnbody{font-size:.79rem;color:#94a3b8;line-height:1.65;margin-bottom:8px}
+      .ng-burnbody strong{color:#cbd5e1}
+      .ng-burnsource{font-size:.67rem;color:#475569;background:rgba(0,0,0,.2);border-radius:6px;padding:4px 8px;line-height:1.5}
     `;
     document.head.appendChild(s);
   }
@@ -234,7 +320,7 @@ class NutritionGuideModule {
   switchTab(tab) {
     this._tab = tab;
     document.querySelectorAll('.ng-tbtn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-    ['macros','workout','tips'].forEach(id => {
+    ['macros','workout','tips','burn'].forEach(id => {
       const p = document.getElementById('ng-p-' + id);
       if (p) p.style.display = id === tab ? '' : 'none';
     });
@@ -259,14 +345,16 @@ class NutritionGuideModule {
           <div class="ng-head-title">📖 คู่มือโภชนาการ</div>
           <button class="ng-x" onclick="nutritionGuideModule.closeModal()">✕</button>
         </div>
-        <div class="ng-tabs">
+        <div class="ng-tabs" style="flex-wrap:wrap;gap:5px">
           <button class="ng-tbtn active" data-tab="macros" onclick="nutritionGuideModule.switchTab('macros')">🎯 เป้าหมาย</button>
           <button class="ng-tbtn" data-tab="workout" onclick="nutritionGuideModule.switchTab('workout')">🏃 ก่อน/หลัง</button>
           <button class="ng-tbtn" data-tab="tips" onclick="nutritionGuideModule.switchTab('tips')">💡 เคล็ดลับ</button>
+          <button class="ng-tbtn" data-tab="burn" onclick="nutritionGuideModule.switchTab('burn')">🔬 วิทยาศาสตร์</button>
         </div>
         ${this._panelMacros(t, m)}
         ${this._panelWorkout(t)}
         ${this._panelTips()}
+        ${this._panelBurnScience()}
       </div>`;
     document.body.appendChild(wrap);
   }
