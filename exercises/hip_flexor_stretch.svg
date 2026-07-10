@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <rect width="240" height="240" fill="#f8f4ef" rx="12"/>
+  <!-- Floor -->
+  <line x1="20" y1="205" x2="220" y2="205" stroke="#b0a69a" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Half-kneeling lunge: back knee on ground, front foot forward -->
+
+  <!-- BACK LEG: right knee on floor -->
+  <!-- Upper back leg (thigh, from hip to knee, roughly vertical) -->
+  <line x1="140" y1="120" x2="148" y2="175" stroke="#2d2d2d" stroke-width="7" stroke-linecap="round"/>
+  <!-- Knee on floor -->
+  <circle cx="148" cy="175" r="8" fill="#c8bfb5" stroke="#8a7f74" stroke-width="2"/>
+  <!-- Lower back leg (shin, on floor going backward) -->
+  <line x1="148" y1="175" x2="175" y2="205" stroke="#2d2d2d" stroke-width="6" stroke-linecap="round"/>
+  <!-- Foot pointing back -->
+  <line x1="168" y1="205" x2="190" y2="205" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- FRONT LEG: left leg, foot forward at 90° -->
+  <!-- Upper front leg (thigh, roughly horizontal forward) -->
+  <line x1="130" y1="138" x2="95" y2="138" stroke="#6c63ff" stroke-width="8" stroke-linecap="round"/>
+  <!-- Lower front leg (shin, vertical down) -->
+  <line x1="95" y1="138" x2="90" y2="205" stroke="#6c63ff" stroke-width="8" stroke-linecap="round"/>
+  <!-- Front foot flat -->
+  <line x1="75" y1="205" x2="100" y2="205" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+  <!-- 90° angle at front knee -->
+  <path d="M 95 146 L 103 146 L 103 138" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+
+  <!-- Torso (upright) -->
+  <line x1="140" y1="120" x2="138" y2="68" stroke="#2d2d2d" stroke-width="6" stroke-linecap="round"/>
+  <!-- Head -->
+  <circle cx="138" cy="54" r="16" fill="none" stroke="#2d2d2d" stroke-width="4"/>
+  <!-- Arms relaxed at side / hands on knee -->
+  <line x1="138" y1="82" x2="120" y2="100" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  <line x1="138" y1="82" x2="155" y2="100" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  <!-- Left hand on front knee -->
+  <circle cx="117" cy="103" r="5" fill="#c8bfb5" stroke="#8a7f74" stroke-width="1.5"/>
+
+  <!-- Hip forward arrow -->
+  <polygon points="130,152 118,148 120,158" fill="#ef4444"/>
+  <text x="112" y="170" font-family="Arial, sans-serif" font-size="9" fill="#ef4444" text-anchor="middle">สะโพกไปหน้า</text>
+
+  <!-- Stretch area indicator -->
+  <path d="M 158 165 Q 162 148 154 138" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,3"/>
+  <text x="175" y="152" font-family="Arial, sans-serif" font-size="9" fill="#f59e0b" text-anchor="middle">ยืดที่นี่</text>
+  <text x="175" y="162" font-family="Arial, sans-serif" font-size="9" fill="#f59e0b" text-anchor="middle">Hip Flexor</text>
+
+  <!-- Title -->
+  <text x="120" y="228" font-family="Arial, sans-serif" font-size="13" fill="#4a4a4a" text-anchor="middle" font-weight="bold">Hip Flexor Stretch</text>
+  <text x="120" y="14" font-family="Arial, sans-serif" font-size="9" fill="#8a7f74" text-anchor="middle">ค้าง 30–45 วิ · ลำตัวตรง · สลับข้าง</text>
+</svg>

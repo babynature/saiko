@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 220" width="260" height="220">
+  <rect width="260" height="220" fill="#f8f4ef" rx="12"/>
+  <!-- Floor -->
+  <line x1="20" y1="185" x2="240" y2="185" stroke="#b0a69a" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Pigeon Pose: front leg bent (shin roughly horizontal), back leg straight behind -->
+
+  <!-- Front leg (RIGHT leg, bent forward — shin roughly parallel to top) — highlighted purple -->
+  <!-- Hip area -->
+  <circle cx="140" cy="148" r="8" fill="#c8bfb5" stroke="#8a7f74" stroke-width="2"/>
+  <!-- Front thigh (from hip, angling forward-left at 45°) -->
+  <line x1="136" y1="148" x2="100" y2="155" stroke="#6c63ff" stroke-width="8" stroke-linecap="round"/>
+  <!-- Front shin (going left, roughly horizontal — key "pigeon" position) -->
+  <line x1="100" y1="155" x2="70" y2="148" stroke="#6c63ff" stroke-width="8" stroke-linecap="round"/>
+  <!-- Front knee -->
+  <circle cx="100" cy="155" r="6" fill="#9b8ff0" stroke="#6c63ff" stroke-width="2"/>
+  <!-- Front foot (near left hip) -->
+  <ellipse cx="68" cy="155" rx="10" ry="7" fill="#c8bfb5" stroke="#8a7f74" stroke-width="2"/>
+
+  <!-- Hip/glute resting on (or toward) floor -->
+  <ellipse cx="112" cy="175" rx="22" ry="8" fill="#ddd4c8" stroke="#b0a69a" stroke-width="1.5"/>
+  <text x="112" y="178" font-family="Arial, sans-serif" font-size="7" fill="#6a5f57" text-anchor="middle">สะโพก</text>
+
+  <!-- Back leg (LEFT leg, straight behind) -->
+  <line x1="140" y1="148" x2="172" y2="160" stroke="#2d2d2d" stroke-width="7" stroke-linecap="round"/>
+  <line x1="172" y1="160" x2="210" y2="168" stroke="#2d2d2d" stroke-width="7" stroke-linecap="round"/>
+  <!-- Back foot (pointing backward, on ground) -->
+  <line x1="205" y1="162" x2="218" y2="175" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+  <line x1="210" y1="175" x2="222" y2="175" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Torso folded forward (leaning down over front leg) -->
+  <line x1="132" y1="148" x2="88" y2="118" stroke="#2d2d2d" stroke-width="6" stroke-linecap="round"/>
+  <!-- Head resting down / on hands -->
+  <circle cx="82" cy="106" r="14" fill="none" stroke="#2d2d2d" stroke-width="3.5"/>
+
+  <!-- Forearms on floor -->
+  <line x1="94" y1="120" x2="65" y2="130" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+  <line x1="65" y1="130" x2="40" y2="128" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  <!-- Hands/forearms on floor -->
+  <ellipse cx="38" cy="128" rx="8" ry="4" fill="#c8bfb5" stroke="#8a7f74" stroke-width="1.5"/>
+
+  <!-- Stretch zone annotation -->
+  <path d="M 118 165 Q 128 173 135 165" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="3,3"/>
+  <text x="150" y="140" font-family="Arial, sans-serif" font-size="9" fill="#ef4444" text-anchor="middle">รู้สึกยืด</text>
+  <text x="150" y="152" font-family="Arial, sans-serif" font-size="9" fill="#ef4444" text-anchor="middle">ก้น/สะโพก</text>
+
+  <!-- Key form cue: shin parallel -->
+  <line x1="68" y1="145" x2="100" y2="145" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="84" y="140" font-family="Arial, sans-serif" font-size="8" fill="#f59e0b" text-anchor="middle">น่องขนาน</text>
+
+  <!-- Title -->
+  <text x="130" y="210" font-family="Arial, sans-serif" font-size="13" fill="#4a4a4a" text-anchor="middle" font-weight="bold">Pigeon Pose</text>
+  <text x="130" y="14" font-family="Arial, sans-serif" font-size="9" fill="#8a7f74" text-anchor="middle">ยืดสะโพกลึก · ค้าง 45–60 วิ · สลับข้าง</text>
+</svg>

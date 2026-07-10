@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 200" width="260" height="200">
+  <rect width="260" height="200" fill="#f8f4ef" rx="12"/>
+  <!-- Floor -->
+  <line x1="20" y1="155" x2="240" y2="155" stroke="#b0a69a" stroke-width="2" stroke-dasharray="6,4"/>
+  <!-- Person lying, hollow body shape — banana curve -->
+  <!-- Head raised -->
+  <circle cx="220" cy="110" r="15" fill="none" stroke="#2d2d2d" stroke-width="4"/>
+  <!-- Neck -->
+  <line x1="206" y1="116" x2="198" y2="122" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  <!-- Torso (arched / hollow, slightly off floor) -->
+  <path d="M 198 122 Q 155 140 110 135" fill="none" stroke="#2d2d2d" stroke-width="6" stroke-linecap="round"/>
+  <!-- Hips -->
+  <circle cx="108" cy="135" r="6" fill="#2d2d2d"/>
+  <!-- Arms extended overhead (left side) — highlighted purple -->
+  <line x1="198" y1="122" x2="155" y2="108" stroke="#6c63ff" stroke-width="5" stroke-linecap="round"/>
+  <line x1="155" y1="108" x2="115" y2="100" stroke="#6c63ff" stroke-width="5" stroke-linecap="round"/>
+  <line x1="115" y1="100" x2="72" y2="96" stroke="#6c63ff" stroke-width="5" stroke-linecap="round"/>
+  <!-- Legs raised ~45° — highlighted purple -->
+  <line x1="108" y1="135" x2="72" y2="110" stroke="#6c63ff" stroke-width="7" stroke-linecap="round"/>
+  <line x1="72" y1="110" x2="38" y2="90" stroke="#6c63ff" stroke-width="6" stroke-linecap="round"/>
+  <!-- Feet -->
+  <line x1="35" y1="85" x2="42" y2="96" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  <!-- Hollow body arc indicator -->
+  <path d="M 200 130 Q 150 148 108 140" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,3"/>
+  <!-- Core tension label -->
+  <text x="155" y="165" font-family="Arial, sans-serif" font-size="10" fill="#6c63ff" text-anchor="middle" font-weight="bold">Core แน่น · หลังแนบพื้น</text>
+  <!-- Floor label -->
+  <text x="130" y="178" font-family="Arial, sans-serif" font-size="9" fill="#8a7f74" text-anchor="middle">ขา 45° จากพื้น</text>
+  <!-- Title -->
+  <text x="240" y="192" font-family="Arial, sans-serif" font-size="12" fill="#4a4a4a" text-anchor="end" font-weight="bold">Hollow Body Hold</text>
+</svg>

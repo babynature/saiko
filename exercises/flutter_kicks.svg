@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 200" width="260" height="200">
+  <rect width="260" height="200" fill="#f8f4ef" rx="12"/>
+  <!-- Floor -->
+  <line x1="20" y1="148" x2="240" y2="148" stroke="#b0a69a" stroke-width="2" stroke-dasharray="6,4"/>
+  <!-- Person lying on back -->
+  <!-- Head -->
+  <circle cx="215" cy="105" r="15" fill="none" stroke="#2d2d2d" stroke-width="4"/>
+  <!-- Torso (flat on floor) -->
+  <line x1="200" y1="115" x2="120" y2="128" stroke="#2d2d2d" stroke-width="6" stroke-linecap="round"/>
+  <!-- Hips -->
+  <circle cx="118" cy="128" r="5" fill="#2d2d2d"/>
+  <!-- Arms beside body -->
+  <line x1="195" y1="118" x2="160" y2="135" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  <line x1="200" y1="120" x2="165" y2="133" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  <!-- Hands under hips indicator -->
+  <rect x="112" y="128" width="20" height="8" rx="3" fill="#c8bfb5" stroke="#8a7f74" stroke-width="1.5"/>
+  <text x="122" y="136" font-family="Arial, sans-serif" font-size="7" fill="#6a5f57" text-anchor="middle">มือ</text>
+
+  <!-- Right leg (upper, lower) -->
+  <line x1="118" y1="128" x2="85" y2="106" stroke="#6c63ff" stroke-width="8" stroke-linecap="round"/>
+  <line x1="85" y1="106" x2="50" y2="108" stroke="#6c63ff" stroke-width="7" stroke-linecap="round"/>
+  <!-- Right foot -->
+  <line x1="47" y1="105" x2="52" y2="113" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Left leg (lower, slightly higher) — orange to show alternating -->
+  <line x1="118" y1="128" x2="85" y2="114" stroke="#f59e0b" stroke-width="8" stroke-linecap="round"/>
+  <line x1="85" y1="114" x2="50" y2="98" stroke="#f59e0b" stroke-width="7" stroke-linecap="round"/>
+  <!-- Left foot -->
+  <line x1="47" y1="94" x2="52" y2="102" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Motion arrows between legs -->
+  <path d="M 62 100 Q 58 111 62 119" fill="none" stroke="#ef4444" stroke-width="2.5" marker-end="url(#arr)"/>
+  <path d="M 68 117 Q 64 106 68 97" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+  <polygon points="68,97 64,104 72,103" fill="#ef4444"/>
+  <polygon points="62,119 58,112 66,111" fill="#ef4444"/>
+
+  <!-- Height label -->
+  <line x1="36" y1="98" x2="36" y2="148" stroke="#b0a69a" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="30" y="126" font-family="Arial, sans-serif" font-size="8" fill="#8a7f74" text-anchor="middle">~15</text>
+  <text x="30" y="135" font-family="Arial, sans-serif" font-size="8" fill="#8a7f74" text-anchor="middle">ซม.</text>
+
+  <!-- Title -->
+  <text x="240" y="168" font-family="Arial, sans-serif" font-size="12" fill="#4a4a4a" text-anchor="end" font-weight="bold">Flutter Kicks</text>
+  <text x="240" y="182" font-family="Arial, sans-serif" font-size="9" fill="#8a7f74" text-anchor="end">กระพือขาสลับเร็วๆ · หลังแนบพื้น</text>
+</svg>

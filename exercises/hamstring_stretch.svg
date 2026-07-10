@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 220" width="260" height="220">
+  <rect width="260" height="220" fill="#f8f4ef" rx="12"/>
+  <!-- Floor -->
+  <line x1="20" y1="185" x2="240" y2="185" stroke="#b0a69a" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Person seated hamstring stretch -->
+  <!-- Extended leg: right leg straight out -->
+  <!-- Upper right thigh (from hip to knee, horizontal) -->
+  <line x1="155" y1="155" x2="90" y2="152" stroke="#6c63ff" stroke-width="8" stroke-linecap="round"/>
+  <!-- Lower right leg (shin, horizontal, straight) -->
+  <line x1="90" y1="152" x2="40" y2="150" stroke="#6c63ff" stroke-width="8" stroke-linecap="round"/>
+  <!-- Right foot -->
+  <line x1="38" y1="142" x2="40" y2="155" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+  <line x1="35" y1="155" x2="50" y2="155" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Bent left leg (sole against inner right thigh) -->
+  <line x1="155" y1="155" x2="158" y2="185" stroke="#2d2d2d" stroke-width="6" stroke-linecap="round"/>
+  <line x1="158" y1="185" x2="192" y2="185" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+  <!-- Upper bent leg (from hip outward) -->
+  <line x1="155" y1="158" x2="185" y2="175" stroke="#2d2d2d" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Sit bones on floor -->
+  <ellipse cx="158" cy="185" rx="18" ry="5" fill="#ddd4c8" stroke="#b0a69a" stroke-width="1.5"/>
+  <text x="158" y="188" font-family="Arial, sans-serif" font-size="7" fill="#6a5f57" text-anchor="middle">นั่ง</text>
+
+  <!-- Torso leaning forward (straight back, not rounded) — key point -->
+  <line x1="155" y1="155" x2="95" y2="120" stroke="#2d2d2d" stroke-width="6" stroke-linecap="round"/>
+  <!-- Head -->
+  <circle cx="88" cy="108" r="15" fill="none" stroke="#2d2d2d" stroke-width="3.5"/>
+
+  <!-- Arms reaching toward foot -->
+  <line x1="115" y1="135" x2="70" y2="148" stroke="#6c63ff" stroke-width="5" stroke-linecap="round"/>
+  <line x1="115" y1="137" x2="68" y2="150" stroke="#6c63ff" stroke-width="5" stroke-linecap="round"/>
+  <!-- Hands near ankle -->
+  <circle cx="60" cy="150" r="7" fill="none" stroke="#6c63ff" stroke-width="3"/>
+
+  <!-- Straight back indicator (critical form cue) -->
+  <path d="M 160 145 Q 175 130 165 120" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+  <text x="185" y="128" font-family="Arial, sans-serif" font-size="9" fill="#f59e0b" text-anchor="middle">หลังตรง</text>
+  <text x="185" y="140" font-family="Arial, sans-serif" font-size="9" fill="#f59e0b" text-anchor="middle">ไม่โก่ง</text>
+
+  <!-- Stretch feeling label -->
+  <path d="M 85 150 Q 82 162 90 170" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="3,3"/>
+  <text x="55" y="175" font-family="Arial, sans-serif" font-size="9" fill="#ef4444" text-anchor="middle">รู้สึกยืด</text>
+  <text x="55" y="186" font-family="Arial, sans-serif" font-size="9" fill="#ef4444" text-anchor="middle">ต้นขาหลัง</text>
+
+  <!-- Title -->
+  <text x="130" y="210" font-family="Arial, sans-serif" font-size="13" fill="#4a4a4a" text-anchor="middle" font-weight="bold">Seated Hamstring Stretch</text>
+  <text x="130" y="14" font-family="Arial, sans-serif" font-size="9" fill="#8a7f74" text-anchor="middle">โน้มตัวตรงๆ ไม่โก่งหลัง · ค้าง 30–45 วิ</text>
+</svg>
