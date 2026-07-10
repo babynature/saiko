@@ -400,6 +400,25 @@
         </div>
         <!-- Backdrop: click outside to close exercise panel -->
         <div class="ex-backdrop" id="ex-backdrop" onclick="closeExerciseLog()"></div>
+
+        <!-- Workout Program Card -->
+        <div class="tracker-pair" style="margin-top:8px">
+          <div class="tracker-card wp-tracker-card" id="tc-workout" onclick="toggleWorkoutPanel()" style="width:100%">
+            <div class="tc-header">
+              <span class="tc-icon">💪</span>
+              <span class="tc-title">โปรแกรมฝึก</span>
+              <span class="tc-chevron" id="tc-wp-chevron">▼</span>
+            </div>
+            <div class="tc-total" id="wp-card-title">ยังไม่มีโปรแกรม</div>
+            <div class="tc-sub" id="wp-card-sub">แตะเพื่อเลือกโปรแกรม</div>
+          </div>
+        </div>
+        <!-- Workout Program Panel (overlay) -->
+        <div id="panel-workout">
+          <div id="workout-panel-content"></div>
+        </div>
+        <!-- Backdrop: click outside to close workout panel -->
+        <div class="wp-backdrop" id="wp-backdrop" onclick="closeWorkoutPanel()"></div>
       </div>
 
       <!-- Miller's Law: visual chunk separator -->
@@ -768,6 +787,10 @@
           <label id="lbl-ex-min">นาที</label>
           <input type="number" id="ex-minutes" placeholder="30" min="1" max="300" value="30" oninput="updateExercisePreview()">
         </div>
+        <div class="form-group">
+          <label>น้ำหนัก (kg)</label>
+          <input type="number" id="ex-weight" placeholder="—" min="0" max="500" step="0.5">
+        </div>
       </div>
       <!-- Live Preview -->
       <div class="ex-preview" id="ex-preview">
@@ -1020,6 +1043,7 @@
 <script src="modules/nutritionGuideModule.js"></script>
 <script src="modules/nutritionGuideModule-b.js"></script>
 <script src="modules/ceeModule.js"></script>
+<script src="modules/workoutProgramModule.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

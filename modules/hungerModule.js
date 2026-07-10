@@ -74,7 +74,7 @@ class HungerModule {
     this.exerciseMinutes += (minutes || 0);
   }
 
-  logExercise(name, type, minutes, kcal) {
+  logExercise(name, type, minutes, kcal, weightKg) {
     const entry = {
       name: name || type || 'ออกกำลังกาย',
       type: type || 'other',
@@ -82,6 +82,7 @@ class HungerModule {
       kcal: Math.round(kcal || 0),
       time: new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }),
     };
+    if (weightKg && weightKg > 0) entry.weightKg = weightKg;
     this.exerciseLog.push(entry);
     this.caloriesBurned  += entry.kcal;
     this.exerciseMinutes += entry.minutes;

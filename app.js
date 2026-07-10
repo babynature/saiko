@@ -242,8 +242,9 @@ function _renderExerciseLogForDate() {
       <button class="exlog-edit" onclick="openExEditModal(${i})" aria-label="แก้ไข">✏️</button>
       <button class="exlog-del"  onclick="removeExerciseLog(${i})" aria-label="ลบ">✕</button>
     </div>`;
+    const wLabel = e.weightKg ? `<span class="exlog-weight">${e.weightKg}kg</span>` : '';
     return `<div class="exlog-row${isPast ? ' readonly' : ''}">
-      <span class="exlog-name">${_escHtml(e.name)}</span>
+      <span class="exlog-name">${_escHtml(e.name)}${wLabel}</span>
       <span class="exlog-meta">${e.time || ''} · ${e.minutes} นาที</span>
       <span class="exlog-kcal">−${e.kcal}</span>
       ${actions}
@@ -512,6 +513,7 @@ function saveGame() {
     missions: missionModule.toJSON(),
     gear: gearModule.toJSON(),
     water: waterModule.toJSON(),
+    workoutProgram: window.workoutProgramModule ? window.workoutProgramModule.toJSON() : undefined,
   };
   const json = JSON.stringify(state);
   localStorage.setItem(SAVE_KEY, json);
@@ -542,8 +544,9 @@ function loadGame() {
     if (state.history)       historyModule.fromJSON(state.history);
     if (state.missions)      missionModule.fromJSON(state.missions);
     else                     missionModule.init();
-    if (state.gear)          gearModule.fromJSON(state.gear);
-    if (state.water)         waterModule.fromJSON(state.water);
+    if (state.gear)           gearModule.fromJSON(state.gear);
+    if (state.water)          waterModule.fromJSON(state.water);
+    if (state.workoutProgram && window.workoutProgramModule) window.workoutProgramModule.fromJSON(state.workoutProgram);
 
     // Reset daily hunger/calorie/food data if saved on a previous day
     const _today = _localDate();
@@ -709,7 +712,7 @@ window.renderAll = function() {
   renderLifeEvents();
   renderStats();
   renderCalorieBar();
-  if (_currentTabId === 'home')        { renderGlance(); renderFoodLog(); renderExerciseCard(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderNearGoalBanner(); initFoodSearch(); if (document.getElementById('panel-exercise')?.classList.contains('panel-open')) _renderExerciseLogForDate(); }
+  if (_currentTabId === 'home')        { renderGlance(); renderFoodLog(); renderExerciseCard(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderNearGoalBanner(); initFoodSearch(); updateWorkoutCard(); if (document.getElementById('panel-exercise')?.classList.contains('panel-open')) _renderExerciseLogForDate(); if (document.getElementById('panel-workout')?.classList.contains('panel-open')) renderWorkoutPanelContent(); }
   if (_currentTabId === 'marketplace') renderMarketplace();
   if (_currentTabId === 'quests')      { renderQuests(); renderMissions(); renderExerciseTip(); }
   if (_currentTabId === 'exercise')    renderExerciseTab();
@@ -3789,7 +3792,9 @@ function doLogExercise() {
   const xpRaw = questModule.getExerciseXP(kcal);
   const xpBase = gearModule.applyExerciseXP(xpRaw);
 
-  hungerModule.logExercise(displayName, type, minutes, kcal);
+  const weightKg = parseFloat(document.getElementById('ex-weight')?.value) || 0;
+  hungerModule.logExercise(displayName, type, minutes, kcal, weightKg || undefined);
+  if (weightKg > 0) { const isPR = _recordExWeight(displayName, weightKg); if (isPR) showToast('🏆 PR ใหม่! ' + displayName + ' ' + weightKg + 'kg', 'success'); }
   hungerModule.decayHunger(minutes, 'exercise');
   questModule.update('calories_burned', kcal);
   questModule.update('calories_net', hungerModule.getNetCalories());
@@ -3858,6 +3863,8 @@ function openExEditModal(idx) {
       <select id="ex-edit-type" class="ex-edit-select">${opts}</select>
       <label class="ex-edit-lbl">จำนวนนาที</label>
       <input type="number" id="ex-edit-min" class="ex-edit-input" value="${entry.minutes}" min="1" max="300">
+      <label class="ex-edit-lbl">น้ำหนัก (kg) — ไม่บังคับ</label>
+      <input type="number" id="ex-edit-weight" class="ex-edit-input" value="${entry.weightKg || ''}" min="0" max="500" step="0.5" placeholder="เช่น 40">
       <div class="ex-edit-btns">
         <button class="ex-edit-cancel" onclick="_closeExEditModal()">ยกเลิก</button>
         <button class="ex-edit-save"   onclick="_saveExEditModal(${idx})">💾 บันทึก</button>
@@ -3885,8 +3892,10 @@ function _saveExEditModal(idx) {
   const burnedBefore = Math.max(0, (hungerModule.caloriesBurned || 0) - (hungerModule.exerciseLog[idx]?.kcal || 0));
   const kcal        = window.ceeModule ? ceeModule.adjustBurn(rawKcal, burnedBefore) : rawKcal;
 
+  const editWeightKg = parseFloat(document.getElementById('ex-edit-weight')?.value) || 0;
   hungerModule.removeExerciseEntry(idx);
-  hungerModule.logExercise(name, type, minutes, kcal);
+  hungerModule.logExercise(name, type, minutes, kcal, editWeightKg || undefined);
+  if (editWeightKg > 0) _recordExWeight(name, editWeightKg);
   questModule.update('calories_burned', hungerModule.caloriesBurned);
   questModule.update('calories_net', hungerModule.getNetCalories());
 
@@ -3898,8 +3907,186 @@ function _saveExEditModal(idx) {
 }
 
 // ═══════════════════════════════════════════
-// SHOP
+// PROGRESSIVE OVERLOAD (PR) TRACKER
 // ═══════════════════════════════════════════
+function _getPRData() {
+  try { return JSON.parse(localStorage.getItem('shg-ex-pr') || '{}'); } catch(e) { return {}; }
+}
+function _savePRData(d) {
+  try { localStorage.setItem('shg-ex-pr', JSON.stringify(d)); } catch(e) {}
+}
+function _recordExWeight(exerciseName, weightKg) {
+  if (!weightKg || weightKg <= 0) return false;
+  const data = _getPRData();
+  if (!data[exerciseName]) data[exerciseName] = [];
+  const today = _todayStr();
+  const idx = data[exerciseName].findIndex(e => e.date === today);
+  if (idx >= 0) data[exerciseName][idx].weightKg = weightKg;
+  else data[exerciseName].push({ date: today, weightKg });
+  if (data[exerciseName].length > 60) data[exerciseName].shift();
+  _savePRData(data);
+  const past = data[exerciseName].filter(e => e.date < today).map(e => e.weightKg);
+  return past.length === 0 || weightKg > Math.max(...past);
+}
+function _getLastWeight(exerciseName) {
+  const data = _getPRData();
+  const entries = (data[exerciseName] || []).filter(e => e.date < _todayStr());
+  return entries.length ? entries[entries.length - 1].weightKg : null;
+}
+
+// ═══════════════════════════════════════════
+// WORKOUT PROGRAM PANEL
+// ═══════════════════════════════════════════
+let _wpGoal = 'muscle', _wpLevel = 'beginner', _wpFreq = 3;
+
+function toggleWorkoutPanel() {
+  const panel = document.getElementById('panel-workout');
+  const card  = document.getElementById('tc-workout');
+  const bd    = document.getElementById('wp-backdrop');
+  if (!panel) return;
+  const opening = !panel.classList.contains('panel-open');
+  panel.classList.toggle('panel-open', opening);
+  card?.classList.toggle('tc-card-open', opening);
+  if (bd) bd.classList.toggle('active', opening);
+  if (opening) renderWorkoutPanelContent();
+}
+function closeWorkoutPanel() {
+  document.getElementById('panel-workout')?.classList.remove('panel-open');
+  document.getElementById('tc-workout')?.classList.remove('tc-card-open');
+  document.getElementById('wp-backdrop')?.classList.remove('active');
+}
+
+function renderWorkoutPanelContent() {
+  const el = document.getElementById('workout-panel-content');
+  if (!el) return;
+  const mod = window.workoutProgramModule;
+  if (!mod) return;
+  if (!mod.getState().programKey) {
+    el.innerHTML = _wpSetupHTML();
+  } else {
+    el.innerHTML = _wpTodayHTML();
+  }
+}
+
+function _wpSetupHTML() {
+  const goals = [['muscle','💪','สร้างกล้ามเนื้อ'],['strength','⚡','เพิ่มความแข็งแรง'],['endurance','🏃','ความอึด']];
+  const levels = [['beginner','🌱','ผู้เริ่มต้น'],['advanced','⭐','ขั้นสูง']];
+  const freqs  = [3,4,5];
+  return `
+    <div class="wp-setup">
+      <div class="wp-setup-title">🎯 เลือกโปรแกรมฝึก</div>
+      <div class="wp-setup-label">เป้าหมาย</div>
+      <div class="wp-choices" id="wp-goal-choices">
+        ${goals.map(([k,ic,lb]) => `<button class="wp-choice${_wpGoal===k?' wp-choice-sel':''}" onclick="wpPickGoal('${k}')">${ic} ${lb}</button>`).join('')}
+      </div>
+      <div class="wp-setup-label">ระดับ</div>
+      <div class="wp-choices" id="wp-level-choices">
+        ${levels.map(([k,ic,lb]) => `<button class="wp-choice${_wpLevel===k?' wp-choice-sel':''}" onclick="wpPickLevel('${k}')">${ic} ${lb}</button>`).join('')}
+      </div>
+      <div class="wp-setup-label">ครั้งต่อสัปดาห์</div>
+      <div class="wp-choices" id="wp-freq-choices">
+        ${freqs.map(f => `<button class="wp-choice${_wpFreq===f?' wp-choice-sel':''}" onclick="wpPickFreq(${f})">${f}x / สัปดาห์</button>`).join('')}
+      </div>
+      <button class="btn btn-primary wp-start-btn" onclick="wpStartProgram()">🚀 เริ่มโปรแกรม</button>
+    </div>`;
+}
+
+function _wpTodayHTML() {
+  const mod     = window.workoutProgramModule;
+  const meta    = mod.getMeta();
+  const wkt     = mod.getTodayWorkout();
+  const params  = mod.getParams();
+  const state   = mod.getState();
+  const isDone  = mod.isWorkoutDoneToday();
+  const deload  = mod.isDeloadWeek();
+  const total   = mod.getWorkoutCount();
+
+  if (!meta || !wkt) return '<div style="padding:20px;text-align:center">ไม่พบโปรแกรม</div>';
+
+  const deloadBanner = deload ? `<div class="wp-deload-banner">⚠️ สัปดาห์ที่ ${state.weekCount} — Deload Week! ลดน้ำหนักลง 20–30%</div>` : '';
+  const doneBanner   = isDone ? `<div class="wp-done-banner">✅ ทำครบแล้ววันนี้!</div>` : '';
+
+  const exRows = wkt.exs.map((ex, i) => {
+    const lastW  = _getLastWeight(ex.n);
+    const prevLbl = lastW ? `<span class="wp-prev-weight">prev: ${lastW}kg</span>` : '';
+    const warmLbl = ex.note === 'warm-up' ? '<span class="wp-warmup-tag">warm-up</span>' : '';
+    const sets   = Array.from({ length: ex.s }, (_, si) => {
+      const done = mod.isSetDone(i, si);
+      return `<button class="wp-set-btn${done?' wp-set-done':''}" onclick="wpToggleSet(${i},${si})">${si+1}</button>`;
+    }).join('');
+    return `<div class="wp-ex-row">
+      <div class="wp-ex-hdr">
+        <span class="wp-ex-num">${i+1}</span>
+        <span class="wp-ex-name">${_escHtml(ex.n)}${warmLbl}</span>
+        <span class="wp-ex-reps">${ex.s}×${ex.r}${prevLbl}</span>
+      </div>
+      <div class="wp-sets-row">${sets}</div>
+    </div>`;
+  }).join('');
+
+  const completeBtn = !isDone
+    ? `<button class="btn btn-success wp-complete-btn" onclick="wpCompleteWorkout()">✅ ทำครบแล้ว! (+50 XP)</button>`
+    : `<button class="btn wp-complete-btn" style="opacity:.5;pointer-events:none">✅ ทำครบแล้ววันนี้</button>`;
+
+  return `
+    <div class="wp-header">
+      <span class="wp-prog-tag">${meta.icon} ${meta.label} · ${meta.level}</span>
+      <span class="wp-week-tag">สัปดาห์ที่ ${state.weekCount || 1}</span>
+    </div>
+    ${deloadBanner}
+    ${doneBanner}
+    <div class="wp-workout-name">${_escHtml(wkt.name)}</div>
+    <div class="wp-params">${_escHtml(params)}</div>
+    <div class="wp-ex-list">${exRows}</div>
+    ${completeBtn}
+    <div class="wp-day-progress">วันที่ ${(state.workoutIdx % total) + 1} / ${total}</div>
+    <button class="wp-change-btn" onclick="wpResetProgram()">⚙️ เปลี่ยนโปรแกรม</button>`;
+}
+
+function wpPickGoal(g)  { _wpGoal = g;  renderWorkoutPanelContent(); }
+function wpPickLevel(l) { _wpLevel = l; renderWorkoutPanelContent(); }
+function wpPickFreq(f)  { _wpFreq = f;  renderWorkoutPanelContent(); }
+function wpStartProgram() {
+  const key = `${_wpGoal}_${_wpLevel}`;
+  window.workoutProgramModule.setProgram(key, _wpFreq);
+  renderWorkoutPanelContent(); updateWorkoutCard(); saveGame();
+  showToast('🚀 เริ่มโปรแกรมแล้ว! โชคดี!', 'success');
+}
+function wpToggleSet(exIdx, setIdx) {
+  window.workoutProgramModule.toggleSet(exIdx, setIdx);
+  renderWorkoutPanelContent(); saveGame();
+}
+function wpCompleteWorkout() {
+  window.workoutProgramModule.completeWorkout();
+  const result = awardXP(50, 'workout_program');
+  showToast(`🏋️ ออกกำลังกายครบ! +${result.gained} XP`, 'success');
+  if (result.levelUp) showLevelUp();
+  renderWorkoutPanelContent(); updateWorkoutCard(); saveGame();
+}
+function wpResetProgram() {
+  window.workoutProgramModule.clearProgram();
+  renderWorkoutPanelContent(); updateWorkoutCard(); saveGame();
+}
+
+function updateWorkoutCard() {
+  const mod = window.workoutProgramModule;
+  if (!mod) return;
+  const meta  = mod.getMeta();
+  const wkt   = mod.getTodayWorkout();
+  const title = document.getElementById('wp-card-title');
+  const sub   = document.getElementById('wp-card-sub');
+  if (!meta) {
+    if (title) title.textContent = 'ยังไม่มีโปรแกรม';
+    if (sub)   sub.textContent   = 'แตะเพื่อเลือกโปรแกรม';
+    return;
+  }
+  if (title) title.textContent = `${meta.icon} ${meta.label} · ${meta.level}`;
+  if (sub)   sub.textContent   = wkt ? wkt.name : '—';
+}
+
+// ═══════════════════════════════════════════
+// SHOP
+// ═══════════════════���═══════════════════════
 function filterShop(btn, cat) {
   document.querySelectorAll('#tab-shop .cat-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
