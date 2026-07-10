@@ -1072,7 +1072,7 @@ function renderExerciseCard() {
   if (ceeEl && window.ceeModule && minutes > 0) {
     const s = ceeModule.getStatus();
     ceeEl.style.display = '';
-    ceeEl.innerHTML = `<span style="font-size:.68rem;color:${s.color};font-weight:600">🔬 CEE ${s.pct}% — ${s.label}</span>`;
+    ceeEl.innerHTML = `<button onclick="event.stopPropagation();ceeModule.showInfo()" style="background:none;border:none;padding:0;cursor:pointer;font-size:.68rem;color:${s.color};font-weight:600;text-decoration:underline dotted">🔬 CEE ${s.pct}% — ${s.label} (?)</button>`;
   } else if (ceeEl) {
     ceeEl.style.display = 'none';
   }
@@ -3625,10 +3625,9 @@ function logAllPlan(ids) {
   const xpBase = gearModule.applyExerciseXP(xpRaw);
   const result = awardXP(xpBase, 'exercise');
   checkAchievements('exercise', {});
-  const ceeNote = (window.ceeModule && totalRawKcal - totalKcal >= 20)
-    ? ` 🔬 CEE ${Math.round(ceeEff * 100)}%`
-    : '';
+  const ceeNote = window.ceeModule ? ceeModule.toastNote(totalRawKcal, totalKcal) : '';
   showToast(`🔥 ออกกำลังกาย ${ids.length} ท่า • ${totalMins} นาที • เผา ${totalKcal} kcal${ceeNote} • +${result.gained} XP`, 'success');
+  if (window.ceeModule) ceeModule.maybeShowFirstTime(totalRawKcal, totalKcal);
   showXPFloat(result.gained);
   if (result.levelUp) showLevelUp();
   renderAll();
@@ -3719,10 +3718,9 @@ function quickLogExercise(type, minutes, displayName, kcalOverride) {
   stressModule.reduceStress(10);
   checkAchievements('exercise', { exerciseType: type });
 
-  const ceeNote = (window.ceeModule && rawKcal - kcal >= 20)
-    ? ` 🔬 (ดิบ ${rawKcal}, CEE ${ceeModule.getStatus().pct}%)`
-    : '';
+  const ceeNote = window.ceeModule ? ceeModule.toastNote(rawKcal, kcal) : '';
   showToast(`🔥 ${displayName || type} ${minutes} นาที — เผา ${kcal} kcal  +${result.gained} XP${ceeNote}`, 'success');
+  if (window.ceeModule) ceeModule.maybeShowFirstTime(rawKcal, kcal);
   showXPFloat(result.gained);
   if (result.levelUp) showLevelUp();
   renderAll();
@@ -3776,8 +3774,10 @@ function doLogExercise() {
   stressModule.reduceStress(stressReduce);
   checkAchievements('exercise', { exerciseType: type });
 
+  const ceeNote = window.ceeModule ? ceeModule.toastNote(rawKcal, kcal) : '';
   const msg = t('exercise_logged', { min: minutes, kcal, xp: result.gained });
-  showToast(msg, 'success');
+  showToast(msg + ceeNote, 'success');
+  if (window.ceeModule) ceeModule.maybeShowFirstTime(rawKcal, kcal);
   showXPFloat(result.gained);
 
   if (result.levelUp) showLevelUp();
