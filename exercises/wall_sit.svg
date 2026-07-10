@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <rect width="240" height="240" fill="#f8f4ef" rx="12"/>
+
+  <!-- Wall -->
+  <rect x="178" y="20" width="12" height="200" fill="#c8bfb5" rx="3"/>
+  <rect x="168" y="20" width="10" height="200" fill="#b0a69a" rx="2"/>
+
+  <!-- Floor -->
+  <line x1="30" y1="205" x2="178" y2="205" stroke="#b0a69a" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Person: back against wall -->
+  <!-- Head -->
+  <circle cx="168" cy="62" r="18" fill="none" stroke="#2d2d2d" stroke-width="4"/>
+  <!-- Neck -->
+  <line x1="168" y1="80" x2="168" y2="90" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  <!-- Torso (vertical, leaning on wall) -->
+  <line x1="168" y1="90" x2="168" y2="148" stroke="#2d2d2d" stroke-width="6" stroke-linecap="round"/>
+  <!-- Arms hanging at sides -->
+  <line x1="168" y1="100" x2="148" y2="130" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  <line x1="148" y1="130" x2="148" y2="150" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Upper legs (horizontal, 90deg to torso) — highlighted purple -->
+  <line x1="168" y1="148" x2="100" y2="148" stroke="#6c63ff" stroke-width="8" stroke-linecap="round"/>
+  <!-- Lower legs (vertical, 90deg to upper legs) — highlighted purple -->
+  <line x1="100" y1="148" x2="100" y2="205" stroke="#6c63ff" stroke-width="8" stroke-linecap="round"/>
+  <!-- Feet -->
+  <line x1="85" y1="205" x2="115" y2="205" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- 90° angle markers -->
+  <!-- Knee angle -->
+  <path d="M 108 148 L 108 158 L 100 158" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+  <!-- Hip angle -->
+  <path d="M 168 138 L 158 138 L 158 148" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+
+  <!-- Label -->
+  <text x="88" y="228" font-family="Arial, sans-serif" font-size="13" fill="#4a4a4a" text-anchor="middle" font-weight="bold">Wall Sit</text>
+  <text x="88" y="14" font-family="Arial, sans-serif" font-size="10" fill="#8a7f74" text-anchor="middle">ค้างนาน 30–45 วิ</text>
+</svg>

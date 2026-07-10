@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <rect width="240" height="240" fill="#f8f4ef" rx="12"/>
+
+  <!-- Floor line -->
+  <line x1="20" y1="195" x2="220" y2="195" stroke="#b0a69a" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Person: on all fours -->
+  <!-- Head (facing left) -->
+  <circle cx="58" cy="108" r="17" fill="none" stroke="#2d2d2d" stroke-width="4"/>
+  <!-- Neck -->
+  <line x1="68" y1="118" x2="78" y2="128" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  <!-- Torso (horizontal) -->
+  <line x1="78" y1="128" x2="158" y2="128" stroke="#2d2d2d" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Left arm (down to floor) -->
+  <line x1="85" y1="128" x2="75" y2="165" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+  <line x1="63" y1="195" x2="88" y2="195" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  <line x1="75" y1="165" x2="75" y2="195" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Right arm (down to floor) -->
+  <line x1="150" y1="128" x2="160" y2="165" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+  <line x1="160" y1="165" x2="160" y2="195" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+  <line x1="148" y1="195" x2="173" y2="195" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Left leg (down, planted) -->
+  <line x1="140" y1="128" x2="128" y2="165" stroke="#2d2d2d" stroke-width="6" stroke-linecap="round"/>
+  <line x1="128" y1="165" x2="128" y2="195" stroke="#2d2d2d" stroke-width="6" stroke-linecap="round"/>
+  <line x1="116" y1="195" x2="140" y2="195" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Right leg RAISED OUT TO SIDE — highlighted purple (fire hydrant motion) -->
+  <!-- Upper right leg raised to ~90° out to side -->
+  <line x1="158" y1="128" x2="205" y2="110" stroke="#6c63ff" stroke-width="8" stroke-linecap="round"/>
+  <!-- Lower right leg bent 90° down -->
+  <line x1="205" y1="110" x2="210" y2="150" stroke="#6c63ff" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Motion arc arrow -->
+  <path d="M 165 148 Q 195 168 205 148" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="5,4"/>
+  <polygon points="205,148 199,140 212,143" fill="#f59e0b"/>
+
+  <!-- Label -->
+  <text x="120" y="228" font-family="Arial, sans-serif" font-size="13" fill="#4a4a4a" text-anchor="middle" font-weight="bold">Fire Hydrant</text>
+  <text x="120" y="14" font-family="Arial, sans-serif" font-size="10" fill="#8a7f74" text-anchor="middle">ยกขาออกด้านข้าง — สะโพกไม่หมุน</text>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <rect width="240" height="240" fill="#f8f4ef" rx="12"/>
+
+  <!-- Floor -->
+  <line x1="40" y1="210" x2="200" y2="210" stroke="#b0a69a" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Person in pistol squat (single-leg deep squat, other leg extended forward) -->
+
+  <!-- Head -->
+  <circle cx="130" cy="60" r="17" fill="none" stroke="#2d2d2d" stroke-width="4"/>
+  <!-- Neck -->
+  <line x1="130" y1="77" x2="130" y2="88" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  <!-- Torso (slightly forward lean) -->
+  <line x1="130" y1="88" x2="118" y2="140" stroke="#2d2d2d" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Arms extended forward for balance -->
+  <line x1="128" y1="105" x2="68" y2="115" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  <line x1="128" y1="105" x2="75" y2="100" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Standing leg (right) — doing the squat — highlighted purple -->
+  <!-- Upper leg: hip to knee (folded deep) -->
+  <line x1="118" y1="140" x2="138" y2="170" stroke="#6c63ff" stroke-width="8" stroke-linecap="round"/>
+  <!-- Lower leg: knee to ankle (vertical) -->
+  <line x1="138" y1="170" x2="140" y2="210" stroke="#6c63ff" stroke-width="8" stroke-linecap="round"/>
+  <!-- Foot -->
+  <line x1="128" y1="210" x2="155" y2="210" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Extended leg (left) — straight forward — highlighted orange -->
+  <!-- Upper extended leg: hip to knee (extended forward) -->
+  <line x1="118" y1="140" x2="70" y2="130" stroke="#f59e0b" stroke-width="7" stroke-linecap="round"/>
+  <!-- Lower extended leg: knee to foot (straight) -->
+  <line x1="70" y1="130" x2="45" y2="125" stroke="#f59e0b" stroke-width="7" stroke-linecap="round"/>
+  <!-- Extended foot -->
+  <line x1="40" y1="122" x2="48" y2="130" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Balance arrow at foot -->
+  <line x1="140" y1="220" x2="140" y2="214" stroke="#22c55e" stroke-width="3"/>
+  <text x="140" y="232" font-family="Arial, sans-serif" font-size="9" fill="#22c55e" text-anchor="middle">จุดรับน้ำหนัก</text>
+
+  <!-- Label -->
+  <text x="120" y="14" font-family="Arial, sans-serif" font-size="10" fill="#8a7f74" text-anchor="middle">ขาเดียว — ต้องการ Balance สูง</text>
+  <text x="120" y="242" font-family="Arial, sans-serif" font-size="13" fill="#4a4a4a" text-anchor="middle" font-weight="bold">Pistol Squat</text>
+</svg>
