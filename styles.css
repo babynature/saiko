@@ -3784,6 +3784,19 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   font-weight: 400;
 }
 
+/* ── Stats Grid override — more specific than Atom defaults ── */
+.stats-grid .stat-card {
+  padding: 8px 4px;
+  text-align: center;
+  align-items: center;
+}
+.stats-grid .stat-value {
+  font-size: clamp(10px, 2.8vw, 13px);
+  line-height: 1.2;
+  width: 100%;
+  text-align: center;
+}
+
 /* ── Progress Bar Atom ───────────────────────── */
 .progress-bar {
   background: rgba(255,255,255,.1);
