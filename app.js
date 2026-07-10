@@ -2710,7 +2710,7 @@ const EXERCISE_DB = [
     effort: 'Zone 1  •  Arm Isolation', effortColor: '#22c55e',
     plan: '3 เซต × 12 ครั้ง  |  พักเซตละ 45 วิ',
     totalMins: 10, kcal: 30, kcalRange: '20–45',
-    img: 'exercises/dumbbell/p026_img1.jpeg',
+    img: 'exercises/dumbbell/p055_img1.jpeg',
     steps: [
       'ยืนตรง ถือดัมเบลสองมือ ฝ่ามือหงายขึ้น แขนข้างลำตัว',
       'ล็อกข้อศอกติดลำตัว งอข้อศอกยกดัมเบลขึ้นจนชิดไหล่',
@@ -2728,7 +2728,7 @@ const EXERCISE_DB = [
     effort: 'Zone 1  •  Arm Isolation', effortColor: '#22c55e',
     plan: '3 เซต × 10 ครั้ง  |  พักเซตละ 45 วิ',
     totalMins: 10, kcal: 30, kcalRange: '20–40',
-    img: 'exercises/dumbbell/p028_img1.jpeg',
+    img: 'exercises/dumbbell/p061_img2.jpeg',
     steps: [
       'ยืนตรง ถือดัมเบล หลังมือหงายขึ้น (Overgrip) ไม่ใช่ฝ่ามือ',
       'ล็อกข้อศอกข้างลำตัว งอข้อศอกยกดัมเบลขึ้น',
@@ -2746,7 +2746,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Arm Strength', effortColor: '#2196f3',
     plan: '3 เซต × 12 ครั้ง  |  พักเซตละ 45 วิ',
     totalMins: 10, kcal: 40, kcalRange: '30–55',
-    img: 'exercises/dumbbell/p031_img1.jpeg',
+    img: 'exercises/dumbbell/p069_img2.jpeg',
     steps: [
       'ยืนตรง เท้ากว้างกว่าไหล่เล็กน้อย จับดัมเบลสองมือด้วยนิ้วมือ',
       'ยกดัมเบลขึ้นเหนือหัว แขนเหยียดตรง ข้อศอกชี้ขึ้น',
@@ -2764,7 +2764,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Arm Strength + Core', effortColor: '#2196f3',
     plan: '3 เซต × 10 ครั้งต่อข้าง  |  พักเซตละ 45 วิ',
     totalMins: 10, kcal: 40, kcalRange: '30–55',
-    img: 'exercises/dumbbell/p033_img1.jpeg',
+    img: 'exercises/dumbbell/p058_img2.jpeg',
     steps: [
       'ยืนเท้าข้างหนึ่งหน้า — ถ้าใช้แขนขวา ให้เท้าขวาอยู่ข้างหน้า',
       'จับดัมเบลมือเดียว ยกขึ้นเหนือหัว แขนเหยียดตรง',
@@ -2782,7 +2782,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Shoulder Strength', effortColor: '#2196f3',
     plan: '3 เซต × 12 ครั้ง  |  พักเซตละ 45 วิ',
     totalMins: 10, kcal: 40, kcalRange: '30–55',
-    img: 'exercises/dumbbell/p044_img1.jpeg',
+    img: 'exercises/dumbbell/p065_img1.jpeg',
     steps: [
       'ยืนสบาย ดึงไหล่กลับ (Scapular retraction) ก่อนเริ่ม',
       'จับดัมเบลสองมือ ฝ่ามือหันลง ยกขึ้นด้านหน้าถึงระดับคาง',
@@ -2800,7 +2800,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Shoulder Strength', effortColor: '#2196f3',
     plan: '3 เซต × 12 ครั้ง  |  พักเซตละ 45 วิ',
     totalMins: 10, kcal: 40, kcalRange: '30–55',
-    img: 'exercises/dumbbell/p045_img1.jpeg',
+    img: 'exercises/dumbbell/p067_img1.jpeg',
     steps: [
       'ยืน จับดัมเบลสองมือหน้าลำตัว ไม่ใช่ข้าง (ให้ Supraspinatus เริ่มก่อน)',
       'ยกดัมเบลออกด้านข้างจนระดับสายตา',
@@ -2818,7 +2818,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Chest Strength', effortColor: '#2196f3',
     plan: '3 เซต × 12 ครั้ง  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 60, kcalRange: '45–75',
-    img: 'exercises/dumbbell/p054_img1.jpeg',
+    img: 'exercises/dumbbell/p070_img2.jpeg',
     steps: [
       'นอนหงายบนม้านั่ง จับดัมเบลสองมือ ข้อศอกงอ ดัมเบลระดับอก',
       'ยกดัมเบลขึ้นเหนือกระดูกอก แขนเหยียดตรง',
@@ -2836,7 +2836,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Upper Chest Strength', effortColor: '#2196f3',
     plan: '3 เซต × 12 ครั้ง  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 60, kcalRange: '45–75',
-    img: 'exercises/dumbbell/p055_img1.jpeg',
+    img: 'exercises/dumbbell/p072_img1.jpeg',
     steps: [
       'ปรับม้านั่งเอียง 30–45 องศา นั่งพิงหลัง',
       'เริ่มต้นดัมเบลงอข้อศอก ชิดอก ขนานกัน',
@@ -2854,7 +2854,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Chest Isolation', effortColor: '#2196f3',
     plan: '3 เซต × 12 ครั้ง  |  พักเซตละ 60 วิ',
     totalMins: 10, kcal: 40, kcalRange: '30–55',
-    img: 'exercises/dumbbell/p057_img2.jpeg',
+    img: 'exercises/dumbbell/p074_img2.jpeg',
     steps: [
       'นอนหงาย จับดัมเบลสองมือเหนือกระดูกอก แขนงอเล็กน้อย (ไม่เหยียดตรง)',
       'กางแขนออกด้านข้างเป็นวงโค้ง จนดัมเบลอยู่นอกช่วงมองเห็นด้านข้าง',
@@ -2872,7 +2872,7 @@ const EXERCISE_DB = [
     effort: 'Zone 3  •  Full Body Power', effortColor: '#f44336',
     plan: '3 เซต × 10 ครั้ง  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 70, kcalRange: '55–90',
-    img: 'exercises/dumbbell/p040_img1.jpeg',
+    img: 'exercises/dumbbell/p111_img1.jpeg',
     steps: [
       'ยืนเท้ากว้างเท่าช่วงรักแร้ ถือดัมเบลห้อยหน้าลำตัว',
       'ค่อยๆ ลดดัมเบลลงสู่พื้น — โน้มตัวตามไหล่ (ขาหลังตึงจะหยุดเองตามธรรมชาติ)',
@@ -2890,7 +2890,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Chest & Back Integration', effortColor: '#2196f3',
     plan: '3 เซต × 12 ครั้ง  |  พักเซตละ 60 วิ',
     totalMins: 10, kcal: 40, kcalRange: '30–55',
-    img: 'exercises/dumbbell/p046_img1.jpeg',
+    img: 'exercises/dumbbell/p068_img2.jpeg',
     steps: [
       'นอนหงาย วางเท้าบนม้านั่ง จับดัมเบลสองมือ แขนงอ เหนือกระดูกอก',
       'ยกแขนโค้งไปด้านหลังศีรษะจนดัมเบลพ้นสายตา',
@@ -2908,7 +2908,7 @@ const EXERCISE_DB = [
     effort: 'Zone 3  •  Back Strength', effortColor: '#f44336',
     plan: '3 เซต × 10 ครั้ง  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 60, kcalRange: '45–80',
-    img: 'exercises/dumbbell/p062_img2.jpeg',
+    img: 'exercises/dumbbell/p079_img1.jpeg',
     steps: [
       'ก้มตัวในท่า Squat ต่ำ ลำตัวเกือบขนานพื้น คล้ายนักกระโดดสกี',
       'ดัมเบลห้อยตรงหน้าปลายเท้า ไหล่หย่อน (ยืดหลังกว้าง)',
@@ -2926,7 +2926,7 @@ const EXERCISE_DB = [
     effort: 'Zone 3  •  Back + Core', effortColor: '#f44336',
     plan: '3 เซต × 10 ครั้งต่อข้าง  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 60, kcalRange: '45–80',
-    img: 'exercises/dumbbell/p067_img1.jpeg',
+    img: 'exercises/dumbbell/p078_img1.jpeg',
     steps: [
       'ถือดัมเบลมือขวา ยืน Split Stance เท้าซ้ายหน้า ก้มตัวไปข้างหน้า',
       'ลดดัมเบลลงแขนตรง เมื่อถึงจุดต่ำสุด — ดึงขึ้นสู่ระดับอก พร้อมหมุนลำตัวเล็กน้อย',
@@ -2962,7 +2962,7 @@ const EXERCISE_DB = [
     effort: 'Zone 3  •  Full Body Power', effortColor: '#f44336',
     plan: '3 เซต × 8 ครั้ง  |  พักเซตละ 75 วิ',
     totalMins: 12, kcal: 85, kcalRange: '70–105',
-    img: 'exercises/dumbbell/p066_img2.jpeg',
+    img: 'exercises/dumbbell/p084_img1.jpeg',
     steps: [
       'ยืน Squat ลึก ถือดัมเบลสองมือหน้าเข่า ปลายดัมเบลชนกัน',
       'เหยียดขาอย่างรวดเร็ว พร้อมดึงดัมเบลขึ้นระดับไหล่ (ดัมเบลวิ่งขึ้นตรง ไม่แกว่ง)',
@@ -2980,7 +2980,7 @@ const EXERCISE_DB = [
     effort: 'Zone 4  •  Explosive Power', effortColor: '#9c27b0',
     plan: '3 เซต × 6 ครั้งต่อข้าง  |  พักเซตละ 90 วิ',
     totalMins: 12, kcal: 95, kcalRange: '80–120',
-    img: 'exercises/dumbbell/p072_img1.jpeg',
+    img: 'exercises/dumbbell/p088_img1.jpeg',
     steps: [
       'วางดัมเบลระหว่างเท้า เท้ากว้างระดับไหล่ — Squat ลงจับดัมเบล',
       'ระเบิดขึ้นอย่างรวดเร็ว ดันขาพร้อมดึงดัมเบลขึ้นข้างหน้าใบหน้า ระดับไหล่',
@@ -2998,7 +2998,7 @@ const EXERCISE_DB = [
     effort: 'Zone 3  •  Core + Back Integration', effortColor: '#f44336',
     plan: '3 เซต × 8 ครั้งต่อข้าง  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 70, kcalRange: '55–90',
-    img: 'exercises/dumbbell/p076_img1.jpeg',
+    img: 'exercises/dumbbell/p096_img1.jpeg',
     steps: [
       'อยู่ในท่า Push-up บนดัมเบล เท้ากว้างระดับไหล่เพื่อความมั่นคง',
       'ฝึกโอนน้ำหนักจากมือหนึ่งไปอีกมือก่อน — รู้สึกว่าเท้าก็โอนตาม',
@@ -3016,7 +3016,7 @@ const EXERCISE_DB = [
     effort: 'Zone 3  •  Core Rotation', effortColor: '#f44336',
     plan: '3 เซต × 8 ครั้งต่อข้าง  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 60, kcalRange: '45–80',
-    img: 'exercises/dumbbell/p077_img1.jpeg',
+    img: 'exercises/dumbbell/p098_img1.jpeg',
     steps: [
       'เริ่มในท่า Plank บนดัมเบล เท้ากว้างระดับไหล่',
       'นึกภาพหน้าปัด — ดัมเบลอยู่ที่ 6 นาฬิกา เป้าหมายคือ 12 นาฬิกา',
@@ -3034,7 +3034,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Core Stability', effortColor: '#2196f3',
     plan: '3 เซต × 8 ครั้งต่อข้าง  |  พักเซตละ 45 วิ',
     totalMins: 10, kcal: 40, kcalRange: '30–55',
-    img: 'exercises/dumbbell/p078_img1.jpeg',
+    img: 'exercises/dumbbell/p095_img1.jpeg',
     steps: [
       'นอนตะแคง ค้ำด้วยข้อศอก เท้าซ้อนกัน ยกสะโพกขึ้นจากพื้น',
       'เมื่อสมดุล ยื่นแขนบนลอดใต้ลำตัวโดยหมุน Torso',
@@ -3052,7 +3052,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Core Rotation', effortColor: '#2196f3',
     plan: '3 เซต × 12 ครั้ง  |  พักเซตละ 45 วิ',
     totalMins: 10, kcal: 50, kcalRange: '35–65',
-    img: 'exercises/dumbbell/p079_img1.jpeg',
+    img: 'exercises/dumbbell/p100_img1.jpeg',
     steps: [
       'นั่งบนพื้น เข่างอ ส้นเท้ากดพื้น ลำตัวเอียงเล็กน้อยไปข้างหลัง',
       'จับดัมเบลมือเดียว เริ่มที่ข้างสะโพกขวา',
@@ -3070,7 +3070,7 @@ const EXERCISE_DB = [
     effort: 'Zone 3  •  Full Body Power', effortColor: '#f44336',
     plan: '3 เซต × 10 ครั้งต่อข้าง  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 85, kcalRange: '65–105',
-    img: 'exercises/dumbbell/p083_img1.jpeg',
+    img: 'exercises/dumbbell/p080_img1.jpeg',
     steps: [
       'ยืน Lunge เท้าซ้ายหลัง กระจายน้ำหนักเท่ากัน',
       'หมุนลำตัวไปด้านซ้ายให้สุด (ไม่ใช่แค่หมุนไหล่) — โน้มไปด้านนอกขาหลัง',
@@ -3088,7 +3088,7 @@ const EXERCISE_DB = [
     effort: 'Zone 3  •  Full Body Power', effortColor: '#f44336',
     plan: '3 เซต × 10 ครั้งต่อข้าง  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 85, kcalRange: '65–105',
-    img: 'exercises/dumbbell/p084_img1.jpeg',
+    img: 'exercises/dumbbell/p105_img1.jpeg',
     steps: [
       'เริ่มดัมเบลข้างเท้าซ้าย น้ำหนักลงขาซ้าย',
       'ดันขาซ้ายดันขึ้น พร้อมยกดัมเบลวงกว้างผ่าน 12 นาฬิกาไปข้างขวาบน',
@@ -3106,7 +3106,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Core + Flexibility', effortColor: '#2196f3',
     plan: '3 เซต × 12 ครั้งต่อข้าง  |  พักเซตละ 45 วิ',
     totalMins: 10, kcal: 40, kcalRange: '30–55',
-    img: 'exercises/dumbbell/p080_img1.jpeg',
+    img: 'exercises/dumbbell/p101_img1.jpeg',
     steps: [
       'ยืนเท้ากว้างระดับไหล่ ถือดัมเบลมือขวา',
       'ก้มตัวลงช้าๆ ดัมเบลวิ่งขนานด้านหน้าขาขวาลงสู่พื้น',
@@ -3124,7 +3124,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Core Stability + Flexibility', effortColor: '#2196f3',
     plan: '3 เซต × 8 ครั้งต่อข้าง  |  พักเซตละ 45 วิ',
     totalMins: 10, kcal: 50, kcalRange: '35–65',
-    img: 'exercises/dumbbell/p082_img1.jpeg',
+    img: 'exercises/dumbbell/p103_img1.jpeg',
     steps: [
       'คล้าย Toe Touch แต่เพิ่มการยกดัมเบลขึ้นเหนือหัวหลังจากก้มลง',
       'ก้มลงตาม Toe Touch — เมื่อถึงจุดต่ำสุด อีกมือยกดัมเบลขึ้นบน',
@@ -3142,7 +3142,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Lower Body Strength', effortColor: '#2196f3',
     plan: '3 เซต × 12 ครั้ง  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 60, kcalRange: '45–80',
-    img: 'exercises/dumbbell/p065_img1.jpeg',
+    img: 'exercises/dumbbell/p082_img1.jpeg',
     steps: [
       'ยืนเท้ากว้างเท่าช่วงสะโพก ถือดัมเบลข้างลำตัว',
       'ลง Squat — ดัมเบลวิ่งลงตรง ไม่แกว่ง มองพื้นห่างออกไป 3 เมตร',
@@ -3160,7 +3160,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Lower Body Strength', effortColor: '#2196f3',
     plan: '3 เซต × 12 ครั้ง  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 70, kcalRange: '55–90',
-    img: 'exercises/dumbbell/p085_img1.jpeg',
+    img: 'exercises/dumbbell/p107_img1.jpeg',
     steps: [
       'ยืนเท้ากว้างเท่าช่วงสะโพก งอข้อศอกถือดัมเบลชิดลำตัวหน้าอก',
       'Squat ลงในขณะที่ดัมเบลยังชิดลำตัว',
@@ -3178,7 +3178,7 @@ const EXERCISE_DB = [
     effort: 'Zone 3  •  Full Body Strength', effortColor: '#f44336',
     plan: '3 เซต × 10 ครั้ง  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 70, kcalRange: '55–90',
-    img: 'exercises/dumbbell/p087_img1.jpeg',
+    img: 'exercises/dumbbell/p110_img1.jpeg',
     steps: [
       'Clean and Press ดัมเบลขึ้นเหนือหัว แขนเหยียดตรง',
       'ยืนสมดุลก่อน จากนั้น Squat ลงให้ลึกที่สุดโดยไม่เสียการทรงตัว',
@@ -3196,7 +3196,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Inner Thigh + Glutes', effortColor: '#2196f3',
     plan: '3 เซต × 12 ครั้ง  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 70, kcalRange: '55–90',
-    img: 'exercises/dumbbell/p089_img1.jpeg',
+    img: 'exercises/dumbbell/p115_img1.jpeg',
     steps: [
       'ยืนขากว้างมาก — ใช้วิธีวัด: ยืดแขนออกด้านข้าง วางเท้าตรงใต้ข้อศอก',
       'จับดัมเบลจากหัว (ไม่ใช่ด้าม) ให้ห้อยแนวตั้งหน้าตัว',
@@ -3214,7 +3214,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Lower Body Strength', effortColor: '#2196f3',
     plan: '3 เซต × 10 ครั้งต่อขา  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 70, kcalRange: '55–90',
-    img: 'exercises/dumbbell/p092_img1.jpeg',
+    img: 'exercises/dumbbell/p116_img1.jpeg',
     steps: [
       'ยืนห่างจากบันไดหรือม้านั่งหนึ่งก้าวรองเท้า ถือดัมเบลข้างลำตัว',
       'ก้าวขาหนึ่งขึ้น ให้ฝ่าเท้าเต็มเหยียบ (ส้นไม่ห้อย)',
@@ -3232,7 +3232,7 @@ const EXERCISE_DB = [
     effort: 'Zone 3  •  Single Leg Strength', effortColor: '#f44336',
     plan: '3 เซต × 8 ครั้งต่อขา  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 85, kcalRange: '65–105',
-    img: 'exercises/dumbbell/p094_img1.jpeg',
+    img: 'exercises/dumbbell/p120_img1.jpeg',
     steps: [
       'ยืนบนม้านั่ง เท้าขนานกับขอบ ถือดัมเบลข้างลำตัว',
       'งอขาทำงานลงประมาณ 90 องศา ขาอีกข้างห้อยลงข้างๆ',
@@ -3250,7 +3250,7 @@ const EXERCISE_DB = [
     effort: 'Zone 4  •  Explosive Power', effortColor: '#9c27b0',
     plan: '3 เซต × 10 ครั้ง  |  พักเซตละ 75 วิ',
     totalMins: 12, kcal: 110, kcalRange: '90–135',
-    img: 'exercises/dumbbell/p096_img1.jpeg',
+    img: 'exercises/dumbbell/p122_img1.jpeg',
     steps: [
       'ยืนหน้าม้านั่ง ก้าวขาขึ้น โน้มตัวไปหน้าเล็กน้อยคล้ายวิ่งขึ้นบันได',
       'ระเบิดขาผลักขึ้นจนลอยตัวและสลับขาได้กลางอากาศ',
@@ -3268,7 +3268,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Lower Body Strength', effortColor: '#2196f3',
     plan: '3 เซต × 12 ครั้งต่อขา  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 60, kcalRange: '45–80',
-    img: 'exercises/dumbbell/p098_img1.jpeg',
+    img: 'exercises/dumbbell/p123_img1.jpeg',
     steps: [
       'กางขาออกกว้างพอ Split Stance ทั้งสองขา (ซอยทีละข้าง ไม่ใช่ก้าวยาวเดี่ยว)',
       'งอขาทั้งสองลงพร้อมกัน ดัมเบลวิ่งลงตรง',
@@ -3286,7 +3286,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Lower Body Strength', effortColor: '#2196f3',
     plan: '3 เซต × 10 ครั้งต่อขา  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 70, kcalRange: '55–90',
-    img: 'exercises/dumbbell/p099_img1.jpeg',
+    img: 'exercises/dumbbell/p124_img1.jpeg',
     steps: [
       'ยืนตรง ถือดัมเบลข้างลำตัวหรือระดับสะโพก',
       'ก้าวขายาวไปข้างหน้า — ก้าวยาวกว่าก้าวเดินปกติ',
@@ -3304,7 +3304,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Lower Body Strength', effortColor: '#2196f3',
     plan: '3 เซต × 10 ครั้งต่อขา  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 70, kcalRange: '55–90',
-    img: 'exercises/dumbbell/p100_img1.jpeg',
+    img: 'exercises/dumbbell/p127_img1.jpeg',
     steps: [
       'ยืนตรง ถือดัมเบลข้างลำตัว',
       'ก้าวขาหนึ่งไปด้านหลัง — ลงช้าๆ เท้าหลังแตะพื้นก่อนงอขาลึก',
@@ -3322,7 +3322,7 @@ const EXERCISE_DB = [
     effort: 'Zone 3  •  Full Body Endurance', effortColor: '#f44336',
     plan: '3 เซต × 10 คู่ก้าว  |  พักเซตละ 60 วิ',
     totalMins: 12, kcal: 70, kcalRange: '55–90',
-    img: 'exercises/dumbbell/p101_img1.jpeg',
+    img: 'exercises/dumbbell/p128_img1.jpeg',
     steps: [
       'ต้องการพื้นที่อย่างน้อย 10 เมตร — ฝึกโดยไม่ถือน้ำหนักก่อนเพื่อรู้สึกจังหวะ',
       'ก้าวหน้าแต่ละก้าวต้องยาวกว่าก้าวเดินปกติ',
@@ -3340,7 +3340,7 @@ const EXERCISE_DB = [
     effort: 'Zone 4  •  Explosive Power', effortColor: '#9c27b0',
     plan: '3 เซต × 8 ครั้ง  |  พักเซตละ 75 วิ',
     totalMins: 12, kcal: 110, kcalRange: '90–135',
-    img: 'exercises/dumbbell/p103_img1.jpeg',
+    img: 'exercises/dumbbell/p129_img1.jpeg',
     steps: [
       'เริ่มใน Split Stance ถือดัมเบลข้างลำตัว',
       'ฝึกสลับเท้าเร็วๆ ด้วยการกระโดดเบาๆ ก่อน จากนั้นเพิ่มความลึก',
