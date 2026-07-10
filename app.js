@@ -1066,8 +1066,16 @@ function renderExerciseCard() {
   const minutes = hungerModule.exerciseMinutes || 0;
   const burnEl  = document.getElementById('tc-ex-burned');
   const subEl   = document.getElementById('tc-ex-sub');
+  const ceeEl   = document.getElementById('tc-ex-cee');
   if (burnEl) burnEl.textContent = `−${burned.toLocaleString()} kcal`;
   if (subEl)  subEl.textContent  = minutes > 0 ? `${minutes} นาที` : 'ยังไม่ออกกำลัง';
+  if (ceeEl && window.ceeModule && minutes > 0) {
+    const s = ceeModule.getStatus();
+    ceeEl.style.display = '';
+    ceeEl.innerHTML = `<span style="font-size:.68rem;color:${s.color};font-weight:600">🔬 CEE ${s.pct}% — ${s.label}</span>`;
+  } else if (ceeEl) {
+    ceeEl.style.display = 'none';
+  }
 }
 
 function renderExerciseTab() {
@@ -3593,16 +3601,21 @@ function toggleExsLibCat(id) {
 
 function logAllPlan(ids) {
   if (!Array.isArray(ids) || !ids.length) return;
-  let totalKcal = 0, totalMins = 0;
+  // Snapshot CEE state before logging (apply same factor to whole plan batch)
+  const burnedBefore = hungerModule.caloriesBurned || 0;
+  const ceeEff = window.ceeModule ? ceeModule.getEfficiency(burnedBefore) : 1;
+  let totalRawKcal = 0, totalKcal = 0, totalMins = 0;
   ids.forEach(id => {
     const ex = EXERCISE_DB.find(e => e.id === id);
     if (!ex) return;
-    const kcal = ex.kcal || questModule.getExerciseKcal(ex.type, ex.totalMins);
+    const rawKcal = ex.kcal || questModule.getExerciseKcal(ex.type, ex.totalMins);
+    const kcal = Math.round(rawKcal * ceeEff);
     hungerModule.burnCalories(kcal, ex.totalMins);
     hungerModule.decayHunger(ex.totalMins, 'exercise');
     questModule.update('calories_burned', kcal);
     const mDone = missionModule.onEvent('exercise', { minutes: ex.totalMins, kcal, exType: ex.type });
     mDone.forEach(m => { const r = awardXP(m.xp, 'mission'); showToast(t('txt_mission_new', { xp: r.gained }), 'success'); });
+    totalRawKcal += rawKcal;
     totalKcal += kcal;
     totalMins += ex.totalMins;
   });
@@ -3612,7 +3625,10 @@ function logAllPlan(ids) {
   const xpBase = gearModule.applyExerciseXP(xpRaw);
   const result = awardXP(xpBase, 'exercise');
   checkAchievements('exercise', {});
-  showToast(`🔥 ออกกำลังกาย ${ids.length} ท่า • ${totalMins} นาที • เผา ${totalKcal} kcal • +${result.gained} XP`, 'success');
+  const ceeNote = (window.ceeModule && totalRawKcal - totalKcal >= 20)
+    ? ` 🔬 CEE ${Math.round(ceeEff * 100)}%`
+    : '';
+  showToast(`🔥 ออกกำลังกาย ${ids.length} ท่า • ${totalMins} นาที • เผา ${totalKcal} kcal${ceeNote} • +${result.gained} XP`, 'success');
   showXPFloat(result.gained);
   if (result.levelUp) showLevelUp();
   renderAll();
@@ -3683,7 +3699,10 @@ function _exsCard(ex, excess) {
 }
 
 function quickLogExercise(type, minutes, displayName, kcalOverride) {
-  const kcal   = kcalOverride || questModule.getExerciseKcal(type, minutes);
+  const rawKcal  = kcalOverride || questModule.getExerciseKcal(type, minutes);
+  // Apply Constrained Total Energy Expenditure adjustment (Pontzer 2021)
+  const burnedBefore = hungerModule.caloriesBurned || 0;
+  const kcal = window.ceeModule ? ceeModule.adjustBurn(rawKcal, burnedBefore) : rawKcal;
   const xpRaw  = questModule.getExerciseXP(kcal);
   const xpBase = gearModule.applyExerciseXP(xpRaw);
 
@@ -3700,7 +3719,10 @@ function quickLogExercise(type, minutes, displayName, kcalOverride) {
   stressModule.reduceStress(10);
   checkAchievements('exercise', { exerciseType: type });
 
-  showToast(`🔥 ${displayName || type} ${minutes} นาที — เผา ${kcal} kcal  +${result.gained} XP`, 'success');
+  const ceeNote = (window.ceeModule && rawKcal - kcal >= 20)
+    ? ` 🔬 (ดิบ ${rawKcal}, CEE ${ceeModule.getStatus().pct}%)`
+    : '';
+  showToast(`🔥 ${displayName || type} ${minutes} นาที — เผา ${kcal} kcal  +${result.gained} XP${ceeNote}`, 'success');
   showXPFloat(result.gained);
   if (result.levelUp) showLevelUp();
   renderAll();
@@ -3731,7 +3753,10 @@ function doLogExercise() {
 
   const sel   = document.getElementById('ex-type');
   const displayName = sel ? sel.options[sel.selectedIndex]?.text.replace(/\s*\(.*\)/, '').trim() : type;
-  const kcal  = questModule.getExerciseKcal(type, minutes);
+  const rawKcal = questModule.getExerciseKcal(type, minutes);
+  // Apply CEE adjustment
+  const burnedBefore = hungerModule.caloriesBurned || 0;
+  const kcal  = window.ceeModule ? ceeModule.adjustBurn(rawKcal, burnedBefore) : rawKcal;
   const xpRaw = questModule.getExerciseXP(kcal);
   const xpBase = gearModule.applyExerciseXP(xpRaw);
 
