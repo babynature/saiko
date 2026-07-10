@@ -73,6 +73,15 @@ const EXERCISE_KCAL_PER_MIN = {
   kb_around_world: 4, kb_woodchop: 5, kb_overhead_carry: 5, kb_bottoms_up_press: 5,
   kb_walking_lunge: 6, kb_split_squat: 6, kb_bent_over_row: 5, kb_double_swing: 9,
   kb_halo_squat: 7,
+  db_bicep_curl: 3,    db_reverse_curl: 3,       db_overhead_triceps: 4,  db_single_arm_triceps: 4,
+  db_deltoid_front: 4, db_deltoid_side: 4,        db_chest_press: 5,       db_incline_chest_press: 5,
+  db_fly: 4,           db_dead_lift: 6,            db_bent_arm_pullover: 4, db_bent_over_row: 5,
+  db_bent_over_one_arm_row: 5, db_hip_hinge_rear_raise: 4, db_clean_press: 7,  db_snatch: 8,
+  db_plank_row: 6,     db_plank_rotate: 5,        db_t_stand: 4,           db_kayak: 5,
+  db_cross_chop: 7,    db_ground_high_chop: 7,    db_toe_touch: 4,         db_windmill: 5,
+  db_squat: 5,         db_squat_waist: 6,          db_prisoner_squat: 6,   db_wide_squat: 6,
+  db_step_ups: 6,      db_single_leg_squat: 7,    db_plyo_step_ups: 9,     db_lunge_stationary: 5,
+  db_lunge_front: 6,   db_lunge_rear: 6,           db_walking_lunge: 6,    db_plunge: 9,
 };
 
 class QuestModule {
