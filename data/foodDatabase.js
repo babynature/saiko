@@ -706,6 +706,19 @@ window.FOOD_DB = [
   { name: 'ถั่วทอด',                   kcal: 200, protein: 8,  carbs: 14, fat: 12, emoji: '🥜', portion: '1 ถุง (50g)' },
   // ขนมไทย / ของหวาน
   { name: 'ขนมครก',                    kcal: 180, protein: 3,  carbs: 24, fat: 8,  emoji: '🍮', portion: '6 ชิ้น (1 ถาด)' },
+  // ขนมครกสิงคโปร์
+  { name: 'ขนมครกสิงคโปร์ (classic)',  kcal: 235, protein: 3,  carbs: 32, fat: 11, emoji: '🍮', portion: '6 ชิ้น (กะทิ+ครีม)' },
+  { name: 'ขนมครกสิงคโปร์หน้าข้าวโพด', kcal: 250, protein: 4,  carbs: 36, fat: 11, emoji: '🌽', portion: '6 ชิ้น' },
+  { name: 'ขนมครกสิงคโปร์หน้าชีส',    kcal: 275, protein: 6,  carbs: 30, fat: 15, emoji: '🧀', portion: '6 ชิ้น' },
+  { name: 'ขนมครกสิงคโปร์หน้าเผือก',  kcal: 255, protein: 4,  carbs: 36, fat: 11, emoji: '🟣', portion: '6 ชิ้น' },
+  { name: 'ขนมครกสิงคโปร์หน้าช็อกโกแลต', kcal: 265, protein: 4, carbs: 36, fat: 13, emoji: '🍫', portion: '6 ชิ้น' },
+  { name: 'ขนมครกสิงคโปร์รสชาเขียว',  kcal: 240, protein: 3,  carbs: 34, fat: 11, emoji: '🍵', portion: '6 ชิ้น' },
+  { name: 'ขนมครกสิงคโปร์ไส้ครีมนม',  kcal: 285, protein: 5,  carbs: 36, fat: 14, emoji: '🍮', portion: '6 ชิ้น (ไส้ครีมนมสด)' },
+  // ขนมโตเกียวไทย
+  { name: 'ขนมโตเกียว (5 ชิ้น)',       kcal: 255, protein: 4,  carbs: 38, fat: 10, emoji: '🥞', portion: '5 ชิ้น (แพนเค้กกลม+กะทิ)' },
+  { name: 'ขนมโตเกียวไส้หมูหยอง',      kcal: 285, protein: 8,  carbs: 36, fat: 13, emoji: '🥞', portion: '5 ชิ้น' },
+  { name: 'ขนมโตเกียวไส้ครีม',         kcal: 295, protein: 5,  carbs: 40, fat: 13, emoji: '🥞', portion: '5 ชิ้น' },
+  { name: 'ขนมโตเกียวไส้ช็อกโกแลต',    kcal: 305, protein: 5,  carbs: 42, fat: 13, emoji: '🍫', portion: '5 ชิ้น' },
   { name: 'ขนมถ้วยฟู',                 kcal: 120, protein: 2,  carbs: 22, fat: 3,  emoji: '🧁', portion: '3 ถ้วย' },
   { name: 'ขนมปังปิ้งสังขยา',          kcal: 230, protein: 5,  carbs: 36, fat: 8,  emoji: '🍞', portion: '2 แผ่น' },
   { name: 'ขนมปังปิ้ง Nutella',        kcal: 280, protein: 5,  carbs: 40, fat: 12, emoji: '🍫', portion: '2 แผ่น' },
@@ -1139,6 +1152,15 @@ window.FOOD_DB = [
   { name: 'เม็ดแมงลัก / ลูกเดือย',        kcal: 60,  protein: 1,  carbs: 14, fat: 0,  emoji: '🌱', portion: '2 ช้อนโต๊ะ (เพิ่มลงในเครื่องดื่ม)' },
   { name: 'ทับทิมกรอบ',                   kcal: 150, protein: 0,  carbs: 36, fat: 1,  emoji: '💎', portion: '1 ถ้วย (แห้วเคลือบแป้ง+กะทิ)' },
   { name: 'กระยาสารท',                    kcal: 200, protein: 4,  carbs: 36, fat: 6,  emoji: '🟤', portion: '1 แผ่น (~60g ข้าวตอก+ถั่ว+น้ำตาล)' },
+  // ข้าวหลาม
+  { name: 'ข้าวหลาม (ท่อนเล็ก)',           kcal: 255, protein: 4,  carbs: 48, fat: 6,  emoji: '🎋', portion: '1 ท่อน (~150g ข้าวเหนียว+กะทิ+น้ำตาล)' },
+  { name: 'ข้าวหลาม (ท่อนใหญ่)',           kcal: 385, protein: 6,  carbs: 72, fat: 9,  emoji: '🎋', portion: '1 ท่อน (~230g)' },
+  // น้ำแข็งไสไทย
+  { name: 'น้ำแข็งไสน้ำแดง',               kcal: 100, protein: 0,  carbs: 26, fat: 0,  emoji: '🧊', portion: '1 แก้ว (น้ำเชื่อมแดง)' },
+  { name: 'น้ำแข็งไสนมข้น',                kcal: 185, protein: 2,  carbs: 36, fat: 5,  emoji: '🧊', portion: '1 แก้ว (นมข้นหวาน)' },
+  { name: 'น้ำแข็งไสทับทิมกรอบ',           kcal: 165, protein: 1,  carbs: 40, fat: 1,  emoji: '💎', portion: '1 แก้ว (แห้ว+กะทิ+น้ำแดง)' },
+  { name: 'น้ำแข็งไสรวมมิตร',              kcal: 225, protein: 2,  carbs: 52, fat: 3,  emoji: '🧊', portion: '1 แก้ว (ผลไม้+วุ้น+ถั่ว)' },
+  { name: 'น้ำแข็งไสช็อกโกแลต',            kcal: 210, protein: 3,  carbs: 42, fat: 5,  emoji: '🍫', portion: '1 แก้ว (+ไซรัปช็อกโกแลต)' },
 
   // ── น้ำเต้าหู้ / เครื่องดื่มถั่ว / ธัญพืช ───────────
   // น้ำเต้าหู้
