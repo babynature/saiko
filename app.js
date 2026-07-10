@@ -2478,6 +2478,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2–3  •  Hip Hinge + Inner Thigh Strength', effortColor: '#ff9800',
     plan: '3 เซต × 10–12 ครั้ง  |  พักเซตละ 45 วิ',
     totalMins: 12, kcal: 60, kcalRange: '45–80',
+    img: 'exercises/kettlebell/p092_img1.jpeg',
     steps: [
       'ยืนขากว้างมาก ปลายเท้าแยกออก 45–60 องศา KB วางกลางระหว่างเท้า',
       'โน้มตัวลงจับ KB สองมือ หลังตรง สะโพกย้อยลง หัวไหล่อยู่เหนือ KB',
@@ -2496,6 +2497,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Balance + Unilateral Hip Strength', effortColor: '#4caf50',
     plan: '3 เซต × 8–10 ครั้ง/ข้าง  |  พักเซตละ 45 วิ',
     totalMins: 12, kcal: 60, kcalRange: '45–75',
+    img: 'exercises/kettlebell/p112_img1.jpeg',
     steps: [
       'ยืนขาข้างหนึ่ง จับ KB มือเดียว (ข้างตรงข้ามขาที่ยืน)',
       'โน้มตัวไปด้านหน้าช้าๆ พร้อมยกขาหลังขึ้นให้ลำตัวและขาหลังเป็นเส้นตรง',
@@ -2514,6 +2516,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Shoulder Mobility + Core Rotation', effortColor: '#4caf50',
     plan: '3 เซต × 8 รอบ/ทิศทาง  |  พักเซตละ 30 วิ',
     totalMins: 10, kcal: 40, kcalRange: '30–55',
+    img: 'exercises/kettlebell/p143_img1.jpeg',
     steps: [
       'ยืนตรง ขากว้างเท่าไหล่ จับ KB หนึ่งลูกสองมือด้านหน้า',
       'ส่ง KB ไปทางขวาโดยปล่อยมือซ้าย รับต่อด้วยมือขวาด้านหลัง',
@@ -2532,6 +2535,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2–3  •  Rotational Core Power', effortColor: '#ff9800',
     plan: '3 เซต × 10–12 ครั้ง/ข้าง  |  พักเซตละ 45 วิ',
     totalMins: 12, kcal: 60, kcalRange: '45–78',
+    img: 'exercises/kettlebell/p141_img1.jpeg',
     steps: [
       'ยืนขากว้างกว่าไหล่ จับ KB สองมือ',
       'ยก KB ขึ้นเหนือไหล่ข้างหนึ่ง (ตำแหน่งเริ่ม = มุมบนซ้ายหรือขวา)',
@@ -2550,6 +2554,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Shoulder Stability + Core Bracing', effortColor: '#4caf50',
     plan: '3 เซต × 20–30 ม. หรือ 30–45 วิ/ข้าง  |  พักเซตละ 45 วิ',
     totalMins: 12, kcal: 60, kcalRange: '45–75',
+    img: 'exercises/kettlebell/p100_img1.jpeg',
     steps: [
       'Press KB ขึ้นเหนือหัวด้วยมือเดียว ข้อมือตรง แขนเหยียดสนิท',
       'ล็อคไหล่ลงและไปด้านหลัง (เหมือนดึงไหล่ออกจากหู)',
@@ -2568,6 +2573,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Shoulder Stability + Grip Strength', effortColor: '#4caf50',
     plan: '3 เซต × 5–8 ครั้ง/ข้าง  |  พักเซตละ 60 วิ',
     totalMins: 10, kcal: 50, kcalRange: '35–65',
+    img: 'exercises/kettlebell/p152_img1.jpeg',
     steps: [
       'จับ KB ที่ด้าม หัว KB อยู่ด้านบน (คว่ำ) — Bottoms-Up Position',
       'ยก KB ขึ้นระดับไหล่ หัว KB ชี้ขึ้นตรง บีบ Grip ให้แน่น',
@@ -2586,6 +2592,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2–3  •  Leg Endurance + Balance', effortColor: '#ff9800',
     plan: '3 เซต × 10–12 ก้าว/ข้าง  |  พักเซตละ 45 วิ',
     totalMins: 12, kcal: 72, kcalRange: '55–90',
+    img: 'exercises/kettlebell/p044_img1.jpeg',
     steps: [
       'จับ KB สองลูกห้อยข้างลำตัว หรือ Rack Position ที่ไหล่',
       'ก้าวขาข้างหนึ่งไปข้างหน้า ย่อเข่าลงจนหน้าขาขนานพื้น เข่าหลังเกือบแตะพื้น',
@@ -2604,6 +2611,7 @@ const EXERCISE_DB = [
     effort: 'Zone 3  •  Single-Leg Strength + Hypertrophy', effortColor: '#f44336',
     plan: '3 เซต × 8–10 ครั้ง/ข้าง  |  พักเซตละ 60 วิ',
     totalMins: 15, kcal: 90, kcalRange: '70–110',
+    img: 'exercises/kettlebell/p108_img1.jpeg',
     steps: [
       'ยืนห่างจากม้านั่งประมาณ 60–70 ซม. จับ KB สองลูกห้อยข้างลำตัว',
       'วางส้นเท้าหรือหน้าเท้าข้างหลังบนม้านั่ง ขาหน้าเหยียบพื้นมั่นคง',
@@ -2622,6 +2630,7 @@ const EXERCISE_DB = [
     effort: 'Zone 2  •  Back Strength + Posture', effortColor: '#4caf50',
     plan: '3 เซต × 8–12 ครั้ง/ข้าง  |  พักเซตละ 45 วิ',
     totalMins: 12, kcal: 60, kcalRange: '45–78',
+    img: 'exercises/kettlebell/p115_img1.jpeg',
     steps: [
       'ยืนขากว้างเท่าไหล่ โน้มตัวไปด้านหน้า 45–60 องศา หลังตรง',
       'จับ KB มือเดียว ห้อยลงตรงๆ ข้อมือตรง',
@@ -2640,6 +2649,7 @@ const EXERCISE_DB = [
     effort: 'Zone 4  •  Maximum Power Output', effortColor: '#9c27b0',
     plan: '3 เซต × 8–10 ครั้ง  |  พักเซตละ 75 วิ',
     totalMins: 10, kcal: 90, kcalRange: '75–115',
+    img: 'exercises/kettlebell/p158_img1.jpeg',
     steps: [
       'ยืนขากว้างกว่า KB Swing ปกติเล็กน้อย วาง KB สองลูกตรงกลาง',
       'โน้มตัวจับ KB สองลูกสองมือพร้อมกัน หลังตรง สะโพกบั้ง',
@@ -2658,6 +2668,7 @@ const EXERCISE_DB = [
     effort: 'Zone 3  •  Shoulder Mobility + Leg Strength Combo', effortColor: '#f44336',
     plan: '3 เซต × 8 รอบ  |  พักเซตละ 45 วิ',
     totalMins: 12, kcal: 84, kcalRange: '65–100',
+    img: 'exercises/kettlebell/p088_img1.jpeg',
     steps: [
       'ยืนตรง จับ KB สองมือที่ด้ามข้าง (หัว KB ขึ้น) ระดับหน้าอก',
       'วน KB รอบศีรษะอย่างช้าๆ 1 รอบ (Halo) รักษา Core ให้เกร็งไม่ให้สะโพกหมุน',
