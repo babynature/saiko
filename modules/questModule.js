@@ -65,6 +65,14 @@ const EXERCISE_KCAL_PER_MIN = {
   kb_swing: 8,     kb_press: 5,     kb_squat: 6,    kb_snatch: 9,
   kb_row: 5,       kb_turkish_getup: 6, kb_renegade_row: 7, kb_lunge: 6,
   kb_russian_twist: 4, kb_figure8: 6,
+  kb_clean: 7,     kb_deadlift: 5,  kb_high_pull: 7, kb_push_press: 6,
+  kb_windmill: 4,  kb_halo: 3,      kb_farmer_carry: 5, kb_side_plank: 3,
+  kb_single_arm_swing: 8, kb_clean_press: 7, kb_goblet_squat: 6, kb_thruster: 8,
+  kb_floor_press: 5, kb_lateral_lunge: 6, kb_swing_squat: 7, kb_jerk: 8,
+  kb_push_up_row: 7, kb_reverse_lunge: 6, kb_sumo_deadlift: 5, kb_single_leg_deadlift: 5,
+  kb_around_world: 4, kb_woodchop: 5, kb_overhead_carry: 5, kb_bottoms_up_press: 5,
+  kb_walking_lunge: 6, kb_split_squat: 6, kb_bent_over_row: 5, kb_double_swing: 9,
+  kb_halo_squat: 7,
 };
 
 class QuestModule {
