@@ -1489,4 +1489,41 @@ window.FOOD_DB = [
   { name: 'Bonanza สเต็กหมูคอ',             kcal: 390, protein: 28, carbs: 10, fat: 26, emoji: '🐷', portion: '1 Set' },
   { name: 'S&P สเต็กเนื้อ',                kcal: 420, protein: 30, carbs: 12, fat: 28, emoji: '🥩', portion: '1 จาน' },
   { name: 'ร้านสเต็กริมถนน (Thai Street Steak)', kcal: 350, protein: 26, carbs: 14, fat: 22, emoji: '🥩', portion: '1 จาน (~120g+มันบด+ซอส)' },
+
+  // ── นมโปรตีนสูง / High-Protein Milk ─────────────────────
+  { name: 'นม Dutch Mill โปรตีนสูง',         kcal: 140, protein: 14, carbs: 12, fat: 4,  emoji: '🥛', portion: '1 กล่อง (225ml)' },
+  { name: 'นม Meiji Protein Plus',           kcal: 130, protein: 13, carbs: 11, fat: 3,  emoji: '🥛', portion: '1 กล่อง (200ml)' },
+  { name: 'นม Anlene Gold (โปรตีน+แคลเซียม)', kcal: 110, protein: 10, carbs: 14, fat: 2,  emoji: '🥛', portion: '1 แก้ว (ชง 30g)' },
+  { name: 'นม Foremost Protein Plus',        kcal: 150, protein: 12, carbs: 14, fat: 5,  emoji: '🥛', portion: '1 กล่อง (225ml)' },
+  { name: 'นมสด UHT โปรตีนสูง (ทั่วไป)',    kcal: 120, protein: 10, carbs: 12, fat: 3,  emoji: '🥛', portion: '1 กล่อง (200ml)' },
+  { name: 'นม Nongkai Fit โปรตีน',          kcal: 130, protein: 12, carbs: 12, fat: 4,  emoji: '🥛', portion: '1 กล่อง (200ml)' },
+  { name: 'นมสกิม (Skim Milk) ชง',          kcal: 80,  protein: 8,  carbs: 12, fat: 0,  emoji: '🥛', portion: '1 แก้ว (240ml)' },
+  { name: 'นมโปรตีนกรีก (Fairlife)',         kcal: 150, protein: 14, carbs: 13, fat: 5,  emoji: '🥛', portion: '1 กล่อง (240ml หรือ Ultra-filtered)' },
+
+  // ── เวย์โปรตีน / Whey Protein ────────────────────────────
+  { name: 'เวย์โปรตีน + น้ำ (1 scoop)',      kcal: 110, protein: 24, carbs: 3,  fat: 1,  emoji: '💪', portion: '1 scoop (~30g ชงน้ำ)' },
+  { name: 'เวย์โปรตีน + นม (1 scoop)',       kcal: 230, protein: 30, carbs: 15, fat: 6,  emoji: '💪', portion: '1 scoop + นม 200ml' },
+  { name: 'เวย์โปรตีนไอโซเลต (WPI) + น้ำ',  kcal: 100, protein: 25, carbs: 1,  fat: 0,  emoji: '💪', portion: '1 scoop (~28g)' },
+  { name: 'เวย์โปรตีนคอนเซนเตรต (WPC) + น้ำ', kcal: 120, protein: 22, carbs: 4, fat: 2,  emoji: '💪', portion: '1 scoop (~30g)' },
+  { name: 'Optimum Nutrition Gold Standard', kcal: 120, protein: 24, carbs: 3,  fat: 1,  emoji: '💪', portion: '1 scoop (30.4g) + น้ำ' },
+  { name: 'Dymatize ISO100 Whey',            kcal: 110, protein: 25, carbs: 2,  fat: 0,  emoji: '💪', portion: '1 scoop (29g) + น้ำ' },
+  { name: 'Scitec Nutrition 100% Whey',      kcal: 108, protein: 22, carbs: 3,  fat: 1,  emoji: '💪', portion: '1 scoop (30g) + น้ำ' },
+  { name: 'เวย์โปรตีน Mass Gainer (1 scoop)', kcal: 380, protein: 25, carbs: 55, fat: 6, emoji: '💪', portion: '1 scoop (~100g + นม)' },
+
+  // ── เคซีน / Plant-based Protein ──────────────────────────
+  { name: 'เคซีนโปรตีน (Casein) + น้ำ',     kcal: 110, protein: 24, carbs: 3,  fat: 1,  emoji: '🌙', portion: '1 scoop (~34g ก่อนนอน)' },
+  { name: 'โปรตีนถั่วลันเตา (Pea Protein)',  kcal: 100, protein: 21, carbs: 2,  fat: 1,  emoji: '🌿', portion: '1 scoop (~30g) + น้ำ' },
+  { name: 'โปรตีนถั่วเหลืองไอโซเลต (SPI)',  kcal: 105, protein: 23, carbs: 2,  fat: 1,  emoji: '🌱', portion: '1 scoop (~28g) + น้ำ' },
+  { name: 'โปรตีนข้าวบราวน์ (Rice Protein)', kcal: 110, protein: 22, carbs: 4,  fat: 2,  emoji: '🌾', portion: '1 scoop (~30g) + น้ำ' },
+  { name: 'Vegan Protein Blend + นม plant',  kcal: 130, protein: 20, carbs: 8,  fat: 3,  emoji: '🌿', portion: '1 scoop (~35g) + นมอัลมอนด์' },
+
+  // ── โปรตีนบาร์ / Protein Snacks ──────────────────────────
+  { name: 'Quest Bar (Protein Bar)',          kcal: 200, protein: 21, carbs: 22, fat: 8,  emoji: '🍫', portion: '1 แท่ง (60g)' },
+  { name: 'RX Bar',                          kcal: 210, protein: 12, carbs: 24, fat: 9,  emoji: '🍫', portion: '1 แท่ง (52g)' },
+  { name: 'KIND Protein Bar',                kcal: 250, protein: 12, carbs: 26, fat: 13, emoji: '🍫', portion: '1 แท่ง (50g)' },
+  { name: 'โปรตีนบาร์ไทย (ทั่วไป)',          kcal: 180, protein: 15, carbs: 18, fat: 6,  emoji: '🍫', portion: '1 แท่ง (~45g)' },
+  { name: 'ถั่วผสม High Protein (30g)',      kcal: 160, protein: 7,  carbs: 6,  fat: 13, emoji: '🥜', portion: '1 ซอง (30g)' },
+  { name: 'Edamame (ถั่วแมะเอดาเมะ)',        kcal: 120, protein: 11, carbs: 9,  fat: 5,  emoji: '🫛', portion: '1/2 ถ้วย (80g)' },
+  { name: 'Greek Yogurt Protein (Chobani)',  kcal: 120, protein: 17, carbs: 8,  fat: 0,  emoji: '🥛', portion: '1 ถ้วย (170g ไม่หวาน)' },
+  { name: 'คอตเทจชีสโปรตีนสูง',             kcal: 90,  protein: 14, carbs: 4,  fat: 2,  emoji: '🧀', portion: '1/2 ถ้วย (110g ไขมันต่ำ)' },
 ];
