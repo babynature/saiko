@@ -2794,6 +2794,8 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 /* ── Card head: emoji | name+badge | kcal pill ── */
@@ -2805,6 +2807,7 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 .exs-emoji { font-size: 24px; flex-shrink: 0; }
 .exs-card-title-wrap {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -2814,6 +2817,9 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   font-size: 14px;
   font-weight: 700;
   color: #e2e8f0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
 }
 .exs-cat-badge {
   font-size: 10px;
@@ -2821,6 +2827,10 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   padding: 2px 7px;
   border-radius: 20px;
   border: 1px solid transparent;
+  white-space: nowrap;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .exs-burn-pill {
   font-size: 12px;
@@ -2954,6 +2964,11 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   padding: 10px;
   cursor: pointer;
   width: 100%;
+  max-width: 100%;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
   transition: opacity .15s, transform .1s;
   margin-top: 2px;
 }
@@ -2976,6 +2991,8 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   font-size: 11px;
   font-weight: 600;
   letter-spacing: .01em;
+  word-break: break-word;
+  min-width: 0;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -3144,7 +3161,9 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   font-weight: 800;
   padding: 10px 16px;
   cursor: pointer;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
+  max-width: 100%;
   transition: opacity .15s, transform .1s;
   box-shadow: 0 3px 12px rgba(239,83,80,.35);
 }
