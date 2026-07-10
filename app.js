@@ -1079,6 +1079,8 @@ function renderExerciseCard() {
 }
 
 function renderExerciseTab() {
+  _syncExerciseLogDateNav();
+  _renderExerciseLogForDate();
   renderExerciseSuggest();
   updateExercisePreview();
 }

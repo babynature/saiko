@@ -761,6 +761,17 @@
       <button class="btn-log-ex" onclick="doLogExercise()" id="btn-log-ex">🔥 บันทึก</button>
     </div>
 
+    <!-- Exercise Log History -->
+    <div class="flog-date-nav" id="exlog-nav" style="margin-top:12px">
+      <button class="flog-nav-btn" id="exlog-nav-prev" onclick="navigateExerciseLog(-1)">‹</button>
+      <div class="flog-nav-center">
+        <span class="flog-nav-label" id="exlog-nav-label">วันนี้</span>
+        <span class="flog-nav-date" id="exlog-nav-date"></span>
+      </div>
+      <button class="flog-nav-btn" id="exlog-nav-next" onclick="navigateExerciseLog(1)" disabled>›</button>
+    </div>
+    <div id="exercise-log-list" style="margin-top:4px"></div>
+
     <!-- Exercise Recommendations -->
     <div id="exercise-suggest" style="display:none"></div>
   </div>
