@@ -238,12 +238,15 @@ function _renderExerciseLogForDate() {
   }
 
   const rows = log.map((e, i) => {
-    const del = isPast ? '' : `<button class="exlog-del" onclick="removeExerciseLog(${i})" aria-label="ลบ">✕</button>`;
+    const actions = isPast ? '' : `<div class="exlog-actions">
+      <button class="exlog-edit" onclick="openExEditModal(${i})" aria-label="แก้ไข">✏️</button>
+      <button class="exlog-del"  onclick="removeExerciseLog(${i})" aria-label="ลบ">✕</button>
+    </div>`;
     return `<div class="exlog-row${isPast ? ' readonly' : ''}">
       <span class="exlog-name">${_escHtml(e.name)}</span>
       <span class="exlog-meta">${e.time || ''} · ${e.minutes} นาที</span>
       <span class="exlog-kcal">−${e.kcal}</span>
-      ${del}
+      ${actions}
     </div>`;
   }).join('');
 
@@ -3821,6 +3824,77 @@ function removeExerciseLog(idx) {
   _saveExerciseLogHistory();
   renderAll();
   saveGame();
+}
+
+const _EX_EDIT_TYPES = [
+  ['walking','🚶 เดิน'],['brisk_walk','🚶 เดินเร็ว'],['jogging','🏃 วิ่งจ็อกกิ้ง'],
+  ['running','🏃 วิ่ง'],['hiit','⚡ HIIT'],['hiking','⛰️ ไฮกิ้ง'],
+  ['cycling','🚴 จักรยาน'],['cycling_hard','🚴 จักรยานหนัก'],['swimming','🏊 ว่ายน้ำ'],
+  ['badminton','🏸 แบดมินตัน'],['tennis','🎾 เทนนิส'],['football','⚽ ฟุตบอล'],
+  ['basketball','🏀 บาสเกตบอล'],['volleyball','🏐 วอลเลย์บอล'],['court_sport','🏟️ กีฬาบนคอร์ต'],
+  ['muay_thai','🥊 มวย / คิกบ็อกซิ่ง'],['gym','🏋️ ฟิตเนส'],['weight_train','🏋️ ยกน้ำหนัก'],
+  ['bodyweight','💪 บอดี้เวท'],['aerobic','💃 แอโรบิก'],['jump_rope','🪢 กระโดดเชือก'],
+  ['dancing','🕺 เต้นรำ'],['yoga','🧘 โยคะ'],['stretching','🤸 ยืดเหยียด'],
+];
+
+function openExEditModal(idx) {
+  const log   = hungerModule.getTodayExerciseLog();
+  const entry = log[idx];
+  if (!entry) return;
+
+  document.getElementById('ex-edit-modal')?.remove();
+
+  const opts = _EX_EDIT_TYPES.map(([val, label]) =>
+    `<option value="${val}"${entry.type === val ? ' selected' : ''}>${label}</option>`
+  ).join('');
+
+  const modal = document.createElement('div');
+  modal.id = 'ex-edit-modal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.75);display:flex;align-items:flex-end;justify-content:center';
+  modal.innerHTML = `
+    <div class="ex-edit-sheet">
+      <div class="ex-edit-title">✏️ แก้ไขการออกกำลังกาย</div>
+      <label class="ex-edit-lbl">ประเภท</label>
+      <select id="ex-edit-type" class="ex-edit-select">${opts}</select>
+      <label class="ex-edit-lbl">จำนวนนาที</label>
+      <input type="number" id="ex-edit-min" class="ex-edit-input" value="${entry.minutes}" min="1" max="300">
+      <div class="ex-edit-btns">
+        <button class="ex-edit-cancel" onclick="_closeExEditModal()">ยกเลิก</button>
+        <button class="ex-edit-save"   onclick="_saveExEditModal(${idx})">💾 บันทึก</button>
+      </div>
+    </div>`;
+  modal.addEventListener('click', e => { if (e.target === modal) _closeExEditModal(); });
+  document.body.appendChild(modal);
+}
+
+function _closeExEditModal() {
+  document.getElementById('ex-edit-modal')?.remove();
+}
+
+function _saveExEditModal(idx) {
+  const type    = document.getElementById('ex-edit-type')?.value;
+  const minutes = parseInt(document.getElementById('ex-edit-min')?.value);
+  if (!type || !minutes || minutes < 1 || minutes > 300) {
+    showToast('⚠️ ใส่ข้อมูลให้ถูกต้อง', 'error'); return;
+  }
+
+  const sel  = document.getElementById('ex-edit-type');
+  const name = sel ? sel.options[sel.selectedIndex].text.trim() : type;
+
+  const rawKcal     = questModule.getExerciseKcal(type, minutes);
+  const burnedBefore = Math.max(0, (hungerModule.caloriesBurned || 0) - (hungerModule.exerciseLog[idx]?.kcal || 0));
+  const kcal        = window.ceeModule ? ceeModule.adjustBurn(rawKcal, burnedBefore) : rawKcal;
+
+  hungerModule.removeExerciseEntry(idx);
+  hungerModule.logExercise(name, type, minutes, kcal);
+  questModule.update('calories_burned', hungerModule.caloriesBurned);
+  questModule.update('calories_net', hungerModule.getNetCalories());
+
+  _closeExEditModal();
+  _saveExerciseLogHistory();
+  renderAll();
+  saveGame();
+  showToast(`✅ แก้ไขแล้ว: ${name} ${minutes} นาที`, 'success');
 }
 
 // ═══════════════════════════════════════════
