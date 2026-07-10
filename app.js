@@ -3465,7 +3465,7 @@ function renderExerciseSuggest() {
   const dayIdx   = now.getDate();
   const shownIds = new Set(rec.exercises.map(e => e.id));
   const altPool  = EXERCISE_DB.filter(e => !shownIds.has(e.id));
-  const altCats  = ['upper','lower','core','cardio','agility','flexibility','kettlebell'];
+  const altCats  = ['upper','lower','core','cardio','agility','flexibility','kettlebell','dumbbell'];
   const altPicks = altCats
     .map(cat => { const pool = altPool.filter(e => e.cat === cat); return pool[(dayIdx + altCats.indexOf(cat)) % Math.max(pool.length,1)]; })
     .filter(Boolean).slice(0, 3);
@@ -3559,6 +3559,7 @@ function _exsLibraryHTML() {
     { id: 'flexibility', label: '🧘 Flexibility — ยืดหยุ่น',   color: '#e879f9' },
     { id: 'cardio',      label: '🏃 Cardio — คาร์ดิโอ',        color: '#f87171' },
     { id: 'kettlebell',  label: '🏋️ Kettlebell — ลูกตุ้มเหล็ก', color: '#a78bfa' },
+    { id: 'dumbbell',   label: '🏋️‍♂️ Dumbbell — ดัมเบล',         color: '#3b82f6' },
   ];
   const catSections = cats.map(cat => {
     const exs = EXERCISE_DB.filter(e => e.cat === cat.id);
