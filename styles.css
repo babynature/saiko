@@ -2181,15 +2181,37 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 }
 
 /* Backdrop: transparent layer that closes dropdown on outside tap */
-.food-backdrop {
+.food-backdrop, .ex-backdrop {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 99;
   -webkit-tap-highlight-color: transparent;
 }
-.food-backdrop.active {
+.food-backdrop.active, .ex-backdrop.active {
   display: block;
+}
+
+#panel-exercise {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #13132a;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.7);
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+#panel-exercise.panel-open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
 }
 
 /* ── Exercise Tab Summary Bar ── */

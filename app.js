@@ -217,8 +217,10 @@ function _syncExerciseLogDateNav() {
   if (prevBtn) prevBtn.disabled = viewing <= _localDate(minDate);
   if (nextBtn) nextBtn.disabled = !_exLogViewDate;
 
-  const tabEx = document.getElementById('tab-exercise');
-  if (tabEx) tabEx.classList.toggle('past-day', !!_exLogViewDate);
+  const panelEx = document.getElementById('panel-exercise');
+  if (panelEx) panelEx.classList.toggle('past-day', !!_exLogViewDate);
+  const addBtn = document.getElementById('ex-panel-add-btn');
+  if (addBtn) addBtn.style.display = _exLogViewDate ? 'none' : '';
 }
 
 function _renderExerciseLogForDate() {
@@ -704,7 +706,7 @@ window.renderAll = function() {
   renderLifeEvents();
   renderStats();
   renderCalorieBar();
-  if (_currentTabId === 'home')        { renderGlance(); renderFoodLog(); renderExerciseCard(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderNearGoalBanner(); initFoodSearch(); }
+  if (_currentTabId === 'home')        { renderGlance(); renderFoodLog(); renderExerciseCard(); renderMealSuggest(); renderMacroSummary(); renderWaterTracker(); renderNearGoalBanner(); initFoodSearch(); if (document.getElementById('panel-exercise')?.classList.contains('panel-open')) _renderExerciseLogForDate(); }
   if (_currentTabId === 'marketplace') renderMarketplace();
   if (_currentTabId === 'quests')      { renderQuests(); renderMissions(); renderExerciseTip(); }
   if (_currentTabId === 'exercise')    renderExerciseTab();
@@ -1049,16 +1051,28 @@ function toggleMacroRow() {
 }
 
 function toggleExerciseLog() {
-  const panel = document.getElementById('panel-exercise');
-  const card  = document.getElementById('tc-exercise');
+  const panel    = document.getElementById('panel-exercise');
+  const card     = document.getElementById('tc-exercise');
+  const backdrop = document.getElementById('ex-backdrop');
   if (!panel) return;
-  const isOpen = panel.classList.contains('panel-open');
-  panel.classList.toggle('panel-open', !isOpen);
-  card?.classList.toggle('tc-card-open', !isOpen);
-  if (!isOpen) {
+  const opening = !panel.classList.contains('panel-open');
+  panel.classList.toggle('panel-open', opening);
+  card?.classList.toggle('tc-card-open', opening);
+  if (backdrop) backdrop.classList.toggle('active', opening);
+  if (opening) {
+    _exLogViewDate = null;
+    panel.classList.remove('past-day');
+    _syncExerciseLogDateNav();
     _saveExerciseLogHistory();
+    _renderExerciseLogForDate();
     renderExerciseCard();
   }
+}
+
+function closeExerciseLog() {
+  document.getElementById('panel-exercise')?.classList.remove('panel-open');
+  document.getElementById('tc-exercise')?.classList.remove('tc-card-open');
+  document.getElementById('ex-backdrop')?.classList.remove('active');
 }
 
 function renderExerciseCard() {
@@ -1079,8 +1093,6 @@ function renderExerciseCard() {
 }
 
 function renderExerciseTab() {
-  _syncExerciseLogDateNav();
-  _renderExerciseLogForDate();
   renderExerciseSuggest();
   updateExercisePreview();
 }

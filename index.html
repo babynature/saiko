@@ -303,11 +303,11 @@
             <div class="tc-sub" id="tc-food-items">0 รายการ</div>
             <div class="tc-kcal-bar"><div class="tc-kcal-fill" id="tc-kcal-fill"></div></div>
           </div>
-          <div class="tracker-card" id="tc-exercise" onclick="showTab('exercise')">
+          <div class="tracker-card" id="tc-exercise" onclick="toggleExerciseLog()">
             <div class="tc-header">
               <span class="tc-icon">🏋️</span>
               <span class="tc-title">ออกกำลัง</span>
-              <span class="tc-chevron">›</span>
+              <span class="tc-chevron" id="tc-ex-chevron">▼</span>
             </div>
             <div class="tc-total" id="tc-ex-burned">−0 kcal</div>
             <div class="tc-sub" id="tc-ex-sub">ยังไม่ออกกำลัง</div>
@@ -384,6 +384,22 @@
         </div>
         <!-- Backdrop: click outside to close food dropdown -->
         <div class="food-backdrop" id="food-backdrop" onclick="closeFoodLog()"></div>
+
+        <!-- Exercise Log Panel (overlay) -->
+        <div id="panel-exercise">
+          <div class="flog-date-nav" id="exlog-nav">
+            <button class="flog-nav-btn" id="exlog-nav-prev" onclick="navigateExerciseLog(-1)">‹</button>
+            <div class="flog-nav-center">
+              <span class="flog-nav-label" id="exlog-nav-label">วันนี้</span>
+              <span class="flog-nav-date" id="exlog-nav-date"></span>
+            </div>
+            <button class="flog-nav-btn" id="exlog-nav-next" onclick="navigateExerciseLog(1)" disabled>›</button>
+          </div>
+          <div id="exercise-log-list"></div>
+          <button class="food-log-btn" id="ex-panel-add-btn" onclick="closeExerciseLog();showTab('exercise')" style="margin-top:10px;width:100%">+ เพิ่มการออกกำลังกาย</button>
+        </div>
+        <!-- Backdrop: click outside to close exercise panel -->
+        <div class="ex-backdrop" id="ex-backdrop" onclick="closeExerciseLog()"></div>
       </div>
 
       <!-- Miller's Law: visual chunk separator -->
@@ -760,17 +776,6 @@
       </div>
       <button class="btn-log-ex" onclick="doLogExercise()" id="btn-log-ex">🔥 บันทึก</button>
     </div>
-
-    <!-- Exercise Log History -->
-    <div class="flog-date-nav" id="exlog-nav" style="margin-top:12px">
-      <button class="flog-nav-btn" id="exlog-nav-prev" onclick="navigateExerciseLog(-1)">‹</button>
-      <div class="flog-nav-center">
-        <span class="flog-nav-label" id="exlog-nav-label">วันนี้</span>
-        <span class="flog-nav-date" id="exlog-nav-date"></span>
-      </div>
-      <button class="flog-nav-btn" id="exlog-nav-next" onclick="navigateExerciseLog(1)" disabled>›</button>
-    </div>
-    <div id="exercise-log-list" style="margin-top:4px"></div>
 
     <!-- Exercise Recommendations -->
     <div id="exercise-suggest" style="display:none"></div>
