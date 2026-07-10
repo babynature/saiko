@@ -1107,6 +1107,29 @@ window.FOOD_DB = [
   { name: 'เอแคลร์ (Éclair)',             kcal: 260, protein: 5,  carbs: 28, fat: 14, emoji: '🍩', portion: '1 ชิ้น (ชูครีม+ช็อกโกแลต)' },
   { name: 'โดนัทเคลือบ',                  kcal: 280, protein: 4,  carbs: 34, fat: 14, emoji: '🍩', portion: '1 ชิ้น' },
   { name: 'โดนัทสอดไส้ครีม',              kcal: 330, protein: 5,  carbs: 38, fat: 17, emoji: '🍩', portion: '1 ชิ้น' },
+  // มูส / พุดดิ้ง / ครีม
+  { name: 'มูสช็อกโกแลต',                 kcal: 315, protein: 5,  carbs: 28, fat: 22, emoji: '🍫', portion: '1 ถ้วย (~100g)' },
+  { name: 'มูสมะม่วง',                    kcal: 210, protein: 3,  carbs: 36, fat: 7,  emoji: '🥭', portion: '1 ถ้วย (~120g)' },
+  { name: 'มูสสตรอว์เบอร์รี',              kcal: 200, protein: 3,  carbs: 30, fat: 8,  emoji: '🍓', portion: '1 ถ้วย' },
+  { name: 'ปานนาคอตตา (Panna Cotta)',      kcal: 275, protein: 4,  carbs: 24, fat: 18, emoji: '🍮', portion: '1 ถ้วย (~120g กะทิ/วิป)' },
+  { name: 'ครีมบรูเล่ (Crème Brûlée)',    kcal: 335, protein: 6,  carbs: 26, fat: 22, emoji: '🍮', portion: '1 ถ้วย (~120g ไข่+ครีม+น้ำตาลเผา)' },
+  { name: 'พุดดิ้งขนมปัง (Bread Pudding)', kcal: 325, protein: 7,  carbs: 50, fat: 10, emoji: '🍮', portion: '1 ชิ้น (~120g ขนมปัง+ไข่+นม)' },
+  // ทาร์ต
+  { name: 'ทาร์ตไข่ (Egg Tart)',           kcal: 245, protein: 5,  carbs: 30, fat: 11, emoji: '🥧', portion: '1 ชิ้น (~80g)' },
+  { name: 'ทาร์ตผลไม้ (Fruit Tart)',       kcal: 265, protein: 4,  carbs: 40, fat: 10, emoji: '🥧', portion: '1 ชิ้น' },
+  { name: 'ทาร์ตช็อกโกแลต',               kcal: 310, protein: 5,  carbs: 38, fat: 16, emoji: '🥧', portion: '1 ชิ้น' },
+  { name: 'ทาร์ตเลมอน (Lemon Tart)',       kcal: 280, protein: 4,  carbs: 40, fat: 12, emoji: '🍋', portion: '1 ชิ้น' },
+  // เค้ก / ของหวานคาเฟ่เพิ่มเติม
+  { name: 'เค้กแครอท',                    kcal: 375, protein: 4,  carbs: 52, fat: 18, emoji: '🥕', portion: '1 ชิ้น (~100g + ครีมชีสฟรอสติ้ง)' },
+  { name: 'เค้กกล้วยหอม',                 kcal: 340, protein: 5,  carbs: 50, fat: 14, emoji: '🍌', portion: '1 ชิ้น (~100g)' },
+  { name: 'ชีสเค้กมัทฉะ',                 kcal: 360, protein: 7,  carbs: 36, fat: 20, emoji: '🍵', portion: '1 ชิ้น (~120g)' },
+  { name: 'ชีสเค้กโอรีโอ',                kcal: 400, protein: 7,  carbs: 44, fat: 22, emoji: '🍰', portion: '1 ชิ้น (~120g)' },
+  { name: 'ชีสเค้กบลูเบอร์รี',             kcal: 385, protein: 7,  carbs: 40, fat: 22, emoji: '🫐', portion: '1 ชิ้น (~120g)' },
+  { name: 'พาวลอวา (Pavlova)',             kcal: 305, protein: 4,  carbs: 58, fat: 8,  emoji: '🍰', portion: '1 ชิ้น (เมอแรง+วิปครีม+ผลไม้)' },
+  // เจลลาโต้ / ซอร์เบต์
+  { name: 'เจลลาโต้ (Gelato) 1 scoop',    kcal: 120, protein: 3,  carbs: 20, fat: 4,  emoji: '🍦', portion: '1 scoop (~90ml ครีมน้อยกว่าไอศกรีม)' },
+  { name: 'ซอร์เบต์ผลไม้ 1 scoop',        kcal: 100, protein: 0,  carbs: 26, fat: 0,  emoji: '🍧', portion: '1 scoop (~90ml ไม่มีนม)' },
+  { name: 'ซอร์เบต์มะม่วง 1 scoop',       kcal: 105, protein: 0,  carbs: 27, fat: 0,  emoji: '🥭', portion: '1 scoop' },
 
   // ── อาหารสุขภาพ / Fitness ────────────────────────────
   // โยเกิร์ต
@@ -1161,6 +1184,22 @@ window.FOOD_DB = [
   { name: 'น้ำแข็งไสทับทิมกรอบ',           kcal: 165, protein: 1,  carbs: 40, fat: 1,  emoji: '💎', portion: '1 แก้ว (แห้ว+กะทิ+น้ำแดง)' },
   { name: 'น้ำแข็งไสรวมมิตร',              kcal: 225, protein: 2,  carbs: 52, fat: 3,  emoji: '🧊', portion: '1 แก้ว (ผลไม้+วุ้น+ถั่ว)' },
   { name: 'น้ำแข็งไสช็อกโกแลต',            kcal: 210, protein: 3,  carbs: 42, fat: 5,  emoji: '🍫', portion: '1 แก้ว (+ไซรัปช็อกโกแลต)' },
+  // ── ขนมตุบตับ ─────────────────────────────────────────
+  { name: 'ขนมตุบตับ (3 แผ่น)',            kcal: 170, protein: 2,  carbs: 30, fat: 5,  emoji: '🟡', portion: '3 แผ่น (~45g ข้าวตอก+น้ำตาล+งา)' },
+  { name: 'ขนมตุบตับงาดำ (3 แผ่น)',        kcal: 182, protein: 3,  carbs: 28, fat: 7,  emoji: '⬛', portion: '3 แผ่น (~45g งาดำ+น้ำตาลมะพร้าว)' },
+  { name: 'ขนมตุบตับมะพร้าว (3 แผ่น)',     kcal: 195, protein: 2,  carbs: 28, fat: 8,  emoji: '🥥', portion: '3 แผ่น (~45g +มะพร้าวขูด)' },
+  // ── ขนมไทยโบราณ (เพิ่มเติม) ──────────────────────────
+  { name: 'ขนมบ้าบิ่น',                   kcal: 225, protein: 3,  carbs: 36, fat: 8,  emoji: '🟫', portion: '1 แผ่น (~70g กะทิ+ข้าวเหนียว+ไข่)' },
+  { name: 'กาละแม',                        kcal: 200, protein: 2,  carbs: 40, fat: 4,  emoji: '🟤', portion: '1 ชิ้น (~60g น้ำตาลมะพร้าว+ข้าว)' },
+  { name: 'ขนมดอกจอก',                    kcal: 155, protein: 2,  carbs: 24, fat: 6,  emoji: '🌸', portion: '3 ชิ้น (แป้งข้าวเจ้าทอดกรอบ)' },
+  { name: 'ขนมเทียน (ไส้หวาน)',            kcal: 120, protein: 2,  carbs: 22, fat: 3,  emoji: '🍡', portion: '1 ชิ้น (~60g ข้าวเหนียว+ถั่ว นึ่งใบตอง)' },
+  { name: 'ขนมลา',                         kcal: 140, protein: 2,  carbs: 26, fat: 3,  emoji: '🌾', portion: '1 แผ่น (~40g แผ่นข้าวบาง)' },
+  { name: 'เผือกบวชชี',                    kcal: 195, protein: 2,  carbs: 36, fat: 6,  emoji: '🟣', portion: '1 ถ้วย (เผือก+กะทิ+น้ำตาล)' },
+  { name: 'มันสำปะหลังบวชชี',              kcal: 215, protein: 1,  carbs: 44, fat: 5,  emoji: '🍠', portion: '1 ถ้วย (มัน+กะทิ)' },
+  { name: 'ข้าวโพดต้มกะทิ',               kcal: 175, protein: 3,  carbs: 30, fat: 6,  emoji: '🌽', portion: '1 ถ้วย (ข้าวโพด+กะทิ+น้ำตาล)' },
+  { name: 'ข้าวเหนียวดำต้มกะทิ',           kcal: 270, protein: 5,  carbs: 48, fat: 7,  emoji: '🍚', portion: '1 ถ้วย (ข้าวเหนียวดำ+กะทิ)' },
+  { name: 'ขนมใส่ไส้ (เผือกถั่ว)',         kcal: 145, protein: 3,  carbs: 26, fat: 4,  emoji: '🟤', portion: '1 ชิ้น (~60g นึ่ง)' },
+  { name: 'ขนมไข่หงส์',                   kcal: 130, protein: 3,  carbs: 20, fat: 4,  emoji: '🥚', portion: '3 ชิ้น (~45g อบ)' },
 
   // ── น้ำเต้าหู้ / เครื่องดื่มถั่ว / ธัญพืช ───────────
   // น้ำเต้าหู้
