@@ -73,6 +73,7 @@ html, body {
   position: fixed; inset: 0;
   display: flex; flex-direction: column;
   overflow-y: auto;
+  overflow-x: hidden;
   transition: opacity 0.3s;
 }
 .screen:not(.active) { display: none; }
@@ -189,6 +190,8 @@ html, body {
   padding: 10px 14px;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  min-width: 0;
+  overflow: hidden;
   position: sticky; top: 0; z-index: 50;
 }
 .top-bar-left { display: flex; align-items: center; gap: 6px; min-width: 80px; }
@@ -225,6 +228,7 @@ html, body {
 /* ═══ TAB CONTENT ═══ */
 .tab-content {
   flex: 1;
+  min-width: 0;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 12px 14px 72px;
