@@ -391,6 +391,18 @@ window.FOOD_DB = [
   { name: 'ก๋วยจั๊บญวน',             kcal: 280, protein: 16, carbs: 32, fat: 8,  emoji: '🍜', portion: '1 ชาม' },
   { name: 'วุ้นเส้นน้ำ',              kcal: 170, protein: 8,  carbs: 28, fat: 3,  emoji: '🍜', portion: '1 ชาม' },
 
+  // ── ก๋วยเตี๋ยวซี่โครงไก่ ─────────────────────────────
+  { name: 'ก๋วยเตี๋ยวซี่โครงไก่น้ำ',      kcal: 310, protein: 22, carbs: 32, fat: 8,  emoji: '🍜', portion: '1 ชาม' },
+  { name: 'ก๋วยเตี๋ยวซี่โครงไก่แห้ง',     kcal: 365, protein: 24, carbs: 38, fat: 12, emoji: '🍜', portion: '1 ชาม' },
+  { name: 'ก๋วยเตี๋ยวซี่โครงไก่ต้มยำ',    kcal: 335, protein: 22, carbs: 34, fat: 10, emoji: '🍜', portion: '1 ชาม' },
+  { name: 'ก๋วยเตี๋ยวซี่โครงไก่นมสด',     kcal: 395, protein: 24, carbs: 42, fat: 14, emoji: '🍜', portion: '1 ชาม (น้ำนม+กะทิ)' },
+  { name: 'ก๋วยเตี๋ยวซี่โครงไก่ผัดขิง',   kcal: 390, protein: 22, carbs: 44, fat: 14, emoji: '🍝', portion: '1 จาน (ผัดแห้ง)' },
+  { name: 'ก๋วยเตี๋ยวซี่โครงไก่ต้มยำนม',  kcal: 420, protein: 24, carbs: 44, fat: 16, emoji: '🍜', portion: '1 ชาม (ต้มยำ+นมสด)' },
+  { name: 'ซี่โครงไก่ตุ๋น (เดี่ยว)',       kcal: 185, protein: 22, carbs: 2,  fat: 9,  emoji: '🍗', portion: '2–3 ชิ้น (~120g)' },
+  { name: 'ก๋วยเตี๋ยวไก่ตุ๋นพะโล้',       kcal: 340, protein: 22, carbs: 36, fat: 10, emoji: '🍜', portion: '1 ชาม (พะโล้+เส้น)' },
+  { name: 'ก๋วยเตี๋ยวไก่นมสด',            kcal: 370, protein: 20, carbs: 40, fat: 12, emoji: '🍜', portion: '1 ชาม' },
+  { name: 'ก๋วยเตี๋ยวไก่ต้มยำ',           kcal: 295, protein: 18, carbs: 32, fat: 8,  emoji: '🍜', portion: '1 ชาม' },
+
   // ── ขนมจีน ───────────────────────────────────────────
   { name: 'ขนมจีนน้ำยา',             kcal: 325, protein: 16, carbs: 42, fat: 10, emoji: '🍜', portion: '1 จาน' },
   { name: 'ขนมจีนน้ำพริก',           kcal: 280, protein: 10, carbs: 44, fat: 8,  emoji: '🍜', portion: '1 จาน' },
