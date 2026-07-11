@@ -252,6 +252,28 @@ const I18N = {
     q_drink_water_desc: 'ดื่มน้ำอย่างน้อย 8 แก้วในวัน',
     q_balance_name: 'สมดุลมื้ออาหาร',
     q_balance_desc: 'กินอาหาร 3 มื้อ (เช้า กลาง เย็น)',
+
+    // Workout Program Module
+    wp_setup_title:    'เลือกโปรแกรมฝึก',
+    wp_goal_label:     'เป้าหมาย',
+    wp_level_label:    'ระดับ',
+    wp_freq_label:     'ครั้งต่อสัปดาห์',
+    wp_per_week:       'สัปดาห์',
+    wp_start_btn:      'เริ่มโปรแกรม',
+    wp_complete_btn:   'ทำครบแล้ว! (+50 XP)',
+    wp_change_btn:     'เปลี่ยนโปรแกรม',
+    wp_week_tag:       'สัปดาห์ที่',
+    wp_deload_banner:  'Deload Week! ลดน้ำหนักลง 20–30%',
+    wp_done_banner:    'ทำครบแล้ววันนี้!',
+    wp_no_program:     'ยังไม่มีโปรแกรม',
+    wp_select_program: 'แตะเพื่อเลือกโปรแกรม',
+    wp_started_toast:  '🚀 เริ่มโปรแกรมแล้ว! โชคดี!',
+    wp_day_label:      'วันที่',
+    wp_goal_muscle:    'สร้างกล้ามเนื้อ',
+    wp_goal_strength:  'เพิ่มความแข็งแรง',
+    wp_goal_endurance: 'ความอึด',
+    wp_level_beginner: 'ผู้เริ่มต้น',
+    wp_level_advanced: 'ขั้นสูง',
   },
 
   en: {
@@ -486,6 +508,28 @@ const I18N = {
     q_drink_water_desc: 'Drink at least 8 glasses of water today',
     q_balance_name: 'Balanced Meals',
     q_balance_desc: 'Eat 3 meals (breakfast, lunch, dinner)',
+
+    // Workout Program Module
+    wp_setup_title:    'Choose Training Program',
+    wp_goal_label:     'Goal',
+    wp_level_label:    'Level',
+    wp_freq_label:     'Times per Week',
+    wp_per_week:       'week',
+    wp_start_btn:      'Start Program',
+    wp_complete_btn:   'Workout Done! (+50 XP)',
+    wp_change_btn:     'Change Program',
+    wp_week_tag:       'Week',
+    wp_deload_banner:  'Deload Week! Reduce weight by 20–30%',
+    wp_done_banner:    'Workout completed today!',
+    wp_no_program:     'No program selected',
+    wp_select_program: 'Tap to choose a program',
+    wp_started_toast:  '🚀 Program started! Good luck!',
+    wp_day_label:      'Day',
+    wp_goal_muscle:    'Build Muscle',
+    wp_goal_strength:  'Build Strength',
+    wp_goal_endurance: 'Endurance',
+    wp_level_beginner: 'Beginner',
+    wp_level_advanced: 'Advanced',
   }
 };
 

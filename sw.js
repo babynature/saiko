@@ -1,5 +1,5 @@
 // sw.js — Service Worker (Phase 11c)
-const CACHE = 'shg-v14t';
+const CACHE = 'shg-v15';
 const ASSETS = [
   '/', '/index.html', '/styles.css', '/i18n.js', '/app.js',
   '/firebase-config.js',
@@ -12,7 +12,9 @@ const ASSETS = [
   '/modules/intelligenceModule.js', '/modules/firebaseModule.js',
   '/modules/missionModule.js', '/modules/gearModule.js', '/modules/notificationModule.js',
   '/modules/barcodeModule.js', '/modules/waterModule.js',
-  '/modules/shareModule.js', '/modules/customFoodModule.js', '/modules/nutritionGuideModule.js',
+  '/modules/shareModule.js', '/modules/customFoodModule.js',
+  '/modules/nutritionGuideModule.js', '/modules/nutritionGuideModule-b.js',
+  '/modules/ceeModule.js', '/modules/workoutProgramModule.js',
   '/data/foodDatabase.js',
 ];
 

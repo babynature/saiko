@@ -4072,7 +4072,7 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 .wp-setup-label { font-size: var(--text-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; margin: 10px 0 5px; }
 .wp-choices { display: flex; gap: 6px; flex-wrap: wrap; }
 .wp-choice {
-  flex: 1; min-width: 80px; padding: 8px 6px; border-radius: 10px;
+  flex: 1; min-width: 80px; min-height: 44px; padding: 8px 6px; border-radius: 10px;
   background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
   color: var(--text); font-size: var(--text-sm); cursor: pointer; transition: all .15s;
 }
@@ -4089,8 +4089,8 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 .wp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .wp-prog-tag { font-size: var(--text-sm); color: var(--primary); font-weight: 600; }
 .wp-week-tag { font-size: var(--text-xs); color: var(--text-muted); background: rgba(255,255,255,.07); padding: 2px 8px; border-radius: 20px; }
-.wp-deload-banner { background: rgba(245,158,11,.15); border: 1px solid rgba(245,158,11,.3); color: #f59e0b; border-radius: 10px; padding: 8px 12px; font-size: var(--text-sm); margin-bottom: 8px; }
-.wp-done-banner { background: rgba(34,197,94,.12); border: 1px solid rgba(34,197,94,.25); color: #22c55e; border-radius: 10px; padding: 8px 12px; font-size: var(--text-sm); margin-bottom: 8px; }
+.wp-deload-banner { background: rgba(245,158,11,.15); border: 1px solid rgba(245,158,11,.3); color: var(--warning); border-radius: 10px; padding: 8px 12px; font-size: var(--text-sm); margin-bottom: 8px; }
+.wp-done-banner { background: rgba(34,197,94,.12); border: 1px solid rgba(34,197,94,.25); color: var(--success); border-radius: 10px; padding: 8px 12px; font-size: var(--text-sm); margin-bottom: 8px; }
 .wp-workout-name { font-size: var(--text-md); font-weight: 600; margin-bottom: 4px; }
 .wp-params { font-size: var(--text-xs); color: var(--text-muted); margin-bottom: 12px; line-height: 1.5; }
 
@@ -4101,17 +4101,17 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 .wp-ex-num { width: 20px; height: 20px; border-radius: 50%; background: rgba(108,99,255,.25); color: var(--primary); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .wp-ex-name { flex: 1; font-size: var(--text-sm); font-weight: 500; }
 .wp-ex-reps { font-size: var(--text-xs); color: var(--text-muted); text-align: right; }
-.wp-prev-weight { display: block; color: #22c55e; font-size: 10px; }
-.wp-warmup-tag { font-size: 9px; background: rgba(245,158,11,.2); color: #f59e0b; padding: 1px 5px; border-radius: 4px; margin-left: 3px; flex-shrink: 0; }
+.wp-prev-weight { display: block; color: var(--success); font-size: 10px; }
+.wp-warmup-tag { font-size: 9px; background: rgba(245,158,11,.2); color: var(--warning); padding: 1px 5px; border-radius: 4px; margin-left: 3px; flex-shrink: 0; }
 .wp-sets-row { display: flex; gap: 6px; flex-wrap: wrap; }
 .wp-set-btn {
-  width: 34px; height: 34px; border-radius: 8px;
+  min-width: 44px; min-height: 44px; border-radius: 8px;
   background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
   color: var(--text-muted); font-size: var(--text-sm); font-weight: 600; cursor: pointer;
-  transition: all .15s; flex-shrink: 0;
+  transition: all .15s; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
 }
 .wp-set-btn:active { transform: scale(.92); }
-.wp-set-done { background: rgba(34,197,94,.2); border-color: #22c55e; color: #22c55e; }
+.wp-set-done { background: rgba(34,197,94,.2); border-color: var(--success); color: var(--success); }
 
 /* Complete + footer */
 .wp-complete-btn { width: 100%; padding: 12px; font-size: var(--text-md); margin-bottom: 10px; }
@@ -4126,6 +4126,6 @@ body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 /* Exercise log weight badge */
 .exlog-weight {
   display: inline-block; margin-left: 5px; font-size: 10px;
-  background: rgba(34,197,94,.15); color: #22c55e;
+  background: rgba(34,197,94,.15); color: var(--success);
   padding: 1px 5px; border-radius: 4px; vertical-align: middle; white-space: nowrap;
 }

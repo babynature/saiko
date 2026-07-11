@@ -245,7 +245,7 @@ function _renderExerciseLogForDate() {
     const wLabel = e.weightKg ? `<span class="exlog-weight">${e.weightKg}kg</span>` : '';
     return `<div class="exlog-row${isPast ? ' readonly' : ''}">
       <span class="exlog-name">${_escHtml(e.name)}${wLabel}</span>
-      <span class="exlog-meta">${e.time || ''} · ${e.minutes} นาที</span>
+      <span class="exlog-meta">${_escHtml(e.time || '')} · ${+e.minutes || 0} นาที</span>
       <span class="exlog-kcal">−${e.kcal}</span>
       ${actions}
     </div>`;
@@ -3969,25 +3969,25 @@ function renderWorkoutPanelContent() {
 }
 
 function _wpSetupHTML() {
-  const goals = [['muscle','💪','สร้างกล้ามเนื้อ'],['strength','⚡','เพิ่มความแข็งแรง'],['endurance','🏃','ความอึด']];
-  const levels = [['beginner','🌱','ผู้เริ่มต้น'],['advanced','⭐','ขั้นสูง']];
+  const goals = [['muscle','💪', t('wp_goal_muscle')],['strength','⚡', t('wp_goal_strength')],['endurance','🏃', t('wp_goal_endurance')]];
+  const levels = [['beginner','🌱', t('wp_level_beginner')],['advanced','⭐', t('wp_level_advanced')]];
   const freqs  = [3,4,5];
   return `
     <div class="wp-setup">
-      <div class="wp-setup-title">🎯 เลือกโปรแกรมฝึก</div>
-      <div class="wp-setup-label">เป้าหมาย</div>
+      <div class="wp-setup-title">🎯 ${t('wp_setup_title')}</div>
+      <div class="wp-setup-label">${t('wp_goal_label')}</div>
       <div class="wp-choices" id="wp-goal-choices">
         ${goals.map(([k,ic,lb]) => `<button class="wp-choice${_wpGoal===k?' wp-choice-sel':''}" onclick="wpPickGoal('${k}')">${ic} ${lb}</button>`).join('')}
       </div>
-      <div class="wp-setup-label">ระดับ</div>
+      <div class="wp-setup-label">${t('wp_level_label')}</div>
       <div class="wp-choices" id="wp-level-choices">
         ${levels.map(([k,ic,lb]) => `<button class="wp-choice${_wpLevel===k?' wp-choice-sel':''}" onclick="wpPickLevel('${k}')">${ic} ${lb}</button>`).join('')}
       </div>
-      <div class="wp-setup-label">ครั้งต่อสัปดาห์</div>
+      <div class="wp-setup-label">${t('wp_freq_label')}</div>
       <div class="wp-choices" id="wp-freq-choices">
-        ${freqs.map(f => `<button class="wp-choice${_wpFreq===f?' wp-choice-sel':''}" onclick="wpPickFreq(${f})">${f}x / สัปดาห์</button>`).join('')}
+        ${freqs.map(f => `<button class="wp-choice${_wpFreq===f?' wp-choice-sel':''}" onclick="wpPickFreq(${f})">${f}x / ${t('wp_per_week')}</button>`).join('')}
       </div>
-      <button class="btn btn-primary wp-start-btn" onclick="wpStartProgram()">🚀 เริ่มโปรแกรม</button>
+      <button class="btn btn-primary wp-start-btn" onclick="wpStartProgram()" aria-label="เริ่มโปรแกรมออกกำลังกาย">🚀 ${t('wp_start_btn')}</button>
     </div>`;
 }
 
@@ -4003,8 +4003,8 @@ function _wpTodayHTML() {
 
   if (!meta || !wkt) return '<div style="padding:20px;text-align:center">ไม่พบโปรแกรม</div>';
 
-  const deloadBanner = deload ? `<div class="wp-deload-banner">⚠️ สัปดาห์ที่ ${state.weekCount} — Deload Week! ลดน้ำหนักลง 20–30%</div>` : '';
-  const doneBanner   = isDone ? `<div class="wp-done-banner">✅ ทำครบแล้ววันนี้!</div>` : '';
+  const deloadBanner = deload ? `<div class="wp-deload-banner">⚠️ ${t('wp_week_tag')} ${state.weekCount} — ${t('wp_deload_banner')}</div>` : '';
+  const doneBanner   = isDone ? `<div class="wp-done-banner">✅ ${t('wp_done_banner')}</div>` : '';
 
   const exRows = wkt.exs.map((ex, i) => {
     const lastW  = _getLastWeight(ex.n);
@@ -4012,7 +4012,7 @@ function _wpTodayHTML() {
     const warmLbl = ex.note === 'warm-up' ? '<span class="wp-warmup-tag">warm-up</span>' : '';
     const sets   = Array.from({ length: ex.s }, (_, si) => {
       const done = mod.isSetDone(i, si);
-      return `<button class="wp-set-btn${done?' wp-set-done':''}" onclick="wpToggleSet(${i},${si})">${si+1}</button>`;
+      return `<button class="wp-set-btn${done?' wp-set-done':''}" onclick="wpToggleSet(${i},${si})" aria-label="เซตที่ ${si+1}${done?' (เสร็จแล้ว)':''}">${si+1}</button>`;
     }).join('');
     return `<div class="wp-ex-row">
       <div class="wp-ex-hdr">
@@ -4025,13 +4025,13 @@ function _wpTodayHTML() {
   }).join('');
 
   const completeBtn = !isDone
-    ? `<button class="btn btn-success wp-complete-btn" onclick="wpCompleteWorkout()">✅ ทำครบแล้ว! (+50 XP)</button>`
-    : `<button class="btn wp-complete-btn" style="opacity:.5;pointer-events:none">✅ ทำครบแล้ววันนี้</button>`;
+    ? `<button class="btn btn-success wp-complete-btn" onclick="wpCompleteWorkout()" aria-label="บันทึกการออกกำลังกายครบ รับ 50 XP">✅ ${t('wp_complete_btn')}</button>`
+    : `<button class="btn wp-complete-btn" style="opacity:.5;pointer-events:none" aria-disabled="true">✅ ${t('wp_done_banner')}</button>`;
 
   return `
     <div class="wp-header">
       <span class="wp-prog-tag">${meta.icon} ${meta.label} · ${meta.level}</span>
-      <span class="wp-week-tag">สัปดาห์ที่ ${state.weekCount || 1}</span>
+      <span class="wp-week-tag">${t('wp_week_tag')} ${state.weekCount || 1}</span>
     </div>
     ${deloadBanner}
     ${doneBanner}
@@ -4039,8 +4039,8 @@ function _wpTodayHTML() {
     <div class="wp-params">${_escHtml(params)}</div>
     <div class="wp-ex-list">${exRows}</div>
     ${completeBtn}
-    <div class="wp-day-progress">วันที่ ${(state.workoutIdx % total) + 1} / ${total}</div>
-    <button class="wp-change-btn" onclick="wpResetProgram()">⚙️ เปลี่ยนโปรแกรม</button>`;
+    <div class="wp-day-progress">${t('wp_day_label')} ${(state.workoutIdx % total) + 1} / ${total}</div>
+    <button class="wp-change-btn" onclick="wpResetProgram()">⚙️ ${t('wp_change_btn')}</button>`;
 }
 
 function wpPickGoal(g)  { _wpGoal = g;  renderWorkoutPanelContent(); }
@@ -4050,7 +4050,7 @@ function wpStartProgram() {
   const key = `${_wpGoal}_${_wpLevel}`;
   window.workoutProgramModule.setProgram(key, _wpFreq);
   renderWorkoutPanelContent(); updateWorkoutCard(); saveGame();
-  showToast('🚀 เริ่มโปรแกรมแล้ว! โชคดี!', 'success');
+  showToast(t('wp_started_toast'), 'success');
 }
 function wpToggleSet(exIdx, setIdx) {
   window.workoutProgramModule.toggleSet(exIdx, setIdx);
@@ -4061,6 +4061,7 @@ function wpCompleteWorkout() {
   const result = awardXP(50, 'workout_program');
   showToast(`🏋️ ออกกำลังกายครบ! +${result.gained} XP`, 'success');
   if (result.levelUp) showLevelUp();
+  checkAchievements('exercise', { exerciseType: 'gym', kcal: 50 });
   renderWorkoutPanelContent(); updateWorkoutCard(); saveGame();
 }
 function wpResetProgram() {
@@ -4076,8 +4077,8 @@ function updateWorkoutCard() {
   const title = document.getElementById('wp-card-title');
   const sub   = document.getElementById('wp-card-sub');
   if (!meta) {
-    if (title) title.textContent = 'ยังไม่มีโปรแกรม';
-    if (sub)   sub.textContent   = 'แตะเพื่อเลือกโปรแกรม';
+    if (title) title.textContent = t('wp_no_program');
+    if (sub)   sub.textContent   = t('wp_select_program');
     return;
   }
   if (title) title.textContent = `${meta.icon} ${meta.label} · ${meta.level}`;

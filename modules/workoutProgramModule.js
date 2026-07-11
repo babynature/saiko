@@ -313,10 +313,19 @@ window.workoutProgramModule = (function () {
     },
   };
 
-  // Advanced programs inherit workouts, different params
-  W.muscle_advanced   = Object.assign({}, W.muscle_beginner,   { params: '4–5 เซต × 6–10 ครั้ง | พัก 60–90 วิ | 2–3 RIR | tempo 3010/3011' });
-  W.strength_advanced = Object.assign({}, W.strength_beginner, { params: '5 เซต × 5 ครั้ง | พัก 2–5 นาที | 2 RIR | tempo 3110' });
-  W.endurance_advanced = Object.assign({}, W.endurance_beginner, { params: '4 เซต × 12–20 ครั้ง | พัก 20–30 วิ | เพิ่ม density ทุกสัปดาห์' });
+  // Advanced programs inherit workouts, different params — deep copy to avoid shared array references
+  W.muscle_advanced = { params: '4–5 เซต × 6–10 ครั้ง | พัก 60–90 วิ | 2–3 RIR | tempo 3010/3011',
+    3: JSON.parse(JSON.stringify(W.muscle_beginner[3])),
+    4: JSON.parse(JSON.stringify(W.muscle_beginner[4])),
+    5: JSON.parse(JSON.stringify(W.muscle_beginner[5])) };
+  W.strength_advanced = { params: '5 เซต × 5 ครั้ง | พัก 2–5 นาที | 2 RIR | tempo 3110',
+    3: JSON.parse(JSON.stringify(W.strength_beginner[3])),
+    4: JSON.parse(JSON.stringify(W.strength_beginner[4])),
+    5: JSON.parse(JSON.stringify(W.strength_beginner[5])) };
+  W.endurance_advanced = { params: '4 เซต × 12–20 ครั้ง | พัก 20–30 วิ | เพิ่ม density ทุกสัปดาห์',
+    3: JSON.parse(JSON.stringify(W.endurance_beginner[3])),
+    4: JSON.parse(JSON.stringify(W.endurance_beginner[4])),
+    5: JSON.parse(JSON.stringify(W.endurance_beginner[5])) };
 
   // ─── State ───────────────────────────────────────────────────────
   let _s = {
@@ -359,7 +368,7 @@ window.workoutProgramModule = (function () {
     _s.programKey = key; _s.freq = freq;
     _s.workoutIdx = 0; _s.doneSets = {}; _s.lastWorkoutDate = null;
   }
-  function clearProgram() { _s.programKey = null; _s.workoutIdx = 0; _s.doneSets = {}; }
+  function clearProgram() { _s.programKey = null; _s.workoutIdx = 0; _s.doneSets = {}; _s.weekCount = 0; _s.lastWeekKey = null; }
 
   function toggleSet(exIdx, setIdx) {
     const k = `${exIdx}_${setIdx}`;
