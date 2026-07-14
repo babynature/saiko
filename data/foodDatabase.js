@@ -1588,4 +1588,13 @@ window.FOOD_DB = [
   { name: 'ขนมถ้วยดำ (น้ำตาลปึก)',                kcal: 115, protein: 2,  carbs: 24, fat: 2,  emoji: '🍮', portion: '1 ถ้วย (~60g)' },
   { name: 'ขนมถ้วยสี (3 ชั้น)',                   kcal: 135, protein: 2,  carbs: 28, fat: 2,  emoji: '🎨', portion: '1 ถ้วย (~70g แป้ง+กะทิ+สีธรรมชาติ)' },
   { name: 'ขนมถ้วย (ชุด 4 ถ้วย)',                 kcal: 440, protein: 8,  carbs: 88, fat: 8,  emoji: '🍮', portion: '1 ชุด (4 ถ้วย)' },
+
+  // ── ชิคฟิงเกอร์ / ไก่ทอดชิ้น ─────────────────────────────
+  { name: 'ชิคฟิงเกอร์',                          kcal: 290, protein: 20, carbs: 20, fat: 14, emoji: '🍗', portion: '3 ชิ้น (~120g ทอดแป้งกรอบ)' },
+  { name: 'ชิคฟิงเกอร์ (5 ชิ้น)',                 kcal: 480, protein: 33, carbs: 33, fat: 23, emoji: '🍗', portion: '5 ชิ้น (~200g)' },
+  { name: 'ชิคฟิงเกอร์ + ซอส',                   kcal: 330, protein: 20, carbs: 26, fat: 14, emoji: '🍗', portion: '3 ชิ้น + ซอสมะเขือเทศ/น้ำจิ้ม' },
+  { name: 'ชิคฟิงเกอร์ไม่ชุบแป้ง (Grilled)',     kcal: 180, protein: 24, carbs: 2,  fat: 8,  emoji: '🍗', portion: '3 ชิ้น (~120g ย่าง/อบ)' },
+  { name: 'ชิคฟิงเกอร์ 7-Eleven',                kcal: 260, protein: 17, carbs: 18, fat: 13, emoji: '🍗', portion: '1 แพ็ก (3 ชิ้น ~100g)' },
+  { name: 'ชิคเทนเดอร์ (Chicken Tender)',         kcal: 310, protein: 22, carbs: 22, fat: 14, emoji: '🍗', portion: '3 ชิ้น (~130g)' },
+  { name: 'ไก่สไปซี่ฟิงเกอร์',                   kcal: 300, protein: 20, carbs: 22, fat: 14, emoji: '🌶️', portion: '3 ชิ้น (~120g เผ็ด)' },
 ];
