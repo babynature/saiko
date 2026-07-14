@@ -1597,4 +1597,11 @@ window.FOOD_DB = [
   { name: 'ชิคฟิงเกอร์ 7-Eleven',                kcal: 260, protein: 17, carbs: 18, fat: 13, emoji: '🍗', portion: '1 แพ็ก (3 ชิ้น ~100g)' },
   { name: 'ชิคเทนเดอร์ (Chicken Tender)',         kcal: 310, protein: 22, carbs: 22, fat: 14, emoji: '🍗', portion: '3 ชิ้น (~130g)' },
   { name: 'ไก่สไปซี่ฟิงเกอร์',                   kcal: 300, protein: 20, carbs: 22, fat: 14, emoji: '🌶️', portion: '3 ชิ้น (~120g เผ็ด)' },
+
+  // ── เนบกรอบ / ขนมกรอบไทย ──────────────────────────────────
+  { name: 'เนบกรอบ',                              kcal: 160, protein: 2,  carbs: 22, fat: 7,  emoji: '🍘', portion: '1 ซอง (~40g แป้งข้าว ทอดกรอบ)' },
+  { name: 'เนบกรอบ (ซองใหญ่)',                    kcal: 320, protein: 4,  carbs: 44, fat: 14, emoji: '🍘', portion: '1 ซองใหญ่ (~80g)' },
+  { name: 'เนบกรอบรสเผ็ด',                        kcal: 165, protein: 2,  carbs: 23, fat: 7,  emoji: '🌶️', portion: '1 ซอง (~40g)' },
+  { name: 'เนบกรอบรสบาร์บีคิว',                   kcal: 170, protein: 2,  carbs: 24, fat: 7,  emoji: '🍘', portion: '1 ซอง (~40g)' },
+  { name: 'เนบกรอบรสชีส',                         kcal: 175, protein: 3,  carbs: 22, fat: 8,  emoji: '🧀', portion: '1 ซอง (~40g)' },
 ];
