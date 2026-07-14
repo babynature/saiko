@@ -1568,4 +1568,24 @@ window.FOOD_DB = [
   { name: 'กาแฟดำหวาน',                         kcal: 80,  protein: 0,  carbs: 21, fat: 0,  emoji: '☕', portion: '1 แก้ว (น้ำตาล 2 ช้อน)' },
   { name: 'กาแฟนมเย็น (ลาเต้)',                 kcal: 180, protein: 6,  carbs: 28, fat: 5,  emoji: '☕', portion: '1 แก้ว (~350ml)' },
   { name: 'กาแฟโบราณ (โอเลี้ยง)',               kcal: 120, protein: 2,  carbs: 22, fat: 3,  emoji: '☕', portion: '1 แก้ว (กาแฟ+นม+น้ำตาล)' },
+
+  // ── ลิปตัน / ชาสำเร็จรูปขวด ──────────────────────────────
+  { name: 'ลิปตันชาเขียว (ขวด 500ml)',           kcal: 130, protein: 0,  carbs: 33, fat: 0,  emoji: '🍵', portion: '1 ขวด (500ml)' },
+  { name: 'ลิปตันชาเขียว (กระป๋อง 315ml)',       kcal: 80,  protein: 0,  carbs: 21, fat: 0,  emoji: '🍵', portion: '1 กระป๋อง (315ml)' },
+  { name: 'ลิปตันชาเขียว มะนาว (ขวด 500ml)',     kcal: 125, protein: 0,  carbs: 32, fat: 0,  emoji: '🍋', portion: '1 ขวด (500ml)' },
+  { name: 'ลิปตันชาเขียว ลดน้ำตาล (ขวด 500ml)', kcal: 70,  protein: 0,  carbs: 18, fat: 0,  emoji: '🍵', portion: '1 ขวด (500ml)' },
+  { name: 'ลิปตันชาเขียว ไม่หวาน (ขวด 500ml)',  kcal: 5,   protein: 0,  carbs: 1,  fat: 0,  emoji: '🍵', portion: '1 ขวด (500ml)' },
+  { name: 'ลิปตันชาดำ (ขวด 500ml)',              kcal: 130, protein: 0,  carbs: 34, fat: 0,  emoji: '🍶', portion: '1 ขวด (500ml)' },
+  { name: 'ลิปตันชาดำ มะนาว (ขวด 500ml)',        kcal: 120, protein: 0,  carbs: 31, fat: 0,  emoji: '🍋', portion: '1 ขวด (500ml)' },
+  { name: 'ลิปตันชาไทย (ขวด 500ml)',             kcal: 150, protein: 1,  carbs: 38, fat: 0,  emoji: '🧋', portion: '1 ขวด (500ml)' },
+  { name: 'ลิปตัน Yellow Label (ซอง)',            kcal: 2,   protein: 0,  carbs: 0,  fat: 0,  emoji: '🍵', portion: '1 ซอง ชงน้ำร้อน ไม่ใส่น้ำตาล' },
+
+  // ── ขนมไทย — ขนมถ้วย ──────────────────────────────────────
+  { name: 'ขนมถ้วย',                              kcal: 110, protein: 2,  carbs: 22, fat: 2,  emoji: '🍮', portion: '1 ถ้วย (~60g แป้งข้าว+กะทิ+น้ำตาล)' },
+  { name: 'ขนมถ้วย (หน้ากะทิ)',                   kcal: 130, protein: 2,  carbs: 22, fat: 4,  emoji: '🍮', portion: '1 ถ้วย (หน้ากะทิข้น)' },
+  { name: 'ขนมถ้วยตะไล',                          kcal: 95,  protein: 2,  carbs: 19, fat: 2,  emoji: '🫙', portion: '1 ถ้วยเล็ก (~50g)' },
+  { name: 'ขนมถ้วยฟู',                            kcal: 120, protein: 3,  carbs: 24, fat: 2,  emoji: '🍮', portion: '1 ถ้วย (~65g แป้ง+น้ำตาลปึก)' },
+  { name: 'ขนมถ้วยดำ (น้ำตาลปึก)',                kcal: 115, protein: 2,  carbs: 24, fat: 2,  emoji: '🍮', portion: '1 ถ้วย (~60g)' },
+  { name: 'ขนมถ้วยสี (3 ชั้น)',                   kcal: 135, protein: 2,  carbs: 28, fat: 2,  emoji: '🎨', portion: '1 ถ้วย (~70g แป้ง+กะทิ+สีธรรมชาติ)' },
+  { name: 'ขนมถ้วย (ชุด 4 ถ้วย)',                 kcal: 440, protein: 8,  carbs: 88, fat: 8,  emoji: '🍮', portion: '1 ชุด (4 ถ้วย)' },
 ];
