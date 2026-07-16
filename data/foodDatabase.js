@@ -19,6 +19,7 @@ window.FOOD_DB = [
   { name: 'ข้าวกะเพราปลาหมึก',    kcal: 445, protein: 20, carbs: 48, fat: 15, emoji: '🦑', portion: '1 จาน' },
   { name: 'ข้าวกะเพราหอย',        kcal: 425, protein: 18, carbs: 48, fat: 13, emoji: '🐚', portion: '1 จาน' },
   { name: 'ข้าวกะเพราซีฟู้ด',     kcal: 475, protein: 24, carbs: 48, fat: 17, emoji: '🌿', portion: '1 จาน (กุ้ง+ปลาหมึก+หอย)' },
+  { name: 'ข้าวกะเพราทะเล',       kcal: 490, protein: 26, carbs: 48, fat: 18, emoji: '🦐', portion: '1 จาน (กุ้ง+ปลาหมึก+ปู+หอย)' },
   { name: 'ข้าวต้ม',              kcal: 120, protein: 4,  carbs: 24, fat: 1,  emoji: '🥣', portion: '1 ชาม' },
   { name: 'โจ๊ก',                 kcal: 150, protein: 8,  carbs: 22, fat: 3,  emoji: '🥣', portion: '1 ชาม' },
   { name: 'ข้าวแกงเขียวหวาน',     kcal: 480, protein: 22, carbs: 50, fat: 20, emoji: '🍛', portion: '1 จาน' },
