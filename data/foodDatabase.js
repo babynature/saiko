@@ -494,6 +494,30 @@ window.FOOD_DB = [
   { name: 'มะขามเคลือบน้ำตาล',        kcal: 115, protein: 1,  carbs: 28, fat: 0,  emoji: '🟫', portion: '5 ฝัก (~40g)' },
   { name: 'ลูกอมผลไม้ (ซอง)',         kcal: 60,  protein: 0,  carbs: 15, fat: 0,  emoji: '🍬', portion: '1 ซอง (~15g)' },
 
+  // ── ของดอง ────────────────────────────────────────────
+  // ผลไม้ดอง
+  { name: 'มะม่วงดองหวาน',            kcal: 60,  protein: 0,  carbs: 15, fat: 0,  emoji: '🥭', portion: '3–4 ชิ้น (~50g ใส่น้ำตาล)' },
+  { name: 'มะม่วงดองน้ำปลาหวาน',      kcal: 55,  protein: 0,  carbs: 14, fat: 0,  emoji: '🥭', portion: '3–4 ชิ้น (~50g)' },
+  { name: 'ฝรั่งดอง',                 kcal: 40,  protein: 0,  carbs: 10, fat: 0,  emoji: '🍐', portion: '3–4 ชิ้น (~60g)' },
+  { name: 'ฝรั่งดองน้ำตาลพริก',       kcal: 65,  protein: 0,  carbs: 16, fat: 0,  emoji: '🍐', portion: '3–4 ชิ้น (+น้ำตาล+พริก)' },
+  { name: 'มะเฟืองดอง',               kcal: 30,  protein: 0,  carbs: 7,  fat: 0,  emoji: '⭐', portion: '4–5 ชิ้น (~60g)' },
+  { name: 'มะยมดอง',                  kcal: 35,  protein: 0,  carbs: 9,  fat: 0,  emoji: '🟢', portion: '10–12 ลูก (~50g)' },
+  { name: 'ชมพู่ดอง',                 kcal: 30,  protein: 0,  carbs: 7,  fat: 0,  emoji: '🫐', portion: '3–4 ลูก (~60g)' },
+  { name: 'มะกอกดอง',                 kcal: 35,  protein: 0,  carbs: 8,  fat: 0,  emoji: '🟢', portion: '5–6 ลูก (~50g)' },
+  { name: 'มะปรางดอง',                kcal: 40,  protein: 0,  carbs: 10, fat: 0,  emoji: '🟡', portion: '4–5 ลูก (~50g)' },
+  { name: 'มะขามดอง',                 kcal: 50,  protein: 1,  carbs: 12, fat: 0,  emoji: '🟫', portion: '3–4 ฝัก (~30g)' },
+  { name: 'มะนาวดอง',                 kcal: 15,  protein: 0,  carbs: 4,  fat: 0,  emoji: '🍋', portion: '1 ลูก (~40g)' },
+  { name: 'เงาะดอง',                  kcal: 45,  protein: 0,  carbs: 11, fat: 0,  emoji: '🔴', portion: '3–4 ลูก (~60g)' },
+  { name: 'สับปะรดดอง',               kcal: 40,  protein: 0,  carbs: 10, fat: 0,  emoji: '🍍', portion: '3–4 ชิ้น (~60g)' },
+  // ผักดอง
+  { name: 'ผักกาดดอง',                kcal: 15,  protein: 1,  carbs: 3,  fat: 0,  emoji: '🥬', portion: '2 ช้อนโต๊ะ (~30g)' },
+  { name: 'หัวไชเท้าดอง',             kcal: 20,  protein: 0,  carbs: 5,  fat: 0,  emoji: '⬜', portion: '3–4 ชิ้น (~50g)' },
+  { name: 'กระเทียมดอง',              kcal: 25,  protein: 1,  carbs: 5,  fat: 0,  emoji: '🧄', portion: '3–4 กลีบ (~20g)' },
+  { name: 'พริกดอง',                  kcal: 10,  protein: 0,  carbs: 2,  fat: 0,  emoji: '🌶️', portion: '2–3 เม็ด (~15g)' },
+  { name: 'ขิงดอง',                   kcal: 20,  protein: 0,  carbs: 5,  fat: 0,  emoji: '🫚', portion: '1 ช้อนโต๊ะ (~20g)' },
+  { name: 'แตงกวาดอง',                kcal: 15,  protein: 0,  carbs: 3,  fat: 0,  emoji: '🥒', portion: '3–4 ชิ้น (~50g)' },
+  { name: 'กะหล่ำปลีดอง (Kimchi)',    kcal: 25,  protein: 1,  carbs: 5,  fat: 0,  emoji: '🥬', portion: '1/4 ถ้วย (~50g)' },
+
   // ── อาหารเหนือ (เพิ่มเติม) ───────────────────────────
   { name: 'แกงโฮะ',                  kcal: 285, protein: 16, carbs: 20, fat: 16, emoji: '🍲', portion: '1 ชาม (แกงผสมหลายอย่าง)' },
   { name: 'ข้าวแคบ',                 kcal: 155, protein: 4,  carbs: 28, fat: 3,  emoji: '🍘', portion: '1 ที่ (แผ่นแป้งข้าว)' },
@@ -1167,6 +1191,10 @@ window.FOOD_DB = [
   { name: 'สาคูเปียก',                    kcal: 210, protein: 2,  carbs: 40, fat: 5,  emoji: '🟤', portion: '1 ถ้วย (สาคู+กะทิ+น้ำตาล)' },
   { name: 'เฉาก๊วยน้ำเชื่อม',             kcal: 80,  protein: 0,  carbs: 20, fat: 0,  emoji: '🟫', portion: '1 ถ้วย (+น้ำเชื่อม)' },
   { name: 'เฉาก๊วยนม',                   kcal: 140, protein: 3,  carbs: 26, fat: 4,  emoji: '🟫', portion: '1 ถ้วย (+นมสด)' },
+  { name: 'เฉาก๊วยเปล่า',                kcal: 40,  protein: 0,  carbs: 9,  fat: 0,  emoji: '🟫', portion: '1 ถ้วย (~150g ไม่ใส่น้ำตาล)' },
+  { name: 'เฉาก๊วยนมข้นหวาน',            kcal: 165, protein: 2,  carbs: 32, fat: 4,  emoji: '🟫', portion: '1 ถ้วย (+นมข้นหวาน 1 ช้อนโต๊ะ)' },
+  { name: 'เฉาก๊วยชาไทย',               kcal: 200, protein: 2,  carbs: 38, fat: 5,  emoji: '🟫', portion: '1 แก้ว (เฉาก๊วย+ชาไทย+นมข้น)' },
+  { name: 'เฉาก๊วยไข่มุก',               kcal: 275, protein: 4,  carbs: 56, fat: 4,  emoji: '🟫', portion: '1 แก้ว (เฉาก๊วย+ไข่มุก+นม)' },
   { name: 'ขนมชั้น',                      kcal: 130, protein: 1,  carbs: 28, fat: 3,  emoji: '🟨', portion: '1 ชิ้น (~60g)' },
   { name: 'ลอดช่อง',                      kcal: 180, protein: 1,  carbs: 36, fat: 4,  emoji: '🍵', portion: '1 ถ้วย (ลอดช่อง+กะทิ+น้ำเชื่อม)' },
   { name: 'ซ่าหริ่ม',                     kcal: 190, protein: 2,  carbs: 38, fat: 4,  emoji: '🍵', portion: '1 ถ้วย' },
@@ -1450,6 +1478,14 @@ window.FOOD_DB = [
   { name: 'สเต็กซอสยากิตอรี (ร้านไทย)',     kcal: 360, protein: 28, carbs: 12, fat: 22, emoji: '🥩', portion: '1 จาน' },
 
   // ── สเต็กหมู / ไก่ / ปลา ─────────────────────────────
+  { name: 'สเต็กหมู',                        kcal: 300, protein: 26, carbs: 2,  fat: 20, emoji: '🐷', portion: '1 จาน (~150g หมูย่าง+ซอส)' },
+  { name: 'สเต็กหมูซอสพริกไทยดำ',           kcal: 340, protein: 27, carbs: 8,  fat: 22, emoji: '🐷', portion: '1 จาน (~150g+ซอส)' },
+  { name: 'สเต็กหมูซอสเห็ด',                kcal: 360, protein: 26, carbs: 10, fat: 22, emoji: '🐷', portion: '1 จาน' },
+  { name: 'สเต็กหมูซอสกระเทียมเนย',         kcal: 390, protein: 26, carbs: 4,  fat: 28, emoji: '🐷', portion: '1 จาน' },
+  { name: 'สเต็กไก่',                        kcal: 240, protein: 34, carbs: 2,  fat: 9,  emoji: '🍗', portion: '1 จาน (~180g อกไก่+ซอส)' },
+  { name: 'สเต็กไก่ซอสพริกไทยดำ',           kcal: 290, protein: 33, carbs: 8,  fat: 14, emoji: '🍗', portion: '1 จาน (~180g+ซอส)' },
+  { name: 'สเต็กไก่ซอสเห็ด',                kcal: 310, protein: 32, carbs: 10, fat: 15, emoji: '🍗', portion: '1 จาน' },
+  { name: 'สเต็กไก่ซอสกระเทียมเนย',         kcal: 340, protein: 33, carbs: 4,  fat: 20, emoji: '🍗', portion: '1 จาน' },
   { name: 'หมูคอสเต็ก',                     kcal: 320, protein: 28, carbs: 2,  fat: 22, emoji: '🐷', portion: '1 ชิ้น (~150g)' },
   { name: 'หมูสามชั้นสเต็ก',                kcal: 420, protein: 20, carbs: 2,  fat: 36, emoji: '🐷', portion: '1 ชิ้น (~150g)' },
   { name: 'หมูสันในสเต็ก (Pork Tenderloin)',  kcal: 220, protein: 30, carbs: 0,  fat: 10, emoji: '🐷', portion: '1 ชิ้น (~150g)' },
