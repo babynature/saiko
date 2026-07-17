@@ -161,8 +161,28 @@ window.FOOD_DB = [
   { name: 'กาแฟดำ',             kcal: 5,   protein: 0,  carbs: 1,  fat: 0,  emoji: '☕', portion: '1 แก้ว' },
   { name: 'กาแฟใส่นม',          kcal: 80,  protein: 2,  carbs: 10, fat: 3,  emoji: '☕', portion: '1 แก้ว' },
   { name: 'กาแฟเย็น',           kcal: 180, protein: 3,  carbs: 30, fat: 5,  emoji: '🧊', portion: '1 แก้ว' },
-  { name: 'น้ำอัดลม',           kcal: 140, protein: 0,  carbs: 36, fat: 0,  emoji: '🥤', portion: '1 กระป๋อง (325ml)' },
-  { name: 'เอนเนอร์จี้ดริ้งก์',  kcal: 110, protein: 0,  carbs: 28, fat: 0,  emoji: '⚡', portion: '1 กระป๋อง (250ml)' },
+  { name: 'น้ำอัดลม',                    kcal: 140, protein: 0,  carbs: 36, fat: 0,  emoji: '🥤', portion: '1 กระป๋อง (325ml)' },
+  // Pepsi
+  { name: 'แป๊ปซี่ (กระป๋อง 325ml)',    kcal: 150, protein: 0,  carbs: 38, fat: 0,  emoji: '🥤', portion: '1 กระป๋อง' },
+  { name: 'แป๊ปซี่ (ขวด 500ml)',        kcal: 215, protein: 0,  carbs: 55, fat: 0,  emoji: '🥤', portion: '1 ขวด' },
+  { name: 'แป๊ปซี่ Max (ไม่มีน้ำตาล)', kcal: 0,   protein: 0,  carbs: 0,  fat: 0,  emoji: '🥤', portion: '1 กระป๋อง 325ml' },
+  // Coca-Cola
+  { name: 'โค้ก (กระป๋อง 325ml)',       kcal: 140, protein: 0,  carbs: 36, fat: 0,  emoji: '🥤', portion: '1 กระป๋อง' },
+  { name: 'โค้ก (ขวด 500ml)',           kcal: 210, protein: 0,  carbs: 54, fat: 0,  emoji: '🥤', portion: '1 ขวด' },
+  { name: 'โค้กซีโร่',                  kcal: 0,   protein: 0,  carbs: 0,  fat: 0,  emoji: '🥤', portion: '1 กระป๋อง 325ml' },
+  // Sprite
+  { name: 'สไปรท์ (กระป๋อง 325ml)',     kcal: 130, protein: 0,  carbs: 34, fat: 0,  emoji: '🥤', portion: '1 กระป๋อง' },
+  { name: 'สไปรท์ (ขวด 500ml)',         kcal: 200, protein: 0,  carbs: 51, fat: 0,  emoji: '🥤', portion: '1 ขวด' },
+  // Fanta
+  { name: 'แฟนต้าส้ม (325ml)',          kcal: 155, protein: 0,  carbs: 40, fat: 0,  emoji: '🥤', portion: '1 กระป๋อง' },
+  { name: 'แฟนต้าองุ่น (325ml)',        kcal: 155, protein: 0,  carbs: 40, fat: 0,  emoji: '🥤', portion: '1 กระป๋อง' },
+  { name: 'แฟนต้าสตรอว์เบอรี่ (325ml)', kcal: 145, protein: 0,  carbs: 37, fat: 0,  emoji: '🥤', portion: '1 กระป๋อง' },
+  // อื่นๆ
+  { name: 'เอส (Est) โคล่า (325ml)',    kcal: 140, protein: 0,  carbs: 36, fat: 0,  emoji: '🥤', portion: '1 กระป๋อง' },
+  { name: 'บิ๊กโคล่า (500ml)',          kcal: 200, protein: 0,  carbs: 51, fat: 0,  emoji: '🥤', portion: '1 ขวด' },
+  { name: 'มิรินด้าส้ม (325ml)',        kcal: 150, protein: 0,  carbs: 39, fat: 0,  emoji: '🥤', portion: '1 กระป๋อง' },
+  { name: 'เมาเทนดิว (325ml)',          kcal: 170, protein: 0,  carbs: 44, fat: 0,  emoji: '🥤', portion: '1 กระป๋อง' },
+  { name: 'เอนเนอร์จี้ดริ้งก์',         kcal: 110, protein: 0,  carbs: 28, fat: 0,  emoji: '⚡', portion: '1 กระป๋อง (250ml)' },
   { name: 'โกโก้',               kcal: 200, protein: 5,  carbs: 30, fat: 7,  emoji: '🍫', portion: '1 แก้ว' },
 
   // ── 7-Eleven Thailand ─────────────────────────────────
