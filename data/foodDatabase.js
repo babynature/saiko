@@ -324,6 +324,32 @@ window.FOOD_DB = [
   { name: 'ข้าวจี่',                 kcal: 240, protein: 6,  carbs: 44, fat: 5,  emoji: '🍢', portion: '2 ไม้' },
   { name: 'หมูจุ่ม (ซุป)',           kcal: 350, protein: 20, carbs: 30, fat: 16, emoji: '🫕', portion: '1 ที่' },
   { name: 'สลัดแซลมอนอีสาน',        kcal: 220, protein: 20, carbs: 10, fat: 12, emoji: '🐟', portion: '1 ที่' },
+  // ส้มตำ (เพิ่มเติม)
+  { name: 'ส้มตำลาว',               kcal: 130, protein: 4,  carbs: 18, fat: 3,  emoji: '🌶️', portion: '1 ครก (ไม่ใส่ถั่ว/กุ้งแห้ง)' },
+  { name: 'ส้มตำกุ้งสด',            kcal: 185, protein: 14, carbs: 20, fat: 4,  emoji: '🦐', portion: '1 ครก' },
+  { name: 'ส้มตำไข่เค็ม',           kcal: 220, protein: 10, carbs: 22, fat: 10, emoji: '🥚', portion: '1 ครก (+ไข่เค็ม 1 ฟอง)' },
+  { name: 'ส้มตำปลาทู',             kcal: 200, protein: 14, carbs: 20, fat: 6,  emoji: '🐟', portion: '1 ครก (+ปลาทู)' },
+  { name: 'ส้มตำถั่วฝักยาว',        kcal: 165, protein: 6,  carbs: 22, fat: 5,  emoji: '🥗', portion: '1 ครก' },
+  { name: 'ตำมั่ว',                 kcal: 210, protein: 9,  carbs: 24, fat: 8,  emoji: '🌶️', portion: '1 ครก (มะละกอ+ปู+ปลาร้า+ถั่ว)' },
+  // ต้มแซ่บ
+  { name: 'ต้มแซ่บซี่โครงอ่อน',    kcal: 320, protein: 28, carbs: 8,  fat: 18, emoji: '🍖', portion: '1 หม้อ (~350ml ซี่โครงอ่อน+ข้าวโพดอ่อน)' },
+  { name: 'ต้มแซ่บหมู',             kcal: 260, protein: 24, carbs: 8,  fat: 14, emoji: '🍲', portion: '1 ชาม (หมูสันคอ+เครื่อง)' },
+  { name: 'ต้มแซ่บเนื้อ',           kcal: 280, protein: 26, carbs: 8,  fat: 15, emoji: '🍲', portion: '1 ชาม' },
+  { name: 'ต้มแซ่บไก่',             kcal: 220, protein: 26, carbs: 8,  fat: 10, emoji: '🍲', portion: '1 ชาม' },
+  { name: 'ต้มแซ่บปลา',             kcal: 180, protein: 22, carbs: 8,  fat: 6,  emoji: '🐟', portion: '1 ชาม' },
+  // น้ำตก (เพิ่มเติม)
+  { name: 'น้ำตกไก่',               kcal: 210, protein: 22, carbs: 10, fat: 10, emoji: '🍗', portion: '1 ที่ (ไก่ย่าง+ข้าวคั่ว+พริก)' },
+  { name: 'น้ำตกปลา',               kcal: 180, protein: 20, carbs: 10, fat: 6,  emoji: '🐟', portion: '1 ที่' },
+  // ย่างรวม / ปิ้งย่างอีสาน
+  { name: 'ย่างรวม (หมู+ไก่+เนื้อ)', kcal: 480, protein: 40, carbs: 6,  fat: 32, emoji: '🔥', portion: '1 ที่ (หมู+ไก่+เนื้อ ~200g รวม)' },
+  { name: 'หมูย่างอีสาน',           kcal: 280, protein: 24, carbs: 4,  fat: 18, emoji: '🐷', portion: '1 ที่ (~120g หมูคอย่าง)' },
+  { name: 'ไก่ย่างอีสาน',           kcal: 240, protein: 28, carbs: 4,  fat: 13, emoji: '🍗', portion: '1 ที่ (~120g ไก่ย่างเครื่อง)' },
+  { name: 'เนื้อย่างอีสาน',         kcal: 260, protein: 28, carbs: 4,  fat: 15, emoji: '🥩', portion: '1 ที่ (~120g)' },
+  { name: 'หมูสามชั้นย่าง',         kcal: 380, protein: 20, carbs: 2,  fat: 32, emoji: '🐷', portion: '1 ที่ (~120g)' },
+  { name: 'คอหมูย่างอีสาน',         kcal: 310, protein: 26, carbs: 3,  fat: 22, emoji: '🐷', portion: '1 ที่ (~120g)' },
+  { name: 'ไก่ย่าง (ทั้งตัว/ครึ่ง)', kcal: 420, protein: 46, carbs: 4,  fat: 24, emoji: '🍗', portion: '1/2 ตัว (~250g)' },
+  { name: 'ปีกย่าง',                kcal: 220, protein: 20, carbs: 2,  fat: 15, emoji: '🍗', portion: '3 ชิ้น (~120g)' },
+  { name: 'ซี่โครงหมูย่าง',         kcal: 350, protein: 24, carbs: 4,  fat: 26, emoji: '🍖', portion: '1 ที่ (~150g)' },
 
   // ── อาหารใต้ ──────────────────────────────────────────
   { name: 'ข้าวยำ',                  kcal: 280, protein: 12, carbs: 42, fat: 8,  emoji: '🥗', portion: '1 จาน' },
