@@ -224,6 +224,7 @@ window.FOOD_DB = [
   // อาหารร้อน (hot food counter)
   { name: '7-11 ไก่ทอด',                kcal: 230, protein: 18, carbs: 10, fat: 13, emoji: '🍗', portion: '1 ชิ้น' },
   { name: '7-11 ไส้กรอกแฟรงค์เฟิร์ต',  kcal: 180, protein: 7,  carbs: 5,  fat: 15, emoji: '🌭', portion: '1 ชิ้น' },
+  { name: '7-11 ไส้กรอกหม่าลล่า',      kcal: 210, protein: 8,  carbs: 6,  fat: 18, emoji: '🌶️', portion: '1 ชิ้น (~70g หม่าล่าเผ็ดชา)' },
   { name: '7-11 ลูกชิ้นทอด',            kcal: 120, protein: 6,  carbs: 8,  fat: 7,  emoji: '🔴', portion: '5 ชิ้น' },
   { name: '7-11 ปาท่องโก๋',             kcal: 200, protein: 4,  carbs: 30, fat: 8,  emoji: '🥖', portion: '2 ชิ้น' },
   { name: '7-11 สปริงโรล (ปอเปี๊ยะ)',   kcal: 150, protein: 4,  carbs: 20, fat: 6,  emoji: '🌯', portion: '2 ชิ้น' },
@@ -1483,6 +1484,8 @@ window.FOOD_DB = [
   { name: 'ทิรามิสุ',                        kcal: 380, protein: 6,  carbs: 36, fat: 24, emoji: '🍮', portion: '1 ชิ้น (~120g)' },
   { name: 'มาการอง (1 ชิ้น)',                kcal: 100, protein: 2,  carbs: 16, fat: 4,  emoji: '🌈', portion: '1 ชิ้น (~25g)' },
   { name: 'คุกกี้ช็อกโกแลตชิพ',             kcal: 140, protein: 2,  carbs: 19, fat: 7,  emoji: '🍪', portion: '2 ชิ้น (~40g)' },
+  { name: 'ทิมเบอร์ริงดับเบิ้ลช็อกโกแลต',  kcal: 90,  protein: 1,  carbs: 12, fat: 5,  emoji: '🍫', portion: '1 ชิ้น (~18g บิสกิตแหวนช็อกโกแลต)' },
+  { name: 'ทิมเบอร์ริงดับเบิ้ลช็อกโกแลต (1 ซอง)', kcal: 360, protein: 4, carbs: 48, fat: 20, emoji: '🍫', portion: '1 ซอง (~4 ชิ้น)' },
   { name: 'สโคน',                            kcal: 300, protein: 5,  carbs: 42, fat: 12, emoji: '🥐', portion: '1 ชิ้น (~80g)' },
   { name: 'ซินนามอนโรล',                     kcal: 420, protein: 6,  carbs: 62, fat: 16, emoji: '🌀', portion: '1 ชิ้น' },
   // โยเกิร์ต
@@ -1726,6 +1729,10 @@ window.FOOD_DB = [
   { name: 'ลิปตันชาดำ มะนาว (ขวด 500ml)',        kcal: 120, protein: 0,  carbs: 31, fat: 0,  emoji: '🍋', portion: '1 ขวด (500ml)' },
   { name: 'ลิปตันชาไทย (ขวด 500ml)',             kcal: 150, protein: 1,  carbs: 38, fat: 0,  emoji: '🧋', portion: '1 ขวด (500ml)' },
   { name: 'ลิปตัน Yellow Label (ซอง)',            kcal: 2,   protein: 0,  carbs: 0,  fat: 0,  emoji: '🍵', portion: '1 ซอง ชงน้ำร้อน ไม่ใส่น้ำตาล' },
+  // HEYTEA
+  { name: 'น้ำองุ่น HeyTea',                     kcal: 195, protein: 1,  carbs: 48, fat: 0,  emoji: '🍇', portion: '1 แก้ว (~500ml น้ำองุ่นสด+น้ำตาล)' },
+  { name: 'น้ำองุ่น HeyTea (หวานน้อย)',           kcal: 140, protein: 1,  carbs: 34, fat: 0,  emoji: '🍇', portion: '1 แก้ว (~500ml ลดน้ำตาล 50%)' },
+  { name: 'HeyTea องุ่นชีสครีม',                 kcal: 285, protein: 4,  carbs: 50, fat: 8,  emoji: '🍇', portion: '1 แก้ว (~500ml +ชีสครีมหน้า)' },
 
   // ── ขนมไทย — ขนมถ้วย ──────────────────────────────────────
   { name: 'ขนมถ้วย',                              kcal: 110, protein: 2,  carbs: 22, fat: 2,  emoji: '🍮', portion: '1 ถ้วย (~60g แป้งข้าว+กะทิ+น้ำตาล)' },
