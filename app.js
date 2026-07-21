@@ -437,7 +437,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Phase 7: Register service worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').catch(() => {});
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
   }
 
   // Safety: close food panel if backdrop is stuck but panel isn't open
